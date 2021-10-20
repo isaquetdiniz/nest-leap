@@ -1,6 +1,6 @@
 {
-  "name": "leap",
-  "version": "1.0.0",
+  "name": "node-leap",
+  "version": "0.0.0",
   "description": "Node Leap is a node boilerplate that follows best practicles of software design and agile",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,11 @@
   "homepage": "https://github.com/loomi/node-leap#readme",
   "devDependencies": {
     "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.2"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }
