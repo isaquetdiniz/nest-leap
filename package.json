@@ -8,6 +8,8 @@
     "build": "rimraf dist && tsc -p tsconfig-build.json",
     "lint": "eslint 'src/**' '__tests__/**'",
     "lint:fix": "eslint 'src/**' '__tests__/**' --fix",
+    "style:check": "prettier --check 'src/**/*.ts' '__tests__/**/*.ts'",
+    "style:fix": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts'",
     "start:dev": "npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts",
     "test": "jest --passWithNoTests --noStackTrace --runInBand --no-cache",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -37,6 +39,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "jest": "^27.3.1",
     "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4"
