@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/loomi/node-leap/issues"
   },
-  "homepage": "https://github.com/loomi/node-leap#readme"
+  "homepage": "https://github.com/loomi/node-leap#readme",
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
 }
