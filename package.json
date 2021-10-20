@@ -4,6 +4,7 @@
   "description": "Node Leap is a node boilerplate that follows best practicles of software design and agile",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json"
   },
   "repository": {
