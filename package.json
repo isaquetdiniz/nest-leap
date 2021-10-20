@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
+    "lint": "eslint 'src/**' '__tests__/**'",
+    "lint:fix": "eslint 'src/**' '__tests__/**' --fix",
     "start:dev": "npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts"
   },
   "repository": {
