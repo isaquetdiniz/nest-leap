@@ -4,7 +4,7 @@
   "description": "Node Leap is a node boilerplate that follows best practicles of software design and agile",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf dist && tsc -p tsconfig-build.json"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/loomi/node-leap#readme",
   "devDependencies": {
+    "rimraf": "^3.0.2",
     "typescript": "^4.4.4"
   },
   "dependencies": {
