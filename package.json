@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "start:dev": "npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts"
   },
   "repository": {
@@ -19,6 +21,9 @@
   },
   "homepage": "https://github.com/loomi/node-leap#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^8.0.1",
     "nodemon": "^2.0.14",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.4"
