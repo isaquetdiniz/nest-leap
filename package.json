@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/main/server.js",
-    "build": "rimraf dist && tsc -p tsconfig-build.json"
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "start:dev": "npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/loomi/node-leap#readme",
   "devDependencies": {
+    "nodemon": "^2.0.14",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.4"
   },
