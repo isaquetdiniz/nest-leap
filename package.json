@@ -1,0 +1,19 @@
+{
+  "name": "leap",
+  "version": "1.0.0",
+  "description": "Node Leap is a node boilerplate that follows best practicles of software design and agile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loomi/node-leap.git"
+  },
+  "author": "itd@cin.ufpe.br",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loomi/node-leap/issues"
+  },
+  "homepage": "https://github.com/loomi/node-leap#readme"
+}
