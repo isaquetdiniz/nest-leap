@@ -17,7 +17,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-       "prettier": "error",
        "no-redeclare": "off"
     }
 }
