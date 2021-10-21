@@ -1,36 +1,38 @@
-import { CreateUserUsecase } from '@/domain/usecases/user'
-import { CreateUserInDatabaseRepository } from '@/application/protocols/database/repositories/user'
-import { UUIDGenerator } from '@/application/protocols/database/utils'
-import { User } from '@/domain/entities'
+import { CreateUserUsecase } from '@/domain/usecases/user';
+import { CreateUserInDatabaseRepository } from '@/application/protocols/database/repositories/user';
+import { UUIDGenerator } from '@/application/protocols/database/utils';
+import { User } from '@/domain/entities';
 
 type CreateUserInDatabaseServiceInjectables = {
-    createUserInDatabaseRepository: CreateUserInDatabaseRepository,
-    UUIDGenerator: UUIDGenerator
-}
+  createUserInDatabaseRepository: CreateUserInDatabaseRepository;
+  UUIDGenerator: UUIDGenerator;
+};
 
 class CreateUserInDatabaseService implements CreateUserUsecase {
-  private readonly createUserInDatabaseRepository: CreateUserInDatabaseRepository
-  private readonly UUIDGenerator: UUIDGenerator
+  private readonly createUserInDatabaseRepository: CreateUserInDatabaseRepository;
+  private readonly UUIDGenerator: UUIDGenerator;
 
-  constructor ({
+  constructor({
     createUserInDatabaseRepository,
-    UUIDGenerator
+    UUIDGenerator,
   }: CreateUserInDatabaseServiceInjectables) {
-    this.createUserInDatabaseRepository = createUserInDatabaseRepository
-    this.UUIDGenerator = UUIDGenerator
+    this.createUserInDatabaseRepository = createUserInDatabaseRepository;
+    this.UUIDGenerator = UUIDGenerator;
   }
 
-  async create (userParams: CreateUserUsecase.Params): Promise<CreateUserUsecase.Result> {
-    const { isAdmin, name, email, profileImageUrl } = userParams
+  async create(
+    userParams: CreateUserUsecase.Params
+  ): Promise<CreateUserUsecase.Result> {
+    const { isAdmin, name, email, profileImageUrl } = userParams;
 
-    const id = await this.UUIDGenerator.generate()
+    const id = await this.UUIDGenerator.generate();
 
-    const newUser = new User({ id, isAdmin, name, email, profileImageUrl })
+    const newUser = new User({ id, isAdmin, name, email, profileImageUrl });
 
-    await this.createUserInDatabaseRepository.createUser(newUser)
+    await this.createUserInDatabaseRepository.createUser(newUser);
 
-    return newUser
+    return newUser;
   }
 }
 
-export { CreateUserInDatabaseService }
+export { CreateUserInDatabaseService };

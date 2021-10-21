@@ -1,12 +1,12 @@
-import { User } from '@/domain/entities'
+import { User } from '@/domain/entities';
 
 export interface CreateUserInDatabaseRepository {
-    createUser(
-        userParams: CreateUserInDatabaseRepository.Params
-    ): Promise<CreateUserInDatabaseRepository.Result>
+  createUser(
+    userParams: CreateUserInDatabaseRepository.Params
+  ): Promise<CreateUserInDatabaseRepository.Result>;
 }
 
 export namespace CreateUserInDatabaseRepository {
-    export type Params = User
-    export type Result = void
+  export type Params = User;
+  export type Result = void;
 }

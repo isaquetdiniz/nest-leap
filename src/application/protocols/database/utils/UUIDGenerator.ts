@@ -1,3 +1,3 @@
 export interface UUIDGenerator {
-    generate(): string
+  generate(): string;
 }

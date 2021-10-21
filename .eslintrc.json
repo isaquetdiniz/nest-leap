@@ -5,7 +5,8 @@
         "jest": true
     },
     "extends": [
-        "standard"
+        "standard",
+        "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -16,6 +17,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-redeclare": "off"
+       "no-redeclare": "off"
     }
 }

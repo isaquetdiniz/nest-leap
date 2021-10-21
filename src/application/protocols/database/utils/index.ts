@@ -1,1 +1,1 @@
-export * from './UUIDGenerator'
+export * from './UUIDGenerator';
