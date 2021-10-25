@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/loomi/node-leap#readme",
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
