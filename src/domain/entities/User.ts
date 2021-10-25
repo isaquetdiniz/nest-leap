@@ -42,6 +42,19 @@ class User {
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      isAdmin: this.isAdmin,
+      enabled: this.enabled,
+      name: this.name,
+      email: this.email,
+      profileImageUrl: this.profileImageUrl,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  }
 }
 
 export { User, UserInput };
