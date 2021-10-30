@@ -9,11 +9,10 @@ datasource db {
 
 model User {
   id                String        @id @db.Uuid @default(uuid())
-  enabled           Boolean       @default(true)
   isAdmin           Boolean       @default(false) @map("is_admin")
   name              String
   email             String        @unique
-  profileImageUrl   String?       @map("profile_image_url")
+  password          String
   createdAt         DateTime      @default(now()) @map("created_at")
   updatedAt         DateTime      @updatedAt @map("updated_at")
 

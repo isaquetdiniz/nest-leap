@@ -17,6 +17,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-       "no-redeclare": "off"
+       "no-redeclare": "off",
+       "import/export": "off"
     }
 }

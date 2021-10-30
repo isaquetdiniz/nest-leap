@@ -5,7 +5,7 @@ type UserInput = {
   isAdmin: boolean;
   name: string;
   email: string;
-  profileImageUrl?: string;
+  password: string;
 };
 
 class User {
@@ -14,12 +14,12 @@ class User {
   private readonly enabled: boolean;
   private readonly name: string;
   private readonly email: string;
-  private readonly profileImageUrl?: string | null;
+  private readonly password: string;
   private readonly createdAt: Date;
   private readonly updatedAt: Date;
 
   constructor(createUserParams: UserInput) {
-    const { id, isAdmin, name, email, profileImageUrl } = createUserParams;
+    const { id, isAdmin, name, email, password } = createUserParams;
 
     if (id === null || id === undefined) {
       throw new UserError('ID is not passed');
@@ -33,11 +33,15 @@ class User {
       throw new UserError('Email is not passed');
     }
 
+    if (password === null || password === undefined) {
+      throw new UserError('Password is not passed');
+    }
+
     this.id = id;
     this.isAdmin = isAdmin;
     this.name = name;
     this.email = email;
-    this.profileImageUrl = profileImageUrl || null;
+    this.password = password;
     this.enabled = true;
     this.createdAt = new Date();
     this.updatedAt = new Date();
@@ -50,7 +54,6 @@ class User {
       enabled: this.enabled,
       name: this.name,
       email: this.email,
-      profileImageUrl: this.profileImageUrl,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
