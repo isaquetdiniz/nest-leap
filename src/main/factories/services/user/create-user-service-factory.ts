@@ -8,8 +8,8 @@ export const makeCreateUserUsecase = (): CreateUserUsecase => {
     makePrismaCreateUserInDatabaseRepository();
   const UUIDGenerator = makeUUIDGeneratorAdapter();
 
-  return new CreateUserInDatabaseService(
+  return new CreateUserInDatabaseService({
     createUserInDatabaseRepository,
-    UUIDGenerator
-  );
+    UUIDGenerator,
+  });
 };

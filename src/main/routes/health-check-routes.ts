@@ -1,7 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+
+import { adaptRoute } from '@/main/adapters';
+
+import { makeHealthCheckController } from '@/main/factories/controllers';
 
 export default (router: Router): void => {
-  router.get('/health-check', async (req: Request, res: Response) => {
-    res.send(200);
-  });
+  router.get('/health-check', adaptRoute(makeHealthCheckController()));
 };

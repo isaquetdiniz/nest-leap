@@ -23,11 +23,11 @@ class CreateUserInDatabaseService implements CreateUserUsecase {
   async create(
     userParams: CreateUserUsecase.Params
   ): Promise<CreateUserUsecase.Result> {
-    const { isAdmin, name, email, profileImageUrl } = userParams;
+    const { isAdmin, name, email, password } = userParams;
 
     const id = await this.UUIDGenerator.generate();
 
-    const newUser = new User({ id, isAdmin, name, email, profileImageUrl });
+    const newUser = new User({ id, isAdmin, name, email, password });
 
     await this.createUserInDatabaseRepository.createUser(newUser);
 

@@ -2,7 +2,6 @@ export * from './required-fields-validation';
 export * from './validation-composite';
 export * from './email-validation';
 export * from './name-validation';
-export * from './profile-image-validation';
 export * from './uuid-validation';
 export * from './enum-field-validation';
 export * from './bearer-token-validation';

@@ -1,6 +1,5 @@
 export * from './validator-email-adapter';
 export * from './validator-name-adapter';
-export * from './validator-profile-image-adapter';
 export * from './validator-uuid-adapter';
 export * from './validator-token-adapter';
 export * from './validator-phone-adapter';
