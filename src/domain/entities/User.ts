@@ -54,6 +54,7 @@ class User {
       enabled: this.enabled,
       name: this.name,
       email: this.email,
+      password: this.password,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
