@@ -3,6 +3,7 @@ import { CreateUserController } from '@/presentation/http/controllers/user';
 
 import { makeCreateUserUsecase } from '@/main/factories/services/user';
 import { makeCreateUserValidation } from '@/main/factories/validation/user';
+import { makeLogControllerDecorator } from '@/main/factories/controllers';
 
 export const makeCreateUserController = (): Controller => {
   const createUserUsecase = makeCreateUserUsecase();
@@ -14,5 +15,8 @@ export const makeCreateUserController = (): Controller => {
     createUserUsecase
   );
 
-  return createUserController;
+  const createUserControllerWithLogDecorator =
+    makeLogControllerDecorator(createUserController);
+
+  return createUserControllerWithLogDecorator;
 };
