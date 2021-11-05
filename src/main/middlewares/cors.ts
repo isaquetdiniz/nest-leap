@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import('dotenv/config');
 
 const permitedUrl =
-  process.env.NODE === 'production'
+  process.env.environment === 'production'
     ? (process.env.FRONT_PROD_URL as string)
     : (process.env.FRONT_STAGING_URL as string);
 
