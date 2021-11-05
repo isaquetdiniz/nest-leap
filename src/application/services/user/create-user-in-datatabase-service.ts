@@ -1,6 +1,6 @@
 import { CreateUserUsecase } from '@/domain/usecases/user';
 import { CreateUserInDatabaseRepository } from '@/application/protocols/database/repositories/user';
-import { UUIDGenerator } from '@/application/protocols/utils';
+import { UUIDGenerator } from '@/application/protocols/uuid';
 import { User } from '@/domain/entities';
 
 type CreateUserInDatabaseServiceInjectables = {

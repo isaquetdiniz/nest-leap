@@ -1,21 +1,27 @@
 import { Controller, HttpResponse } from '@/presentation/http/protocols';
 
-import { LoggerError } from '@/application/protocols/utils';
-
+import { LoggerErrorCloud, LoggerLocal } from '@/application/protocols/logs';
 export class LogControllerDecorator implements Controller {
   private readonly controller: Controller;
-  private readonly loggerError: LoggerError;
+  private readonly loggerErrorCloud: LoggerErrorCloud;
+  private readonly loggerLocal: LoggerLocal;
 
-  constructor(controller: Controller, loggerError: LoggerError) {
+  constructor(
+    controller: Controller,
+    loggerErrorCloud: LoggerErrorCloud,
+    loggerLocal: LoggerLocal
+  ) {
     this.controller = controller;
-    this.loggerError = loggerError;
+    this.loggerErrorCloud = loggerErrorCloud;
+    this.loggerLocal = loggerLocal;
   }
 
   async handle(httRequest: any): Promise<HttpResponse> {
     const httpResponse = await this.controller.handle(httRequest);
 
     if (httpResponse.statusCode >= 500) {
-      this.loggerError.log(httpResponse.body);
+      this.loggerErrorCloud.log(httpResponse.body);
+      this.loggerLocal.logError(httpResponse.body);
     }
 
     return httpResponse;

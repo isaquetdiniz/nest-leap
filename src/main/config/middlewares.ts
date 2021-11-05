@@ -5,6 +5,7 @@ import {
   cors,
   contentType,
   helmetMiddleware,
+  pinoHttp,
 } from '@/main/middlewares';
 
 export default (app: Express): void => {
@@ -12,4 +13,5 @@ export default (app: Express): void => {
   app.use(bodyParser);
   app.use(cors);
   app.use(contentType);
+  app.use(pinoHttp);
 };
