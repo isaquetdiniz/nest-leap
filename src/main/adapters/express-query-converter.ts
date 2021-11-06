@@ -14,34 +14,34 @@ const arrayConverter = (value: string) => {
 
 const numberConverter = (value: string) => parseInt(value);
 
+const rangeDateConverter = (value: string) => {
+  const rangeDateArray = arrayConverter(value);
+
+  const [initialDate, finalDate] = rangeDateArray;
+
+  const rangeDateObject = { initialDate: initialDate, finalDate: finalDate };
+
+  return rangeDateObject;
+};
+
+const orderByConverter = (value: string) => {
+  const orderByArray = arrayConverter(value);
+
+  const [property, mode] = orderByArray;
+
+  const orderByObject = { property, mode };
+
+  return orderByObject;
+};
+
 const propertysInQueryToConvert = {
+  isAdmin: booleanConverter,
   enabled: booleanConverter,
-  confidential: booleanConverter,
-  isFromBot: booleanConverter,
-  roles: arrayConverter,
-  areasIds: arrayConverter,
-  requesterStatusIds: arrayConverter,
-  regionsIds: arrayConverter,
-  typesIds: arrayConverter,
-  typesOperatorsIds: arrayConverter,
-  channelsIds: arrayConverter,
-  status: arrayConverter,
   take: numberConverter,
   skip: numberConverter,
-  numberOfBlocks: numberConverter,
-  numberOfApartments: numberConverter,
-  types: arrayConverter,
-  sendersRoles: arrayConverter,
-  isOnline: booleanConverter,
-  rangeDate: arrayConverter,
-  emails: arrayConverter,
-  periods: arrayConverter,
-  usersIds: arrayConverter,
-  createdAt: arrayConverter,
-  ownersIds: arrayConverter,
-  motivesIds: arrayConverter,
-  requestersIds: arrayConverter,
-  exportCsv: booleanConverter,
+  createdAt: rangeDateConverter,
+  updatedAt: rangeDateConverter,
+  orderBy: orderByConverter,
 };
 
 export const convertProperties = (obj: any): any =>

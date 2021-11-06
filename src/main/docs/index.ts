@@ -5,7 +5,7 @@ import { authPaths, userPaths } from '@/main/docs/paths';
 import {
   loginSchema,
   firstAccessSchema,
-  userSchema,
+  createUserSchema,
 } from '@/main/docs/schemas';
 
 export default {
@@ -25,7 +25,7 @@ export default {
     ...userPaths,
   },
   schemas: {
-    user: userSchema,
+    createUserSchema: createUserSchema,
     firstAccess: firstAccessSchema,
     login: loginSchema,
   },

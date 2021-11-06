@@ -11,3 +11,4 @@ export * from './boolean-validator';
 export * from './number-validator';
 export * from './array-validator';
 export * from './object-id-validator';
+export * from './date-validator';

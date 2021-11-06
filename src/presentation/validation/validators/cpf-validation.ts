@@ -12,6 +12,7 @@ export class CpfValidation implements Validation {
   }
 
   validate(input: Validation.Params): Validation.Result {
+    if (input[this.fieldName] === undefined) return;
     const isValid = this.cpfValidator.validate(input[this.fieldName]);
 
     if (!isValid) {

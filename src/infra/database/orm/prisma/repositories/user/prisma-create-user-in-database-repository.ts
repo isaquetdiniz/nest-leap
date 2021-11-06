@@ -1,6 +1,7 @@
 import { CreateUserInDatabaseRepositoryError } from '@/application/errors/repositories/user';
 import { CreateUserInDatabaseRepository } from '@/application/protocols/database/repositories/user';
 import { prismaConnector } from '@/infra/database/orm/prisma';
+
 export class PrismaCreateUserInDatabaseRepository
   implements CreateUserInDatabaseRepository
 {

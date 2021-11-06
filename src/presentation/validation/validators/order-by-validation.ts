@@ -2,18 +2,25 @@ import { InvalidParamError } from '@/presentation/validation/errors';
 
 import { Validation } from '@/presentation/validation/protocols';
 
-export class EnumFieldValidation implements Validation {
+export class OrderByValidation implements Validation {
   private readonly fieldName: string;
-  private readonly enumValues: any[];
 
-  constructor(fieldName: string, enumValues: any[]) {
+  constructor(fieldName: string) {
     this.fieldName = fieldName;
-    this.enumValues = enumValues;
   }
 
   validate(input: Validation.Params): Validation.Result {
     if (input[this.fieldName] === undefined) return;
-    if (!this.enumValues.includes(input[this.fieldName])) {
+
+    const { property, mode } = input[this.fieldName];
+
+    console.log({ property, mode });
+
+    if (property === undefined || mode === undefined) {
+      return new InvalidParamError(this.fieldName);
+    }
+
+    if (mode !== 'asc' && mode !== 'desc') {
       return new InvalidParamError(this.fieldName);
     }
   }

@@ -1,1 +1,1 @@
-export const tags = ['Auth', 'User'];
+export const tags = ['Auth', 'Users'];

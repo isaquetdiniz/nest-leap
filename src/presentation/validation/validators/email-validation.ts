@@ -15,6 +15,7 @@ export class EmailValidation implements Validation {
   }
 
   validate(input: Validation.Params): Validation.Result {
+    if (input[this.fieldName] === undefined) return;
     const isValid = this.emailValidator.validate(input[this.fieldName]);
 
     if (!isValid) {

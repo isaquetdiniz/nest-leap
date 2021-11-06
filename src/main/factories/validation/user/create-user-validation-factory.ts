@@ -16,7 +16,7 @@ import {
 
 const validations: Validation[] = [];
 
-for (const field of ['name', 'email', 'isAdmin', 'password']) {
+for (const field of ['name', 'email', 'isAdmin']) {
   validations.push(new RequiredFieldsValidation(field));
 }
 

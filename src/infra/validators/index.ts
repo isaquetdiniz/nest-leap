@@ -7,3 +7,4 @@ export * from './validator-cpf-adapter';
 export * from './validator-rg-adapter';
 export * from './validator-boolean-adapter';
 export * from './validator-number-adapter';
+export * from './validator-date-adapter';

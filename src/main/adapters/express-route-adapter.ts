@@ -7,20 +7,8 @@ export const adaptRoute = (controller: Controller) => {
   // @ts-ignore
   return async (req: Request, res: Response) => {
     const httRequest = {
-      user: req.user || null,
-      body: {
-        ...req.body,
-        profileImage: req.file
-          ? {
-              imageBuffer: req.file.buffer,
-              mimetype: req.file.mimetype,
-              enconding: req.file.encoding,
-            }
-          : undefined,
-        content: req.file || req.body.content,
-        documentImage: req.file,
-      },
-      params: convertProperties({ ...req.params, ...req.query }),
+      ...req.body,
+      ...convertProperties({ ...req.params, ...req.query }),
     };
 
     const httpResponse = await controller.handle(httRequest);

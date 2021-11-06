@@ -28,14 +28,7 @@ export class CreateUserController implements Controller {
 
       if (hasError) return badRequest(hasError);
 
-      const { isAdmin, name, email, password } = httpRequest;
-
-      const newUser = await this.createUserUsecase.create({
-        isAdmin,
-        name,
-        email,
-        password,
-      });
+      const newUser = await this.createUserUsecase.create(httpRequest);
 
       return created(newUser);
     } catch (error) {
@@ -51,10 +44,5 @@ export class CreateUserController implements Controller {
 }
 
 export namespace CreateUserController {
-  export type Request = {
-    isAdmin: boolean;
-    name: string;
-    email: string;
-    password: string;
-  };
+  export type Request = CreateUserUsecase.Params;
 }

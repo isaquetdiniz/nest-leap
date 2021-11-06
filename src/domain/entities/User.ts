@@ -5,7 +5,19 @@ type UserInput = {
   isAdmin: boolean;
   name: string;
   email: string;
-  password: string;
+  enabled?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+type UserToJSON = {
+  id: string;
+  isAdmin: boolean;
+  name: string;
+  email: string;
+  enabled: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 class User {
@@ -14,12 +26,12 @@ class User {
   private readonly enabled: boolean;
   private readonly name: string;
   private readonly email: string;
-  private readonly password: string;
   private readonly createdAt: Date;
   private readonly updatedAt: Date;
 
   constructor(createUserParams: UserInput) {
-    const { id, isAdmin, name, email, password } = createUserParams;
+    const { id, isAdmin, name, email, enabled, createdAt, updatedAt } =
+      createUserParams;
 
     if (id === null || id === undefined) {
       throw new UserError('ID is not passed');
@@ -33,32 +45,26 @@ class User {
       throw new UserError('Email is not passed');
     }
 
-    if (password === null || password === undefined) {
-      throw new UserError('Password is not passed');
-    }
-
     this.id = id;
     this.isAdmin = isAdmin;
     this.name = name;
     this.email = email;
-    this.password = password;
-    this.enabled = true;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.enabled = enabled || true;
+    this.createdAt = createdAt || new Date();
+    this.updatedAt = updatedAt || new Date();
   }
 
-  toJSON() {
+  toJSON(): UserToJSON {
     return {
       id: this.id,
       isAdmin: this.isAdmin,
       enabled: this.enabled,
       name: this.name,
       email: this.email,
-      password: this.password,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
   }
 }
 
-export { User, UserInput };
+export { User, UserInput, UserToJSON };

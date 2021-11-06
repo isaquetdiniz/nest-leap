@@ -2,10 +2,13 @@ import { CpfValidator } from '@/presentation/validation/protocols';
 
 export class ValidatorCpfAdapter implements CpfValidator {
   validate(cpf: CpfValidator.Params): CpfValidator.Result {
-    if (!cpf) return true;
     if (typeof cpf !== 'string') return false;
 
     cpf = cpf.replace(/[\s.-]*/gim, '');
+
+    while (cpf.length < 11) {
+      cpf = '0' + cpf;
+    }
 
     if (
       cpf.length !== 11 ||

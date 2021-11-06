@@ -1,16 +1,24 @@
-import { responses } from '@/main/docs/helpers';
+import { responses, filterParams } from '@/main/docs/helpers';
 
 export const userPaths = {
-  '/user': {
+  '/users': {
+    get: {
+      tags: ['Users'],
+      summary: 'Get a User or Users',
+      produces: ['application/json'],
+      parameters: [...filterParams],
+      security: [{ BearerAuth: [] }],
+      responses,
+    },
     post: {
-      tags: ['User'],
+      tags: ['Users'],
       summary: 'Create a new user',
       produces: ['application/json'],
       requestBody: {
         content: {
-          'multipart/form-data': {
+          'application/json': {
             schema: {
-              $ref: '#/schemas/user',
+              $ref: '#/schemas/createUserSchema',
             },
           },
         },
@@ -94,10 +102,10 @@ export const userPaths = {
       responses,
     },
   },
-  '/user/{id}': {
+  '/users/{id}': {
     get: {
-      tags: ['User'],
-      summary: 'Get a User by filter, or Users',
+      tags: ['Users'],
+      summary: 'Get a User or Users',
       produces: ['application/json'],
       parameters: [
         {
@@ -107,110 +115,14 @@ export const userPaths = {
             type: 'string',
             format: 'uuid',
           },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'search',
-          schema: {
-            type: 'string',
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'name',
-          schema: {
-            type: 'string',
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'enabled',
-          schema: {
-            type: 'boolean',
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'email',
-          schema: {
-            type: 'string',
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'roles',
-          schema: {
-            type: 'array',
-            items: {
-              type: 'string',
-              format: 'uuid',
-            },
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'regionsIds',
-          schema: {
-            type: 'array',
-            items: {
-              type: 'string',
-              format: 'uuid',
-            },
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'typesOperatorsIds',
-          schema: {
-            type: 'array',
-            items: {
-              type: 'string',
-              format: 'uuid',
-            },
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'areasIds',
-          schema: {
-            type: 'array',
-            items: {
-              type: 'string',
-              format: 'uuid',
-            },
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'take',
-          schema: {
-            type: 'integer',
-          },
-          required: false,
-        },
-        {
-          in: 'query',
-          name: 'skip',
-          schema: {
-            type: 'integer',
-          },
-          required: false,
+          required: true,
         },
       ],
       security: [{ BearerAuth: [] }],
       responses,
     },
     patch: {
-      tags: ['User'],
+      tags: ['Users'],
       summary: 'Update a User by id',
       produces: ['application/json'],
       parameters: [

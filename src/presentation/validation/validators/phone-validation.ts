@@ -15,6 +15,7 @@ export class PhoneValidation implements Validation {
   }
 
   validate(input: Validation.Params): Validation.Result {
+    if (input[this.fieldName] === undefined) return;
     const isValid = this.phoneValidator.validate(input[this.fieldName]);
 
     if (!isValid) {
