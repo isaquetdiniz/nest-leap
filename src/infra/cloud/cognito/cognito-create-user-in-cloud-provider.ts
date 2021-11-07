@@ -3,8 +3,9 @@ import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 import { CreateUserInCloudProvider } from '@/application/protocols/cloud/user';
 
 import cognitoEnvironment from './cognito-environment';
+import { CreateUserInCloudProviderError } from '@/application/errors/cloud/user';
 
-export class CognitoCreateUserCloudProvider
+export class CognitoCreateUserInCloudProvider
   implements CreateUserInCloudProvider
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
@@ -30,6 +31,10 @@ export class CognitoCreateUserCloudProvider
         Name: 'email',
         Value: email,
       },
+      {
+        Name: 'email_verified',
+        Value: 'True',
+      },
     ];
 
     return new Promise<CreateUserInCloudProvider.Result>((resolve, reject) => {
@@ -43,7 +48,7 @@ export class CognitoCreateUserCloudProvider
         },
         (err, data) => {
           if (err) {
-            reject(err);
+            reject(new CreateUserInCloudProviderError(err.message));
           }
 
           resolve();

@@ -1,7 +1,29 @@
 import { responses } from '@/main/docs/helpers';
 
 export const authPaths = {
-  '/login': {
+  '/auth/first-login': {
+    post: {
+      tags: ['Auth'],
+      summary: 'First login',
+      produces: ['application/json'],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/schemas/firstLoginSchema',
+            },
+            example: {
+              email: 'any_email@mail.com',
+              newPassword: 'batatao',
+              temporaryPassword: 'topdemais',
+            },
+          },
+        },
+      },
+      responses,
+    },
+  },
+  '/auth/login': {
     post: {
       tags: ['Auth'],
       summary: 'Login',
@@ -10,7 +32,7 @@ export const authPaths = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/login',
+              $ref: '#/schemas/loginSchema',
             },
             example: {
               email: 'any_email@mail.com',
@@ -22,7 +44,33 @@ export const authPaths = {
       responses,
     },
   },
-  '/refresh-token': {
+  '/auth/forgot-password': {
+    post: {
+      tags: ['Auth'],
+      summary: 'Forgot Password',
+      produces: ['application/json'],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                email: {
+                  type: 'string',
+                  required: true,
+                },
+              },
+            },
+            example: {
+              email: 'any_email@mail.com',
+            },
+          },
+        },
+      },
+      responses,
+    },
+  },
+  'auth/refresh-token': {
     post: {
       tags: ['Auth'],
       summary: 'Get a refresh token',

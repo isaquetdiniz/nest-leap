@@ -4,6 +4,7 @@ import { authPaths, userPaths } from '@/main/docs/paths';
 
 import {
   loginSchema,
+  firstLoginSchema,
   firstAccessSchema,
   createUserSchema,
   updateUserSchema,
@@ -29,7 +30,8 @@ export default {
     createUserSchema: createUserSchema,
     updateUserSchema: updateUserSchema,
     firstAccess: firstAccessSchema,
-    login: loginSchema,
+    loginSchema: loginSchema,
+    firstLoginSchema: firstLoginSchema,
   },
   components: {
     securitySchemes,

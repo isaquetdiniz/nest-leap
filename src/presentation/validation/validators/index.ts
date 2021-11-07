@@ -16,3 +16,4 @@ export * from './date-validation';
 export * from './range-date-validation';
 export * from './order-by-validation';
 export * from './some-param-without-validation';
+export * from './jwt-validation';

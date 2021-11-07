@@ -10,6 +10,8 @@ import {
 import { Validation } from '@/presentation/validation/protocols';
 import { CreateUserUsecase } from '@/domain/usecases/user';
 import { CreateUserInDatabaseRepositoryError } from '@/application/errors/repositories/user';
+import { CreateUserInDatabaseServiceError } from '@/application/errors/services/user';
+import { CreateUserInCloudProviderError } from '@/application/errors/cloud/user';
 
 export class CreateUserController implements Controller {
   private readonly validation: Validation;
@@ -34,7 +36,11 @@ export class CreateUserController implements Controller {
     } catch (error) {
       const catchedError = error as Error;
 
-      if (error instanceof CreateUserInDatabaseRepositoryError) {
+      if (
+        error instanceof CreateUserInDatabaseRepositoryError ||
+        error instanceof CreateUserInDatabaseServiceError ||
+        error instanceof CreateUserInCloudProviderError
+      ) {
         return conflict(catchedError);
       }
 

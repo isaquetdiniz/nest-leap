@@ -12,3 +12,4 @@ export * from './number-validator';
 export * from './array-validator';
 export * from './object-id-validator';
 export * from './date-validator';
+export * from './jwt-validator';
