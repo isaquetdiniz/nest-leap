@@ -6,6 +6,7 @@ import {
   loginSchema,
   firstAccessSchema,
   createUserSchema,
+  updateUserSchema,
 } from '@/main/docs/schemas';
 
 export default {
@@ -26,6 +27,7 @@ export default {
   },
   schemas: {
     createUserSchema: createUserSchema,
+    updateUserSchema: updateUserSchema,
     firstAccess: firstAccessSchema,
     login: loginSchema,
   },

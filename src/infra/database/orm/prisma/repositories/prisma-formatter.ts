@@ -46,8 +46,6 @@ export class PrismaFormatter {
       filterEntriesTransformedWithouNulls
     );
 
-    console.log(filterObjectFormated);
-
     return filterObjectFormated;
   }
 

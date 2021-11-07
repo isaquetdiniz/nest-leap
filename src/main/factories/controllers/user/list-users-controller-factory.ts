@@ -3,7 +3,7 @@ import { ListUsersController } from '@/presentation/http/controllers/user';
 
 import { makeListUsersUsecase } from '@/main/factories/services/user';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
-import { makeListUsersValidation } from '@/main/factories/validation/user/list-users-validation-factory';
+import { makeListUsersValidation } from '@/main/factories/validation/user';
 
 export const makeListUsersController = (): Controller => {
   const listUsersUsecase = makeListUsersUsecase();

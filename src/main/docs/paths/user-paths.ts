@@ -138,9 +138,9 @@ export const userPaths = {
       ],
       requestBody: {
         content: {
-          'multipart/form-data': {
+          'application/json': {
             schema: {
-              $ref: '#/schemas/updateUser',
+              $ref: '#/schemas/updateUserSchema',
             },
           },
         },

@@ -20,14 +20,21 @@ type UserToJSON = {
   updatedAt: Date;
 };
 
+type UpdateUserInput = {
+  isAdmin?: boolean;
+  name?: string;
+  email?: string;
+  enabled?: boolean;
+};
+
 class User {
   private readonly id: string;
-  private readonly isAdmin: boolean;
-  private readonly enabled: boolean;
-  private readonly name: string;
-  private readonly email: string;
+  private isAdmin: boolean;
+  private enabled: boolean;
+  private name: string;
+  private email: string;
   private readonly createdAt: Date;
-  private readonly updatedAt: Date;
+  private updatedAt: Date;
 
   constructor(createUserParams: UserInput) {
     const { id, isAdmin, name, email, enabled, createdAt, updatedAt } =
@@ -64,6 +71,66 @@ class User {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
+  }
+
+  updateUserTime() {
+    this.updatedAt = new Date();
+  }
+
+  updateIsAdmin(isAdmin: boolean) {
+    this.isAdmin = isAdmin;
+    this.updateUserTime();
+  }
+
+  updateEnabled(enabled: boolean) {
+    this.enabled = enabled;
+    this.updateUserTime();
+  }
+
+  updateEmail(email: string) {
+    this.email = email;
+    this.updateUserTime();
+  }
+
+  updateName(name: string) {
+    this.name = name;
+    this.updateUserTime();
+  }
+
+  updateParams(paramsToUpdate: UpdateUserInput): User {
+    const entriesOfParamsToUpdate = Object.entries(paramsToUpdate);
+
+    const filteredEntriesToUpdateUser = entriesOfParamsToUpdate.filter(
+      ([key, value]) => value !== undefined && value !== null
+    );
+
+    for (const [property, value] of filteredEntriesToUpdateUser) {
+      if (property === 'isAdmin') {
+        // @ts-ignore
+        this.updateIsAdmin(value);
+      }
+
+      if (property === 'name') {
+        // @ts-ignore
+        this.updateName(value);
+      }
+
+      if (property === 'email') {
+        // @ts-ignore
+        this.updateEmail(value);
+      }
+
+      if (property === 'enabled') {
+        // @ts-ignore
+        this.updateEnabled(value);
+      }
+    }
+
+    return this;
+  }
+
+  getId(): string {
+    return this.id;
   }
 }
 

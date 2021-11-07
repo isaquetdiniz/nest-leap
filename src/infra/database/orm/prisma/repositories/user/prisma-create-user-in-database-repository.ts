@@ -1,10 +1,17 @@
 import { CreateUserInDatabaseRepositoryError } from '@/application/errors/repositories/user';
 import { CreateUserInDatabaseRepository } from '@/application/protocols/database/repositories/user';
 import { prismaConnector } from '@/infra/database/orm/prisma';
+import { PrismaClient } from '@prisma/client';
 
 export class PrismaCreateUserInDatabaseRepository
   implements CreateUserInDatabaseRepository
 {
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
   async createUser(
     userParams: CreateUserInDatabaseRepository.Params
   ): Promise<CreateUserInDatabaseRepository.Result> {
@@ -12,7 +19,7 @@ export class PrismaCreateUserInDatabaseRepository
       const user = userParams;
       const userParamsInJSON = user.toJSON();
 
-      await prismaConnector.connect().user.create({
+      await this.prismaConnection.user.create({
         data: userParamsInJSON,
       });
     } catch (error) {

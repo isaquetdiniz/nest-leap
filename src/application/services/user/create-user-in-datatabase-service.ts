@@ -27,8 +27,6 @@ class CreateUserInDatabaseService implements CreateUserUsecase {
 
     const id = await this.UUIDGenerator.generate();
 
-    console.log(id);
-
     const newUser = new User({ id, isAdmin, name, email });
 
     await this.createUserInDatabaseRepository.createUser(newUser);

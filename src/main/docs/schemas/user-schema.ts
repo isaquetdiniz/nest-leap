@@ -15,3 +15,21 @@ export const createUserSchema = {
     },
   },
 };
+
+export const updateUserSchema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+      required: false,
+    },
+    email: {
+      type: 'string',
+      required: false,
+    },
+    isAdmin: {
+      type: 'boolean',
+      required: false,
+    },
+  },
+};

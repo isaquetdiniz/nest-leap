@@ -14,8 +14,6 @@ export class OrderByValidation implements Validation {
 
     const { property, mode } = input[this.fieldName];
 
-    console.log({ property, mode });
-
     if (property === undefined || mode === undefined) {
       return new InvalidParamError(this.fieldName);
     }

@@ -20,5 +20,5 @@ export namespace ListUsersUsecase {
       mode: 'asc' | 'desc';
     };
   };
-  export type Result = { users: User | User[]; totalUsers: number };
+  export type Result = { users: User[]; totalUsers: number };
 }
