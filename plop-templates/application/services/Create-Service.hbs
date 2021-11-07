@@ -1,0 +1,55 @@
+import { Create{{name}}Usecase, List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
+import { Create{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { UUIDGenerator } from '@/application/protocols/uuid';
+import { {{name}} } from '@/domain/entities';
+import { Create{{name}}InDatabaseUsecase } from '@/application/usecases/{{lowerCase name}}';
+import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+
+type Create{{name}}InDatabaseServiceInjectables = {
+  create{{name}}InDatabaseRepository: Create{{name}}InDatabaseRepository;
+  list{{name}}sUsecase: List{{name}}sUsecase;
+  UUIDGenerator: UUIDGenerator;
+};
+
+class Create{{name}}InDatabaseService implements Create{{name}}InDatabaseUsecase {
+  private readonly create{{name}}InDatabaseRepository: Create{{name}}InDatabaseRepository;
+  private readonly list{{name}}sUsecase: List{{name}}sUsecase;
+  private readonly UUIDGenerator: UUIDGenerator;
+
+  constructor({
+    create{{name}}InDatabaseRepository,
+    list{{name}}sUsecase,
+    UUIDGenerator,
+  }: Create{{name}}InDatabaseServiceInjectables) {
+    this.create{{name}}InDatabaseRepository = create{{name}}InDatabaseRepository;
+    this.list{{name}}sUsecase = list{{name}}sUsecase;
+    this.UUIDGenerator = UUIDGenerator;
+  }
+
+  async create(
+    {{lowerCase name}}Params: Create{{name}}Usecase.Params
+  ): Promise<Create{{name}}Usecase.Result> {
+    const { userRequester, name } = {{lowerCase name}}Params;
+
+    const id = await this.UUIDGenerator.generate();
+
+    const { total{{name}}s } = await this.list{{name}}sUsecase.list({
+      userRequester,
+      name,
+    });
+
+    if (total{{name}}s !== 0) {
+      throw new Create{{name}}InDatabaseServiceError(
+        '{{name}} with this name already exists'
+      );
+    }
+
+    const new{{name}} = new {{name}}({ id, name });
+
+    await this.create{{name}}InDatabaseRepository.create{{name}}(new{{name}});
+
+    return new{{name}};
+  }
+}
+
+export { Create{{name}}InDatabaseService };

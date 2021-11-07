@@ -109,7 +109,7 @@ module.exports = function (plop) {
       type: 'add',
       path: 'src/application/errors/services/{{lowerCase name}}/index.ts',
       templateFile: 'plop-templates/application/errors/services/Service-Error-Index.hbs'
-    }, */
+    },
     {
       type: 'add',
       path: 'src/application/protocols/database/repositories/{{lowerCase name}}/create-{{lowerCase name}}-in-database-repository.ts',
@@ -139,6 +139,31 @@ module.exports = function (plop) {
       type: 'add',
       path: 'src/application/protocols/database/repositories/{{lowerCase name}}/index.ts',
       templateFile: 'plop-templates/application/protocols/repositories/Repository-Index.hbs'
+    }, */
+    {
+      type: 'add',
+      path: 'src/application/services/{{lowerCase name}}/create-{{lowerCase name}}-in-database-service.ts',
+      templateFile: 'plop-templates/application/services/Create-Service.hbs'
+    },
+    {
+      type: 'add',
+      path: 'src/application/services/{{lowerCase name}}/list-{{lowerCase name}}-in-database-service.ts',
+      templateFile: 'plop-templates/application/services/List-Service.hbs'
+    },
+    {
+      type: 'add',
+      path: 'src/application/services/{{lowerCase name}}/update-{{lowerCase name}}-in-database-service.ts',
+      templateFile: 'plop-templates/application/services/Update-Service.hbs'
+    },
+    {
+      type: 'add',
+      path: 'src/application/services/{{lowerCase name}}/delete-{{lowerCase name}}-in-database-service.ts',
+      templateFile: 'plop-templates/application/services/Delete-Service.hbs'
+    },
+    {
+      type: 'add',
+      path: 'src/application/services/{{lowerCase name}}/index.ts',
+      templateFile: 'plop-templates/application/services/Service-Index.hbs'
     },
   ]
   })

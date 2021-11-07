@@ -1,0 +1,36 @@
+import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
+import { List{{name}}sInDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { {{name}} } from '@/domain/entities';
+
+type Liste{{name}}InDatabaseServiceInjectables = {
+  list{{name}}sInDatabaseRepository: List{{name}}sInDatabaseRepository;
+};
+
+class List{{name}}InDatabaseService implements List{{name}}sUsecase {
+  private readonly list{{name}}sInDatabaseRepository: List{{name}}sInDatabaseRepository;
+
+  constructor({
+    list{{name}}sInDatabaseRepository,
+  }: Liste{{name}}InDatabaseServiceInjectables) {
+    this.list{{name}}sInDatabaseRepository = list{{name}}sInDatabaseRepository;
+  }
+
+  async list(
+    {{lowerCase name}}Filters: List{{name}}sUsecase.Params
+  ): Promise<List{{name}}sUsecase.Result> {
+    const { userRequester, ...rest{{name}}Filters } = {{lowerCase name}}Filters;
+
+    const { {{lowerCase name}}s, total{{name}}s } =
+      await this.list{{name}}sInDatabaseRepository.list{{name}}(rest{{name}}Filters);
+
+    if (total{{name}}s === 0) {
+      return { {{lowerCase name}}s: [], total{{name}}s: 0 };
+    }
+
+    const {{lowerCase name}}sEntities = {{lowerCase name}}s.map(({{lowerCase name}}Inputs) => new {{name}}({{lowerCase name}}Inputs));
+
+    return { {{lowerCase name}}s: {{lowerCase name}}sEntities, total{{name}}s };
+  }
+}
+
+export { List{{name}}InDatabaseService };

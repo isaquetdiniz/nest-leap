@@ -1,0 +1,46 @@
+import { List{{name}}sUsecase, Update{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
+import { Update{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { Update{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+
+type Update{{name}}InDatabaseServiceInjectables = {
+  list{{name}}sUsecase: List{{name}}sUsecase;
+  update{{name}}InDatabaseRepository: Update{{name}}InDatabaseRepository;
+};
+
+class Update{{name}}InDatabaseService implements Update{{name}}Usecase {
+  private readonly list{{name}}sUsecase: List{{name}}sUsecase;
+  private readonly update{{name}}InDatabaseRepository: Update{{name}}InDatabaseRepository;
+
+  constructor({
+    list{{name}}sUsecase,
+    update{{name}}InDatabaseRepository,
+  }: Update{{name}}InDatabaseServiceInjectables) {
+    this.update{{name}}InDatabaseRepository = update{{name}}InDatabaseRepository;
+    this.list{{name}}sUsecase = list{{name}}sUsecase;
+  }
+
+  async update(
+    {{lowerCase name}}Params: Update{{name}}Usecase.Params
+  ): Promise<Update{{name}}Usecase.Result> {
+    const { id, userRequester, ...paramsToUpdate{{name}} } = {{lowerCase name}}Params;
+
+    const { {{lowerCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list({
+      userRequester,
+      id,
+    });
+
+    if (total{{name}}s === 0) {
+      throw new Update{{name}}InDatabaseServiceError('{{name}} not found');
+    }
+
+    const [{{lowerCase name}}] = {{lowerCase name}}s;
+
+    const {{lowerCase name}}Updated = {{lowerCase name}}.updateParams(paramsToUpdate{{name}});
+
+    await this.update{{name}}InDatabaseRepository.update{{name}}({{lowerCase name}}Updated);
+
+    return {{lowerCase name}}Updated;
+  }
+}
+
+export { Update{{name}}InDatabaseService };
