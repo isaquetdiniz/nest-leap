@@ -28,11 +28,11 @@ export class LoginController implements Controller {
 
       if (hasError) return badRequest(hasError);
 
-      const { accessToken, refreshToken } = await this.loginUsecase.login(
+      const { accessToken, refreshToken, user } = await this.loginUsecase.login(
         httpRequest
       );
 
-      return ok({ accessToken, refreshToken });
+      return ok({ accessToken, refreshToken, user });
     } catch (error) {
       const catchedError = error as Error;
 

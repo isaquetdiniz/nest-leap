@@ -136,6 +136,10 @@ class User {
   getIsAdmin(): boolean {
     return this.isAdmin;
   }
+
+  getEmail(): string {
+    return this.email;
+  }
 }
 
 export { User, UserInput, UserToJSON };

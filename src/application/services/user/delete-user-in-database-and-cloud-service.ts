@@ -1,22 +1,27 @@
 import { ListUsersUsecase, DeleteUserUsecase } from '@/domain/usecases/user';
 import { DeleteUserInDatabaseRepository } from '@/application/protocols/database/repositories/user';
 import { DeleteUserInDatabaseServiceError } from '@/application/errors/services/user';
+import { DeleteUserFromCloudProvider } from '@/application/protocols/cloud/user';
 
-type DeleteUserInDatabaseServiceInjectables = {
+type DeleteUserInDatabaseAndCloudServiceInjectables = {
   listUsersUsecase: ListUsersUsecase;
   deleteUserInDatabaseRepository: DeleteUserInDatabaseRepository;
+  deleteUserFromCloudProvider: DeleteUserFromCloudProvider;
 };
 
-class DeleteUserInDatabaseService implements DeleteUserUsecase {
+class DeleteUserInDatabaseAndCloudService implements DeleteUserUsecase {
   private readonly listUsersUsecase: ListUsersUsecase;
   private readonly deleteUserInDatabaseRepository: DeleteUserInDatabaseRepository;
+  private readonly deleteUserFromCloudProvider: DeleteUserFromCloudProvider;
 
   constructor({
     listUsersUsecase,
     deleteUserInDatabaseRepository,
-  }: DeleteUserInDatabaseServiceInjectables) {
+    deleteUserFromCloudProvider,
+  }: DeleteUserInDatabaseAndCloudServiceInjectables) {
     this.deleteUserInDatabaseRepository = deleteUserInDatabaseRepository;
     this.listUsersUsecase = listUsersUsecase;
+    this.deleteUserFromCloudProvider = deleteUserFromCloudProvider;
   }
 
   async delete(
@@ -32,8 +37,12 @@ class DeleteUserInDatabaseService implements DeleteUserUsecase {
 
     const [user] = users;
 
+    const email = user.getEmail();
+
     await this.deleteUserInDatabaseRepository.deleteUser(user);
+
+    await this.deleteUserFromCloudProvider.deleteUser({ email });
   }
 }
 
-export { DeleteUserInDatabaseService };
+export { DeleteUserInDatabaseAndCloudService };

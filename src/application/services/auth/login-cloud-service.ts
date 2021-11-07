@@ -28,7 +28,7 @@ class LoginCloudService implements LoginUsecase {
   async login(loginParams: LoginUsecase.Params): Promise<LoginUsecase.Result> {
     const { email, password } = loginParams;
 
-    const { totalUsers } = await this.listUsersUsecase.list({ email });
+    const { users, totalUsers } = await this.listUsersUsecase.list({ email });
 
     if (totalUsers === 0) {
       throw new LoginCloudServiceError(`User with email: ${email}, not found`);
@@ -53,7 +53,9 @@ class LoginCloudService implements LoginUsecase {
       }
     );
 
-    return { accessToken, refreshToken };
+    const [user] = users;
+
+    return { accessToken, refreshToken, user };
   }
 }
 

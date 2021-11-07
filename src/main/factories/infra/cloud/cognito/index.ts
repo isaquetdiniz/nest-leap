@@ -6,3 +6,4 @@ export * from './cognito-load-user-by-token-in-cloud-provider-factory';
 export * from './cognito-forgot-password-in-cloud-provider-factory';
 export * from './cognito-confirm-forgot-password-in-cloud-provider-factory';
 export * from './cognito-refresh-token-in-cloud-provider-factory';
+export * from './cognito-delete-user-from-cloud-provider-factory';
