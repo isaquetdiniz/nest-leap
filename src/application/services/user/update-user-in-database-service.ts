@@ -27,7 +27,7 @@ class UpdateUserInDatabaseService implements UpdateUserUsecase {
     const { users, totalUsers } = await this.listUsersUsecase.list({ id });
 
     if (totalUsers === 0) {
-      return new UpdateUserInDatabaseServiceError('User not found');
+      throw new UpdateUserInDatabaseServiceError('User not found');
     }
 
     const [user] = users;

@@ -149,7 +149,7 @@ export const userPaths = {
       responses,
     },
     delete: {
-      tags: ['User'],
+      tags: ['Users'],
       summary: 'Delete a User by id',
       produces: ['application/json'],
       parameters: [

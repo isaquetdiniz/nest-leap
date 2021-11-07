@@ -2,6 +2,7 @@ import { adaptRoute } from '@/main/adapters';
 
 import {
   makeCreateUserController,
+  makeDeleteUserController,
   makeListUsersController,
   makeUpdateUserController,
 } from '@/main/factories/controllers/user';
@@ -13,5 +14,6 @@ export default (router: Router): void => {
     .route('/users/:id?')
     .get(adaptRoute(makeListUsersController()))
     .post(adaptRoute(makeCreateUserController()))
-    .patch(adaptRoute(makeUpdateUserController()));
+    .patch(adaptRoute(makeUpdateUserController()))
+    .delete(adaptRoute(makeDeleteUserController()));
 };
