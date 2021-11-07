@@ -140,6 +140,20 @@ class User {
   getEmail(): string {
     return this.email;
   }
+
+  canUpdateThisUser(userToUpdate: User): boolean {
+    if (this.isAdmin) {
+      return true;
+    }
+
+    const userToUpdateId = userToUpdate.getId();
+
+    if (this.id === userToUpdateId) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 export { User, UserInput, UserToJSON };

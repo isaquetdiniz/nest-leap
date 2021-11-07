@@ -29,11 +29,14 @@ class CreateUserInDatabaseService implements CreateUserInDatabaseUsecase {
   async create(
     userParams: CreateUserUsecase.Params
   ): Promise<CreateUserUsecase.Result> {
-    const { isAdmin, name, email } = userParams;
+    const { userRequester, isAdmin, name, email } = userParams;
 
     const id = await this.UUIDGenerator.generate();
 
-    const { totalUsers } = await this.listUsersUsecase.list({ email });
+    const { totalUsers } = await this.listUsersUsecase.list({
+      userRequester,
+      email,
+    });
 
     if (totalUsers !== 0) {
       throw new CreateUserInDatabaseServiceError(

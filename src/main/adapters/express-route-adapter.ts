@@ -7,6 +7,8 @@ export const adaptRoute = (controller: Controller) => {
   // @ts-ignore
   return async (req: Request, res: Response) => {
     const httRequest = {
+      // @ts-ignore
+      userRequester: req.userRequester || null,
       ...req.body,
       ...convertProperties({ ...req.params, ...req.query }),
     };

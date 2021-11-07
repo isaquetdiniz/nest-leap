@@ -51,7 +51,7 @@ export class AuthMiddleware implements Middleware {
         return unauthorized();
       }
 
-      return ok({ user });
+      return ok({ userRequester: user });
     } catch (error) {
       const catchedError = error as Error;
 

@@ -27,9 +27,12 @@ class DeleteUserInDatabaseAndCloudService implements DeleteUserUsecase {
   async delete(
     userParams: DeleteUserUsecase.Params
   ): Promise<DeleteUserUsecase.Result> {
-    const { id } = userParams;
+    const { userRequester, id } = userParams;
 
-    const { users, totalUsers } = await this.listUsersUsecase.list({ id });
+    const { users, totalUsers } = await this.listUsersUsecase.list({
+      userRequester,
+      id,
+    });
 
     if (totalUsers === 0) {
       throw new DeleteUserInDatabaseServiceError('User not found');

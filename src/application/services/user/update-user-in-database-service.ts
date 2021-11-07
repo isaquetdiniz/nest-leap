@@ -22,15 +22,27 @@ class UpdateUserInDatabaseService implements UpdateUserUsecase {
   async update(
     userParams: UpdateUserUsecase.Params
   ): Promise<UpdateUserUsecase.Result> {
-    const { id, ...paramsToUpdateUser } = userParams;
+    const { id, userRequester, ...paramsToUpdateUser } = userParams;
 
-    const { users, totalUsers } = await this.listUsersUsecase.list({ id });
+    const { users, totalUsers } = await this.listUsersUsecase.list({
+      userRequester,
+      id,
+    });
 
     if (totalUsers === 0) {
       throw new UpdateUserInDatabaseServiceError('User not found');
     }
 
     const [user] = users;
+
+    const userRequesterCanUpdateThisUser =
+      userRequester.canUpdateThisUser(user);
+
+    if (!userRequesterCanUpdateThisUser) {
+      throw new UpdateUserInDatabaseServiceError(
+        'User requester do not have permissions to update this user'
+      );
+    }
 
     const userUpdated = user.updateParams(paramsToUpdateUser);
 

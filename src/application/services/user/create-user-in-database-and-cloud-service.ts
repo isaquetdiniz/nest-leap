@@ -28,7 +28,7 @@ class CreateUserInDatabaseAndCloudService implements CreateUserUsecase {
   async create(
     userParams: CreateUserUsecase.Params
   ): Promise<CreateUserUsecase.Result> {
-    const { isAdmin, name, email } = userParams;
+    const { userRequester, isAdmin, name, email } = userParams;
 
     const user = await this.createUserInDatabaseUsecase.create({
       isAdmin,
@@ -41,7 +41,7 @@ class CreateUserInDatabaseAndCloudService implements CreateUserUsecase {
     } catch (error) {
       const userId = user.getId();
 
-      await this.deleteUserUsecase.delete({ id: userId });
+      await this.deleteUserUsecase.delete({ userRequester, id: userId });
 
       throw error;
     }

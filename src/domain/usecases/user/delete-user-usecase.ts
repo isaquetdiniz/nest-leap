@@ -1,3 +1,5 @@
+import { User } from '@/domain/entities';
+
 export interface DeleteUserUsecase {
   delete(
     userParams: DeleteUserUsecase.Params
@@ -7,6 +9,7 @@ export interface DeleteUserUsecase {
 export namespace DeleteUserUsecase {
   export type Params = {
     id: string;
+    userRequester: User;
   };
   export type Result = void | Error;
 }

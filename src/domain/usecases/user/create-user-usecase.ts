@@ -7,6 +7,6 @@ export interface CreateUserUsecase {
 }
 
 export namespace CreateUserUsecase {
-  export type Params = Omit<UserInput, 'id'>;
+  export type Params = Omit<UserInput, 'id'> & { userRequester: User };
   export type Result = User;
 }

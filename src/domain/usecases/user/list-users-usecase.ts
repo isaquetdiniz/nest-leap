@@ -6,6 +6,7 @@ export interface ListUsersUsecase {
 
 export namespace ListUsersUsecase {
   export type Params = {
+    userRequester?: User;
     id?: string;
     isAdmin?: boolean;
     enabled?: boolean;

@@ -12,7 +12,5 @@ export namespace LoadUserByTokenInCloudProvider {
   export type Result = {
     username: string;
     email: string;
-    enabled: boolean;
-    status: string;
   };
 }

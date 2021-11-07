@@ -8,6 +8,7 @@ export interface UpdateUserUsecase {
 
 export namespace UpdateUserUsecase {
   export type Params = {
+    userRequester: User;
     id: string;
     isAdmin?: boolean;
     name?: string;

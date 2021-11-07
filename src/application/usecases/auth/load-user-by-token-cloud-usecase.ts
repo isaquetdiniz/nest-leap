@@ -12,7 +12,5 @@ export namespace LoadUserByTokenCloudUsecase {
   export type Result = {
     username: string;
     email: string;
-    enabled: boolean;
-    status: string;
   };
 }

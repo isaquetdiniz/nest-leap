@@ -35,19 +35,14 @@ export class CognitoLoadUserByTokenInCloudProvider
             return reject(new LoadUserByTokenInCloudProviderError(err.message));
           }
 
-          const {
-            Username: username,
-            Enabled: enabled,
-            UserStatus: status,
-            UserAttributes: attributes,
-          }: any = data;
+          const { Username: username, UserAttributes: attributes }: any = data;
 
           const [emailAttribute] = attributes.filter(
             (attribute: any) => attribute.Name === 'email'
           );
-          const email = emailAttribute.value;
+          const email = emailAttribute.Value;
 
-          resolve({ username, email, enabled, status });
+          resolve({ username, email });
         }
       );
     });

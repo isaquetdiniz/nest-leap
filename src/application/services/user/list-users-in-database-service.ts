@@ -18,8 +18,10 @@ class ListUserInDatabaseService implements ListUsersUsecase {
   async list(
     userFilters: ListUsersUsecase.Params
   ): Promise<ListUsersUsecase.Result> {
+    const { userRequester, ...restUserFilters } = userFilters;
+
     const { users, totalUsers } =
-      await this.listUsersInDatabaseRepository.listUser(userFilters);
+      await this.listUsersInDatabaseRepository.listUser(restUserFilters);
 
     if (totalUsers === 0) {
       return { users: [], totalUsers: 0 };
