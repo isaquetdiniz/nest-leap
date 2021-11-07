@@ -1,6 +1,7 @@
 import { adaptRoute } from '@/main/adapters';
 
 import {
+  makeConfirmForgotPasswordController,
   makeFirstFirstLoginController,
   makeForgotPasswordController,
   makeLoginController,
@@ -18,4 +19,8 @@ export default (router: Router): void => {
   router
     .route('/auth/forgot-password')
     .post(adaptRoute(makeForgotPasswordController()));
+
+  router
+    .route('/auth/confirm-forgot-password')
+    .post(adaptRoute(makeConfirmForgotPasswordController()));
 };

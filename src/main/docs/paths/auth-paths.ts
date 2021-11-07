@@ -70,6 +70,42 @@ export const authPaths = {
       responses,
     },
   },
+  '/auth/confirm-forgot-password': {
+    post: {
+      tags: ['Auth'],
+      summary: 'Confirm Forgot Password',
+      produces: ['application/json'],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                email: {
+                  type: 'string',
+                  required: true,
+                },
+                newPassword: {
+                  type: 'string',
+                  required: true,
+                },
+                verificationCode: {
+                  type: 'string',
+                  required: true,
+                },
+              },
+            },
+            example: {
+              email: 'any_email@mail.com',
+              newPassword: 'blablabla',
+              verificationCode: 1020,
+            },
+          },
+        },
+      },
+      responses,
+    },
+  },
   'auth/refresh-token': {
     post: {
       tags: ['Auth'],

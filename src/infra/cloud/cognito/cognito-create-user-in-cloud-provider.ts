@@ -48,7 +48,7 @@ export class CognitoCreateUserInCloudProvider
         },
         (err, data) => {
           if (err) {
-            reject(new CreateUserInCloudProviderError(err.message));
+            return reject(new CreateUserInCloudProviderError(err.message));
           }
 
           resolve();
