@@ -22,7 +22,8 @@
     "prisma:migration:push": "npx prisma migrate deploy --schema=./src/infra/database/orm/prisma/schema.prisma",
     "prisma:introspect": "npx prisma introspect --force --schema=./src/infra/database/orm/prisma/schema.prisma && npm run prisma:generate",
     "prisma:push": "npx prisma db push --schema=./src/infra/database/orm/prisma/schema.prisma --accept-data-loss",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "plop": "plop"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,7 @@
     "lint-staged": "^11.2.3",
     "nodemon": "^2.0.14",
     "pino-pretty": "^7.2.0",
+    "plop": "^2.7.6",
     "prettier": "^2.4.1",
     "prisma": "^3.3.0",
     "rimraf": "^3.0.2",
@@ -69,12 +71,14 @@
     "@sentry/node": "^6.14.0",
     "@sentry/tracing": "^6.14.0",
     "aws-sdk": "^2.1023.0",
+    "bull": "^4.1.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "module-alias": "^2.2.2",
     "pino": "^7.1.0",
     "pino-http": "^6.0.0",
+    "socket.io": "^4.3.1",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2",
     "validator": "^13.7.0"

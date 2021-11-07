@@ -1,0 +1,15 @@
+import { {{name}} } from '@/domain/entities';
+
+export interface Delete{{name}}Usecase {
+  delete(
+    {{lowerCase name}}Params: Delete{{name}}Usecase.Params
+  ): Promise<Delete{{name}}Usecase.Result>;
+}
+
+export namespace Delete{{name}}Usecase {
+  export type Params = {
+    id: string;
+    userRequester: {{name}};
+  };
+  export type Result = void | Error;
+}

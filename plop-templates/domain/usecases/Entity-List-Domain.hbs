@@ -1,0 +1,22 @@
+import { {{name}} } from '@/domain/entities/{{name}}';
+
+export interface List{{name}}sUsecase {
+  list({{lowerCase name}}Filters: List{{name}}sUsecase.Params): Promise<List{{name}}sUsecase.Result>;
+}
+
+export namespace List{{name}}sUsecase {
+  export type Params = {
+    userRequester?: {{name}};
+    id?: string;
+    name?: string;
+    createdAt?: { inititalDate: string; finalDate: string };
+    updatedAt?: { inititalDate: string; finalDate: string };
+    take?: number;
+    skip?: number;
+    orderBy?: {
+      property: string;
+      mode: 'asc' | 'desc';
+    };
+  };
+  export type Result = { users: {{name}}[]; total{{name}}s: number };
+}

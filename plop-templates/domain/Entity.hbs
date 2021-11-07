@@ -1,0 +1,89 @@
+import { {{name}}Error } from '@/domain/errors';
+
+type {{name}}Input = {
+  id: string;
+  name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+type {{name}}ToJSON = {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type Update{{name}}Input = {
+  name?: string;
+};
+
+class {{name}} {
+  private readonly id: string;
+  private name: string;
+  private readonly createdAt: Date;
+  private updatedAt: Date;
+
+  constructor(create{{name}}Params: {{name}}Input) {
+    const { id, name, createdAt, updatedAt } =
+      create{{name}}Params;
+
+    if (id === null || id === undefined) {
+      throw new {{name}}Error('Id is not passed');
+    }
+
+    if (name === null || name === undefined) {
+      throw new {{name}}Error('Email is not passed');
+    }
+
+    this.id = id;
+    this.name = name;
+    this.createdAt = createdAt || new Date();
+    this.updatedAt = updatedAt || new Date();
+  }
+
+  toJSON(): {{name}}ToJSON {
+    return {
+      id: this.id,
+      name: this.name,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  }
+
+  updateLastUpdatedAt() {
+    this.updatedAt = new Date();
+  }
+
+  updateName(name: string) {
+    this.name = name;
+    this.updateLastUpdatedAt();
+  }
+
+  updateParams(paramsToUpdate: Update{{name}}Input): {{name}} {
+    const entriesOfParamsToUpdate = Object.entries(paramsToUpdate);
+
+    const filteredEntriesToUpdate{{name}} = entriesOfParamsToUpdate.filter(
+      ([key, value]) => value !== undefined && value !== null
+    );
+
+    for (const [property, value] of filteredEntriesToUpdate{{name}}) {
+      if (property === 'name') {
+        // @ts-ignore
+        this.updateName(value);
+      }
+    }
+
+    return this;
+  }
+
+  getId(): string {
+    return this.id;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+}
+
+export { {{name}}, {{name}}Input, {{name}}ToJSON };
