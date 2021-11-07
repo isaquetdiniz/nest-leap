@@ -9,11 +9,13 @@ import {
 
 import { Router } from 'express';
 
+import { authMiddleware } from '@/main/middlewares';
+
 export default (router: Router): void => {
   router
     .route('/users/:id?')
-    .get(adaptRoute(makeListUsersController()))
-    .post(adaptRoute(makeCreateUserController()))
-    .patch(adaptRoute(makeUpdateUserController()))
-    .delete(adaptRoute(makeDeleteUserController()));
+    .get(authMiddleware('USER'), adaptRoute(makeListUsersController()))
+    .post(authMiddleware('ADMIN'), adaptRoute(makeCreateUserController()))
+    .patch(authMiddleware('USER'), adaptRoute(makeUpdateUserController()))
+    .delete(authMiddleware('ADMIN'), adaptRoute(makeDeleteUserController()));
 };
