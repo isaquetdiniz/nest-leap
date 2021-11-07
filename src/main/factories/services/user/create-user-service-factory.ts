@@ -1,15 +1,17 @@
-import { CreateUserInDatabaseService } from '@/application/services/user';
+import { CreateUserInDatabaseAndCloudService } from '@/application/services/user';
 import { CreateUserUsecase } from '@/domain/usecases/user';
-import { makePrismaCreateUserInDatabaseRepository } from '@/main/factories/infra/database/orm/prisma/repositories/user';
-import { makeUUIDGeneratorAdapter } from '@/main/factories/infra/uuid';
+import { makeDeleteUserUsecase } from '@/main/factories/services/user';
+import { makeCreateUserClouUsecase } from './create-user-cloud-service-factory';
+import { makeCreateUserInDatabaseUsecase } from './create-user-in-database-service-factory';
 
 export const makeCreateUserUsecase = (): CreateUserUsecase => {
-  const createUserInDatabaseRepository =
-    makePrismaCreateUserInDatabaseRepository();
-  const UUIDGenerator = makeUUIDGeneratorAdapter();
+  const createUserInDatabaseUsecase = makeCreateUserInDatabaseUsecase();
+  const createUserCloudUsecase = makeCreateUserClouUsecase();
+  const deleteUserUsecase = makeDeleteUserUsecase();
 
-  return new CreateUserInDatabaseService({
-    createUserInDatabaseRepository,
-    UUIDGenerator,
+  return new CreateUserInDatabaseAndCloudService({
+    createUserInDatabaseUsecase,
+    createUserCloudUsecase,
+    deleteUserUsecase,
   });
 };
