@@ -106,7 +106,7 @@ export const authPaths = {
       responses,
     },
   },
-  'auth/refresh-token': {
+  '/auth/refresh-token': {
     post: {
       tags: ['Auth'],
       summary: 'Get a refresh token',
@@ -117,14 +117,14 @@ export const authPaths = {
             schema: {
               type: 'object',
               properties: {
-                token: {
+                refreshToken: {
                   type: 'string',
                   required: true,
                 },
               },
             },
             example: {
-              token: 'jwttoken',
+              refreshToken: 'jwttoken',
             },
           },
         },
