@@ -20,7 +20,7 @@ export class PrismaList{{name}}sInDatabaseRepository
   }
 
   async count{{name}}s(
-    {{dashCase name}}Filter: Count{{name}}sInDatabaseRepository.Params
+    {{camelCase name}}Filter: Count{{name}}sInDatabaseRepository.Params
   ): Promise<Count{{name}}sInDatabaseRepository.Result> {
     try {
       const {{camelCase name}}filterObject = PrismaFormatter.formatFilter({{camelCase name}}Filter);
