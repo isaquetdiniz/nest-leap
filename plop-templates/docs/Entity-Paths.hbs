@@ -1,10 +1,10 @@
 import { responses, filterParams } from '@/main/docs/helpers';
 
-export const userPaths = {
-  '/users': {
+export const {{lowerCase name}}Paths = {
+  '/{{lowerCase name}}s': {
     get: {
-      tags: ['Users'],
-      summary: 'Get Users',
+      tags: ['{{name}}s'],
+      summary: 'Get {{name}}s',
       produces: ['application/json'],
       parameters: [
         {
@@ -14,41 +14,26 @@ export const userPaths = {
             type: 'string',
           },
         },
-        {
-          in: 'query',
-          name: 'email',
-          schema: {
-            type: 'string',
-          },
-        },
-        {
-          in: 'query',
-          name: 'isAdmin',
-          schema: {
-            type: 'boolean',
-          },
-        },
-        {
-          in: 'query',
-          name: 'enabled',
-          schema: {
-            type: 'boolean',
-          },
-        },
-        ...filterParams,
+        ...filterParams
       ],
       security: [{ BearerAuth: [] }],
       responses,
     },
     post: {
-      tags: ['Users'],
-      summary: 'Create a new user',
+      tags: ['{{name}}s'],
+      summary: 'Create a new {{lowerCase name}}',
       produces: ['application/json'],
       requestBody: {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/createUserSchema',
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                  required: true
+                }
+              }
             },
           },
         },
@@ -57,10 +42,10 @@ export const userPaths = {
       responses,
     },
   },
-  '/users/{id}': {
+  '/{{lowerCase name}}s/{id}': {
     get: {
-      tags: ['Users'],
-      summary: 'Get a User',
+      tags: ['{{name}}s'],
+      summary: 'Get a {{name}}',
       produces: ['application/json'],
       parameters: [
         {
@@ -77,8 +62,8 @@ export const userPaths = {
       responses,
     },
     patch: {
-      tags: ['Users'],
-      summary: 'Update a User by id',
+      tags: ['{{name}}s'],
+      summary: 'Update a {{name}} by id',
       produces: ['application/json'],
       parameters: [
         {
@@ -95,7 +80,13 @@ export const userPaths = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/schemas/updateUserSchema',
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                  required: true
+                }
+              }
             },
           },
         },
@@ -104,8 +95,8 @@ export const userPaths = {
       responses,
     },
     delete: {
-      tags: ['Users'],
-      summary: 'Delete a User by id',
+      tags: ['{{name}}s'],
+      summary: 'Delete a {{name}} by id',
       produces: ['application/json'],
       parameters: [
         {

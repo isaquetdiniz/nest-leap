@@ -8,7 +8,7 @@ module.exports = function (plop) {
       message: 'Name of entity'
     }],
     actions: [
-    /* {
+     {
       type: 'add',
       path: 'src/domain/entities/{{name}}.ts',
       templateFile: 'plop-templates/domain/Entity.hbs'
@@ -314,12 +314,29 @@ module.exports = function (plop) {
       type: 'add',
       path: 'src/main/factories/controllers/{{lowerCase name}}/index.ts',
       templateFile: 'plop-templates/factories/controllers/Factory-Controller-Index.hbs'
-    }, */
+    },
     {
       type: 'add',
       path: 'src/main/routes/{{lowerCase name}}-routes.ts',
       templateFile: 'plop-templates/routes/Entity-Routes.hbs'
     },
+    {
+      type: 'add',
+      path: 'src/main/docs/paths/{{lowerCase name}}-paths.ts',
+      templateFile: 'plop-templates/docs/Entity-Paths.hbs'
+    },
+    {
+      type: 'append',
+      path: 'src/main/docs/paths/index.ts',
+      separator: '',
+      template: "export * from './{{lowerCase name}}-paths';\n"
+    },
+    {
+      type: 'modify',
+      path: 'src/main/docs/helpers/tags.ts',
+      pattern: /\[(.*)\]/gim,
+      template: "[$1, '{{name}}s']"
+    }
   ]
   })
 }
