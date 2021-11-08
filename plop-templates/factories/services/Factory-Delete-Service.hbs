@@ -1,0 +1,16 @@
+import { Delete{{name}}InDatabaseService } from '@/application/services/{{lowerCase name}}';
+import { Delete{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
+import { makePrismaDelete{{name}}InDatabaseRepository } from '@/main/factories/infra/database/orm/prisma/repositories/{{lowerCase name}}';
+import { makeList{{name}}sUsecase } from '@/main/factories/services/{{lowerCase name}}';
+
+export const makeDelete{{name}}Usecase = (): Delete{{name}}Usecase => {
+  const list{{name}}sUsecase = makeList{{name}}sUsecase();
+
+  const delete{{name}}InDatabaseRepository =
+    makePrismaDelete{{name}}InDatabaseRepository();
+
+  return new Delete{{name}}InDatabaseService({
+    list{{name}}sUsecase,
+    delete{{name}}InDatabaseRepository
+  });
+};

@@ -1,0 +1,6 @@
+import { PrismaCreate{{name}}InDatabaseRepository } from '@/infra/database/orm/prisma/repositories/{{lowerCase name}}';
+
+export const makePrismaCreate{{name}}InDatabaseRepository =
+  (): PrismaCreate{{name}}InDatabaseRepository => {
+    return new PrismaCreate{{name}}InDatabaseRepository();
+  };

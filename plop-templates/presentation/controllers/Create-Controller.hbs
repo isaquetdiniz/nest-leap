@@ -1,0 +1,52 @@
+import { Controller, HttpResponse } from '@/presentation/http/protocols';
+
+import {
+  badRequest,
+  conflict,
+  created,
+  serverError,
+} from '@/presentation/http/helpers/http-helper';
+
+import { Validation } from '@/presentation/validation/protocols';
+import { Create{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
+import { Create{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
+import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+
+export class Create{{name}}Controller implements Controller {
+  private readonly validation: Validation;
+  private readonly create{{name}}Usecase: Create{{name}}Usecase;
+
+  constructor(validation: Validation, create{{name}}Usecase: Create{{name}}Usecase) {
+    this.validation = validation;
+    this.create{{name}}Usecase = create{{name}}Usecase;
+  }
+
+  async handle(
+    httpRequest: Create{{name}}Controller.Request
+  ): Promise<HttpResponse> {
+    try {
+      const hasError = this.validation.validate(httpRequest);
+
+      if (hasError) return badRequest(hasError);
+
+      const new{{name}} = await this.create{{name}}Usecase.create(httpRequest);
+
+      return created(new{{name}});
+    } catch (error) {
+      const catchedError = error as Error;
+
+      if (
+        error instanceof Create{{name}}InDatabaseRepositoryError ||
+        error instanceof Create{{name}}InDatabaseServiceError
+      ) {
+        return conflict(catchedError);
+      }
+
+      return serverError(catchedError);
+    }
+  }
+}
+
+export namespace Create{{name}}Controller {
+  export type Request = Create{{name}}Usecase.Params;
+}

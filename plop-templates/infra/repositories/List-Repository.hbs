@@ -1,0 +1,72 @@
+import { PrismaClient } from '.prisma/client';
+import {
+  Count{{name}}sInDatabaseRepositoryError,
+  List{{name}}sInDatabaseRepositoryError,
+} from '@/application/errors/repositories/{{lowerCase name}}';
+import {
+  Count{{name}}sInDatabaseRepository,
+  List{{name}}sInDatabaseRepository,
+} from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { prismaConnector } from '@/infra/database/orm/prisma';
+import { PrismaFormatter } from '@/infra/database/orm/prisma/repositories/prisma-formatter';
+
+export class PrismaList{{name}}sInDatabaseRepository
+  implements List{{name}}sInDatabaseRepository, Count{{name}}sInDatabaseRepository
+{
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
+  async count{{name}}s(
+    {{lowerCase name}}Filter: Count{{name}}sInDatabaseRepository.Params
+  ): Promise<Count{{name}}sInDatabaseRepository.Result> {
+    try {
+      const {{lowerCase name}}filterObject = PrismaFormatter.formatFilter({{lowerCase name}}Filter);
+
+      const total{{name}}s = await this.prismaConnection.{{lowerCase name}}.count({
+        where: {{lowerCase name}}filterObject,
+      });
+
+      return { total{{name}}s };
+    } catch (error) {
+      const errorCatched = error as Error;
+
+      const { message } = errorCatched;
+
+      throw new Count{{name}}sInDatabaseRepositoryError(message);
+    }
+  }
+
+  async list{{name}}(
+    {{lowerCase name}}Filter: List{{name}}sInDatabaseRepository.Params
+  ): Promise<List{{name}}sInDatabaseRepository.Result> {
+    try {
+      const { take, skip, orderBy, ...restOf{{name}}Filters } = {{lowerCase name}}Filter;
+
+      const {{lowerCase name}}FilterObject = PrismaFormatter.formatFilter(restOf{{name}}Filters);
+      const {{lowerCase name}}FindOptions = PrismaFormatter.formatFindOptions({
+        take,
+        skip,
+        orderBy,
+      });
+
+      // @ts-ignore
+      const {{lowerCase name}}s = await this.prismaConnection.{{lowerCase name}}.findMany({
+        where: {{lowerCase name}}FilterObject,
+        ...{{lowerCase name}}FindOptions,
+      });
+
+      const { total{{name}}s } = await this.count{{name}}s(restOf{{name}}Filters);
+
+      return { {{lowerCase name}}s, total{{name}}s };
+    } catch (error) {
+      const errorCatched = error as Error;
+
+      const { message } = errorCatched;
+
+      throw new List{{name}}sInDatabaseRepositoryError(message);
+    }
+  }
+}

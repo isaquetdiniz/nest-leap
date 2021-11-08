@@ -1,0 +1,56 @@
+import { Controller, HttpResponse } from '@/presentation/http/protocols';
+
+import {
+  badRequest,
+  conflict,
+  ok,
+  serverError,
+} from '@/presentation/http/helpers/http-helper';
+
+import { Validation } from '@/presentation/validation/protocols';
+import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
+import {
+  Count{{name}}sInDatabaseRepositoryError,
+  List{{name}}sInDatabaseRepositoryError,
+} from '@/application/errors/repositories/{{lowerCase name}}';
+
+export class List{{name}}sController implements Controller {
+  private readonly validation: Validation;
+  private readonly list{{name}}sUsecase: List{{name}}sUsecase;
+
+  constructor(validation: Validation, list{{name}}sUsecase: List{{name}}sUsecase) {
+    this.validation = validation;
+    this.list{{name}}sUsecase = list{{name}}sUsecase;
+  }
+
+  async handle(
+    httpRequest: List{{name}}sController.Request
+  ): Promise<HttpResponse> {
+    try {
+      const hasError = this.validation.validate(httpRequest);
+
+      if (hasError) return badRequest(hasError);
+
+      const { {{lowerCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list(
+        httpRequest
+      );
+
+      return ok({ {{lowerCase name}}s, total{{name}}s }, 'list');
+    } catch (error) {
+      const catchedError = error as Error;
+
+      if (
+        error instanceof List{{name}}sInDatabaseRepositoryError ||
+        error instanceof Count{{name}}sInDatabaseRepositoryError
+      ) {
+        return conflict(catchedError);
+      }
+
+      return serverError(catchedError);
+    }
+  }
+}
+
+export namespace List{{name}}sController {
+  export type Request = List{{name}}sUsecase.Params;
+}

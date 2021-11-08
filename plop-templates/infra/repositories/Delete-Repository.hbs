@@ -1,0 +1,32 @@
+import { Delete{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
+import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { prismaConnector } from '@/infra/database/orm/prisma';
+import { PrismaClient } from '@prisma/client';
+
+export class PrismaDelete{{name}}InDatabaseRepository
+  implements Delete{{name}}InDatabaseRepository
+{
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
+  async delete{{name}}(
+    {{lowerCase name}}: Delete{{name}}InDatabaseRepository.Params
+  ): Promise<Delete{{name}}InDatabaseRepository.Result> {
+    try {
+      const {{lowerCase name}}Id = {{lowerCase name}}.getId();
+
+      await this.prismaConnection.{{lowerCase name}}.delete({
+        where: { id: {{lowerCase name}}Id },
+      });
+    } catch (error) {
+      const errorCatched = error as Error;
+
+      const { message } = errorCatched;
+
+      throw new Delete{{name}}InDatabaseRepositoryError(message);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+import { Validation } from '@/presentation/validation/protocols';
+
+import {
+  RequiredFieldsValidation,
+  ValidationComposite,
+  NameValidation,
+} from '@/presentation/validation/validators';
+
+import {
+  ValidatorNameAdapter,
+} from '@/infra/validators';
+
+const validations: Validation[] = [];
+
+for (const field of ['name']) {
+  validations.push(new RequiredFieldsValidation(field));
+}
+
+validations.push(new NameValidation('name', new ValidatorNameAdapter()));
+
+export const makeCreate{{name}}Validation = (): ValidationComposite => {
+  return new ValidationComposite(validations);
+};
