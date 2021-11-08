@@ -5,8 +5,10 @@
   "main": "dist/main/server.js",
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "build:prod": "tsc -p tsconfig-build.json",
     "start": "node dist/main/server.js",
-    "start:dev": "npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts",
+    "start:dev": "npm run prisma:migration:push && npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts",
+    "start:prod": "npm run prisma:migration:push && npm start",
     "lint": "eslint 'src/**' '__tests__/**'",
     "lint:fix": "eslint 'src/**' '__tests__/**' --fix",
     "style:check": "prettier --check 'src/**/*.ts' '__tests__/**/*.ts'",
@@ -61,7 +63,6 @@
     "pino-pretty": "^7.2.0",
     "plop": "^2.7.6",
     "prettier": "^2.4.1",
-    "prisma": "^3.3.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4"
@@ -77,6 +78,7 @@
     "module-alias": "^2.2.2",
     "pino": "^7.1.0",
     "pino-http": "^6.0.0",
+    "prisma": "^3.4.1",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2",
     "validator": "^13.7.0"

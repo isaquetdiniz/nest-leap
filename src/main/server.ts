@@ -14,6 +14,8 @@ const exitStatus = {
   Success: 0,
 };
 
+process.setMaxListeners(20);
+
 const loggerLocal = makePinoLoggerLocalAdapter();
 const loggerErrorCloud = makeSentryLoggerErrorCloudAdapter();
 
