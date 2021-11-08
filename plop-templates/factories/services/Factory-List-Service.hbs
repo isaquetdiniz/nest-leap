@@ -1,12 +1,12 @@
-import { List{{name}}InDatabaseService } from '@/application/services/{{lowerCase name}}';
+import { List{{name}}sInDatabaseService } from '@/application/services/{{lowerCase name}}';
 import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
 import { makePrismaList{{name}}sInDatabaseRepository } from '@/main/factories/infra/database/orm/prisma/repositories/{{lowerCase name}}';
 
-export const makeList{{name}}sUsecase = (): List{{name}}sUsecase => {
+export const makeList{{name}}sInDatabaseUsecase = (): List{{name}}sUsecase => {
   const list{{name}}sInDatabaseRepository =
     makePrismaList{{name}}sInDatabaseRepository();
 
-  return new List{{name}}InDatabaseService({
+  return new List{{name}}sInDatabaseService({
     list{{name}}sInDatabaseRepository,
   });
 };

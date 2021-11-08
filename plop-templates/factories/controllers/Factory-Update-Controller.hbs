@@ -1,12 +1,12 @@
 import { Controller } from '@/presentation/http/protocols';
 import { Update{{name}}Controller } from '@/presentation/http/controllers/{{lowerCase name}}';
 
-import { makeUpdate{{name}}Usecase } from '@/main/factories/services/{{lowerCase name}}';
+import { makeUpdate{{name}}InDatabaseUsecase } from '@/main/factories/services/{{lowerCase name}}';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 import { makeUpdate{{name}}Validation } from '@/main/factories/validation/{{lowerCase name}}';
 
 export const makeUpdate{{name}}Controller = (): Controller => {
-  const update{{name}}Usecase = makeUpdate{{name}}Usecase();
+  const update{{name}}Usecase = makeUpdate{{name}}InDatabaseUsecase();
 
   const validation = makeUpdate{{name}}Validation();
 

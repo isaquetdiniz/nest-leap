@@ -1,12 +1,12 @@
 import { Controller } from '@/presentation/http/protocols';
 import { Create{{name}}Controller } from '@/presentation/http/controllers/{{lowerCase name}}';
 
-import { makeCreate{{name}}Usecase } from '@/main/factories/services/{{lowerCase name}}';
+import { makeCreate{{name}}InDatabaseUsecase } from '@/main/factories/services/{{lowerCase name}}';
 import { makeCreate{{name}}Validation } from '@/main/factories/validation/{{lowerCase name}}';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 
 export const makeCreate{{name}}Controller = (): Controller => {
-  const create{{name}}Usecase = makeCreate{{name}}Usecase();
+  const create{{name}}Usecase = makeCreate{{name}}InDatabaseUsecase();
 
   const validation = makeCreate{{name}}Validation();
 

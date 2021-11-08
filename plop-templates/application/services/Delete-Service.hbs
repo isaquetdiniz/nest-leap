@@ -1,21 +1,20 @@
 import { List{{name}}sUsecase, Delete{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
 import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
 import { Delete{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
-import { Delete{{name}}FromCloudProvider } from '@/application/protocols/cloud/{{lowerCase name}}';
 
-type Delete{{name}}InDatabaseAndCloudServiceInjectables = {
+type Delete{{name}}InDatabaseServiceInjectables = {
   list{{name}}sUsecase: List{{name}}sUsecase;
   delete{{name}}InDatabaseRepository: Delete{{name}}InDatabaseRepository;
 };
 
-class Delete{{name}}InDatabaseAndCloudService implements Delete{{name}}Usecase {
+class Delete{{name}}InDatabaseService implements Delete{{name}}Usecase {
   private readonly list{{name}}sUsecase: List{{name}}sUsecase;
   private readonly delete{{name}}InDatabaseRepository: Delete{{name}}InDatabaseRepository;
 
   constructor({
     list{{name}}sUsecase,
     delete{{name}}InDatabaseRepository,
-  }: Delete{{name}}InDatabaseAndCloudServiceInjectables) {
+  }: Delete{{name}}InDatabaseServiceInjectables) {
     this.delete{{name}}InDatabaseRepository = delete{{name}}InDatabaseRepository;
     this.list{{name}}sUsecase = list{{name}}sUsecase;
   }
@@ -40,4 +39,4 @@ class Delete{{name}}InDatabaseAndCloudService implements Delete{{name}}Usecase {
   }
 }
 
-export { Delete{{name}}InDatabaseAndCloudService };
+export { Delete{{name}}InDatabaseService };

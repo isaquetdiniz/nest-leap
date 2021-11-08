@@ -2,7 +2,6 @@ import { Create{{name}}Usecase, List{{name}}sUsecase } from '@/domain/usecases/{
 import { Create{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
 import { UUIDGenerator } from '@/application/protocols/uuid';
 import { {{name}} } from '@/domain/entities';
-import { Create{{name}}InDatabaseUsecase } from '@/application/usecases/{{lowerCase name}}';
 import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
 
 type Create{{name}}InDatabaseServiceInjectables = {
@@ -11,7 +10,7 @@ type Create{{name}}InDatabaseServiceInjectables = {
   UUIDGenerator: UUIDGenerator;
 };
 
-class Create{{name}}InDatabaseService implements Create{{name}}InDatabaseUsecase {
+class Create{{name}}InDatabaseService implements Create{{name}}Usecase {
   private readonly create{{name}}InDatabaseRepository: Create{{name}}InDatabaseRepository;
   private readonly list{{name}}sUsecase: List{{name}}sUsecase;
   private readonly UUIDGenerator: UUIDGenerator;

@@ -1,5 +1,4 @@
 module.exports = function (plop) {
-  // controller generator
   plop.setGenerator('Basic Entity CRUD', {
     description: 'A basic entity with name CRUD',
     prompts: [{
@@ -8,7 +7,7 @@ module.exports = function (plop) {
       message: 'Name of entity'
     }],
     actions: [
-     {
+   {
       type: 'add',
       path: 'src/domain/entities/{{name}}.ts',
       templateFile: 'plop-templates/domain/Entity.hbs'
@@ -147,7 +146,7 @@ module.exports = function (plop) {
     },
     {
       type: 'add',
-      path: 'src/application/services/{{lowerCase name}}/list-{{lowerCase name}}-in-database-service.ts',
+      path: 'src/application/services/{{lowerCase name}}/list-{{lowerCase name}}s-in-database-service.ts',
       templateFile: 'plop-templates/application/services/List-Service.hbs'
     },
     {
@@ -189,6 +188,12 @@ module.exports = function (plop) {
       type: 'add',
       path: 'src/infra/database/orm/prisma/repositories/{{lowerCase name}}/index.ts',
       templateFile: 'plop-templates/infra/repositories/Repository-Index.hbs'
+    },
+    {
+      type: 'append',
+      path: 'src/infra/database/orm/prisma/schema.prisma',
+      separator: '',
+      templateFile: 'plop-templates/infra/Prisma-Schema.hbs'
     },
     {
       type: 'add',
@@ -277,12 +282,12 @@ module.exports = function (plop) {
     },
     {
       type: 'add',
-      path: 'src/main/factories/services/{{lowerCase name}}/update-{{lowerCase name}}s-in-database-service-factory.ts',
+      path: 'src/main/factories/services/{{lowerCase name}}/update-{{lowerCase name}}-in-database-service-factory.ts',
       templateFile: 'plop-templates/factories/services/Factory-Update-Service.hbs'
     },
     {
       type: 'add',
-      path: 'src/main/factories/services/{{lowerCase name}}/delete-{{lowerCase name}}s-in-database-service-factory.ts',
+      path: 'src/main/factories/services/{{lowerCase name}}/delete-{{lowerCase name}}-in-database-service-factory.ts',
       templateFile: 'plop-templates/factories/services/Factory-Delete-Service.hbs'
     },
     {

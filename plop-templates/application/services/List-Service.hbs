@@ -2,16 +2,16 @@ import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
 import { List{{name}}sInDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
 import { {{name}} } from '@/domain/entities';
 
-type Liste{{name}}InDatabaseServiceInjectables = {
+type List{{name}}sInDatabaseServiceInjectables = {
   list{{name}}sInDatabaseRepository: List{{name}}sInDatabaseRepository;
 };
 
-class List{{name}}InDatabaseService implements List{{name}}sUsecase {
+class List{{name}}sInDatabaseService implements List{{name}}sUsecase {
   private readonly list{{name}}sInDatabaseRepository: List{{name}}sInDatabaseRepository;
 
   constructor({
     list{{name}}sInDatabaseRepository,
-  }: Liste{{name}}InDatabaseServiceInjectables) {
+  }: List{{name}}sInDatabaseServiceInjectables) {
     this.list{{name}}sInDatabaseRepository = list{{name}}sInDatabaseRepository;
   }
 
@@ -33,4 +33,4 @@ class List{{name}}InDatabaseService implements List{{name}}sUsecase {
   }
 }
 
-export { List{{name}}InDatabaseService };
+export { List{{name}}sInDatabaseService };
