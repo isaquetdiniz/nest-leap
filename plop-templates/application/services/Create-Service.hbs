@@ -1,8 +1,8 @@
-import { Create{{name}}Usecase, List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
-import { Create{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { Create{{name}}Usecase, List{{name}}sUsecase } from '@/domain/usecases/{{dashCase name}}';
+import { Create{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
 import { UUIDGenerator } from '@/application/protocols/uuid';
 import { {{name}} } from '@/domain/entities';
-import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{dashCase name}}';
 
 type Create{{name}}InDatabaseServiceInjectables = {
   create{{name}}InDatabaseRepository: Create{{name}}InDatabaseRepository;
@@ -26,9 +26,9 @@ class Create{{name}}InDatabaseService implements Create{{name}}Usecase {
   }
 
   async create(
-    {{lowerCase name}}Params: Create{{name}}Usecase.Params
+    {{camelCase name}}Params: Create{{name}}Usecase.Params
   ): Promise<Create{{name}}Usecase.Result> {
-    const { userRequester, name } = {{lowerCase name}}Params;
+    const { userRequester, name } = {{camelCase name}}Params;
 
     const id = await this.UUIDGenerator.generate();
 

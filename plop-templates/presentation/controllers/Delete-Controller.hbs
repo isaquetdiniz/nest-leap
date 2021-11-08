@@ -8,9 +8,9 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { Delete{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
-import { Delete{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
-import { Delete{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+import { Delete{{name}}Usecase } from '@/domain/usecases/{{dashCase name}}';
+import { Delete{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{dashCase name}}';
+import { Delete{{name}}InDatabaseServiceError } from '@/application/errors/services/{{dashCase name}}';
 
 export class Delete{{name}}Controller implements Controller {
   private readonly validation: Validation;

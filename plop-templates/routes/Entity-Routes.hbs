@@ -5,7 +5,7 @@ import {
   makeDelete{{name}}Controller,
   makeList{{name}}sController,
   makeUpdate{{name}}Controller,
-} from '@/main/factories/controllers/{{lowerCase name}}';
+} from '@/main/factories/controllers/{{dashCase name}}';
 
 import { Router } from 'express';
 
@@ -13,7 +13,7 @@ import { authMiddleware } from '@/main/middlewares';
 
 export default (router: Router): void => {
   router
-    .route('/{{lowerCase name}}s/:id?')
+    .route('/{{dashCase name}}s/:id?')
     .get(authMiddleware('USER'), adaptRoute(makeList{{name}}sController()))
     .post(authMiddleware('USER'), adaptRoute(makeCreate{{name}}Controller()))
     .patch(authMiddleware('USER'), adaptRoute(makeUpdate{{name}}Controller()))

@@ -1,8 +1,8 @@
 import { Controller } from '@/presentation/http/protocols';
-import { Create{{name}}Controller } from '@/presentation/http/controllers/{{lowerCase name}}';
+import { Create{{name}}Controller } from '@/presentation/http/controllers/{{dashCase name}}';
 
-import { makeCreate{{name}}InDatabaseUsecase } from '@/main/factories/services/{{lowerCase name}}';
-import { makeCreate{{name}}Validation } from '@/main/factories/validation/{{lowerCase name}}';
+import { makeCreate{{name}}InDatabaseUsecase } from '@/main/factories/services/{{dashCase name}}';
+import { makeCreate{{name}}Validation } from '@/main/factories/validation/{{dashCase name}}';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 
 export const makeCreate{{name}}Controller = (): Controller => {

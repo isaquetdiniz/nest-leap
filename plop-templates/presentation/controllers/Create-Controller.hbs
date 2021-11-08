@@ -8,9 +8,9 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { Create{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
-import { Create{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
-import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+import { Create{{name}}Usecase } from '@/domain/usecases/{{dashCase name}}';
+import { Create{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{dashCase name}}';
+import { Create{{name}}InDatabaseServiceError } from '@/application/errors/services/{{dashCase name}}';
 
 export class Create{{name}}Controller implements Controller {
   private readonly validation: Validation;

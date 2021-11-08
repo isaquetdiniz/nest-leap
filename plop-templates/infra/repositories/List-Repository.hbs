@@ -2,11 +2,11 @@ import { PrismaClient } from '.prisma/client';
 import {
   Count{{name}}sInDatabaseRepositoryError,
   List{{name}}sInDatabaseRepositoryError,
-} from '@/application/errors/repositories/{{lowerCase name}}';
+} from '@/application/errors/repositories/{{dashCase name}}';
 import {
   Count{{name}}sInDatabaseRepository,
   List{{name}}sInDatabaseRepository,
-} from '@/application/protocols/database/repositories/{{lowerCase name}}';
+} from '@/application/protocols/database/repositories/{{dashCase name}}';
 import { prismaConnector } from '@/infra/database/orm/prisma';
 import { PrismaFormatter } from '@/infra/database/orm/prisma/repositories/prisma-formatter';
 
@@ -20,13 +20,13 @@ export class PrismaList{{name}}sInDatabaseRepository
   }
 
   async count{{name}}s(
-    {{lowerCase name}}Filter: Count{{name}}sInDatabaseRepository.Params
+    {{dashCase name}}Filter: Count{{name}}sInDatabaseRepository.Params
   ): Promise<Count{{name}}sInDatabaseRepository.Result> {
     try {
-      const {{lowerCase name}}filterObject = PrismaFormatter.formatFilter({{lowerCase name}}Filter);
+      const {{camelCase name}}filterObject = PrismaFormatter.formatFilter({{camelCase name}}Filter);
 
-      const total{{name}}s = await this.prismaConnection.{{lowerCase name}}.count({
-        where: {{lowerCase name}}filterObject,
+      const total{{name}}s = await this.prismaConnection.{{camelCase name}}.count({
+        where: {{camelCase name}}filterObject,
       });
 
       return { total{{name}}s };
@@ -40,27 +40,27 @@ export class PrismaList{{name}}sInDatabaseRepository
   }
 
   async list{{name}}(
-    {{lowerCase name}}Filter: List{{name}}sInDatabaseRepository.Params
+    {{camelCase name}}Filter: List{{name}}sInDatabaseRepository.Params
   ): Promise<List{{name}}sInDatabaseRepository.Result> {
     try {
-      const { take, skip, orderBy, ...restOf{{name}}Filters } = {{lowerCase name}}Filter;
+      const { take, skip, orderBy, ...restOf{{name}}Filters } = {{camelCase name}}Filter;
 
-      const {{lowerCase name}}FilterObject = PrismaFormatter.formatFilter(restOf{{name}}Filters);
-      const {{lowerCase name}}FindOptions = PrismaFormatter.formatFindOptions({
+      const {{camelCase name}}FilterObject = PrismaFormatter.formatFilter(restOf{{name}}Filters);
+      const {{camelCase name}}FindOptions = PrismaFormatter.formatFindOptions({
         take,
         skip,
         orderBy,
       });
 
       // @ts-ignore
-      const {{lowerCase name}}s = await this.prismaConnection.{{lowerCase name}}.findMany({
-        where: {{lowerCase name}}FilterObject,
-        ...{{lowerCase name}}FindOptions,
+      const {{camelCase name}}s = await this.prismaConnection.{{camelCase name}}.findMany({
+        where: {{camelCase name}}FilterObject,
+        ...{{camelCase name}}FindOptions,
       });
 
       const { total{{name}}s } = await this.count{{name}}s(restOf{{name}}Filters);
 
-      return { {{lowerCase name}}s, total{{name}}s };
+      return { {{camelCase name}}s, total{{name}}s };
     } catch (error) {
       const errorCatched = error as Error;
 

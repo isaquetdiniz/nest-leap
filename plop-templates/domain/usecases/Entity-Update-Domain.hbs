@@ -2,7 +2,7 @@ import { {{name}} } from '@/domain/entities/{{name}}';
 
 export interface Update{{name}}Usecase {
   update(
-    {{lowerCase name}}Params: Update{{name}}Usecase.Params
+    {{camelCase name}}Params: Update{{name}}Usecase.Params
   ): Promise<Update{{name}}Usecase.Result>;
 }
 

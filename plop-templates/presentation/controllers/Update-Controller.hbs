@@ -8,9 +8,9 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { Update{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
-import { Update{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
-import { Update{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+import { Update{{name}}Usecase } from '@/domain/usecases/{{dashCase name}}';
+import { Update{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{dashCase name}}';
+import { Update{{name}}InDatabaseServiceError } from '@/application/errors/services/{{dashCase name}}';
 
 export class Update{{name}}Controller implements Controller {
   private readonly validation: Validation;
@@ -29,9 +29,9 @@ export class Update{{name}}Controller implements Controller {
 
       if (hasError) return badRequest(hasError);
 
-      const {{lowerCase name}}Updated = await this.update{{name}}Usecase.update(httpRequest);
+      const {{camelCase name}}Updated = await this.update{{name}}Usecase.update(httpRequest);
 
-      return updated({{lowerCase name}}Updated);
+      return updated({{camelCase name}}Updated);
     } catch (error) {
       const catchedError = error as Error;
 

@@ -2,7 +2,7 @@ import { {{name}} } from '@/domain/entities';
 
 export interface Create{{name}}InDatabaseRepository {
   create{{name}}(
-    {{lowerCase name}}Params: Create{{name}}InDatabaseRepository.Params
+    {{camelCase name}}Params: Create{{name}}InDatabaseRepository.Params
   ): Promise<Create{{name}}InDatabaseRepository.Result>;
 }
 

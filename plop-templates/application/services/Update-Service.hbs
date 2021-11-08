@@ -1,6 +1,6 @@
-import { List{{name}}sUsecase, Update{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
-import { Update{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
-import { Update{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+import { List{{name}}sUsecase, Update{{name}}Usecase } from '@/domain/usecases/{{dashCase name}}';
+import { Update{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
+import { Update{{name}}InDatabaseServiceError } from '@/application/errors/services/{{dashCase name}}';
 
 type Update{{name}}InDatabaseServiceInjectables = {
   list{{name}}sUsecase: List{{name}}sUsecase;
@@ -20,11 +20,11 @@ class Update{{name}}InDatabaseService implements Update{{name}}Usecase {
   }
 
   async update(
-    {{lowerCase name}}Params: Update{{name}}Usecase.Params
+    {{camelCase name}}Params: Update{{name}}Usecase.Params
   ): Promise<Update{{name}}Usecase.Result> {
-    const { id, userRequester, ...paramsToUpdate{{name}} } = {{lowerCase name}}Params;
+    const { id, userRequester, ...paramsToUpdate{{name}} } = {{camelCase name}}Params;
 
-    const { {{lowerCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list({
+    const { {{camelCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list({
       userRequester,
       id,
     });
@@ -33,13 +33,13 @@ class Update{{name}}InDatabaseService implements Update{{name}}Usecase {
       throw new Update{{name}}InDatabaseServiceError('{{name}} not found');
     }
 
-    const [{{lowerCase name}}] = {{lowerCase name}}s;
+    const [{{camelCase name}}] = {{camelCase name}}s;
 
-    const {{lowerCase name}}Updated = {{lowerCase name}}.updateParams(paramsToUpdate{{name}});
+    const {{camelCase name}}Updated = {{camelCase name}}.updateParams(paramsToUpdate{{name}});
 
-    await this.update{{name}}InDatabaseRepository.update{{name}}({{lowerCase name}}Updated);
+    await this.update{{name}}InDatabaseRepository.update{{name}}({{camelCase name}}Updated);
 
-    return {{lowerCase name}}Updated;
+    return {{camelCase name}}Updated;
   }
 }
 

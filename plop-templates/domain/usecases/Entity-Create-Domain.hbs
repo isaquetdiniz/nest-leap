@@ -2,7 +2,7 @@ import { {{name}}, {{name}}Input } from '@/domain/entities/{{name}}';
 
 export interface Create{{name}}Usecase {
   create(
-    {{lowerCase name}}Params: Create{{name}}Usecase.Params
+    {{camelCase name}}Params: Create{{name}}Usecase.Params
   ): Promise<Create{{name}}Usecase.Result>;
 }
 

@@ -1,8 +1,8 @@
 import { Controller } from '@/presentation/http/protocols';
-import { Delete{{name}}Controller } from '@/presentation/http/controllers/{{lowerCase name}}';
+import { Delete{{name}}Controller } from '@/presentation/http/controllers/{{dashCase name}}';
 
-import { makeDelete{{name}}InDatabaseUsecase } from '@/main/factories/services/{{lowerCase name}}';
-import { makeDelete{{name}}Validation } from '@/main/factories/validation/{{lowerCase name}}';
+import { makeDelete{{name}}InDatabaseUsecase } from '@/main/factories/services/{{dashCase name}}';
+import { makeDelete{{name}}Validation } from '@/main/factories/validation/{{dashCase name}}';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 
 export const makeDelete{{name}}Controller = (): Controller => {

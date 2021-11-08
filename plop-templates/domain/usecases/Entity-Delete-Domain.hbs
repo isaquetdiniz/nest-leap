@@ -2,7 +2,7 @@ import { {{name}} } from '@/domain/entities';
 
 export interface Delete{{name}}Usecase {
   delete(
-    {{lowerCase name}}Params: Delete{{name}}Usecase.Params
+    {{camelCase name}}Params: Delete{{name}}Usecase.Params
   ): Promise<Delete{{name}}Usecase.Result>;
 }
 

@@ -1,5 +1,5 @@
-import { List{{name}}sInDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
-import { PrismaList{{name}}sInDatabaseRepository } from '@/infra/database/orm/prisma/repositories/{{lowerCase name}}';
+import { List{{name}}sInDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
+import { PrismaList{{name}}sInDatabaseRepository } from '@/infra/database/orm/prisma/repositories/{{dashCase name}}';
 
 export const makePrismaList{{name}}sInDatabaseRepository =
   (): List{{name}}sInDatabaseRepository => {

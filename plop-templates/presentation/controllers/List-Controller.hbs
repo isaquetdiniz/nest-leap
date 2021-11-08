@@ -8,11 +8,11 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
+import { List{{name}}sUsecase } from '@/domain/usecases/{{dashCase name}}';
 import {
   Count{{name}}sInDatabaseRepositoryError,
   List{{name}}sInDatabaseRepositoryError,
-} from '@/application/errors/repositories/{{lowerCase name}}';
+} from '@/application/errors/repositories/{{dashCase name}}';
 
 export class List{{name}}sController implements Controller {
   private readonly validation: Validation;
@@ -31,11 +31,11 @@ export class List{{name}}sController implements Controller {
 
       if (hasError) return badRequest(hasError);
 
-      const { {{lowerCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list(
+      const { {{camelCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list(
         httpRequest
       );
 
-      return ok({ {{lowerCase name}}s, total{{name}}s }, 'list');
+      return ok({ {{camelCase name}}s, total{{name}}s }, 'list');
     } catch (error) {
       const catchedError = error as Error;
 

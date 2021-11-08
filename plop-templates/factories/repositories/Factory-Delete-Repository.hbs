@@ -1,5 +1,5 @@
-import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
-import { PrismaDelete{{name}}InDatabaseRepository } from '@/infra/database/orm/prisma/repositories/{{lowerCase name}}';
+import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
+import { PrismaDelete{{name}}InDatabaseRepository } from '@/infra/database/orm/prisma/repositories/{{dashCase name}}';
 
 export const makePrismaDelete{{name}}InDatabaseRepository =
   (): Delete{{name}}InDatabaseRepository => {

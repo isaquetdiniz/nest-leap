@@ -2,7 +2,7 @@ import { {{name}} } from '@/domain/entities';
 
 export interface Delete{{name}}InDatabaseRepository {
   delete{{name}}(
-    {{lowerCase name}}Params: Delete{{name}}InDatabaseRepository.Params
+    {{camelCase name}}Params: Delete{{name}}InDatabaseRepository.Params
   ): Promise<Delete{{name}}InDatabaseRepository.Result>;
 }
 

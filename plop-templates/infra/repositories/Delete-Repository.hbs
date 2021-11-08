@@ -1,5 +1,5 @@
-import { Delete{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
-import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { Delete{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{dashCase name}}';
+import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
 import { prismaConnector } from '@/infra/database/orm/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -13,13 +13,13 @@ export class PrismaDelete{{name}}InDatabaseRepository
   }
 
   async delete{{name}}(
-    {{lowerCase name}}: Delete{{name}}InDatabaseRepository.Params
+    {{camelCase name}}: Delete{{name}}InDatabaseRepository.Params
   ): Promise<Delete{{name}}InDatabaseRepository.Result> {
     try {
-      const {{lowerCase name}}Id = {{lowerCase name}}.getId();
+      const {{camelCase name}}Id = {{camelCase name}}.getId();
 
-      await this.prismaConnection.{{lowerCase name}}.delete({
-        where: { id: {{lowerCase name}}Id },
+      await this.prismaConnection.{{camelCase name}}.delete({
+        where: { id: {{camelCase name}}Id },
       });
     } catch (error) {
       const errorCatched = error as Error;

@@ -1,13 +1,13 @@
 import { {{name}}ToJSON } from '@/domain/entities';
-import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
+import { List{{name}}sUsecase } from '@/domain/usecases/{{dashCase name}}';
 
 export interface List{{name}}sInDatabaseRepository {
   list{{name}}(
-    {{lowerCase name}}Filters: List{{name}}sInDatabaseRepository.Params
+    {{camelCase name}}Filters: List{{name}}sInDatabaseRepository.Params
   ): Promise<List{{name}}sInDatabaseRepository.Result>;
 }
 
 export namespace List{{name}}sInDatabaseRepository {
   export type Params = List{{name}}sUsecase.Params;
-  export type Result = { {{lowerCase name}}s: {{name}}ToJSON[]; total{{name}}s: number };
+  export type Result = { {{camelCase name}}s: {{name}}ToJSON[]; total{{name}}s: number };
 }

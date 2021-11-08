@@ -1,8 +1,8 @@
-import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
+import { List{{name}}sUsecase } from '@/domain/usecases/{{dashCase name}}';
 
 export interface Count{{name}}sInDatabaseRepository {
   count{{name}}s(
-    {{lowerCase name}}Filters: Count{{name}}sInDatabaseRepository.Params
+    {{camelCase name}}Filters: Count{{name}}sInDatabaseRepository.Params
   ): Promise<Count{{name}}sInDatabaseRepository.Result>;
 }
 

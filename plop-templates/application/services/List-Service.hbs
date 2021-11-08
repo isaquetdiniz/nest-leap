@@ -1,5 +1,5 @@
-import { List{{name}}sUsecase } from '@/domain/usecases/{{lowerCase name}}';
-import { List{{name}}sInDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { List{{name}}sUsecase } from '@/domain/usecases/{{dashCase name}}';
+import { List{{name}}sInDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
 import { {{name}} } from '@/domain/entities';
 
 type List{{name}}sInDatabaseServiceInjectables = {
@@ -16,20 +16,20 @@ class List{{name}}sInDatabaseService implements List{{name}}sUsecase {
   }
 
   async list(
-    {{lowerCase name}}Filters: List{{name}}sUsecase.Params
+    {{camelCase name}}Filters: List{{name}}sUsecase.Params
   ): Promise<List{{name}}sUsecase.Result> {
-    const { userRequester, ...rest{{name}}Filters } = {{lowerCase name}}Filters;
+    const { userRequester, ...rest{{name}}Filters } = {{camelCase name}}Filters;
 
-    const { {{lowerCase name}}s, total{{name}}s } =
+    const { {{camelCase name}}s, total{{name}}s } =
       await this.list{{name}}sInDatabaseRepository.list{{name}}(rest{{name}}Filters);
 
     if (total{{name}}s === 0) {
-      return { {{lowerCase name}}s: [], total{{name}}s: 0 };
+      return { {{camelCase name}}s: [], total{{name}}s: 0 };
     }
 
-    const {{lowerCase name}}sEntities = {{lowerCase name}}s.map(({{lowerCase name}}Inputs) => new {{name}}({{lowerCase name}}Inputs));
+    const {{camelCase name}}sEntities = {{camelCase name}}s.map(({{camelCase name}}Inputs) => new {{name}}({{camelCase name}}Inputs));
 
-    return { {{lowerCase name}}s: {{lowerCase name}}sEntities, total{{name}}s };
+    return { {{camelCase name}}s: {{camelCase name}}sEntities, total{{name}}s };
   }
 }
 

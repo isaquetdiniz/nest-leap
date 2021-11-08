@@ -1,6 +1,6 @@
-import { List{{name}}sUsecase, Delete{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
-import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
-import { Delete{{name}}InDatabaseServiceError } from '@/application/errors/services/{{lowerCase name}}';
+import { List{{name}}sUsecase, Delete{{name}}Usecase } from '@/domain/usecases/{{dashCase name}}';
+import { Delete{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
+import { Delete{{name}}InDatabaseServiceError } from '@/application/errors/services/{{dashCase name}}';
 
 type Delete{{name}}InDatabaseServiceInjectables = {
   list{{name}}sUsecase: List{{name}}sUsecase;
@@ -20,11 +20,11 @@ class Delete{{name}}InDatabaseService implements Delete{{name}}Usecase {
   }
 
   async delete(
-    {{lowerCase name}}Params: Delete{{name}}Usecase.Params
+    {{camelCase name}}Params: Delete{{name}}Usecase.Params
   ): Promise<Delete{{name}}Usecase.Result> {
-    const { userRequester, id } = {{lowerCase name}}Params;
+    const { userRequester, id } = {{camelCase name}}Params;
 
-    const { {{lowerCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list({
+    const { {{camelCase name}}s, total{{name}}s } = await this.list{{name}}sUsecase.list({
       userRequester,
       id,
     });
@@ -33,9 +33,9 @@ class Delete{{name}}InDatabaseService implements Delete{{name}}Usecase {
       throw new Delete{{name}}InDatabaseServiceError('{{name}} not found');
     }
 
-    const [{{lowerCase name}}] = {{lowerCase name}}s;
+    const [{{camelCase name}}] = {{camelCase name}}s;
 
-    await this.delete{{name}}InDatabaseRepository.delete{{name}}({{lowerCase name}});
+    await this.delete{{name}}InDatabaseRepository.delete{{name}}({{camelCase name}});
   }
 }
 

@@ -1,8 +1,8 @@
-import { Create{{name}}InDatabaseService } from '@/application/services/{{lowerCase name}}';
-import { Create{{name}}Usecase } from '@/domain/usecases/{{lowerCase name}}';
-import { makePrismaCreate{{name}}InDatabaseRepository } from '@/main/factories/infra/database/orm/prisma/repositories/{{lowerCase name}}';
+import { Create{{name}}InDatabaseService } from '@/application/services/{{dashCase name}}';
+import { Create{{name}}Usecase } from '@/domain/usecases/{{dashCase name}}';
+import { makePrismaCreate{{name}}InDatabaseRepository } from '@/main/factories/infra/database/orm/prisma/repositories/{{dashCase name}}';
 import { makeUUIDGeneratorAdapter } from '@/main/factories/infra/uuid';
-import { makeList{{name}}sInDatabaseUsecase } from '@/main/factories/services/{{lowerCase name}}';
+import { makeList{{name}}sInDatabaseUsecase } from '@/main/factories/services/{{dashCase name}}';
 
 export const makeCreate{{name}}InDatabaseUsecase =
   (): Create{{name}}Usecase => {

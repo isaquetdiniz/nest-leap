@@ -1,5 +1,5 @@
-import { Update{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
-import { Update{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { Update{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{dashCase name}}';
+import { Update{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
 import { prismaConnector } from '@/infra/database/orm/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -13,12 +13,12 @@ export class PrismaUpdate{{name}}InDatabaseRepository
   }
 
   async update{{name}}(
-    {{lowerCase name}}ToUpdate: Update{{name}}InDatabaseRepository.Params
+    {{camelCase name}}ToUpdate: Update{{name}}InDatabaseRepository.Params
   ): Promise<Update{{name}}InDatabaseRepository.Result> {
     try {
-      const { id, ...restOf{{name}}InJSON } = {{lowerCase name}}ToUpdate.toJSON();
+      const { id, ...restOf{{name}}InJSON } = {{camelCase name}}ToUpdate.toJSON();
 
-      await this.prismaConnection.{{lowerCase name}}.update({
+      await this.prismaConnection.{{camelCase name}}.update({
         where: { id },
         data: restOf{{name}}InJSON,
       });

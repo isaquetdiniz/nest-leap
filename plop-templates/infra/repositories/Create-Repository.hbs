@@ -1,5 +1,5 @@
-import { Create{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{lowerCase name}}';
-import { Create{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{lowerCase name}}';
+import { Create{{name}}InDatabaseRepositoryError } from '@/application/errors/repositories/{{dashCase name}}';
+import { Create{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
 import { prismaConnector } from '@/infra/database/orm/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -13,14 +13,14 @@ export class PrismaCreate{{name}}InDatabaseRepository
   }
 
   async create{{name}}(
-    {{lowerCase name}}Params: Create{{name}}InDatabaseRepository.Params
+    {{camelCase name}}Params: Create{{name}}InDatabaseRepository.Params
   ): Promise<Create{{name}}InDatabaseRepository.Result> {
     try {
-      const {{lowerCase name}} = {{lowerCase name}}Params;
-      const {{lowerCase name}}ParamsInJSON = {{lowerCase name}}.toJSON();
+      const {{camelCase name}} = {{camelCase name}}Params;
+      const {{camelCase name}}ParamsInJSON = {{camelCase name}}.toJSON();
 
-      await this.prismaConnection.{{lowerCase name}}.create({
-        data: {{lowerCase name}}ParamsInJSON,
+      await this.prismaConnection.{{camelCase name}}.create({
+        data: {{camelCase name}}ParamsInJSON,
       });
     } catch (error) {
       const errorCatched = error as Error;
