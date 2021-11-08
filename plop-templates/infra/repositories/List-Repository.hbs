@@ -54,6 +54,7 @@ export class PrismaList{{name}}sInDatabaseRepository
 
       // @ts-ignore
       const {{camelCase name}}s = await this.prismaConnection.{{camelCase name}}.findMany({
+        // @ts-ignore
         where: {{camelCase name}}FilterObject,
         ...{{camelCase name}}FindOptions,
       });
