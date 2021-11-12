@@ -8,7 +8,7 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { ListUsersUsecase } from '@/domain/usecases/user';
+import { ListUsersUsecase } from '@/domain/user/usecases/user';
 import {
   CountUsersInDatabaseRepositoryError,
   ListUsersInDatabaseRepositoryError,

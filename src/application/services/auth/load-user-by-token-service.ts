@@ -3,7 +3,7 @@ import {
   LoadUserByTokenCloudUsecase,
   LoadUserByTokenUsecase,
 } from '@/application/usecases/auth';
-import { ListUsersUsecase } from '@/domain/usecases/user';
+import { ListUsersUsecase } from '@/domain/user/usecases/user';
 
 type LoadUserByTokenServiceInjectables = {
   loadUserByTokenCloudUsecase: LoadUserByTokenCloudUsecase;

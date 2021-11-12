@@ -2,7 +2,7 @@ import { FirstLoginCloudServiceError } from '@/application/errors/services/auth'
 import { FirstLoginInCloudProvider } from '@/application/protocols/cloud/auth';
 import { ListUserInCloudProvider } from '@/application/protocols/cloud/user';
 import { FirstLoginUsecase, LoginUsecase } from '@/application/usecases/auth';
-import { ListUsersUsecase } from '@/domain/usecases/user';
+import { ListUsersUsecase } from '@/domain/user/usecases/user';
 
 type FirstLoginCloudServiceInjectables = {
   listUsersUsecase: ListUsersUsecase;

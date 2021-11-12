@@ -1,6 +1,9 @@
 import { Controller, HttpResponse } from '@/presentation/http/protocols';
 
-import { LoggerErrorCloud, LoggerLocal } from '@/application/protocols/logs';
+import {
+  LoggerErrorCloud,
+  LoggerLocal,
+} from '@/domain/usecases/protocols/logs';
 export class LogControllerDecorator implements Controller {
   private readonly controller: Controller;
   private readonly loggerErrorCloud: LoggerErrorCloud;

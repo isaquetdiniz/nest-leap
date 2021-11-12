@@ -3,7 +3,7 @@ import { ForgotPasswordCloudServiceError } from '@/application/errors/services/a
 import { ForgotPasswordInCloudProvider } from '@/application/protocols/cloud/auth';
 import { ListUserInCloudProvider } from '@/application/protocols/cloud/user';
 import { ForgotPasswordUsecase } from '@/application/usecases/auth';
-import { ListUsersUsecase } from '@/domain/usecases/user';
+import { ListUsersUsecase } from '@/domain/user/usecases/user';
 
 type ForgotPasswordCloudServiceInjectables = {
   listUserInCloudProvider: ListUserInCloudProvider;

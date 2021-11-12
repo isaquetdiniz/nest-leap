@@ -8,7 +8,7 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { DeleteUserUsecase } from '@/domain/usecases/user';
+import { DeleteUserUsecase } from '@/domain/user/usecases/user';
 import { DeleteUserInDatabaseRepositoryError } from '@/application/errors/repositories/user';
 import { DeleteUserInDatabaseServiceError } from '@/application/errors/services/user';
 

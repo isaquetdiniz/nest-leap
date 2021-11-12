@@ -8,7 +8,7 @@ import {
 } from '@/presentation/http/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
-import { CreateUserUsecase } from '@/domain/usecases/user';
+import { CreateUserUsecase } from '@/domain/user/usecases/user';
 import { CreateUserInDatabaseRepositoryError } from '@/application/errors/repositories/user';
 import { CreateUserInDatabaseServiceError } from '@/application/errors/services/user';
 import { CreateUserInCloudProviderError } from '@/application/errors/cloud/user';

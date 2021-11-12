@@ -2,7 +2,7 @@ import { LoginCloudServiceError } from '@/application/errors/services/auth';
 import { LoginInCloudProvider } from '@/application/protocols/cloud/auth';
 import { ListUserInCloudProvider } from '@/application/protocols/cloud/user';
 import { LoginUsecase } from '@/application/usecases/auth';
-import { ListUsersUsecase } from '@/domain/usecases/user';
+import { ListUsersUsecase } from '@/domain/user/usecases/user';
 
 type LoginCloudServiceInjectables = {
   listUsersUsecase: ListUsersUsecase;
