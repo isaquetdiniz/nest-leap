@@ -99,4 +99,4 @@ class User {
   }
 }
 
-export { User, UserInput, UserData };
+export { User };

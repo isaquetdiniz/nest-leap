@@ -7,6 +7,6 @@ export interface CreateUserInDatabaseUsecase {
 }
 
 export namespace CreateUserInDatabaseUsecase {
-  export type Params = Omit<UserInput, 'id'> & { userRequester: User };
+  export type Params = Omit<UserInput, 'id'> & { userRequester?: User };
   export type Result = UserData;
 }

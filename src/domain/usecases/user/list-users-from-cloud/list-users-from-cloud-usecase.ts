@@ -9,5 +9,5 @@ export namespace ListUsersFromCloudUsecase {
     email: string;
   };
 
-  export type Result = { usersFromCloud: { email: string }[] };
+  export type Result = { usersFromCloud: { status: string; email: string }[] };
 }
