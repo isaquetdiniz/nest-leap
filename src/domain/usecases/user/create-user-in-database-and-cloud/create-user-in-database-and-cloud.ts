@@ -1,6 +1,5 @@
 import {
   DeleteUserFromDatabaseUsecase,
-  DeleteUserFromCloudUsecase,
   CreateUserInCloudUsecase,
   CreateUserInDatabaseUsecase,
 } from '@/domain/usecases/user';
@@ -11,7 +10,6 @@ type CreateUserInDatabaseAndCloudInjectables = {
   createUserInDatabaseUsecase: CreateUserInDatabaseUsecase;
   createUserInCloudUsecase: CreateUserInCloudUsecase;
   deleteUserFromDatabaseUsecase: DeleteUserFromDatabaseUsecase;
-  deleteUserFromCloudUsecase: DeleteUserFromCloudUsecase;
 };
 
 class CreateUserInDatabaseAndCloud

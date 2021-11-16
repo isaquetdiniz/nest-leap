@@ -1,6 +1,6 @@
 import { Controller } from '@/application/http-server/protocols';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
-import { makeForgotPasswordCloudService } from '@/main/factories/services/auth';
+import { makeForgotPasswordCloudService } from '@/main/factories/usecases/auth';
 import { makeForgotPasswordValidation } from '@/main/factories/validation/auth';
 import { ForgotPasswordController } from '@/application/http-server/controllers/auth';
 

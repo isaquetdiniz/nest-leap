@@ -2,10 +2,11 @@ import { SaveUserInCloudRepository } from './protocols';
 import { CreateUserInCloudUsecase } from './create-user-in-cloud-usecase';
 import { ListUsersFromCloudUsecase } from '@/domain/usecases/user';
 import { CreateUserInCloudError } from './errors';
+import { ListUsersFromCloudRepository } from '../list-users-from-cloud/protocols';
 
 type CreateUserInCloudInjectables = {
   saveUserInCloudRepository: SaveUserInCloudRepository;
-  listUsersFromCloudUsecase: ListUsersFromCloudUsecase;
+  listUsersFromCloudUsecase: ListUsersFromCloudRepository;
 };
 
 class CreateUserInCloud implements CreateUserInCloudUsecase {

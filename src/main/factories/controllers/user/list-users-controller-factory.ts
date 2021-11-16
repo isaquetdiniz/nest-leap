@@ -1,7 +1,7 @@
 import { Controller } from '@/application/http-server/protocols';
 import { ListUsersController } from '@/application/http-server/controllers/user';
 
-import { makeListUsersUsecase } from '@/main/factories/services/user';
+import { makeListUsersUsecase } from '@/main/factories/usecases/user';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 import { makeListUsersValidation } from '@/main/factories/validation/user';
 

@@ -4,8 +4,8 @@ import {
   makeCognitoFirstLoginInCloudProvider,
   makeCognitoListUserInCloudProvider,
 } from '@/main/factories/infra/cloud/cognito';
-import { makeListUsersUsecase } from '@/main/factories/services/user';
-import { makeLoginCloudService } from '@/main/factories/services/auth';
+import { makeListUsersUsecase } from '@/main/factories/usecases/user';
+import { makeLoginCloudService } from '@/main/factories/usecases/auth';
 
 export const makeFirstLoginCloudService = (): FirstLoginUsecase => {
   const listUsersUsecase = makeListUsersUsecase();

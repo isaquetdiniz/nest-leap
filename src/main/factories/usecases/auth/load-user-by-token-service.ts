@@ -1,7 +1,7 @@
 import { LoadUserByTokenUsecase } from '@/domain/usecases/auth';
 import { LoadUserByTokenService } from '@/application/services/auth';
-import { makeLoadUserByTokenCloudService } from '@/main/factories/services/auth';
-import { makeListUsersUsecase } from '@/main/factories/services/user';
+import { makeLoadUserByTokenCloudService } from '@/main/factories/usecases/auth';
+import { makeListUsersUsecase } from '@/main/factories/usecases/user';
 
 export const makeLoadUserByTokenService = (): LoadUserByTokenUsecase => {
   const loadUserByTokenCloudUsecase = makeLoadUserByTokenCloudService();

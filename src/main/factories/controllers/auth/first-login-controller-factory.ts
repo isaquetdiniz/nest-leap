@@ -1,6 +1,6 @@
 import { Controller } from '@/application/http-server/protocols';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
-import { makeFirstLoginCloudService } from '@/main/factories/services/auth';
+import { makeFirstLoginCloudService } from '@/main/factories/usecases/auth';
 import { makeFirstLoginValidation } from '@/main/factories/validation/auth';
 import { FirstLoginController } from '@/application/http-server/controllers/auth';
 

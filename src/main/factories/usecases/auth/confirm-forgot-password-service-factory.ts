@@ -5,7 +5,7 @@ import {
   makeCognitoListUserInCloudProvider,
   makeCognitoLoginInCloudProvider,
 } from '@/main/factories/infra/cloud/cognito';
-import { makeListUsersUsecase } from '@/main/factories/services/user';
+import { makeListUsersUsecase } from '@/main/factories/usecases/user';
 
 export const makeConfirmForgotPasswordCloudService =
   (): ConfirmForgotPasswordUsecase => {
