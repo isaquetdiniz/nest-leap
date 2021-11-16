@@ -4,9 +4,14 @@ import setupMiddlewares from './middlewares';
 import setupRoutes from './routes';
 import setupSwagger from './swagger';
 
+import { env } from '@/main/config';
+
 const app = express();
 
-setupSwagger(app);
+if (env.application.mode !== 'production') {
+  setupSwagger(app);
+}
+
 setupMiddlewares(app);
 setupRoutes(app);
 
