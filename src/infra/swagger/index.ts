@@ -1,6 +1,6 @@
-import { tags, servers, securitySchemes } from '@/main/docs/helpers';
+import { tags, servers, securitySchemes } from '@/infra/swagger/helpers';
 
-import { authPaths, userPaths } from '@/main/docs/paths';
+import { authPaths, userPaths } from '@/infra/swagger/docs/paths';
 
 import {
   loginSchema,
@@ -8,7 +8,7 @@ import {
   firstAccessSchema,
   createUserSchema,
   updateUserSchema,
-} from '@/main/docs/schemas';
+} from '@/infra/swagger/docs/schemas';
 
 export default {
   openapi: '3.0.0',

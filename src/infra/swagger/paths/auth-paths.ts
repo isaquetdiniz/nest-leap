@@ -1,4 +1,4 @@
-import { responses } from '@/main/docs/helpers';
+import { responses } from '@/infra/swagger/helpers';
 
 export const authPaths = {
   '/auth/first-login': {

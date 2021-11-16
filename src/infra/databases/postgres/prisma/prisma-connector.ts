@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import prismaEnviroment from './prisma-enviroment';
 
 class PrismaConnector {
-  private readonly url: string = `postgresql://${prismaEnviroment.databaseUsername}:${prismaEnviroment.databaseUserPassword}@${prismaEnviroment.databaseHost}:${prismaEnviroment.databasePort}/${prismaEnviroment.databaseName}?schema=public`;
+  private readonly url: string = prismaEnviroment.url;
   client: null | PrismaClient = null;
 
   connect(): PrismaClient {

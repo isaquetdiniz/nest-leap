@@ -1,6 +1,6 @@
-import 'dotenv/config';
+import { env } from '@/main/config';
 
 export default {
-  dns: process.env.SENTRY_URL as string,
-  environment: process.env.environment as string,
+  dns: env.logs.sentry.url,
+  environment: env.application.mode,
 };

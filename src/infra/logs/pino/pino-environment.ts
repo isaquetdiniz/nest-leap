@@ -1,7 +1,8 @@
-import 'dotenv/config';
+import { env } from '@/main/config';
 
 export default {
-  enabled: process.env.environment !== 'test',
-  level: process.env.environment === 'production' ? 'info' : 'debug',
-  pretty: process.env.environment === 'development',
+  enabled: env.application.mode !== 'test',
+  level: env.application.mode === 'production' ? 'info' : 'debug',
+  pretty:
+    env.application.mode === 'development' || env.application.mode === 'local',
 };
