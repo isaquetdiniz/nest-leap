@@ -1,10 +1,10 @@
 import 'module-alias/register';
 
-import env from '@/main/config/env';
+import { env } from '@/main/config';
 
 import { prismaConnector } from '@/infra/databases/postgres/prisma';
 
-import httpServer from '@/main/config/http-server';
+import { expressHttpServer } from '@/infra/express';
 
 import { makePinoLoggerLocalAdapter } from './factories/infra/logs/pino';
 import { makeSentryLoggerErrorCloudAdapter } from './factories/infra/logs/sentry';
@@ -40,18 +40,19 @@ process.on('uncaughtException', (error) => {
 async function main() {
   try {
     prismaConnector.connect();
-    loggerLocal.logInfo(`Prisma connect with success to ${env.databaseUrl}`);
+    loggerLocal.logInfo(
+      `Prisma connect with success to ${env.databases.postgres.url}`
+    );
 
-    httpServer.listen(env.port, () =>
+    expressHttpServer.listen(env.httpServer.port, () =>
       loggerLocal.logInfo(`Server runing at http://localhost:${env.port}`)
     );
 
-    // eslint-disable-next-line no-undef
     const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
     exitSignals.map((sig) =>
       process.on(sig, async () => {
         try {
-          httpServer.close();
+          expressHttpServer.close();
           await prismaConnector.disconnect();
 
           loggerLocal.logInfo('App exit with success');

@@ -19,5 +19,8 @@
     "rules": {
        "no-redeclare": "off",
        "import/export": "off"
+    },
+    "globals": {
+      "NodeJS": true
     }
 }
