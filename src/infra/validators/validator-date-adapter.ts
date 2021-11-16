@@ -1,4 +1,4 @@
-import { DateValidator } from '@/presentation/validation/protocols';
+import { DateValidator } from '@/application/validation/protocols';
 import validator from 'validator';
 
 export class ValidatorDateAdapter implements DateValidator {

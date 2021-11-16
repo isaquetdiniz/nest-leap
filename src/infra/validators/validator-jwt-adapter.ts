@@ -1,4 +1,4 @@
-import { JWTValidator } from '@/presentation/validation/protocols';
+import { JWTValidator } from '@/application/validation/protocols';
 
 import validator from 'validator';
 

@@ -1,5 +1,5 @@
-import { Controller } from '@/presentation/http/protocols';
-import { DeleteUserController } from '@/presentation/http/controllers/user';
+import { Controller } from '@/application/http-server/protocols';
+import { DeleteUserController } from '@/application/http-server/controllers/user';
 
 import { makeDeleteUserUsecase } from '@/main/factories/services/user';
 import { makeDeleteUserValidation } from '@/main/factories/validation/user';

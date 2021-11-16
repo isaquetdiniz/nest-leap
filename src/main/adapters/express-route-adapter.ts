@@ -1,4 +1,4 @@
-import { Controller } from '@/presentation/http/protocols';
+import { Controller } from '@/application/http-server/protocols';
 
 import { Request, Response } from 'express';
 import { convertProperties } from './express-query-converter';

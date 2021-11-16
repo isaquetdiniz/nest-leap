@@ -1,4 +1,4 @@
-import { CpfValidator } from '@/presentation/validation/protocols';
+import { CpfValidator } from '@/application/validation/protocols';
 
 export class ValidatorCpfAdapter implements CpfValidator {
   validate(cpf: CpfValidator.Params): CpfValidator.Result {

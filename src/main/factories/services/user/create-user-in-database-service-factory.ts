@@ -1,5 +1,5 @@
 import { CreateUserInDatabaseService } from '@/application/services/user';
-import { CreateUserInDatabaseUsecase } from '@/application/usecases/user';
+import { CreateUserInDatabaseUsecase } from '@/domain/usecases/user';
 import { makePrismaCreateUserInDatabaseRepository } from '@/main/factories/infra/database/orm/prisma/repositories/user';
 import { makeUUIDGeneratorAdapter } from '@/main/factories/infra/uuid';
 import { makeListUsersUsecase } from '@/main/factories/services/user';

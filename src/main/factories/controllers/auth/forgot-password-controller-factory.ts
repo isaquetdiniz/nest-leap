@@ -1,8 +1,8 @@
-import { Controller } from '@/presentation/http/protocols';
+import { Controller } from '@/application/http-server/protocols';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 import { makeForgotPasswordCloudService } from '@/main/factories/services/auth';
 import { makeForgotPasswordValidation } from '@/main/factories/validation/auth';
-import { ForgotPasswordController } from '@/presentation/http/controllers/auth';
+import { ForgotPasswordController } from '@/application/http-server/controllers/auth';
 
 export const makeForgotPasswordController = (): Controller => {
   const forgotPasswordUsecase = makeForgotPasswordCloudService();

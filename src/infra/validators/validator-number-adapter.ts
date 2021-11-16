@@ -1,4 +1,4 @@
-import { NumberValidator } from '@/presentation/validation/protocols';
+import { NumberValidator } from '@/application/validation/protocols';
 
 export class ValidatorNumberAdapter implements NumberValidator {
   validate(number: NumberValidator.Params): any {

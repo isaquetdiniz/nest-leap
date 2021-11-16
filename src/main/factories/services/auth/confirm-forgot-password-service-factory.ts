@@ -1,5 +1,5 @@
 import { ConfirmForgotPasswordCloudService } from '@/application/services/auth';
-import { ConfirmForgotPasswordUsecase } from '@/application/usecases/auth';
+import { ConfirmForgotPasswordUsecase } from '@/domain/usecases/auth';
 import {
   makeCognitoConfirmForgotPasswordInCloudProvider,
   makeCognitoListUserInCloudProvider,

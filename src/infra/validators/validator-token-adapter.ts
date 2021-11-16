@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-import { TokenValidator } from '@/presentation/validation/protocols';
+import { TokenValidator } from '@/application/validation/protocols';
 
 export class ValidatorTokenAdapter implements TokenValidator {
   validate(token: TokenValidator.Params): TokenValidator.Result {

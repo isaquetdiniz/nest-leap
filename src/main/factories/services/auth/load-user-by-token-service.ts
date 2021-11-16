@@ -1,4 +1,4 @@
-import { LoadUserByTokenUsecase } from '@/application/usecases/auth';
+import { LoadUserByTokenUsecase } from '@/domain/usecases/auth';
 import { LoadUserByTokenService } from '@/application/services/auth';
 import { makeLoadUserByTokenCloudService } from '@/main/factories/services/auth';
 import { makeListUsersUsecase } from '@/main/factories/services/user';

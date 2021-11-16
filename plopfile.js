@@ -197,27 +197,27 @@ module.exports = function (plop) {
     },
     {
       type: 'add',
-      path: 'src/presentation/http/controllers/{{dashCase name}}/create-{{dashCase name}}-controller.ts',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/create-{{dashCase name}}-controller.ts',
       templateFile: 'plop-templates/presentation/controllers/Create-Controller.hbs'
     },
     {
       type: 'add',
-      path: 'src/presentation/http/controllers/{{dashCase name}}/list-{{dashCase name}}-controller.ts',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/list-{{dashCase name}}-controller.ts',
       templateFile: 'plop-templates/presentation/controllers/List-Controller.hbs'
     },
     {
       type: 'add',
-      path: 'src/presentation/http/controllers/{{dashCase name}}/update-{{dashCase name}}-controller.ts',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/update-{{dashCase name}}-controller.ts',
       templateFile: 'plop-templates/presentation/controllers/Update-Controller.hbs'
     },
     {
       type: 'add',
-      path: 'src/presentation/http/controllers/{{dashCase name}}/delete-{{dashCase name}}-controller.ts',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/delete-{{dashCase name}}-controller.ts',
       templateFile: 'plop-templates/presentation/controllers/Delete-Controller.hbs'
     },
     {
       type: 'add',
-      path: 'src/presentation/http/controllers/{{dashCase name}}/index.ts',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/index.ts',
       templateFile: 'plop-templates/presentation/controllers/Controller-Index.hbs'
     },
     {

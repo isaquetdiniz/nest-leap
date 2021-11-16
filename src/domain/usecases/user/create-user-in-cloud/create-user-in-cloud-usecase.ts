@@ -8,5 +8,6 @@ export namespace CreateUserInCloudUsecase {
   export type Params = {
     email: string;
   };
+
   export type Result = void;
 }

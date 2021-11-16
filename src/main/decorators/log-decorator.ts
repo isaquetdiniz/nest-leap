@@ -1,4 +1,4 @@
-import { Controller, HttpResponse } from '@/presentation/http/protocols';
+import { Controller, HttpResponse } from '@/application/http-server/protocols';
 
 import {
   LoggerErrorCloud,

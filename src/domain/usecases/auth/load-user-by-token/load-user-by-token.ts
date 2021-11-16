@@ -1,7 +1,7 @@
 import { LoadUserByTokenError } from './errors';
 import { LoadUserByTokenUsecase } from './load-user-by-token-usecase';
 import { ListUsersFromDatabaseUsecase } from '@/domain/usecases/user';
-import { LoadUserByTokenCloudUsecase } from '@/application/usecases/auth';
+import { LoadUserByTokenCloudUsecase } from '@/domain/usecases/auth';
 
 type LoadUserByTokenInjectables = {
   loadUserByTokenInCloudUsecase: LoadUserByTokenCloudUsecase;

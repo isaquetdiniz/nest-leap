@@ -1,5 +1,5 @@
-import { Controller } from '@/presentation/http/protocols';
-import { CreateUserController } from '@/presentation/http/controllers/user';
+import { Controller } from '@/application/http-server/protocols';
+import { CreateUserController } from '@/application/http-server/controllers/user';
 
 import { makeCreateUserUsecase } from '@/main/factories/services/user';
 import { makeCreateUserValidation } from '@/main/factories/validation/user';

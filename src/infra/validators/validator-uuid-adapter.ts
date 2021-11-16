@@ -1,4 +1,4 @@
-import { UuidValidator } from '@/presentation/validation/protocols';
+import { UuidValidator } from '@/application/validation/protocols';
 
 import validator from 'validator';
 

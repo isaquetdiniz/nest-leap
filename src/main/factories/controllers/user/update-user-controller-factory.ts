@@ -1,5 +1,5 @@
-import { Controller } from '@/presentation/http/protocols';
-import { UpdateUserController } from '@/presentation/http/controllers/user';
+import { Controller } from '@/application/http-server/protocols';
+import { UpdateUserController } from '@/application/http-server/controllers/user';
 
 import { makeUpdateUserUsecase } from '@/main/factories/services/user';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';

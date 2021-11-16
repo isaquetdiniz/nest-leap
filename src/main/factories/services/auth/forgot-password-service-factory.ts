@@ -1,4 +1,4 @@
-import { ForgotPasswordUsecase } from '@/application/usecases/auth';
+import { ForgotPasswordUsecase } from '@/domain/usecases/auth';
 import {
   makeCognitoForgotPasswordInCloudProvider,
   makeCognitoListUserInCloudProvider,

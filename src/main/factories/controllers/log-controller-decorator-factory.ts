@@ -1,4 +1,4 @@
-import { Controller } from '@/presentation/http/protocols';
+import { Controller } from '@/application/http-server/protocols';
 import { LogControllerDecorator } from '@/main/decorators';
 import { makeSentryLoggerErrorCloudAdapter } from '@/main/factories/infra/logs/sentry';
 import { makePinoLoggerLocalAdapter } from '@/main/factories/infra/logs/pino';

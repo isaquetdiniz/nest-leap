@@ -1,4 +1,4 @@
-import { NameValidator } from '@/presentation/validation/protocols';
+import { NameValidator } from '@/application/validation/protocols';
 
 import validator from 'validator';
 

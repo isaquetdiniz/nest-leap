@@ -1,5 +1,5 @@
 import { LoginCloudService } from '@/application/services/auth';
-import { LoginUsecase } from '@/application/usecases/auth';
+import { LoginUsecase } from '@/domain/usecases/auth';
 import {
   makeCognitoListUserInCloudProvider,
   makeCognitoLoginInCloudProvider,

@@ -1,8 +1,8 @@
-import { Controller } from '@/presentation/http/protocols';
+import { Controller } from '@/application/http-server/protocols';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 import { makeFirstLoginCloudService } from '@/main/factories/services/auth';
 import { makeFirstLoginValidation } from '@/main/factories/validation/auth';
-import { FirstLoginController } from '@/presentation/http/controllers/auth';
+import { FirstLoginController } from '@/application/http-server/controllers/auth';
 
 export const makeFirstFirstLoginController = (): Controller => {
   const firstLoginUsecase = makeFirstLoginCloudService();

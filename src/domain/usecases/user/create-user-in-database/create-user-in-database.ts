@@ -2,27 +2,27 @@ import { CreateUserInDatabaseUsecase } from './create-user-in-database-usecase';
 import { SaveUserInDatabaseRepository } from './protocols';
 import { UUIDGenerator } from '@/domain/usecases/protocols/uuid';
 import { User } from '@/domain/entities/user';
-import { ListUsersUsecase } from '@/domain/usecases/user';
+import { ListUsersFromDatabaseUsecase } from '@/domain/usecases/user';
 import { CreateUserInDatabaseError } from './errors/create-user-in-database-error';
 
 type CreateUserInjectables = {
   saveUserInDatabaseRepository: SaveUserInDatabaseRepository;
-  listUsersUsecase: ListUsersUsecase;
+  listUsersFromDatabaseUsecase: ListUsersFromDatabaseUsecase;
   UUIDGenerator: UUIDGenerator;
 };
 
 class CreateUserInDatabase implements CreateUserInDatabaseUsecase {
   private readonly saveUserInDatabaseRepository: SaveUserInDatabaseRepository;
-  private readonly listUsersUsecase: ListUsersUsecase;
+  private readonly listUsersFromDatabaseUsecase: ListUsersFromDatabaseUsecase;
   private readonly UUIDGenerator: UUIDGenerator;
 
   constructor({
     saveUserInDatabaseRepository,
-    listUsersUsecase,
+    listUsersFromDatabaseUsecase,
     UUIDGenerator,
   }: CreateUserInjectables) {
     this.saveUserInDatabaseRepository = saveUserInDatabaseRepository;
-    this.listUsersUsecase = listUsersUsecase;
+    this.listUsersFromDatabaseUsecase = listUsersFromDatabaseUsecase;
     this.UUIDGenerator = UUIDGenerator;
   }
 
@@ -31,7 +31,7 @@ class CreateUserInDatabase implements CreateUserInDatabaseUsecase {
   ): Promise<CreateUserInDatabaseUsecase.Result> {
     const { userRequester, isAdmin, name, email } = userParams;
 
-    const { totalUsers } = await this.listUsersUsecase.list({
+    const { totalUsers } = await this.listUsersFromDatabaseUsecase.list({
       userRequester,
       email,
     });

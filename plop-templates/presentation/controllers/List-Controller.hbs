@@ -1,11 +1,11 @@
-import { Controller, HttpResponse } from '@/presentation/http/protocols';
+import { Controller, HttpResponse } from '@/application/http-server/protocols';
 
 import {
   badRequest,
   conflict,
   ok,
   serverError,
-} from '@/presentation/http/helpers/http-helper';
+} from '@/application/http-server/helpers/http-helper';
 
 import { Validation } from '@/presentation/validation/protocols';
 import { List{{name}}sUsecase } from '@/domain/usecases/{{dashCase name}}';

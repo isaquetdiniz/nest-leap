@@ -1,8 +1,8 @@
-import { Controller } from '@/presentation/http/protocols';
+import { Controller } from '@/application/http-server/protocols';
 import { makeLogControllerDecorator } from '@/main/factories/controllers';
 import { makeRefreshTokenCloudService } from '@/main/factories/services/auth';
 import { makeRefreshTokenValidation } from '@/main/factories/validation/auth';
-import { RefreshTokenController } from '@/presentation/http/controllers/auth';
+import { RefreshTokenController } from '@/application/http-server/controllers/auth';
 
 export const makeRefreshTokenController = (): Controller => {
   const refreshTokenUsecase = makeRefreshTokenCloudService();

@@ -1,4 +1,4 @@
-import { Validation } from '@/presentation/validation/protocols';
+import { Validation } from '@/application/validation/protocols';
 
 import {
   EmailValidation,
@@ -6,7 +6,7 @@ import {
   ValidationComposite,
   NameValidation,
   BooleanValidation,
-} from '@/presentation/validation/validators';
+} from '@/application/validation/validators';
 
 import {
   ValidatorEmailAdapter,
