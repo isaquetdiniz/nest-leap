@@ -8,7 +8,7 @@ export namespace ConfirmForgotPasswordInCloudProvider {
   export type Params = {
     email: string;
     verificationCode: string;
-    newPassword: String;
+    newPassword: string;
   };
 
   export type Result = void | Error;

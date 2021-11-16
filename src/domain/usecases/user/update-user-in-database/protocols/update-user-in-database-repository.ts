@@ -1,4 +1,3 @@
-import { UserData } from '@/domain/entities/user';
 import { UpdateUserInDatabaseUsecase } from '../update-user-in-database-usecase';
 
 export interface UpdateUserInDatabaseRepository {
@@ -12,5 +11,5 @@ export namespace UpdateUserInDatabaseRepository {
     UpdateUserInDatabaseUsecase.Params,
     'userRequester'
   >;
-  export type Result = UserData;
+  export type Result = void;
 }

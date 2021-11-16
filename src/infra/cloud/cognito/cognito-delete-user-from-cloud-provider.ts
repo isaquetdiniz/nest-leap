@@ -1,12 +1,11 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { DeleteUserFromCloudProvider } from '@/application/protocols/cloud/user';
+import { DeleteUserFromCloudRepository } from '@/domain/usecases/user/delete-user-from-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
-import { DeleteUserFromCloudProviderError } from '@/application/errors/cloud/user';
 
-export class CognitoDeleteUserFromCloudProvider
-  implements DeleteUserFromCloudProvider
+export class CognitoDeleteUserFromCloudRepository
+  implements DeleteUserFromCloudRepository
 {
   private readonly cognitoFromstance: CognitoIdentityServiceProvider;
 
@@ -21,12 +20,12 @@ export class CognitoDeleteUserFromCloudProvider
     });
   }
 
-  async deleteUser(
-    userParams: DeleteUserFromCloudProvider.Params
-  ): Promise<DeleteUserFromCloudProvider.Result> {
+  async delete(
+    userParams: DeleteUserFromCloudRepository.Params
+  ): Promise<DeleteUserFromCloudRepository.Result> {
     const { email } = userParams;
 
-    return new Promise<DeleteUserFromCloudProvider.Result>(
+    return new Promise<DeleteUserFromCloudRepository.Result>(
       (resolve, reject) => {
         this.cognitoFromstance.adminDeleteUser(
           {
@@ -35,7 +34,7 @@ export class CognitoDeleteUserFromCloudProvider
           },
           (err, data) => {
             if (err) {
-              return reject(new DeleteUserFromCloudProviderError(err.message));
+              return reject(err);
             }
 
             resolve();

@@ -1,11 +1,10 @@
-import { ListUserInCloudProviderError } from '@/application/errors/cloud/user';
-import { ListUserInCloudProvider } from '@/application/protocols/cloud/user';
+import { ListUsersFromCloudRepository } from '@/domain/usecases/user/list-users-from-cloud/protocols';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';
 
-export class CognitoListUsersInCloudProvider
-  implements ListUserInCloudProvider
+export class CognitoListUsersFromCloudRepository
+  implements ListUsersFromCloudRepository
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -20,9 +19,9 @@ export class CognitoListUsersInCloudProvider
     });
   }
 
-  async listUser(
-    userParams: ListUserInCloudProvider.Params
-  ): Promise<ListUserInCloudProvider.Result> {
+  async list(
+    userParams: ListUsersFromCloudRepository.Params
+  ): Promise<ListUsersFromCloudRepository.Result> {
     const { email } = userParams;
 
     return new Promise((resolve, reject) => {
@@ -33,7 +32,7 @@ export class CognitoListUsersInCloudProvider
         },
         (err, data) => {
           if (err) {
-            return reject(new ListUserInCloudProviderError(err.message));
+            return reject(err);
           }
 
           const {
@@ -42,7 +41,7 @@ export class CognitoListUsersInCloudProvider
             UserStatus: status,
           }: any = data;
 
-          resolve({ username, email, enabled, status });
+          resolve({ usersFromCloud: [{ username, email, enabled, status }] });
         }
       );
     });

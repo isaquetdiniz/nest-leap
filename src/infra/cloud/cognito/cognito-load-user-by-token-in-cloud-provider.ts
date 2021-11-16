@@ -1,5 +1,4 @@
-import { LoadUserByTokenInCloudProviderError } from '@/application/errors/cloud/auth';
-import { LoadUserByTokenInCloudProvider } from '@/application/protocols/cloud/auth';
+import { LoadUserByTokenInCloudProvider } from '@/domain/usecases/auth/load-user-by-token-in-cloud/protocols';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';
@@ -32,7 +31,7 @@ export class CognitoLoadUserByTokenInCloudProvider
         },
         (err, data) => {
           if (err) {
-            return reject(new LoadUserByTokenInCloudProviderError(err.message));
+            return reject(err);
           }
 
           const { Username: username, UserAttributes: attributes }: any = data;

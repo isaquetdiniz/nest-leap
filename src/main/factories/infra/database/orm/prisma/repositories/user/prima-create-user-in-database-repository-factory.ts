@@ -1,4 +1,4 @@
-import { PrismaCreateUserInDatabaseRepository } from '@/infra/database/orm/prisma/repositories/user';
+import { PrismaCreateUserInDatabaseRepository } from '@/infra/databases/postgres/prisma/repositories/user';
 
 export const makePrismaCreateUserInDatabaseRepository =
   (): PrismaCreateUserInDatabaseRepository => {

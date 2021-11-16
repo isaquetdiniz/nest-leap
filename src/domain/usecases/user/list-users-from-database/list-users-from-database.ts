@@ -1,5 +1,5 @@
 import { ListUsersFromDatabaseUsecase } from './list-users-from-database-usecase';
-import { ListUsersFromDatabaseRepository } from './protocols/list-users-from-database-repository';
+import { ListUsersFromDatabaseRepository } from './protocols';
 
 type ListeUserInjectables = {
   listUsersFromDatabaseRepository: ListUsersFromDatabaseRepository;

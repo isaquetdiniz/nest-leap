@@ -1,5 +1,4 @@
-import { ForgotPasswordInCloudProviderError } from '@/application/errors/cloud/auth';
-import { ForgotPasswordInCloudProvider } from '@/application/protocols/cloud/auth';
+import { ForgotPasswordInCloudProvider } from '@/domain/usecases/auth/forgot-password-in-cloud/protocols';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';
@@ -33,7 +32,7 @@ export class CognitoForgotPasswordInCloudProvider
         },
         (err, data) => {
           if (err) {
-            return reject(new ForgotPasswordInCloudProviderError(err.message));
+            return reject(err);
           }
 
           resolve();

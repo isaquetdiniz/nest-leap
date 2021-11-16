@@ -1,10 +1,8 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { LoginInCloudProvider } from '@/application/protocols/cloud/auth';
+import { LoginInCloudProvider } from '@/domain/usecases/auth/login-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
-import { LoginInCloudProviderError } from '@/application/errors/cloud/auth';
-
 export class CognitoLoginInCloudProvider implements LoginInCloudProvider {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -36,11 +34,11 @@ export class CognitoLoginInCloudProvider implements LoginInCloudProvider {
         },
         (err, data) => {
           if (err) {
-            return reject(new LoginInCloudProviderError(err.message));
+            return reject(err);
           }
 
           if (!data.AuthenticationResult) {
-            return reject(new LoginInCloudProviderError('Error with login'));
+            return reject(new Error('Error with login'));
           }
 
           const { AccessToken: accessToken, RefreshToken: refreshToken }: any =

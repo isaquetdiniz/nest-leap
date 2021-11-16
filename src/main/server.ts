@@ -2,7 +2,7 @@ import 'module-alias/register';
 
 import env from '@/main/config/env';
 
-import { prismaConnector } from '@/infra/database/orm/prisma';
+import { prismaConnector } from '@/infra/databases/postgres/prisma';
 
 import httpServer from '@/main/config/http-server';
 
