@@ -13,7 +13,7 @@ type FirstLoginInCloudInjectables = {
   listUsersFromDatabaseUsecase: ListUsersFromDatabaseUsecase;
   listUsersFromCloudUsecase: ListUsersFromCloudUsecase;
   firstLoginInCloudProvider: FirstLoginInCloudProvider;
-  loginInCloud: LoginInCloudUsecase;
+  loginInCloudUsecase: LoginInCloudUsecase;
 };
 
 class FirstLoginInCloud implements FirstLoginInCloudUsecase {
