@@ -85,6 +85,45 @@ const controllersActions = {
   ]
 }
 
+const prismaRepositoriesActions = {
+  generate: [
+    {
+      type: 'append',
+      path: 'src/infra/databases/postgres/prisma/schema.prisma',
+      separator: '',
+      templateFile: 'plop-templates/infra/databases/postgres/prisma/prisma-schema.hbs'
+    }
+  ],
+  create: [
+    {
+      type: 'add',
+      path: 'src/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-save-{{dashCase name}}-in-database-repository.ts',
+      templateFile: 'plop-templates/infra/databases/postgres/prisma/repositories/entity/prisma-save-entity-in-database-repository.hbs'
+    }
+  ],
+  delete: [
+    {
+      type: 'add',
+      path: 'src/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-delete-{{dashCase name}}-from-database-repository.ts',
+      templateFile: 'plop-templates/infra/databases/postgres/prisma/repositories/entity/prisma-delete-entity-from-database-repository.hbs'
+    }
+  ],
+  list: [
+    {
+      type: 'add',
+      path: 'src/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-list-{{dashCase name}}s-from-database-repository.ts',
+      templateFile: 'plop-templates/infra/databases/postgres/prisma/repositories/entity/prisma-list-entities-from-database-repository.hbs'
+    }
+  ],
+  update: [
+    {
+      type: 'add',
+      path: 'src/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-update-{{dashCase name}}-in-database-repository.ts',
+      templateFile: 'plop-templates/infra/databases/postgres/prisma/repositories/entity/prisma-update-entity-in-database-repository.hbs'
+    }
+  ]
+}
+
 
 module.exports = function (plop) {
   plop.setGenerator('Basic Entity CRUD', {
@@ -517,5 +556,52 @@ module.exports = function (plop) {
     description: 'Create controller for update entity',
     prompts: [inputName],
     actions: controllersActions.update
+  })
+
+  plop.setGenerator('[PRISMA]: CRUD for Entity', {
+    description: 'Create CRUD prisma repositories for Entity',
+    prompts: [inputName],
+    actions: [
+      ...prismaRepositoriesActions.generate,
+      ...prismaRepositoriesActions.create,
+      ...prismaRepositoriesActions.list,
+      ...prismaRepositoriesActions.update,
+      ...prismaRepositoriesActions.delete,
+      {
+        type: 'add',
+        path: 'src/infra/databases/postgres/prisma/repositories/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/infra/databases/postgres/prisma/repositories/entity/index.hbs'
+      }
+    ]
+  })
+
+  plop.setGenerator('[PRISMA]: GENERATE Entity', {
+    description: 'Generate Entity model in prisma schema',
+    prompts: [inputName],
+    actions: prismaRepositoriesActions.generate
+  })
+
+  plop.setGenerator('[PRISMA]: CREATE Entity', {
+    description: 'Create prisma repository for create entity in database',
+    prompts: [inputName],
+    actions: prismaRepositoriesActions.create
+  })
+
+  plop.setGenerator('[PRISMA]: LIST Entities', {
+    description: 'Create prisma repository for list entities in database',
+    prompts: [inputName],
+    actions: prismaRepositoriesActions.list
+  })
+
+  plop.setGenerator('[PRISMA]: DELETE Entity', {
+    description: 'Create prisma repository for delete entity from database',
+    prompts: [inputName],
+    actions: prismaRepositoriesActions.delete
+  })
+
+  plop.setGenerator('[PRISMA]: UPDATE Entity', {
+    description: 'Create prisma repository for update entity in database',
+    prompts: [inputName],
+    actions: prismaRepositoriesActions.update
   })
 }

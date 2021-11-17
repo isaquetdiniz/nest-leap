@@ -1,5 +1,5 @@
 
-model {{name}} {
+model {{pascalCase name}} {
   id                String        @id @db.Uuid @default(uuid())
   name              String
   createdAt         DateTime      @default(now()) @map("created_at")
