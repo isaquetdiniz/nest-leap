@@ -1,7 +1,7 @@
-import { CreateUserInCloudProvider } from '@/application/protocols/cloud/user';
-import { CognitoCreateUserInCloudProvider } from '@/infra/cloud/cognito';
+import { SaveUserInCloudRepository } from '@/domain/usecases/user/create-user-in-cloud/protocols';
+import { CognitoSaveUserInCloudRepository } from '@/infra/cloud/cognito';
 
-export const makeCognitoCreateUserInCloudProvider =
-  (): CreateUserInCloudProvider => {
-    return new CognitoCreateUserInCloudProvider();
+export const makeCognitoSaveUserInCloudRepository =
+  (): SaveUserInCloudRepository => {
+    return new CognitoSaveUserInCloudRepository();
   };

@@ -8,17 +8,19 @@ import {
 } from '@/application/http-server/helpers/http-helper';
 
 import { Validation } from '@/application/validation/protocols';
-import { UpdateUserUsecase } from '@/domain/user/usecases/user';
-import { UpdateUserInDatabaseRepositoryError } from '@/application/errors/repositories/user';
-import { UpdateUserInDatabaseServiceError } from '@/application/errors/services/user';
+import { UpdateUserInDatabaseUsecase } from '@/domain/usecases/user';
+import { UpdateUserInDatabaseError } from '@/domain/usecases/user/update-user-in-database/errors';
 
 export class UpdateUserController implements Controller {
   private readonly validation: Validation;
-  private readonly updateUserUsecase: UpdateUserUsecase;
+  private readonly updateUserInDatabaseUsecase: UpdateUserInDatabaseUsecase;
 
-  constructor(validation: Validation, updateUserUsecase: UpdateUserUsecase) {
+  constructor(
+    validation: Validation,
+    updateUserInDatabaseUsecase: UpdateUserInDatabaseUsecase
+  ) {
     this.validation = validation;
-    this.updateUserUsecase = updateUserUsecase;
+    this.updateUserInDatabaseUsecase = updateUserInDatabaseUsecase;
   }
 
   async handle(
@@ -29,16 +31,15 @@ export class UpdateUserController implements Controller {
 
       if (hasError) return badRequest(hasError);
 
-      const userUpdated = await this.updateUserUsecase.update(httpRequest);
+      const userUpdated = await this.updateUserInDatabaseUsecase.update(
+        httpRequest
+      );
 
       return updated(userUpdated);
     } catch (error) {
       const catchedError = error as Error;
 
-      if (
-        error instanceof UpdateUserInDatabaseServiceError ||
-        error instanceof UpdateUserInDatabaseRepositoryError
-      ) {
+      if (error instanceof UpdateUserInDatabaseError) {
         return conflict(catchedError);
       }
 
@@ -48,5 +49,5 @@ export class UpdateUserController implements Controller {
 }
 
 export namespace UpdateUserController {
-  export type Request = UpdateUserUsecase.Params;
+  export type Request = UpdateUserInDatabaseUsecase.Params;
 }

@@ -3,14 +3,14 @@ import {
   CreateUserInCloudUsecase,
 } from '@/domain/usecases/user/create-user-in-cloud';
 import {
-  makeCognitoCreateUserInCloudProvider,
-  makeCognitoListUserInCloudProvider,
+  makeCognitoSaveUserInCloudRepository,
+  makeCognitoListUsersFromCloudRepository,
 } from '@/main/factories/infra/cloud/cognito';
 
 export const makeCreateUserInCloudUsecase = (): CreateUserInCloudUsecase => {
-  const saveUserInCloudRepository = makeCognitoCreateUserInCloudProvider();
+  const saveUserInCloudRepository = makeCognitoSaveUserInCloudRepository();
 
-  const listUsersFromCloudUsecase = makeCognitoListUserInCloudProvider();
+  const listUsersFromCloudUsecase = makeCognitoListUsersFromCloudRepository();
 
   return new CreateUserInCloud({
     saveUserInCloudRepository,

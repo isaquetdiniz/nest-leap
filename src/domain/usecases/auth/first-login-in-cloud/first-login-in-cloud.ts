@@ -20,18 +20,18 @@ class FirstLoginInCloud implements FirstLoginInCloudUsecase {
   private readonly listUsersFromDatabaseUsecase: ListUsersFromDatabaseUsecase;
   private readonly listUsersFromCloudUsecase: ListUsersFromCloudUsecase;
   private readonly firstLoginInCloudProvider: FirstLoginInCloudProvider;
-  private readonly loginInCloud: LoginInCloudUsecase;
+  private readonly loginInCloudUsecase: LoginInCloudUsecase;
 
   constructor({
     listUsersFromDatabaseUsecase,
     listUsersFromCloudUsecase,
     firstLoginInCloudProvider,
-    loginInCloud,
+    loginInCloudUsecase,
   }: FirstLoginInCloudInjectables) {
     this.listUsersFromDatabaseUsecase = listUsersFromDatabaseUsecase;
     this.listUsersFromCloudUsecase = listUsersFromCloudUsecase;
     this.firstLoginInCloudProvider = firstLoginInCloudProvider;
-    this.loginInCloud = loginInCloud;
+    this.loginInCloudUsecase = loginInCloudUsecase;
   }
 
   async firstLogin(
@@ -65,7 +65,7 @@ class FirstLoginInCloud implements FirstLoginInCloudUsecase {
       temporaryPassword,
     });
 
-    const { accessToken, refreshToken } = await this.loginInCloud.login({
+    const { accessToken, refreshToken } = await this.loginInCloudUsecase.login({
       email,
       password: newPassword,
     });

@@ -4,7 +4,7 @@ RUN npm ci
 RUN npm run build:prod
 
 FROM node:lts-alpine3.13
-COPY package.json package-lock.json src/infra/database/orm/prisma/schema.prisma ./
+COPY package.json package-lock.json src/infra/databases/postgres/prisma/schema.prisma ./
 RUN npm ci --only=prod
 
 FROM node:lts-alpine3.13

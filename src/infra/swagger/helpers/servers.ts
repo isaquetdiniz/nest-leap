@@ -1,11 +1,12 @@
-import env from '@/main/config/env';
+import { env } from '@/main/config';
 
 const protocolMap = ['http', 'https'];
-const urlMap = [`localhost:${env.port}`, env.deployUrl];
+const urlMap = [`localhost:${env.httpServer.port}`, env.cors.stage.url];
 
-const protocol = env.mode === 'development' ? protocolMap[0] : protocolMap[1];
+const protocol =
+  env.application.mode === 'local' ? protocolMap[0] : protocolMap[1];
 
-const url = env.mode === 'development' ? urlMap[0] : urlMap[1];
+const url = env.application.mode === 'local' ? urlMap[0] : urlMap[1];
 
 export const servers = [
   {

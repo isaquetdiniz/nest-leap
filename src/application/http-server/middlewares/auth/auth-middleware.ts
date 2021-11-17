@@ -1,6 +1,8 @@
 import { Validation } from '@/application/validation/protocols';
 import { LoadUserByTokenUsecase } from '@/domain/usecases/auth';
 
+import { LoadUserByTokenInCloudError } from '@/domain/usecases/auth/load-user-by-token-in-cloud/errors';
+
 import { Middleware, HttpResponse } from '@/application/http-server/protocols';
 
 import {
@@ -9,11 +11,6 @@ import {
   serverError,
   unauthorized,
 } from '@/application/http-server/helpers/http-helper';
-import {
-  LoadUserByTokenCloudServiceError,
-  LoadUserByTokenServiceError,
-} from '@/domain/errors/services/auth';
-import { LoadUserByTokenInCloudProviderError } from '@/application/errors/cloud/auth';
 
 export class AuthMiddleware implements Middleware {
   private readonly validation: Validation;
@@ -45,9 +42,9 @@ export class AuthMiddleware implements Middleware {
 
       if (!user) return forbidden();
 
-      const userIsAdmin = user.getIsAdmin();
+      const { isAdmin } = user;
 
-      if (!userIsAdmin && this.role === 'ADMIN') {
+      if (!isAdmin && this.role === 'ADMIN') {
         return unauthorized();
       }
 
@@ -55,11 +52,7 @@ export class AuthMiddleware implements Middleware {
     } catch (error) {
       const catchedError = error as Error;
 
-      if (
-        error instanceof LoadUserByTokenCloudServiceError ||
-        error instanceof LoadUserByTokenInCloudProviderError ||
-        error instanceof LoadUserByTokenServiceError
-      ) {
+      if (error instanceof LoadUserByTokenInCloudError) {
         return unauthorized(catchedError);
       }
 

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { adaptRoute } from '@/main/adapters';
+import { adaptRoute } from '@/infra/express/adapters';
 
 import { makeHealthCheckController } from '@/main/factories/controllers';
 

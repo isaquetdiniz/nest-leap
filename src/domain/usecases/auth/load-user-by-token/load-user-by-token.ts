@@ -1,15 +1,15 @@
 import { LoadUserByTokenError } from './errors';
 import { LoadUserByTokenUsecase } from './load-user-by-token-usecase';
 import { ListUsersFromDatabaseUsecase } from '@/domain/usecases/user';
-import { LoadUserByTokenCloudUsecase } from '@/domain/usecases/auth';
+import { LoadUserByTokenInCloudUsecase } from '@/domain/usecases/auth';
 
 type LoadUserByTokenInjectables = {
-  loadUserByTokenInCloudUsecase: LoadUserByTokenCloudUsecase;
+  loadUserByTokenInCloudUsecase: LoadUserByTokenInCloudUsecase;
   listUsersFromDatabaseUsecase: ListUsersFromDatabaseUsecase;
 };
 
 class LoadUserByToken implements LoadUserByTokenUsecase {
-  private readonly loadUserByTokenInCloudUsecase: LoadUserByTokenCloudUsecase;
+  private readonly loadUserByTokenInCloudUsecase: LoadUserByTokenInCloudUsecase;
   private readonly listUsersFromDatabaseUsecase: ListUsersFromDatabaseUsecase;
 
   constructor({

@@ -1,7 +1,7 @@
-import { ListUsersInDatabaseRepository } from '@/application/protocols/database/repositories/user';
+import { ListUsersFromDatabaseRepository } from '@/domain/usecases/user/list-users-from-database/protocols';
 import { PrismaListUsersInDatabaseRepository } from '@/infra/databases/postgres/prisma/repositories/user';
 
-export const makePrismaListUsersInDatabaseRepository =
-  (): ListUsersInDatabaseRepository => {
+export const makePrismaListUsersFromDatabaseRepository =
+  (): ListUsersFromDatabaseRepository => {
     return new PrismaListUsersInDatabaseRepository();
   };

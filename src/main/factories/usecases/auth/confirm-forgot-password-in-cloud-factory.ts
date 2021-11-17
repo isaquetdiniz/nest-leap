@@ -2,19 +2,19 @@ import { ConfirmForgotPasswordInCloudUsecase } from '@/domain/usecases/auth';
 import { ConfirmForgotPasswordInCloud } from '@/domain/usecases/auth/confirm-forgot-password-in-cloud/confirm-forgot-password-in-cloud';
 import {
   makeCognitoConfirmForgotPasswordInCloudProvider,
-  makeCognitoListUserInCloudProvider,
+  makeCognitoListUsersFromCloudRepository,
 } from '@/main/factories/infra/cloud/cognito';
 import { makeListUsersFromDatabaseUsecase } from '@/main/factories/usecases/user';
-import { makeLoginInCloudCloudUsecase } from './login-in-cloud-factory';
+import { makeLoginInCloudUsecase } from './login-in-cloud-factory';
 
 export const makeConfirmForgotPasswordInCloudUsecase =
   (): ConfirmForgotPasswordInCloudUsecase => {
     const listUsersFromDatabaseUsecase = makeListUsersFromDatabaseUsecase();
-    const listUsersFromCloudUsecase = makeCognitoListUserInCloudProvider();
+    const listUsersFromCloudUsecase = makeCognitoListUsersFromCloudRepository();
 
     const confirmForgotPasswordInCloudProvider =
       makeCognitoConfirmForgotPasswordInCloudProvider();
-    const loginInCloudUsecase = makeLoginInCloudCloudUsecase();
+    const loginInCloudUsecase = makeLoginInCloudUsecase();
 
     return new ConfirmForgotPasswordInCloud({
       listUsersFromCloudUsecase,

@@ -2,14 +2,14 @@ import {
   CreateUserInDatabase,
   CreateUserInDatabaseUsecase,
 } from '@/domain/usecases/user/create-user-in-database';
-import { makePrismaCreateUserInDatabaseRepository } from '@/main/factories/infra/database/postgres/prisma/repositories/user';
+import { makePrismaSaveUserInDatabaseRepository } from '@/main/factories/infra/database/postgres/prisma/repositories/user';
 import { makeUUIDGeneratorAdapter } from '@/main/factories/infra/uuid';
 import { makeListUsersFromDatabaseUsecase } from '@/main/factories/usecases/user';
 
 export const makeCreateUserInDatabaseUsecase =
   (): CreateUserInDatabaseUsecase => {
     const saveUserInDatabaseRepository =
-      makePrismaCreateUserInDatabaseRepository();
+      makePrismaSaveUserInDatabaseRepository();
 
     const listUsersFromDatabaseUsecase = makeListUsersFromDatabaseUsecase();
 

@@ -1,4 +1,4 @@
-import { adaptRoute } from '@/main/adapters';
+import { adaptRoute } from '@/infra/express/adapters';
 
 import {
   makeCreateUserController,
@@ -9,7 +9,7 @@ import {
 
 import { Router } from 'express';
 
-import { authMiddleware } from '@/main/middlewares';
+import { authMiddleware } from '@/infra/express/middlewares';
 
 export default (router: Router): void => {
   router

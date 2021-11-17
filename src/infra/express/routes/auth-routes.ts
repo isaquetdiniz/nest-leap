@@ -1,4 +1,4 @@
-import { adaptRoute } from '@/main/adapters';
+import { adaptRoute } from '@/infra/express/adapters';
 
 import {
   makeConfirmForgotPasswordController,

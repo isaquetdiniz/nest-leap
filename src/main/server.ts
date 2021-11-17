@@ -45,7 +45,9 @@ async function main() {
     );
 
     expressHttpServer.listen(env.httpServer.port, () =>
-      loggerLocal.logInfo(`Server runing at http://localhost:${env.port}`)
+      loggerLocal.logInfo(
+        `Server runing at http://localhost:${env.httpServer.port}`
+      )
     );
 
     const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
