@@ -369,7 +369,7 @@ module.exports = function (plop) {
   })
 
   plop.setGenerator('Entity Create in Database Usecase', {
-    description: 'A basic entity with name and your creation in database usecase',
+    description: 'Create in database usecase for entity',
     prompts: [{
       type: 'input',
       name: 'name',
@@ -393,7 +393,7 @@ module.exports = function (plop) {
   })
 
   plop.setGenerator('Entity Delete from Database Usecase', {
-    description: 'A basic entity with name and your deletion in database usecase',
+    description: 'Delete from database usecase for entity',
     prompts: [{
       type: 'input',
       name: 'name',
@@ -405,6 +405,31 @@ module.exports = function (plop) {
         destination: 'src/domain/usecases/{{dashCase name}}/delete-{{dashCase name}}-from-database',
         base: 'plop-templates/domain/usecases/entity/delete-entity-from-database',
         templateFiles: 'plop-templates/domain/usecases/entity/delete-entity-from-database/**/*.ts'
+      },
+      /*
+      {
+          type: 'append',
+          path: 'src/domain/usecases/{{dashCase name}}/index.ts',
+          separator: '',
+          template: "export * from './delete-{{dashCase name}}-from-database';"
+      }
+      */
+    ]
+  })
+
+  plop.setGenerator('Entities List from Database Usecase', {
+    description: 'List entities from database usecase',
+    prompts: [{
+      type: 'input',
+      name: 'name',
+      message: 'Name of entity'
+    }],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/domain/usecases/{{dashCase name}}/list-{{dashCase name}}s-from-database',
+        base: 'plop-templates/domain/usecases/entity/list-entities-from-database',
+        templateFiles: 'plop-templates/domain/usecases/entity/list-entities-from-database/**/*.ts'
       },
       /*
       {
