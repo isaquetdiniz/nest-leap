@@ -1,9 +1,9 @@
-import { {{pascalCase name}}, {{pascalCase name}}Data, {{pascalCase name}}Input } from '@/domain/entities/{{dashCase name}}';
+import { {{pascalCase name}}Data, {{pascalCase name}}Input } from '@/domain/entities/{{dashCase name}}';
 import { User } from '@/domain/entities'
 
 export interface Create{{pascalCase name}}InDatabaseUsecase {
   create(
-    {{dashCase name}}Params: Create{{pascalCase name}}InDatabaseUsecase.Params
+    {{camelCase name}}Params: Create{{pascalCase name}}InDatabaseUsecase.Params
   ): Promise<Create{{pascalCase name}}InDatabaseUsecase.Result>;
 }
 

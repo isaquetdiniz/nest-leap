@@ -1,4 +1,4 @@
-import { {{pascalCase name}}, User } from '@/domain/entities';
+import { User } from '@/domain/entities';
 
 export interface Delete{{pascalCase name}}FromDatabaseUsecase {
   delete(

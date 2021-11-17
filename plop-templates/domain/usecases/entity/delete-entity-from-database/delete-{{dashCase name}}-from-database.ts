@@ -25,10 +25,10 @@ class Delete{{pascalCase name}}FromDatabase implements Delete{{pascalCase name}}
   async delete(
     {{camelCase name}}Params: Delete{{pascalCase name}}FromDatabaseUsecase.Params
   ): Promise<Delete{{pascalCase name}}FromDatabaseUsecase.Result> {
-    const { {{camelCase name}}Requester, id } = {{camelCase name}}Params;
+    const { userRequester, id } = {{camelCase name}}Params;
 
     const { total{{pascalCase name}}s } = await this.list{{pascalCase name}}sFromDatabaseUsecase.list({
-      {{camelCase name}}Requester,
+      userRequester,
       id,
     });
 

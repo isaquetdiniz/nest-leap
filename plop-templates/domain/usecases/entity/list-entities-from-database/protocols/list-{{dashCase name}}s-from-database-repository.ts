@@ -10,7 +10,7 @@ export interface List{{pascalCase name}}sFromDatabaseRepository {
 export namespace List{{pascalCase name}}sFromDatabaseRepository {
   export type Params = Omit<
     List{{pascalCase name}}sFromDatabaseUsecase.Params,
-    '{{camelCase name}}Requester'
+    'userRequester'
   >;
   export type Result = { {{camelCase name}}s: {{pascalCase name}}Data[]; total{{pascalCase name}}s: number };
 }

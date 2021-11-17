@@ -1,7 +1,7 @@
 import { Create{{pascalCase name}}InDatabaseUsecase } from './create-{{dashCase name}}-in-database-usecase';
 import { Save{{pascalCase name}}InDatabaseRepository } from './protocols';
 import { UUIDGenerator } from '@/domain/usecases/protocols/uuid';
-import { {{pascalCase name}} } from '@/domain/entities/{{camelCase name}}';
+import { {{pascalCase name}} } from '@/domain/entities/{{dashCase name}}';
 import { List{{pascalCase name}}sFromDatabaseUsecase } from '@/domain/usecases/{{dashCase name}}';
 import { Create{{pascalCase name}}InDatabaseError } from './errors/create-{{dashCase name}}-in-database-error';
 
@@ -29,10 +29,10 @@ class Create{{pascalCase name}}InDatabase implements Create{{pascalCase name}}In
   async create(
     {{camelCase name}}Params: Create{{pascalCase name}}InDatabaseUsecase.Params
   ): Promise<Create{{pascalCase name}}InDatabaseUsecase.Result> {
-    const { {{camelCase name}}Requester, name } = {{camelCase name}}Params;
+    const { userRequester, name } = {{camelCase name}}Params;
 
     const { total{{pascalCase name}}s } = await this.list{{pascalCase name}}sFromDatabaseUsecase.list({
-      {{camelCase name}}Requester,
+      userRequester,
       name,
     });
 

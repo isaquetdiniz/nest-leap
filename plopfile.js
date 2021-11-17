@@ -1,3 +1,60 @@
+const inputName = {
+  type: 'input',
+  name: 'name',
+  message: 'Name of entity'
+}
+
+const domainActions = [
+  {
+    type: 'addMany',
+    destination: 'src/domain/entities/{{dashCase name}}',
+    base: 'plop-templates/domain/entity',
+    templateFiles: 'plop-templates/domain/entity/*.ts'
+  },
+  {
+      type: 'append',
+      path: 'src/domain/entities/index.ts',
+      separator: '',
+      template: "export * from './{{dashCase name}}';"
+  }
+]
+
+const usecasesActions = {
+  create: [
+    {
+      type: 'addMany',
+      destination: 'src/domain/usecases/{{dashCase name}}/create-{{dashCase name}}-in-database',
+      base: 'plop-templates/domain/usecases/entity/create-entity-in-database',
+      templateFiles: 'plop-templates/domain/usecases/entity/create-entity-in-database/**/*.ts'
+    }
+  ],
+  delete: [
+    {
+      type: 'addMany',
+      destination: 'src/domain/usecases/{{dashCase name}}/delete-{{dashCase name}}-from-database',
+      base: 'plop-templates/domain/usecases/entity/delete-entity-from-database',
+      templateFiles: 'plop-templates/domain/usecases/entity/delete-entity-from-database/**/*.ts'
+    }
+  ],
+  list: [
+    {
+      type: 'addMany',
+      destination: 'src/domain/usecases/{{dashCase name}}/list-{{dashCase name}}s-from-database',
+      base: 'plop-templates/domain/usecases/entity/list-entities-from-database',
+      templateFiles: 'plop-templates/domain/usecases/entity/list-entities-from-database/**/*.ts'
+    }
+  ],
+  update: [
+    {
+      type: 'addMany',
+      destination: 'src/domain/usecases/{{dashCase name}}/update-{{dashCase name}}-in-database',
+      base: 'plop-templates/domain/usecases/entity/update-entity-in-database',
+      templateFiles: 'plop-templates/domain/usecases/entity/update-entity-in-database/**/*.ts'
+    }
+  ]
+}
+
+
 module.exports = function (plop) {
   plop.setGenerator('Basic Entity CRUD', {
     description: 'A basic entity with name CRUD',
@@ -347,98 +404,47 @@ module.exports = function (plop) {
 
   plop.setGenerator('Entity Domain', {
     description: 'A basic entity with name in domain',
-    prompts: [{
-      type: 'input',
-      name: 'name',
-      message: 'Name of entity'
-    }],
+    prompts: [inputName],
+    actions: domainActions
+  })
+
+  plop.setGenerator('Entity CRUD Usecases', {
+    description: 'CRUD Usecases for entity',
+    prompts: [inputName],
     actions: [
+      ...usecasesActions.create,
+      ...usecasesActions.delete,
+      ...usecasesActions.list,
+      ...usecasesActions.update,
       {
-        type: 'addMany',
-        destination: 'src/domain/entities/{{dashCase name}}',
-        base: 'plop-templates/domain/entity',
-        templateFiles: 'plop-templates/domain/entity/*.ts'
-      },
-      {
-          type: 'append',
-          path: 'src/domain/entities/index.ts',
-          separator: '',
-          template: "export * from './{{dashCase name}}';"
+        type: 'add',
+        path: 'src/domain/usecases/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/domain/usecases/entity/index.hbs'
       }
     ]
   })
 
   plop.setGenerator('Entity Create in Database Usecase', {
     description: 'Create in database usecase for entity',
-    prompts: [{
-      type: 'input',
-      name: 'name',
-      message: 'Name of entity'
-    }],
-    actions: [
-      {
-        type: 'addMany',
-        destination: 'src/domain/usecases/{{dashCase name}}/create-{{dashCase name}}-in-database',
-        base: 'plop-templates/domain/usecases/entity/create-entity-in-database',
-        templateFiles: 'plop-templates/domain/usecases/entity/create-entity-in-database/**/*.ts'
-      },/*
-      {
-          type: 'append',
-          path: 'src/domain/usecases/{{dashCase name}}/index.ts',
-          separator: '',
-          template: "export * from './create-{{dashCase name}}-in-database';"
-      }
-      */
-    ]
+    prompts: [inputName],
+    actions: usecasesActions.create
   })
 
   plop.setGenerator('Entity Delete from Database Usecase', {
     description: 'Delete from database usecase for entity',
-    prompts: [{
-      type: 'input',
-      name: 'name',
-      message: 'Name of entity'
-    }],
-    actions: [
-      {
-        type: 'addMany',
-        destination: 'src/domain/usecases/{{dashCase name}}/delete-{{dashCase name}}-from-database',
-        base: 'plop-templates/domain/usecases/entity/delete-entity-from-database',
-        templateFiles: 'plop-templates/domain/usecases/entity/delete-entity-from-database/**/*.ts'
-      },
-      /*
-      {
-          type: 'append',
-          path: 'src/domain/usecases/{{dashCase name}}/index.ts',
-          separator: '',
-          template: "export * from './delete-{{dashCase name}}-from-database';"
-      }
-      */
-    ]
+    prompts: [inputName],
+    actions: usecasesActions.delete
   })
 
   plop.setGenerator('Entities List from Database Usecase', {
     description: 'List entities from database usecase',
-    prompts: [{
-      type: 'input',
-      name: 'name',
-      message: 'Name of entity'
-    }],
-    actions: [
-      {
-        type: 'addMany',
-        destination: 'src/domain/usecases/{{dashCase name}}/list-{{dashCase name}}s-from-database',
-        base: 'plop-templates/domain/usecases/entity/list-entities-from-database',
-        templateFiles: 'plop-templates/domain/usecases/entity/list-entities-from-database/**/*.ts'
-      },
-      /*
-      {
-          type: 'append',
-          path: 'src/domain/usecases/{{dashCase name}}/index.ts',
-          separator: '',
-          template: "export * from './delete-{{dashCase name}}-from-database';"
-      }
-      */
-    ]
+    prompts: [inputName],
+    actions: usecasesActions.list
+  })
+
+  plop.setGenerator('Entity Update in Database Usecase', {
+    description: 'Update entity in database usecase',
+    prompts: [inputName],
+    actions: usecasesActions.update
   })
 }

@@ -1,4 +1,4 @@
-import { {{pascalCase name}}, {{pascalCase name}}Data } from '@/domain/entities/{{dashCase name}}';
+import { {{pascalCase name}}Data } from '@/domain/entities/{{dashCase name}}';
 import { User } from '@/domain/entities'
 
 export interface List{{pascalCase name}}sFromDatabaseUsecase {
