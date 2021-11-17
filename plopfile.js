@@ -367,4 +367,53 @@ module.exports = function (plop) {
       }
     ]
   })
+
+  plop.setGenerator('Entity Create in Database Usecase', {
+    description: 'A basic entity with name and your creation in database usecase',
+    prompts: [{
+      type: 'input',
+      name: 'name',
+      message: 'Name of entity'
+    }],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/domain/usecases/{{dashCase name}}/create-{{dashCase name}}-in-database',
+        base: 'plop-templates/domain/usecases/entity/create-entity-in-database',
+        templateFiles: 'plop-templates/domain/usecases/entity/create-entity-in-database/**/*.ts'
+      },/*
+      {
+          type: 'append',
+          path: 'src/domain/usecases/{{dashCase name}}/index.ts',
+          separator: '',
+          template: "export * from './create-{{dashCase name}}-in-database';"
+      }
+      */
+    ]
+  })
+
+  plop.setGenerator('Entity Delete from Database Usecase', {
+    description: 'A basic entity with name and your deletion in database usecase',
+    prompts: [{
+      type: 'input',
+      name: 'name',
+      message: 'Name of entity'
+    }],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/domain/usecases/{{dashCase name}}/delete-{{dashCase name}}-from-database',
+        base: 'plop-templates/domain/usecases/entity/delete-entity-from-database',
+        templateFiles: 'plop-templates/domain/usecases/entity/delete-entity-from-database/**/*.ts'
+      },
+      /*
+      {
+          type: 'append',
+          path: 'src/domain/usecases/{{dashCase name}}/index.ts',
+          separator: '',
+          template: "export * from './delete-{{dashCase name}}-from-database';"
+      }
+      */
+    ]
+  })
 }
