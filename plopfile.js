@@ -54,6 +54,37 @@ const usecasesActions = {
   ]
 }
 
+const controllersActions = {
+  create: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/create-{{dashCase name}}-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/create-entity-controller.hbs'
+    }
+  ],
+  delete: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/delete-{{dashCase name}}-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/delete-entity-controller.hbs'
+    }
+  ],
+  list: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/list-{{dashCase name}}s-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/list-entities-controller.hbs'
+    }
+  ],
+  update: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/update-{{dashCase name}}-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/update-entity-controller.hbs'
+    }
+  ]
+}
+
 
 module.exports = function (plop) {
   plop.setGenerator('Basic Entity CRUD', {
@@ -402,14 +433,14 @@ module.exports = function (plop) {
   ]
   })
 
-  plop.setGenerator('Entity Domain', {
-    description: 'A basic entity with name in domain',
+  plop.setGenerator('[ENTITIES]: CREATE Entity', {
+    description: 'Create entity in domain',
     prompts: [inputName],
     actions: domainActions
   })
 
-  plop.setGenerator('Entity CRUD Usecases', {
-    description: 'CRUD Usecases for entity',
+  plop.setGenerator('[USECASES]: CRUD for Entity', {
+    description: 'Create CRUD usecases for entity',
     prompts: [inputName],
     actions: [
       ...usecasesActions.create,
@@ -424,27 +455,67 @@ module.exports = function (plop) {
     ]
   })
 
-  plop.setGenerator('Entity Create in Database Usecase', {
-    description: 'Create in database usecase for entity',
+  plop.setGenerator('[USECASES]: CREATE Entity', {
+    description: 'Create usecase for create entity in database',
     prompts: [inputName],
     actions: usecasesActions.create
   })
 
-  plop.setGenerator('Entity Delete from Database Usecase', {
-    description: 'Delete from database usecase for entity',
+  plop.setGenerator('[USECASES]: DELETE Entity', {
+    description: 'Create usecase for delete entity from database',
     prompts: [inputName],
     actions: usecasesActions.delete
   })
 
-  plop.setGenerator('Entities List from Database Usecase', {
-    description: 'List entities from database usecase',
+  plop.setGenerator('[USECASES]: LIST Entities', {
+    description: 'Create usecase for list entities in database',
     prompts: [inputName],
     actions: usecasesActions.list
   })
 
-  plop.setGenerator('Entity Update in Database Usecase', {
-    description: 'Update entity in database usecase',
+  plop.setGenerator('[USECASES]: UPDATE Entity', {
+    description: 'Create usecase for update entity in database',
     prompts: [inputName],
     actions: usecasesActions.update
+  })
+
+  plop.setGenerator('[CONTROLLERS]: CRUD for Entity', {
+    description: 'Create CRUD controllers for Entity',
+    prompts: [inputName],
+    actions: [
+      ...controllersActions.create,
+      ...controllersActions.list,
+      ...controllersActions.update,
+      ...controllersActions.delete,
+      {
+        type: 'add',
+        path: 'src/application/http-server/controllers/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/application/http-server/controllers/entity/index.hbs'
+      }
+    ]
+  })
+
+  plop.setGenerator('[CONTROLLERS]: CREATE Entity', {
+    description: 'Create controller for create entity',
+    prompts: [inputName],
+    actions: controllersActions.create
+  })
+
+  plop.setGenerator('[CONTROLLERS]: DELETE Entity', {
+    description: 'Create controller for delete entity',
+    prompts: [inputName],
+    actions: controllersActions.delete
+  })
+
+  plop.setGenerator('[CONTROLLERS]: LIST Entity', {
+    description: 'Create controller for list entities',
+    prompts: [inputName],
+    actions: controllersActions.list
+  })
+
+  plop.setGenerator('[CONTROLLERS]: UPDATE Entity', {
+    description: 'Create controller for update entity',
+    prompts: [inputName],
+    actions: controllersActions.update
   })
 }
