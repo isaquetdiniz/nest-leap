@@ -344,4 +344,27 @@ module.exports = function (plop) {
     }
   ]
   })
+
+  plop.setGenerator('Entity Domain', {
+    description: 'A basic entity with name in domain',
+    prompts: [{
+      type: 'input',
+      name: 'name',
+      message: 'Name of entity'
+    }],
+    actions: [
+      {
+        type: 'addMany',
+        destination: 'src/domain/entities/{{dashCase name}}',
+        base: 'plop-templates/domain/entity',
+        templateFiles: 'plop-templates/domain/entity/*.ts'
+      },
+      {
+          type: 'append',
+          path: 'src/domain/entities/index.ts',
+          separator: '',
+          template: "export * from './{{dashCase name}}';"
+      }
+    ]
+  })
 }
