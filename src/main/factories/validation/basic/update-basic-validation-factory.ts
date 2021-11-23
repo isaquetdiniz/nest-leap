@@ -20,6 +20,6 @@ validations.push(new UuidValidation('id', new ValidatorUuidAdapter()));
 validations.push(new SomeParamWithoutValidation('id'));
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
 
-export const makeUpdateUserValidation = (): ValidationComposite => {
+export const makeUpdateBasicValidation = (): ValidationComposite => {
   return new ValidationComposite(validations);
 };

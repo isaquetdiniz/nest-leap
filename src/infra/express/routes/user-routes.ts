@@ -13,7 +13,7 @@ import { authMiddleware } from '@/infra/express/middlewares';
 
 export default (router: Router): void => {
   router
-    .route('/users/:id?')
+    .route('/user/:id?')
     .get(authMiddleware('USER'), adaptRoute(makeListUsersController()))
     .post(authMiddleware('ADMIN'), adaptRoute(makeCreateUserController()))
     .patch(authMiddleware('USER'), adaptRoute(makeUpdateUserController()))

@@ -54,37 +54,6 @@ const usecasesActions = {
   ]
 }
 
-const controllersActions = {
-  create: [
-    {
-      type: 'add',
-      path: 'src/application/http-server/controllers/{{dashCase name}}/create-{{dashCase name}}-controller.ts',
-      templateFile: 'plop-templates/application/http-server/controllers/entity/create-entity-controller.hbs'
-    }
-  ],
-  delete: [
-    {
-      type: 'add',
-      path: 'src/application/http-server/controllers/{{dashCase name}}/delete-{{dashCase name}}-controller.ts',
-      templateFile: 'plop-templates/application/http-server/controllers/entity/delete-entity-controller.hbs'
-    }
-  ],
-  list: [
-    {
-      type: 'add',
-      path: 'src/application/http-server/controllers/{{dashCase name}}/list-{{dashCase name}}s-controller.ts',
-      templateFile: 'plop-templates/application/http-server/controllers/entity/list-entities-controller.hbs'
-    }
-  ],
-  update: [
-    {
-      type: 'add',
-      path: 'src/application/http-server/controllers/{{dashCase name}}/update-{{dashCase name}}-controller.ts',
-      templateFile: 'plop-templates/application/http-server/controllers/entity/update-entity-controller.hbs'
-    }
-  ]
-}
-
 const factoriesActions = {
   prisma: {
     create: [
@@ -145,7 +114,72 @@ const factoriesActions = {
         templateFile: 'plop-templates/main/factories/usecases/entity/update-entity-in-database-factory.hbs'
       }
     ]
+  },
+  controllers: {
+    create: [
+      {
+        type: 'add',
+        path: 'src/main/factories/controllers/{{dashCase name}}/create-{{dashCase name}}-controller-factory.ts',
+        templateFile: 'plop-templates/main/factories/controllers/entity/create-entity-controller-factory.hbs'
+      }
+    ],
+    list: [
+      {
+        type: 'add',
+        path: 'src/main/factories/controllers/{{dashCase name}}/list-{{dashCase name}}s-controller-factory.ts',
+        templateFile: 'plop-templates/main/factories/controllers/entity/list-entities-controller-factory.hbs'
+      }
+    ],
+    delete: [
+      {
+        type: 'add',
+        path: 'src/main/factories/controllers/{{dashCase name}}/delete-{{dashCase name}}-controller-factory.ts',
+        templateFile: 'plop-templates/main/factories/controllers/entity/delete-entity-controller-factory.hbs'
+      }
+    ],
+    update: [
+      {
+        type: 'add',
+        path: 'src/main/factories/controllers/{{dashCase name}}/update-{{dashCase name}}-controller-factory.ts',
+        templateFile: 'plop-templates/main/factories/controllers/entity/update-entity-controller-factory.hbs'
+      }
+    ]
   }
+}
+
+const controllersActions = {
+  create: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/create-{{dashCase name}}-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/create-entity-controller.hbs'
+    },
+    ...factoriesActions.controllers.create
+  ],
+  delete: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/delete-{{dashCase name}}-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/delete-entity-controller.hbs'
+    },
+    ...factoriesActions.controllers.delete
+  ],
+  list: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/list-{{dashCase name}}s-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/list-entities-controller.hbs'
+    },
+    ...factoriesActions.controllers.list
+  ],
+  update: [
+    {
+      type: 'add',
+      path: 'src/application/http-server/controllers/{{dashCase name}}/update-{{dashCase name}}-controller.ts',
+      templateFile: 'plop-templates/application/http-server/controllers/entity/update-entity-controller.hbs'
+    },
+    ...factoriesActions.controllers.update
+  ]
 }
 
 const prismaRepositoriesActions = {
@@ -188,6 +222,16 @@ const prismaRepositoriesActions = {
       templateFile: 'plop-templates/infra/databases/postgres/prisma/repositories/entity/prisma-update-entity-in-database-repository.hbs'
     },
     ...factoriesActions.prisma.update
+  ]
+}
+
+const routesActions = {
+  create: [
+    {
+      type: 'add',
+      path: 'src/infra/express/routes/{{dashCase name}}-routes.ts',
+      templateFile: 'plop-templates/infra/express/routes/entity/entity-routes.hbs'
+    },
   ]
 }
 
@@ -597,6 +641,11 @@ module.exports = function (plop) {
         type: 'add',
         path: 'src/application/http-server/controllers/{{dashCase name}}/index.ts',
         templateFile: 'plop-templates/application/http-server/controllers/entity/index.hbs'
+      },
+      {
+        type: 'add',
+        path: 'src/main/factories/controllers/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/main/factories/controllers/entity/index.hbs'
       }
     ]
   })
@@ -755,5 +804,52 @@ module.exports = function (plop) {
     description: 'Generate factory for update entity usecase',
     prompts: [inputName],
     actions: factoriesActions.usecases.update
+  })
+
+  plop.setGenerator('[FACTORIES]: CONTROLLER CRUD Entity', {
+    description: 'Generate factory for crud controllers of entity',
+    prompts: [inputName],
+    actions: [
+      ...factoriesActions.controllers.create,
+      ...factoriesActions.controllers.list,
+      ...factoriesActions.controllers.delete,
+      ...factoriesActions.controllers.update,
+      {
+        type: 'add',
+        path: 'src/main/factories/controllers/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/main/factories/controllers/entity/index.hbs'
+      }
+    ]
+  })
+
+  plop.setGenerator('[FACTORIES]: CONTROLLER CREATE Entity', {
+    description: 'Generate factory for controller of create entity',
+    prompts: [inputName],
+    actions: factoriesActions.controllers.create
+  })
+
+  plop.setGenerator('[FACTORIES]: CONTROLLER LIST Entities', {
+    description: 'Generate factory for controller of list entities',
+    prompts: [inputName],
+    actions: factoriesActions.controllers.list
+  })
+
+  plop.setGenerator('[FACTORIES]: CONTROLLER DELETE Entity', {
+    description: 'Generate factory for controller of delete entity',
+    prompts: [inputName],
+    actions: factoriesActions.controllers.delete
+  })
+
+  plop.setGenerator('[FACTORIES]: CONTROLLER UPDATE Entity', {
+    description: 'Generate factory for controller of update entity',
+    prompts: [inputName],
+    actions: factoriesActions.controllers.update
+  })
+
+
+  plop.setGenerator('[ROUTES]: CREATE Entity express routes', {
+    description: 'Generate express routes for entity',
+    prompts: [inputName],
+    actions: routesActions.create
   })
 }
