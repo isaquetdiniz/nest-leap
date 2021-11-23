@@ -115,6 +115,36 @@ const factoriesActions = {
         templateFile: 'plop-templates/main/factories/infra/databases/postgres/prisma/repositories/entity/prisma-update-entity-in-database-repository-factory.hbs'
       }
     ],
+  },
+  usecases: {
+    create: [
+      {
+        type: 'add',
+        path: 'src/main/factories/usecases/{{dashCase name}}/create-{{dashCase name}}-in-database-factory.ts',
+        templateFile: 'plop-templates/main/factories/usecases/entity/create-entity-in-database-factory.hbs'
+      }
+    ],
+    list: [
+      {
+        type: 'add',
+        path: 'src/main/factories/usecases/{{dashCase name}}/list-{{dashCase name}}s-from-database-factory.ts',
+        templateFile: 'plop-templates/main/factories/usecases/entity/list-entities-from-database-factory.hbs'
+      }
+    ],
+    update: [
+      {
+        type: 'add',
+        path: 'src/main/factories/usecases/{{dashCase name}}/delete-{{dashCase name}}-from-database-factory.ts',
+        templateFile: 'plop-templates/main/factories/usecases/entity/delete-entity-from-database-factory.hbs'
+      }
+    ],
+    delete: [
+      {
+        type: 'add',
+        path: 'src/main/factories/usecases/{{dashCase name}}/update-{{dashCase name}}-in-database-factory.ts',
+        templateFile: 'plop-templates/main/factories/usecases/entity/update-entity-in-database-factory.hbs'
+      }
+    ]
   }
 }
 
@@ -685,5 +715,45 @@ module.exports = function (plop) {
     description: 'Generate factory for prisma update entitie from database repository',
     prompts: [inputName],
     actions: factoriesActions.prisma.update
+  })
+
+  plop.setGenerator('[FACTORIES]: USECASE CRUD Entity', {
+    description: 'Generate factory for CRUD of entity usecases',
+    prompts: [inputName],
+    actions: [
+      ...factoriesActions.usecases.create,
+      ...factoriesActions.usecases.list,
+      ...factoriesActions.usecases.update,
+      ...factoriesActions.usecases.delete,
+      {
+        type: 'add',
+        path: 'src/main/factories/usecases/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/main/factories/usecases/entity/index.hbs'
+      }
+    ]
+  })
+
+  plop.setGenerator('[FACTORIES]: USECASE CREATE Entity', {
+    description: 'Generate factory for create entity usecase',
+    prompts: [inputName],
+    actions: factoriesActions.usecases.create
+  })
+
+  plop.setGenerator('[FACTORIES]: USECASE LIST Entities', {
+    description: 'Generate factory for list entities usecase',
+    prompts: [inputName],
+    actions: factoriesActions.usecases.list
+  })
+
+  plop.setGenerator('[FACTORIES]: USECASE DELETE Entity', {
+    description: 'Generate factory for delete entity usecase',
+    prompts: [inputName],
+    actions: factoriesActions.usecases.delete
+  })
+
+  plop.setGenerator('[FACTORIES]: USECASE UPDATED Entity', {
+    description: 'Generate factory for update entity usecase',
+    prompts: [inputName],
+    actions: factoriesActions.usecases.update
   })
 }
