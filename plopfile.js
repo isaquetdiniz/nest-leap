@@ -124,6 +124,39 @@ const prismaRepositoriesActions = {
   ]
 }
 
+const factoriesActions = {
+  prisma: {
+    create: [
+      {
+        type: 'add',
+        path: 'src/main/factories/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-save-{{dashCase name}}-in-database-repository-factory.ts',
+        templateFile: 'plop-templates/main/factories/infra/databases/postgres/prisma/repositories/entity/prisma-save-entity-in-database-repository-factory.hbs'
+      }
+    ],
+    list: [
+      {
+        type: 'add',
+        path: 'src/main/factories/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-list-{{dashCase name}}s-from-database-repository-factory.ts',
+        templateFile: 'plop-templates/main/factories/infra/databases/postgres/prisma/repositories/entity/prisma-list-entities-from-database-repository-factory.hbs'
+      }
+    ],
+    delete: [
+      {
+        type: 'add',
+        path: 'src/main/factories/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-delete-{{dashCase name}}-from-database-repository-factory.ts',
+        templateFile: 'plop-templates/main/factories/infra/databases/postgres/prisma/repositories/entity/prisma-delete-entity-from-database-repository-factory.hbs'
+      }
+    ],
+    update: [
+      {
+        type: 'add',
+        path: 'src/main/factories/infra/databases/postgres/prisma/repositories/{{dashCase name}}/prisma-update-{{dashCase name}}-in-database-repository-factory.ts',
+        templateFile: 'plop-templates/main/factories/infra/databases/postgres/prisma/repositories/entity/prisma-update-entity-in-database-repository-factory.hbs'
+      }
+    ],
+  }
+}
+
 
 module.exports = function (plop) {
   plop.setGenerator('Basic Entity CRUD', {
@@ -588,7 +621,7 @@ module.exports = function (plop) {
   })
 
   plop.setGenerator('[PRISMA]: LIST Entities', {
-    description: 'Create prisma repository for list entities in database',
+    description: 'Create prisma repository for list entities from database',
     prompts: [inputName],
     actions: prismaRepositoriesActions.list
   })
@@ -603,5 +636,45 @@ module.exports = function (plop) {
     description: 'Create prisma repository for update entity in database',
     prompts: [inputName],
     actions: prismaRepositoriesActions.update
+  })
+
+  plop.setGenerator('[FACTORIES]: PRISMA CRUD Entity', {
+    description: 'Generate factory for prisma CRUD in database repository',
+    prompts: [inputName],
+    actions: [
+      ...factoriesActions.prisma.create,
+      ...factoriesActions.prisma.list,
+      ...factoriesActions.prisma.delete,
+      ...factoriesActions.prisma.update,
+      {
+        type: 'add',
+        path: 'src/main/factories/infra/databases/postgres/prisma/repositories/{{dashCase name}}/index.ts',
+        templateFile: 'plop-templates/main/factories/infra/databases/postgres/prisma/repositories/entity/index.hbs'
+      }
+    ]
+  })
+
+  plop.setGenerator('[FACTORIES]: PRISMA SAVE Entity', {
+    description: 'Generate factory for prisma save entity in database repository',
+    prompts: [inputName],
+    actions: factoriesActions.prisma.create
+  })
+
+  plop.setGenerator('[FACTORIES]: PRISMA LIST Entities', {
+    description: 'Generate factory for prisma list entities from database repository',
+    prompts: [inputName],
+    actions: factoriesActions.prisma.list
+  })
+
+  plop.setGenerator('[FACTORIES]: PRISMA DELETE Entity', {
+    description: 'Generate factory for prisma delete entity from database repository',
+    prompts: [inputName],
+    actions: factoriesActions.prisma.delete
+  })
+
+  plop.setGenerator('[FACTORIES]: PRISMA UPDATE Entity', {
+    description: 'Generate factory for prisma update entitie from database repository',
+    prompts: [inputName],
+    actions: factoriesActions.prisma.update
   })
 }

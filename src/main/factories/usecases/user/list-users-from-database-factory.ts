@@ -2,7 +2,7 @@ import {
   ListUsersFromDatabaseUsecase,
   ListUsersFromDatabase,
 } from '@/domain/usecases/user/list-users-from-database';
-import { makePrismaListUsersFromDatabaseRepository } from '@/main/factories/infra/database/postgres/prisma/repositories/user';
+import { makePrismaListUsersFromDatabaseRepository } from '@/main/factories/infra/databases/postgres/prisma/repositories/user';
 
 export const makeListUsersFromDatabaseUsecase =
   (): ListUsersFromDatabaseUsecase => {

@@ -2,7 +2,7 @@ import {
   DeleteUserFromDatabaseUsecase,
   DeleteUserFromDatabase,
 } from '@/domain/usecases/user/delete-user-from-database';
-import { makePrismaDeleteUserFromDatabaseRepository } from '@/main/factories/infra/database/postgres/prisma/repositories/user';
+import { makePrismaDeleteUserFromDatabaseRepository } from '@/main/factories/infra/databases/postgres/prisma/repositories/user';
 import { makeListUsersFromDatabaseUsecase } from '@/main/factories/usecases/user';
 
 export const makeDeleteUserFromDatabaseUsecase =
