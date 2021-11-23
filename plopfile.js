@@ -235,6 +235,28 @@ const routesActions = {
   ]
 }
 
+const swagerActions = {
+  create: [
+    {
+      type: 'add',
+      path: 'src/infra/swagger/paths/{{dashCase name}}-paths.ts',
+      templateFile: 'plop-templates/infra/swagger/entity/swagger-entity-paths.hbs'
+    },
+    {
+      type: 'append',
+      path: 'src/infra/swagger/paths/index.ts',
+      separator: '',
+      template: "export * from './{{dashCase name}}-paths';\n"
+    },
+    {
+      type: 'modify',
+      path: 'src/infra/swagger/helpers/tags.ts',
+      pattern: /\[(.*)\]/gim,
+      template: "[$1, '{{name}}']"
+    }
+  ]
+}
+
 
 module.exports = function (plop) {
   plop.setGenerator('Basic Entity CRUD', {
@@ -846,10 +868,15 @@ module.exports = function (plop) {
     actions: factoriesActions.controllers.update
   })
 
-
   plop.setGenerator('[ROUTES]: CREATE Entity express routes', {
     description: 'Generate express routes for entity',
     prompts: [inputName],
     actions: routesActions.create
+  })
+
+  plop.setGenerator('[DOCS]: CREATE DOCS Entity', {
+    description: 'Generate swagger docs for entity routes',
+    prompts: [inputName],
+    actions: swagerActions.create
   })
 }
