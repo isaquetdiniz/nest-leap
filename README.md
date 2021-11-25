@@ -29,10 +29,6 @@
 - Express
 - Prisma
 - Jest
-- Axios
-- AWS SDK
-- Swagger
-- JSONWEBTOKEN
 
 ## 💻 Running locally
 
@@ -43,11 +39,26 @@
 
 **`npm ci`**
 > Install js dependencies
+### Runing Local
+**`npm run start:dev`**
+> Access http://localhost:{ENV.PORT} to see the swagger documentation
 
+### Runing with Docker
 **`sudo docker-compose -f docker-compose.dev.yml build && sudo docker-compose -f docker-compose.dev.yml up -d && sudo docker-compose -f docker-compose.dev.yml logs -f`**
 > Run the docker to up the adminer, api and databases
 
 > Access http://localhost:{ENV.PORT} to see the swagger documentation
+
+### Generate CRUD for basic Entity
+**`npm run plop`**
+> To select plop script to run
+
+> Select the first option and type the Entity name (ex: TesteRatinho, Batata)
+
+**`npm run prisma:migration 'Create {name of Entity}'`**
+> To create a migration and update the prisma client
+
+> Add your entity paths to `/src/infra/swagger/index.ts`
 
 ## 💻 Testing
 
