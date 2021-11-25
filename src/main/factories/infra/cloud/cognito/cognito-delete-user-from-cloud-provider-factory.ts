@@ -1,7 +1,7 @@
-import { DeleteUserFromCloudProvider } from '@/application/protocols/cloud/user';
-import { CognitoDeleteUserFromCloudProvider } from '@/infra/cloud/cognito';
+import { DeleteUserFromCloudRepository } from '@/domain/usecases/user/delete-user-from-cloud/protocols';
+import { CognitoDeleteUserFromCloudRepository } from '@/infra/cloud/cognito';
 
-export const makeCognitoDeleteUserFromCloudProvider =
-  (): DeleteUserFromCloudProvider => {
-    return new CognitoDeleteUserFromCloudProvider();
+export const makeCognitoDeleteUserFromCloudRepository =
+  (): DeleteUserFromCloudRepository => {
+    return new CognitoDeleteUserFromCloudRepository();
   };

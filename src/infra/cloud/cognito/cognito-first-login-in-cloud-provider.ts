@@ -1,9 +1,8 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { FirstLoginInCloudProvider } from '@/application/protocols/cloud/auth';
+import { FirstLoginInCloudProvider } from '@/domain/usecases/auth/first-login-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
-import { FirstLoginInCloudProviderError } from '@/application/errors/cloud/auth';
 
 export class CognitoFirstLoginInCloudProvider
   implements FirstLoginInCloudProvider
@@ -21,7 +20,7 @@ export class CognitoFirstLoginInCloudProvider
     });
   }
 
-  async firstLogin(
+  async login(
     loginParams: FirstLoginInCloudProvider.Params
   ): Promise<FirstLoginInCloudProvider.Result> {
     const { email, newPassword, temporaryPassword } = loginParams;
@@ -61,7 +60,7 @@ export class CognitoFirstLoginInCloudProvider
         },
         (err, data) => {
           if (err) {
-            return reject(new FirstLoginInCloudProviderError(err.message));
+            return reject(err);
           }
 
           resolve();

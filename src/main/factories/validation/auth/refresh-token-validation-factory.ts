@@ -1,9 +1,9 @@
-import { Validation } from '@/presentation/validation/protocols';
+import { Validation } from '@/application/validation/protocols';
 
 import {
   RequiredFieldsValidation,
   ValidationComposite,
-} from '@/presentation/validation/validators';
+} from '@/application/validation/validators';
 
 const validations: Validation[] = [];
 

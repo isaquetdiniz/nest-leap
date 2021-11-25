@@ -1,12 +1,10 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { RefreshTokenInCloudProvider } from '@/application/protocols/cloud/auth';
+import { GetRefreshTokenInCloudProvider } from '@/domain/usecases/auth/refresh-token-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
-import { RefreshTokenInCloudProviderError } from '@/application/errors/cloud/auth';
-
 export class CognitoRefreshTokenInCloudProvider
-  implements RefreshTokenInCloudProvider
+  implements GetRefreshTokenInCloudProvider
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -21,12 +19,12 @@ export class CognitoRefreshTokenInCloudProvider
     });
   }
 
-  async refresh(
-    refreshParams: RefreshTokenInCloudProvider.Params
-  ): Promise<RefreshTokenInCloudProvider.Result> {
+  async get(
+    refreshParams: GetRefreshTokenInCloudProvider.Params
+  ): Promise<GetRefreshTokenInCloudProvider.Result> {
     const { refreshToken } = refreshParams;
 
-    return new Promise<RefreshTokenInCloudProvider.Result>(
+    return new Promise<GetRefreshTokenInCloudProvider.Result>(
       (resolve, reject) => {
         this.cognitoInstance.initiateAuth(
           {
@@ -38,13 +36,11 @@ export class CognitoRefreshTokenInCloudProvider
           },
           (err, data) => {
             if (err) {
-              return reject(new RefreshTokenInCloudProviderError(err.message));
+              return reject(err);
             }
 
             if (!data.AuthenticationResult) {
-              return reject(
-                new RefreshTokenInCloudProviderError('Error with Refresh')
-              );
+              return reject(new Error('Error with Refresh'));
             }
 
             const {

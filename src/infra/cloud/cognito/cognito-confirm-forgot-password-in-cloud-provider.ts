@@ -1,9 +1,7 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';
-import { ConfirmForgotPasswordInCloudProvider } from '@/application/protocols/cloud/auth';
-import { ConfirmForgotPasswordInCloudProviderError } from '@/application/errors/cloud/auth';
-
+import { ConfirmForgotPasswordInCloudProvider } from '@/domain/usecases/auth/confirm-forgot-password-in-cloud/protocols';
 export class CognitoConfirmForgotPasswordInCloudProvider
   implements ConfirmForgotPasswordInCloudProvider
 {
@@ -20,7 +18,7 @@ export class CognitoConfirmForgotPasswordInCloudProvider
     });
   }
 
-  async confirmForgotPassword(
+  async confirm(
     confirmParams: ConfirmForgotPasswordInCloudProvider.Params
   ): Promise<ConfirmForgotPasswordInCloudProvider.Result> {
     const { email, newPassword, verificationCode } = confirmParams;
@@ -36,9 +34,7 @@ export class CognitoConfirmForgotPasswordInCloudProvider
           },
           (err, data) => {
             if (err) {
-              return reject(
-                new ConfirmForgotPasswordInCloudProviderError(err.message)
-              );
+              return reject(err);
             }
 
             resolve();

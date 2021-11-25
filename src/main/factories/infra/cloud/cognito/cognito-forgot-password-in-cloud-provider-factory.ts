@@ -1,4 +1,4 @@
-import { ForgotPasswordInCloudProvider } from '@/application/protocols/cloud/auth';
+import { ForgotPasswordInCloudProvider } from '@/domain/usecases/auth/forgot-password-in-cloud/protocols';
 import { CognitoForgotPasswordInCloudProvider } from '@/infra/cloud/cognito';
 
 export const makeCognitoForgotPasswordInCloudProvider =

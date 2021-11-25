@@ -1,4 +1,4 @@
-import { UUIDGenerator } from '@/application/protocols/uuid';
+import { UUIDGenerator } from '@/domain/usecases/protocols/uuid';
 import { UUIDGeneratorAdapter } from '@/infra/uuid';
 
 export const makeUUIDGeneratorAdapter = (): UUIDGenerator => {

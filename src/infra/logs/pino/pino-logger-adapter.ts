@@ -1,6 +1,6 @@
 import pino, { P } from 'pino';
 import pinoEnvironment from './pino-environment';
-import { LoggerLocal } from '@/application/protocols/logs';
+import { LoggerLocal } from '@/domain/usecases/protocols/logs';
 
 export class PinoLoggerLocalAdapter implements LoggerLocal {
   private readonly pinoInstance: P.Logger = pino({

@@ -1,10 +1,10 @@
-import { Validation } from '@/presentation/validation/protocols';
+import { Validation } from '@/application/validation/protocols';
 
 import {
   JWTValidation,
   RequiredFieldsValidation,
   ValidationComposite,
-} from '@/presentation/validation/validators';
+} from '@/application/validation/validators';
 
 import { ValidatorJWTAdapter } from '@/infra/validators';
 

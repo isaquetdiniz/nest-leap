@@ -1,7 +1,0 @@
-import { Update{{name}}InDatabaseRepository } from '@/application/protocols/database/repositories/{{dashCase name}}';
-import { PrismaUpdate{{name}}InDatabaseRepository } from '@/infra/database/orm/prisma/repositories/{{dashCase name}}';
-
-export const makePrismaUpdate{{name}}InDatabaseRepository =
-  (): Update{{name}}InDatabaseRepository => {
-    return new PrismaUpdate{{name}}InDatabaseRepository();
-  };

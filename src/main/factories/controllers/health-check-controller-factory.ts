@@ -1,5 +1,5 @@
-import { Controller } from '@/presentation/http/protocols';
-import { HealthCheckController } from '@/presentation/http/controllers';
+import { Controller } from '@/application/http-server/protocols';
+import { HealthCheckController } from '@/application/http-server/controllers';
 
 export const makeHealthCheckController = (): Controller => {
   const healthCheckController = new HealthCheckController();

@@ -1,10 +1,10 @@
-import { Validation } from '@/presentation/validation/protocols';
+import { Validation } from '@/application/validation/protocols';
 
 import {
   EmailValidation,
   RequiredFieldsValidation,
   ValidationComposite,
-} from '@/presentation/validation/validators';
+} from '@/application/validation/validators';
 
 import { ValidatorEmailAdapter } from '@/infra/validators';
 

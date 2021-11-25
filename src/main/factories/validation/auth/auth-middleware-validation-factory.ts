@@ -1,10 +1,10 @@
-import { Validation } from '@/presentation/validation/protocols';
+import { Validation } from '@/application/validation/protocols';
 
 import {
   RequiredFieldsValidation,
   ValidationComposite,
   BearerTokenValidation,
-} from '@/presentation/validation/validators';
+} from '@/application/validation/validators';
 
 import { ValidatorTokenAdapter } from '@/infra/validators';
 
