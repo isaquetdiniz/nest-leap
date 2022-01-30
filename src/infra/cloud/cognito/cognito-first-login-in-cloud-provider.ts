@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { FirstLoginInCloudProvider } from '@/domain/usecases/auth/first-login-in-cloud/protocols';
+import { FirstLoginInCloudProvider } from '@/domain/auth/first-login-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
 

@@ -1,4 +1,4 @@
-import { LoadUserByTokenInCloudProvider } from '@/domain/usecases/auth/load-user-by-token-in-cloud/protocols';
+import { LoadUserByTokenInCloudProvider } from '@/domain/auth/load-user-by-token-in-cloud/protocols';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';

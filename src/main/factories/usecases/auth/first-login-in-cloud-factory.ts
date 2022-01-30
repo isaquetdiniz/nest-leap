@@ -1,11 +1,11 @@
-import { FirstLoginInCloudUsecase } from '@/domain/usecases/auth';
+import { FirstLoginInCloudUsecase } from '@/domain/auth';
 import {
   makeCognitoFirstLoginInCloudProvider,
   makeCognitoListUsersFromCloudRepository,
 } from '@/main/factories/infra/cloud/cognito';
 import { makeListUsersFromDatabaseUsecase } from '@/main/factories/usecases/user';
 import { makeLoginInCloudUsecase } from '@/main/factories/usecases/auth';
-import { FirstLoginInCloud } from '@/domain/usecases/auth/first-login-in-cloud/first-login-in-cloud';
+import { FirstLoginInCloud } from '@/domain/auth/first-login-in-cloud/first-login-in-cloud';
 
 export const makeFirstLoginInCloudUsecase = (): FirstLoginInCloudUsecase => {
   const listUsersFromDatabaseUsecase = makeListUsersFromDatabaseUsecase();

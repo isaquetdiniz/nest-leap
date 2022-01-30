@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { SaveUserInCloudRepository } from '@/domain/usecases/user/create-user-in-cloud/protocols';
+import { SaveUserInCloudRepository } from '@/domain/user/usecases/create-user-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
 

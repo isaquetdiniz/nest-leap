@@ -1,4 +1,4 @@
-import { ForgotPasswordInCloudProvider } from '@/domain/usecases/auth/forgot-password-in-cloud/protocols';
+import { ForgotPasswordInCloudProvider } from '@/domain/auth/forgot-password-in-cloud/protocols';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';

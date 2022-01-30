@@ -1,7 +1,7 @@
 import {
   CreateUserInCloud,
   CreateUserInCloudUsecase,
-} from '@/domain/usecases/user/create-user-in-cloud';
+} from '@/domains/user/usecases/create-user-in-cloud';
 import {
   makeCognitoSaveUserInCloudRepository,
   makeCognitoListUsersFromCloudRepository,

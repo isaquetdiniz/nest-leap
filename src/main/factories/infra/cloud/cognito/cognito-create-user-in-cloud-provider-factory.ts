@@ -1,4 +1,4 @@
-import { SaveUserInCloudRepository } from '@/domain/usecases/user/create-user-in-cloud/protocols';
+import { SaveUserInCloudRepository } from '@/domain/user/usecases/create-user-in-cloud/protocols';
 import { CognitoSaveUserInCloudRepository } from '@/infra/cloud/cognito';
 
 export const makeCognitoSaveUserInCloudRepository =

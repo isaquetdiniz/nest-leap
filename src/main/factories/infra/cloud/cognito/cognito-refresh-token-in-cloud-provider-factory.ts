@@ -1,4 +1,4 @@
-import { GetRefreshTokenInCloudProvider } from '@/domain/usecases/auth/refresh-token-in-cloud/protocols';
+import { GetRefreshTokenInCloudProvider } from '@/domain/auth/refresh-token-in-cloud/protocols';
 import { CognitoRefreshTokenInCloudProvider } from '@/infra/cloud/cognito';
 
 export const makeCognitoRefreshTokenInCloudProvider =

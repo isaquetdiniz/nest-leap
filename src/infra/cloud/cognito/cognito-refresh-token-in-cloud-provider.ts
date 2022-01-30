@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { GetRefreshTokenInCloudProvider } from '@/domain/usecases/auth/refresh-token-in-cloud/protocols';
+import { GetRefreshTokenInCloudProvider } from '@/domain/auth/refresh-token-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
 export class CognitoRefreshTokenInCloudProvider

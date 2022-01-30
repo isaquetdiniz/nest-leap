@@ -1,7 +1,7 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from './cognito-environment';
-import { ConfirmForgotPasswordInCloudProvider } from '@/domain/usecases/auth/confirm-forgot-password-in-cloud/protocols';
+import { ConfirmForgotPasswordInCloudProvider } from '@/domain/auth/usecases/confirm-forgot-password-in-cloud/protocols';
 export class CognitoConfirmForgotPasswordInCloudProvider
   implements ConfirmForgotPasswordInCloudProvider
 {

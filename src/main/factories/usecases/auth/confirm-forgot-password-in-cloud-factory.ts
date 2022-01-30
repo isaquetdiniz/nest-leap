@@ -1,5 +1,5 @@
-import { ConfirmForgotPasswordInCloudUsecase } from '@/domain/usecases/auth';
-import { ConfirmForgotPasswordInCloud } from '@/domain/usecases/auth/confirm-forgot-password-in-cloud/confirm-forgot-password-in-cloud';
+import { ConfirmForgotPasswordInCloudUsecase } from '@/domain/auth';
+import { ConfirmForgotPasswordInCloud } from '@/domains/auth/usecases/confirm-forgot-password-in-cloud/confirm-forgot-password-in-cloud';
 import {
   makeCognitoConfirmForgotPasswordInCloudProvider,
   makeCognitoListUsersFromCloudRepository,

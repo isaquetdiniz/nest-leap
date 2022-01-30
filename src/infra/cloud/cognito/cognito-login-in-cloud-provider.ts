@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { LoginInCloudProvider } from '@/domain/usecases/auth/login-in-cloud/protocols';
+import { LoginInCloudProvider } from '@/domain/auth/login-in-cloud/protocols';
 
 import cognitoEnvironment from './cognito-environment';
 export class CognitoLoginInCloudProvider implements LoginInCloudProvider {

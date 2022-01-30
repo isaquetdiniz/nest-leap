@@ -1,7 +1,7 @@
 import { Validation } from '@/application/validation/protocols';
-import { LoadUserByTokenUsecase } from '@/domain/usecases/auth';
+import { LoadUserByTokenUsecase } from '@/domain/auth';
 
-import { LoadUserByTokenInCloudError } from '@/domain/usecases/auth/load-user-by-token-in-cloud/errors';
+import { LoadUserByTokenInCloudError } from '@/domain/auth/load-user-by-token-in-cloud/errors';
 
 import { Middleware, HttpResponse } from '@/application/http-server/protocols';
 
