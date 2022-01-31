@@ -21,7 +21,7 @@ export namespace ICreateUserUsecase {
   export type Params = {
     name: string;
     email: string;
-    isAdmin: boolean;
+    isAdmin?: boolean;
   };
 
   export type Response = User;

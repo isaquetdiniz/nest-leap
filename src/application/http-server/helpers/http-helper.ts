@@ -6,6 +6,11 @@ export const badRequest = (error: Error): HttpResponse => ({
   body: error,
 });
 
+export const notFound = (error: Error): HttpResponse => ({
+  statusCode: 404,
+  body: error,
+});
+
 export const serverError = (error: Error): HttpResponse => ({
   statusCode: 500,
   // @ts-ignore
@@ -17,37 +22,7 @@ export const created = (data: any): HttpResponse => ({
   body: data,
 });
 
-export const ok = (data?: any, option?: string): HttpResponse => {
-  if (option === 'list') {
-    const formatedObject = Object.fromEntries(
-      Object.entries(data).map(([key, value]) => {
-        if (key.includes('total')) return ['totalItems', value];
-
-        return ['data', value];
-      })
-    );
-
-    return {
-      statusCode: 200,
-      body: formatedObject,
-    };
-  }
-
-  if (option === 'dash') {
-    return {
-      statusCode: 200,
-      body: { data: data },
-    };
-  }
-
-  if (option === 'csv') {
-    return {
-      statusCode: 200,
-      type: 'csv',
-      body: { data: data },
-    };
-  }
-
+export const ok = (data?: any): HttpResponse => {
   return {
     statusCode: 200,
     body: data,

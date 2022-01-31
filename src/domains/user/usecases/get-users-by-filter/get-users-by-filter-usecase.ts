@@ -30,7 +30,7 @@ export namespace IGetUsersByFilterUsecase {
   export type Result = { users: User[]; totalUsers: number };
 }
 
-export class GetUserByFilterUsecase implements IGetUsersByFilterUsecase {
+export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
   constructor(
     private readonly getUsersByFilterRepository: IGetUsersByFilterRepository,
     private readonly countUsersByFilterRepository: ICountUsersByFilterRepository
