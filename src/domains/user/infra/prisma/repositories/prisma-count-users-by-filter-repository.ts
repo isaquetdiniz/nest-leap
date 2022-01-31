@@ -1,6 +1,5 @@
 import { ICountUsersByFilterRepository } from '@/domains/user';
-import { prismaConnector } from '@/infra/databases/prisma';
-import { PrismaFormatter } from '@/infra/databases/prisma/prisma-formatter';
+import { prismaConnector, PrismaFormatter } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaCountUsersByFilterRepository

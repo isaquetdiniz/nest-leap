@@ -1,5 +1,5 @@
 import { ISaveUserRepository } from '@/domains/user';
-import { prismaConnector } from '@/infra/databases/prisma';
+import { prismaConnector } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaSaveUserRepository implements ISaveUserRepository {

@@ -7,7 +7,7 @@ import {
   serverError,
 } from '@/application/http-server/helpers/http-helper';
 
-import { Validation } from '@/application/validation/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
 import { FirstLoginInCloudUsecase } from '@/domain/auth';
 import { FirstLoginInCloudError } from '@/domain/auth/first-login-in-cloud/errors';
 

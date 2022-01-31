@@ -2,9 +2,9 @@ import 'module-alias/register';
 
 import { env } from '@/main/config';
 
-import { prismaConnector } from '@/infra/databases/prisma';
+import { prismaConnector } from '@/shared/infra/prisma';
 
-import { expressHttpServer } from '@/infra/express';
+import { expressHttpServer } from '@/shared/infra/express';
 
 import { makePinoLoggerLocalAdapter } from './factories/infra/logs/pino';
 import { makeSentryLoggerErrorCloudAdapter } from './factories/infra/logs/sentry';
