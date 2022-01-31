@@ -1,11 +1,10 @@
+import { IDeleteUserByEmailInCloudRepository } from '@/domains/user';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { DeleteUserFromCloudRepository } from '@/domain/usecases/user/delete-user-from-cloud/protocols';
+import cognitoEnvironment from '@/infra/cloud/cognito/cognito-environment';
 
-import cognitoEnvironment from './cognito-environment';
-
-export class CognitoDeleteUserFromCloudRepository
-  implements DeleteUserFromCloudRepository
+export class CognitoDeleteUserByEmailInCloudRepository
+  implements IDeleteUserByEmailInCloudRepository
 {
   private readonly cognitoFromstance: CognitoIdentityServiceProvider;
 
@@ -21,11 +20,9 @@ export class CognitoDeleteUserFromCloudRepository
   }
 
   async delete(
-    userParams: DeleteUserFromCloudRepository.Params
-  ): Promise<DeleteUserFromCloudRepository.Result> {
-    const { email } = userParams;
-
-    return new Promise<DeleteUserFromCloudRepository.Result>(
+    email: IDeleteUserByEmailInCloudRepository.Params
+  ): Promise<IDeleteUserByEmailInCloudRepository.Result> {
+    return new Promise<IDeleteUserByEmailInCloudRepository.Result>(
       (resolve, reject) => {
         this.cognitoFromstance.adminDeleteUser(
           {

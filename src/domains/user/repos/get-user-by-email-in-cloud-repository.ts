@@ -1,5 +1,3 @@
-import { UserDTO } from '@/domains/user/user';
-
 export interface IGetUserByEmailInCloudRepository {
   getByEmail(
     email: IGetUserByEmailInCloudRepository.Params
@@ -9,5 +7,5 @@ export interface IGetUserByEmailInCloudRepository {
 export namespace IGetUserByEmailInCloudRepository {
   export type Params = string;
 
-  export type Result = UserDTO | null;
+  export type Result = { email: string; status: string } | null;
 }

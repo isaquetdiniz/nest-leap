@@ -1,11 +1,10 @@
+import { ISaveUserInCloudRepository } from '@/domains/user';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { SaveUserInCloudRepository } from '@/domain/user/usecases/create-user-in-cloud/protocols';
-
-import cognitoEnvironment from './cognito-environment';
+import cognitoEnvironment from '@/infra/cloud/cognito/cognito-environment';
 
 export class CognitoSaveUserInCloudRepository
-  implements SaveUserInCloudRepository
+  implements ISaveUserInCloudRepository
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -21,8 +20,8 @@ export class CognitoSaveUserInCloudRepository
   }
 
   async save(
-    userParams: SaveUserInCloudRepository.Params
-  ): Promise<SaveUserInCloudRepository.Result> {
+    userParams: ISaveUserInCloudRepository.Params
+  ): Promise<ISaveUserInCloudRepository.Result> {
     const { email } = userParams;
 
     const attributes = [
@@ -36,7 +35,7 @@ export class CognitoSaveUserInCloudRepository
       },
     ];
 
-    return new Promise<SaveUserInCloudRepository.Result>((resolve, reject) => {
+    return new Promise<ISaveUserInCloudRepository.Result>((resolve, reject) => {
       this.cognitoInstance.adminCreateUser(
         {
           Username: email,
