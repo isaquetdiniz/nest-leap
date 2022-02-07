@@ -3,7 +3,7 @@ import {
   IGetAuthUserByEmailRepository,
   AuthUserNotFoundException,
   AuthUserAlreadyMadeFirstLoginException,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   AuthUser,
   IFirstLoginInCloudGateway,
   ILoginInCloudGateway,
@@ -28,7 +28,7 @@ export namespace IFirstLoginUsecase {
 export class FirstLoginUsecase implements IFirstLoginUsecase {
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    private readonly getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     private readonly firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     private readonly loginInCloudGateway: ILoginInCloudGateway
   ) {}
@@ -44,7 +44,7 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    const cloudAuthUser = await this.getAuthUserByEmailInCloudRepository.get(
+    const cloudAuthUser = await this.getAuthUserByEmailInCloudGateway.get(
       email
     );
 

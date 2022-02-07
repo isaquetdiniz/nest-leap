@@ -6,7 +6,7 @@ import {
   AuthUserDTO,
   FirstLoginUsecase,
   IFirstLoginInCloudGateway,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
   AuthUserTransformer,
@@ -28,14 +28,14 @@ export class FirstLoginController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
     private readonly validation: Validation
   ) {
     this.usecase = new FirstLoginUsecase(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       firstLoginInCloudGateway,
       loginInCloudGateway
     );

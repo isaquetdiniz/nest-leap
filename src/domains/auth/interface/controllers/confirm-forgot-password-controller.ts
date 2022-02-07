@@ -3,7 +3,7 @@ import { ValidationException } from '@/shared/helpers';
 
 import {
   IGetAuthUserByEmailRepository,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   ConfirmForgotPasswordUsecase,
   IConfirmForgotPasswordInCloudGateway,
 } from '@/domains/auth';
@@ -21,13 +21,13 @@ export class ConfirmForgotPasswordController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway,
     private readonly validation: Validation
   ) {
     this.usecase = new ConfirmForgotPasswordUsecase(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       confirmForgotPasswordInCloudGateway
     );
   }

@@ -2,7 +2,7 @@ import {
   AuthUserNotFoundException,
   AuthUserNotMadeFirstLoginException,
   IForgotPasswordInCloudGateway,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
 } from '@/domains/auth';
 
@@ -20,7 +20,7 @@ export namespace IForgotPasswordUsecase {
 export class ForgotPasswordUsecase implements IForgotPasswordUsecase {
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    private readonly getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     private readonly forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway
   ) {}
 
@@ -35,7 +35,7 @@ export class ForgotPasswordUsecase implements IForgotPasswordUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
-    const cloudAuthUser = await this.getAuthUserByEmailInCloudRepository.get(
+    const cloudAuthUser = await this.getAuthUserByEmailInCloudGateway.get(
       email
     );
 

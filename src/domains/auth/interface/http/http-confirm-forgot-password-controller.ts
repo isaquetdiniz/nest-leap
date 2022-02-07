@@ -8,7 +8,7 @@ import { ValidationException } from '@/shared/helpers';
 
 import {
   AuthUserNotFoundException,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   AuthUserNotMadeFirstLoginException,
   ConfirmForgotPasswordController,
@@ -26,13 +26,13 @@ export class HttpConfirmForgotPasswordController implements HttpController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     confirmforgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway,
     validation: Validation
   ) {
     this.controller = new ConfirmForgotPasswordController(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       confirmforgotPasswordInCloudGateway,
       validation
     );

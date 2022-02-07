@@ -8,48 +8,47 @@ import { ValidationException } from '@/shared/helpers';
 
 import {
   AuthUserNotFoundException,
-  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
-  ForgotPasswordController,
-  IForgotPasswordInCloudGateway,
-  AuthUserNotMadeFirstLoginException,
+  GetAuthUserByTokenController,
+  IGetAuthUserByTokenInCloudGateway,
+  AuthUserNotFoundByTokenException,
 } from '@/domains/auth';
 
-export interface HttpForgotPasswordRequest {
-  email: string;
+export interface HttpGetAuthUserByTokenRequest {
+  token: string;
 }
 
-export class HttpForgotPasswordController implements HttpController {
-  private controller: ForgotPasswordController;
+export class HttpGetAuthUserByTokenController implements HttpController {
+  private controller: GetAuthUserByTokenController;
 
   constructor(
+    getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
-    forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway,
     validation: Validation
   ) {
-    this.controller = new ForgotPasswordController(
+    this.controller = new GetAuthUserByTokenController(
+      getAuthUserByTokenInCloudGateway,
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudGateway,
-      forgotPasswordInCloudGateway,
       validation
     );
   }
 
-  async handle(httpRequest: HttpForgotPasswordRequest): Promise<HttpResponse> {
-    const { email } = httpRequest;
+  async handle(
+    httpRequest: HttpGetAuthUserByTokenRequest
+  ): Promise<HttpResponse> {
+    const { token } = httpRequest;
 
     try {
-      await this.controller.execute({
-        email,
+      const authUser = await this.controller.execute({
+        token,
       });
 
-      return ok();
+      return ok(authUser);
     } catch (error) {
       if (
         error instanceof ValidationException ||
         error instanceof AuthUserNotFoundException ||
-        error instanceof AuthUserNotMadeFirstLoginException
+        error instanceof AuthUserNotFoundByTokenException
       ) {
         return badRequest(error);
       }

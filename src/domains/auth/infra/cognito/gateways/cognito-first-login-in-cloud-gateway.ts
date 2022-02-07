@@ -1,11 +1,9 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
+import cognitoEnvironment from '@/shared/infra/cognito';
+import { IFirstLoginInCloudGateway } from '@/domains/auth';
 
-import { FirstLoginInCloudProvider } from '@/domain/auth/first-login-in-cloud/protocols';
-
-import cognitoEnvironment from './cognito-environment';
-
-export class CognitoFirstLoginInCloudProvider
-  implements FirstLoginInCloudProvider
+export class CognitoFirstLoginInCloudGateway
+  implements IFirstLoginInCloudGateway
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -21,8 +19,8 @@ export class CognitoFirstLoginInCloudProvider
   }
 
   async login(
-    loginParams: FirstLoginInCloudProvider.Params
-  ): Promise<FirstLoginInCloudProvider.Result> {
+    loginParams: IFirstLoginInCloudGateway.Params
+  ): Promise<IFirstLoginInCloudGateway.Result> {
     const { email, newPassword, temporaryPassword } = loginParams;
 
     const challengeResponses = {
@@ -50,7 +48,7 @@ export class CognitoFirstLoginInCloudProvider
       );
     });
 
-    return new Promise<FirstLoginInCloudProvider.Result>((resolve, reject) => {
+    return new Promise<IFirstLoginInCloudGateway.Result>((resolve, reject) => {
       this.cognitoInstance.respondToAuthChallenge(
         {
           ChallengeName: 'NEW_PASSWORD_REQUIRED',

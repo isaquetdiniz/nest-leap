@@ -4,7 +4,7 @@ import { ValidationException } from '@/shared/helpers';
 import {
   AccessDTO,
   AuthUserDTO,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
   AuthUserTransformer,
@@ -26,13 +26,13 @@ export class LoginController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
     private readonly validation: Validation
   ) {
     this.usecase = new LoginUsecase(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       loginInCloudGateway
     );
   }

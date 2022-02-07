@@ -11,7 +11,7 @@ import {
   AuthUserNotFoundException,
   FirstLoginController,
   IFirstLoginInCloudGateway,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
 } from '@/domains/auth';
@@ -27,14 +27,14 @@ export class HttpFirstLoginController implements HttpController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
     validation: Validation
   ) {
     this.controller = new FirstLoginController(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       firstLoginInCloudGateway,
       loginInCloudGateway,
       validation

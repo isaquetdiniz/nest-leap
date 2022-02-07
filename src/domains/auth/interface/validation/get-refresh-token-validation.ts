@@ -1,21 +1,16 @@
 import { Validation } from '@/shared/interface/validation/protocols';
 
 import {
-  JWTValidation,
   RequiredFieldsValidation,
   ValidationComposite,
 } from '@/shared/interface/validation/validators';
 
-import { ValidatorJWTAdapter } from '@/shared/infra/validators';
-
 const validations: Validation[] = [];
 
-for (const field of ['token']) {
+for (const field of ['refreshToken']) {
   validations.push(new RequiredFieldsValidation(field));
 }
 
-validations.push(new JWTValidation('token', new ValidatorJWTAdapter()));
-
-export const makeLoadUserByTokenValidation = (): ValidationComposite => {
+export const makeGetRefreshTokenValidation = (): ValidationComposite => {
   return new ValidationComposite(validations);
 };

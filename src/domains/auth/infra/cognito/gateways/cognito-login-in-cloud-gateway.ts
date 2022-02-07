@@ -1,9 +1,9 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { LoginInCloudProvider } from '@/domain/auth/login-in-cloud/protocols';
+import cognitoEnvironment from '@/shared/infra/cognito';
+import { ILoginInCloudGateway } from '@/domains/auth';
 
-import cognitoEnvironment from './cognito-environment';
-export class CognitoLoginInCloudProvider implements LoginInCloudProvider {
+export class CognitoLoginInCloudGateway implements ILoginInCloudGateway {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
   constructor() {
@@ -18,11 +18,11 @@ export class CognitoLoginInCloudProvider implements LoginInCloudProvider {
   }
 
   async login(
-    loginParams: LoginInCloudProvider.Params
-  ): Promise<LoginInCloudProvider.Result> {
+    loginParams: ILoginInCloudGateway.Params
+  ): Promise<ILoginInCloudGateway.Result> {
     const { email, password } = loginParams;
 
-    return new Promise<LoginInCloudProvider.Result>((resolve, reject) => {
+    return new Promise<ILoginInCloudGateway.Result>((resolve, reject) => {
       this.cognitoInstance.initiateAuth(
         {
           AuthFlow: 'USER_PASSWORD_AUTH',

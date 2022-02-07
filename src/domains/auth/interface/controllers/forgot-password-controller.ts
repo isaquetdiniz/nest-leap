@@ -5,7 +5,7 @@ import {
   IForgotPasswordInCloudGateway,
   ForgotPasswordUsecase,
   IGetAuthUserByEmailRepository,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
 } from '@/domains/auth';
 
 export interface ForgotPasswordRequest {
@@ -19,13 +19,13 @@ export class ForgotPasswordController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway,
     private readonly validation: Validation
   ) {
     this.usecase = new ForgotPasswordUsecase(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       forgotPasswordInCloudGateway
     );
   }

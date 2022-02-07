@@ -10,7 +10,7 @@ import {
   AuthUserNeedSetPasswordException,
   AuthUserNotFoundException,
   AuthUserNotMadeFirstLoginException,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
   LoginController,
@@ -26,13 +26,13 @@ export class HttpLoginController implements HttpController {
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
     validation: Validation
   ) {
     this.controller = new LoginController(
       getAuthUserByEmailRepository,
-      getAuthUserByEmailInCloudRepository,
+      getAuthUserByEmailInCloudGateway,
       loginInCloudGateway,
       validation
     );

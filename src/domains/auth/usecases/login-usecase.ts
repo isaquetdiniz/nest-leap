@@ -2,7 +2,7 @@ import {
   Access,
   AuthUser,
   AuthUserNotFoundException,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   AuthUserNeedSetPasswordException,
   AuthUserNotMadeFirstLoginException,
@@ -25,7 +25,7 @@ export namespace ILoginUsecase {
 export class LoginUsecase implements ILoginUsecase {
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    private readonly getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     private readonly loginInCloudGateway: ILoginInCloudGateway
   ) {}
 
@@ -41,7 +41,7 @@ export class LoginUsecase implements ILoginUsecase {
     }
 
     const cloudAuthUserInCloud =
-      await this.getAuthUserByEmailInCloudRepository.get(email);
+      await this.getAuthUserByEmailInCloudGateway.get(email);
 
     if (!cloudAuthUserInCloud) {
       throw new AuthUserNotFoundException({ email });

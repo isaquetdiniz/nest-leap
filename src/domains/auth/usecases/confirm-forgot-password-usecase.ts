@@ -2,7 +2,7 @@ import {
   AuthUserNotFoundException,
   AuthUserNotMadeFirstLoginException,
   IConfirmForgotPasswordInCloudGateway,
-  IGetAuthUserByEmailInCloudRepository,
+  IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
 } from '@/domains/auth';
 
@@ -26,7 +26,7 @@ export class ConfirmForgotPasswordUsecase
 {
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
-    private readonly getAuthUserByEmailInCloudRepository: IGetAuthUserByEmailInCloudRepository,
+    private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     private readonly confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway
   ) {}
 
@@ -41,8 +41,9 @@ export class ConfirmForgotPasswordUsecase
       throw new AuthUserNotFoundException({ email });
     }
 
-    const cloudAuthUserFound =
-      await this.getAuthUserByEmailInCloudRepository.get(email);
+    const cloudAuthUserFound = await this.getAuthUserByEmailInCloudGateway.get(
+      email
+    );
 
     if (!cloudAuthUserFound) {
       throw new AuthUserNotFoundException({ email });
