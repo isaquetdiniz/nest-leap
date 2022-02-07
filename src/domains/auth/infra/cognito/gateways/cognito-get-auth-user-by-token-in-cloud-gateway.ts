@@ -1,10 +1,10 @@
-import { LoadUserByTokenInCloudProvider } from '@/domain/auth/load-user-by-token-in-cloud/protocols';
+import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from './cognito-environment';
+import cognitoEnvironment from '@/shared/infra/cognito';
 
-export class CognitoLoadUserByTokenInCloudProvider
-  implements LoadUserByTokenInCloudProvider
+export class CognitoGetAuthUserByTokenInCloudGateway
+  implements IGetAuthUserByTokenInCloudGateway
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -19,11 +19,9 @@ export class CognitoLoadUserByTokenInCloudProvider
     });
   }
 
-  async loadUser(
-    loadUserParams: LoadUserByTokenInCloudProvider.Params
-  ): Promise<LoadUserByTokenInCloudProvider.Result> {
-    const { token } = loadUserParams;
-
+  async get(
+    token: IGetAuthUserByTokenInCloudGateway.Params
+  ): Promise<IGetAuthUserByTokenInCloudGateway.Result> {
     return new Promise((resolve, reject) => {
       this.cognitoInstance.getUser(
         {
@@ -34,14 +32,14 @@ export class CognitoLoadUserByTokenInCloudProvider
             return reject(err);
           }
 
-          const { Username: username, UserAttributes: attributes }: any = data;
+          const { UserAttributes: attributes }: any = data;
 
           const [emailAttribute] = attributes.filter(
             (attribute: any) => attribute.Name === 'email'
           );
           const email = emailAttribute.Value;
 
-          resolve({ username, email });
+          resolve({ email });
         }
       );
     });

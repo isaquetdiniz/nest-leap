@@ -2,10 +2,10 @@ import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from '@/shared/infra/cognito';
 
-import { ConfirmForgotPasswordInCloudProvider } from '@/domain/auth/usecases/confirm-forgot-password-in-cloud/protocols';
+import { IConfirmForgotPasswordInCloudGateway } from '@/domains/auth';
 
-export class CognitoConfirmForgotPasswordInCloudProvider
-  implements ConfirmForgotPasswordInCloudProvider
+export class CognitoConfirmForgotPasswordInCloudGateway
+  implements IConfirmForgotPasswordInCloudGateway
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -21,11 +21,11 @@ export class CognitoConfirmForgotPasswordInCloudProvider
   }
 
   async confirm(
-    confirmParams: ConfirmForgotPasswordInCloudProvider.Params
-  ): Promise<ConfirmForgotPasswordInCloudProvider.Result> {
+    confirmParams: IConfirmForgotPasswordInCloudGateway.Params
+  ): Promise<IConfirmForgotPasswordInCloudGateway.Result> {
     const { email, newPassword, verificationCode } = confirmParams;
 
-    return new Promise<ConfirmForgotPasswordInCloudProvider.Result>(
+    return new Promise<IConfirmForgotPasswordInCloudGateway.Result>(
       (resolve, reject) => {
         this.cognitoInstance.confirmForgotPassword(
           {

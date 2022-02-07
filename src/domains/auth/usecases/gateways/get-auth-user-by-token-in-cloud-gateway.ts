@@ -1,5 +1,3 @@
-import { AuthUserDTO } from '@/domains/auth';
-
 export interface IGetAuthUserByTokenInCloudGateway {
   get(
     token: IGetAuthUserByTokenInCloudGateway.Params
@@ -9,5 +7,5 @@ export interface IGetAuthUserByTokenInCloudGateway {
 export namespace IGetAuthUserByTokenInCloudGateway {
   export type Params = string;
 
-  export type Result = AuthUserDTO;
+  export type Result = { email: string } | null;
 }

@@ -1,10 +1,10 @@
-import { ForgotPasswordInCloudProvider } from '@/domain/auth/forgot-password-in-cloud/protocols';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from './cognito-environment';
+import cognitoEnvironment from '@/shared/infra/cognito';
+import { IForgotPasswordInCloudGateway } from '@/domains/auth';
 
-export class CognitoForgotPasswordInCloudProvider
-  implements ForgotPasswordInCloudProvider
+export class CognitoForgotPasswordInCloudGateway
+  implements IForgotPasswordInCloudGateway
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -19,9 +19,9 @@ export class CognitoForgotPasswordInCloudProvider
     });
   }
 
-  async forgotPassword(
-    forgotParams: ForgotPasswordInCloudProvider.Params
-  ): Promise<ForgotPasswordInCloudProvider.Result> {
+  async forgot(
+    forgotParams: IForgotPasswordInCloudGateway.Params
+  ): Promise<IForgotPasswordInCloudGateway.Result> {
     const { email } = forgotParams;
 
     return new Promise((resolve, reject) => {

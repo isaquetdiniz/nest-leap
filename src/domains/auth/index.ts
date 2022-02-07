@@ -49,8 +49,14 @@ export * from './interface/http/http-get-refresh-token-controller';
 export * from './infra/cognito/gateways/cognito-login-in-cloud-gateway';
 export * from './infra/cognito/gateways/cognito-get-auth-user-by-email-in-cloud-gateway';
 export * from './infra/cognito/gateways/cognito-first-login-in-cloud-gateway';
+export * from './infra/cognito/gateways/cognito-confirm-forgot-password-in-cloud-gateway';
+export * from './infra/cognito/gateways/cognito-forgot-password-in-cloud-gateway';
+export * from './infra/cognito/gateways/cognito-get-refresh-token-in-cloud-gateway';
 
 export * from './infra/prisma/repositories/prisma-get-auth-user-by-email-repository';
 
 export * from './factories/http/http-login-controller-factory';
 export * from './factories/http/http-first-login-controller-factory';
+export * from './factories/http/http-confirm-forgot-password-controller-factory';
+export * from './factories/http/http-forgot-password-controller-factory';
+export * from './factories/http/http-get-refresh-token-controller-factory';

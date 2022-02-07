@@ -1,10 +1,11 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import { GetRefreshTokenInCloudProvider } from '@/domain/auth/refresh-token-in-cloud/protocols';
+import cognitoEnvironment from '@/shared/infra/cognito';
 
-import cognitoEnvironment from './cognito-environment';
-export class CognitoRefreshTokenInCloudProvider
-  implements GetRefreshTokenInCloudProvider
+import { IGetRefreshTokenInCloudGateway } from '@/domains/auth';
+
+export class CognitoGetRefreshTokenInCloudGateway
+  implements IGetRefreshTokenInCloudGateway
 {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;
 
@@ -20,11 +21,9 @@ export class CognitoRefreshTokenInCloudProvider
   }
 
   async get(
-    refreshParams: GetRefreshTokenInCloudProvider.Params
-  ): Promise<GetRefreshTokenInCloudProvider.Result> {
-    const { refreshToken } = refreshParams;
-
-    return new Promise<GetRefreshTokenInCloudProvider.Result>(
+    refreshToken: IGetRefreshTokenInCloudGateway.Params
+  ): Promise<IGetRefreshTokenInCloudGateway.Result> {
+    return new Promise<IGetRefreshTokenInCloudGateway.Result>(
       (resolve, reject) => {
         this.cognitoInstance.initiateAuth(
           {
