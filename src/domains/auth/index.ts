@@ -60,3 +60,7 @@ export * from './factories/http/http-first-login-controller-factory';
 export * from './factories/http/http-confirm-forgot-password-controller-factory';
 export * from './factories/http/http-forgot-password-controller-factory';
 export * from './factories/http/http-get-refresh-token-controller-factory';
+
+export * from './infra/express/auth-routes';
+
+export * from './infra/swagger/auth-paths';

@@ -1,9 +1,11 @@
 import { responses } from '@/shared/infra/swagger/helpers';
 
+export const authTag = 'Auth';
+
 export const authPaths = {
-  '/auth/first-login': {
+  '/auth/first_login': {
     post: {
-      tags: ['Auth'],
+      tags: [authTag],
       summary: 'First login',
       produces: ['application/json'],
       requestBody: {
@@ -44,7 +46,7 @@ export const authPaths = {
       responses,
     },
   },
-  '/auth/forgot-password': {
+  '/auth/forgot_password': {
     post: {
       tags: ['Auth'],
       summary: 'Forgot Password',
@@ -70,7 +72,7 @@ export const authPaths = {
       responses,
     },
   },
-  '/auth/confirm-forgot-password': {
+  '/auth/confirm_forgot_password': {
     post: {
       tags: ['Auth'],
       summary: 'Confirm Forgot Password',
@@ -106,7 +108,7 @@ export const authPaths = {
       responses,
     },
   },
-  '/auth/refresh-token': {
+  '/auth/refresh_token': {
     post: {
       tags: ['Auth'],
       summary: 'Get a refresh token',
