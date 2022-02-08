@@ -1,124 +1,90 @@
-import { responses, filterParams } from '@/shared/infra/swagger/helpers';
+import {
+  responses,
+  security,
+  SwaggerContents,
+  SwaggerPath,
+  SwaggerTypes,
+  SwaggerQuery,
+  defaultFilterParams,
+} from '@/shared/infra/swagger/helpers';
+
+export const userTag = 'Users';
 
 export const userPaths = {
   '/users': {
     get: {
-      tags: ['Users'],
+      tags: [userTag],
       summary: 'Get Users',
       produces: ['application/json'],
       parameters: [
-        {
-          in: 'query',
-          name: 'name',
-          schema: {
-            type: 'string',
-          },
-        },
-        {
-          in: 'query',
-          name: 'email',
-          schema: {
-            type: 'string',
-          },
-        },
-        {
-          in: 'query',
-          name: 'isAdmin',
-          schema: {
-            type: 'boolean',
-          },
-        },
-        {
-          in: 'query',
-          name: 'enabled',
-          schema: {
-            type: 'boolean',
-          },
-        },
-        ...filterParams,
+        ...SwaggerQuery.params([
+          ['name', SwaggerTypes.string()],
+          ['email', SwaggerTypes.string()],
+          ['isAdmin', SwaggerTypes.boolean()],
+          ['enabled', SwaggerTypes.boolean()],
+        ]),
+        ...defaultFilterParams,
       ],
-      security: [{ BearerAuth: [] }],
+      security,
       responses,
     },
     post: {
-      tags: ['Users'],
+      tags: [userTag],
       summary: 'Create a new user',
       produces: ['application/json'],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/schemas/createUserSchema',
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [
+            ['name', SwaggerTypes.string(true)],
+            ['email', SwaggerTypes.string(true)],
+            ['isAdmin', SwaggerTypes.boolean(true)],
+          ],
+          [
+            ['name', 'danoninho'],
+            ['email', 'abc@loomi.com.br'],
+            ['isAdmin', true],
+          ]
+        ),
       },
-      security: [{ BearerAuth: [] }],
+      security,
       responses,
     },
   },
   '/users/{id}': {
     get: {
-      tags: ['Users'],
+      tags: [userTag],
       summary: 'Get a User',
       produces: ['application/json'],
-      parameters: [
-        {
-          in: 'path',
-          name: 'id',
-          schema: {
-            type: 'string',
-            format: 'uuid',
-          },
-          required: true,
-        },
-      ],
-      security: [{ BearerAuth: [] }],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      security,
       responses,
     },
     patch: {
-      tags: ['Users'],
+      tags: [userTag],
       summary: 'Update a User by id',
       produces: ['application/json'],
-      parameters: [
-        {
-          in: 'path',
-          name: 'id',
-          schema: {
-            type: 'string',
-            format: 'uuid',
-          },
-          required: true,
-        },
-      ],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/schemas/updateUserSchema',
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [
+            ['name', SwaggerTypes.string()],
+            ['isAdmin', SwaggerTypes.boolean()],
+          ],
+          [
+            ['name', 'danoninho'],
+            ['isAdmin', true],
+          ]
+        ),
       },
-      security: [{ BearerAuth: [] }],
+      security,
       responses,
     },
     delete: {
       tags: ['Users'],
       summary: 'Delete a User by id',
       produces: ['application/json'],
-      parameters: [
-        {
-          in: 'path',
-          name: 'id',
-          schema: {
-            type: 'string',
-            format: 'uuid',
-          },
-          required: true,
-        },
-      ],
-      security: [{ BearerAuth: [] }],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      security,
       responses,
     },
   },

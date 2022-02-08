@@ -4,3 +4,5 @@ export const securitySchemes = {
     scheme: 'bearer',
   },
 };
+
+export const security = [{ BearerAuth: [] }];

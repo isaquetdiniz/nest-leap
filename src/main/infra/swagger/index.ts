@@ -1,8 +1,9 @@
 import { servers, securitySchemes } from '@/shared/infra/swagger/helpers';
 
 import { authPaths, authTag } from '@/domains/auth';
+import { userPaths, userTag } from '@/domains/user';
 
-const tags = [authTag];
+const tags = [authTag, userTag];
 
 export default {
   openapi: '3.0.0',
@@ -18,6 +19,7 @@ export default {
   tags,
   paths: {
     ...authPaths,
+    ...userPaths,
   },
   components: {
     securitySchemes,

@@ -31,4 +31,36 @@ export class SwaggerTypes {
       required,
     };
   }
+
+  static dateTime(required: required = false) {
+    return {
+      type: 'string',
+      format: 'date-time',
+      required,
+    };
+  }
+
+  static boolean(required: required = false) {
+    return {
+      type: 'boolean',
+      required,
+    };
+  }
+
+  static integer(required: required = false) {
+    return {
+      type: 'integer',
+      required,
+    };
+  }
+
+  static array(required: required = false, type: any, maxItems: number) {
+    return {
+      type: 'array',
+      items: {
+        ...type,
+        maxItems,
+      },
+    };
+  }
 }

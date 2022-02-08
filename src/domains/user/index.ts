@@ -59,4 +59,3 @@ export * from './factories/http/http-update-user-by-id-controller-factory';
 
 export * from './infra/express/user-routes';
 export * from './infra/swagger/user-paths';
-export * from './infra/swagger/user-tags';
