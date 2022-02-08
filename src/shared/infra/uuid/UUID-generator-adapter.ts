@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
-import { UUIDGenerator } from '@/domain/usecases/protocols/uuid';
+import { IUuidGenerator } from '@/shared/protocols';
 
-export class UUIDGeneratorAdapter implements UUIDGenerator {
+export class UUIDGeneratorAdapter implements IUuidGenerator {
   generate(): string {
-    return uuidv4();
+    return crypto.randomUUID();
   }
 }

@@ -1,19 +1,19 @@
-import { Controller, HttpResponse } from '@/application/http-server/protocols';
-
 import {
-  LoggerErrorCloud,
-  LoggerLocal,
-} from '@/domain/usecases/protocols/logs';
+  HttpController,
+  HttpResponse,
+} from '@/shared/interface/http/protocols';
 
-export class LogControllerDecorator implements Controller {
-  private readonly controller: Controller;
-  private readonly loggerErrorCloud: LoggerErrorCloud;
-  private readonly loggerLocal: LoggerLocal;
+import { ILoggerCloud, ILoggerLocal } from '@/shared/protocols';
+
+export class LogControllerDecorator implements HttpController {
+  private readonly controller: HttpController;
+  private readonly loggerErrorCloud: ILoggerCloud;
+  private readonly loggerLocal: ILoggerLocal;
 
   constructor(
-    controller: Controller,
-    loggerErrorCloud: LoggerErrorCloud,
-    loggerLocal: LoggerLocal
+    controller: HttpController,
+    loggerErrorCloud: ILoggerCloud,
+    loggerLocal: ILoggerLocal
   ) {
     this.controller = controller;
     this.loggerErrorCloud = loggerErrorCloud;
@@ -24,7 +24,7 @@ export class LogControllerDecorator implements Controller {
     const httpResponse = await this.controller.handle(httRequest);
 
     if (httpResponse.statusCode >= 500) {
-      this.loggerErrorCloud.log(httpResponse.body);
+      this.loggerErrorCloud.logError(httpResponse.body);
       this.loggerLocal.logError(httpResponse.body);
     }
 

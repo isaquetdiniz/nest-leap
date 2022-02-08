@@ -3,11 +3,11 @@ import {
   notFound,
   ok,
   serverError,
-} from '@/application/http-server/helpers';
+} from '@/shared/interface/http/helpers';
 import {
   HttpController,
   HttpResponse,
-} from '@/application/http-server/protocols';
+} from '@/shared/interface/http/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
   IGetUserByIdRepository,

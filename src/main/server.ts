@@ -2,22 +2,20 @@ import 'module-alias/register';
 
 import { env } from '@/main/config';
 
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector } from '@/main/infra/prisma/prisma-connector';
 
-import { expressHttpServer } from '@/shared/infra/express';
+import { expressHttpServer } from '@/main/infra/express/express-http-client';
 
-import { makePinoLoggerLocalAdapter } from './factories/infra/logs/pino';
-import { makeSentryLoggerErrorCloudAdapter } from './factories/infra/logs/sentry';
+import { pinoLoggerLocal } from '@/main/infra/logs/pino';
+import { sentryLoggerCloud } from '@/main/infra/logs/sentry';
 
 const exitStatus = {
   Failure: 1,
   Success: 0,
 };
 
-process.setMaxListeners(20);
-
-const loggerLocal = makePinoLoggerLocalAdapter();
-const loggerErrorCloud = makeSentryLoggerErrorCloudAdapter();
+const loggerLocal = pinoLoggerLocal;
+const loggerErrorCloud = sentryLoggerCloud;
 
 process.on('unhandledRejection', (reason, promise) => {
   const error = new Error(
@@ -25,14 +23,14 @@ process.on('unhandledRejection', (reason, promise) => {
   );
 
   loggerLocal.logError(error);
-  loggerErrorCloud.log(error);
+  loggerErrorCloud.logError(error);
 
   throw reason;
 });
 
 process.on('uncaughtException', (error) => {
   loggerLocal.logError(error);
-  loggerErrorCloud.log(error);
+  loggerErrorCloud.logError(error);
 
   process.exit(exitStatus.Failure);
 });
@@ -64,7 +62,7 @@ async function main() {
 
           loggerLocal.logError(errorWithType);
 
-          loggerErrorCloud.log(errorWithType);
+          loggerErrorCloud.logError(errorWithType);
 
           process.exit(exitStatus.Failure);
         }
@@ -75,7 +73,7 @@ async function main() {
 
     loggerLocal.logError(errorWithType);
 
-    loggerErrorCloud.log(errorWithType);
+    loggerErrorCloud.logError(errorWithType);
 
     process.exit(exitStatus.Failure);
   }

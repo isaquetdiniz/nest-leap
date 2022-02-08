@@ -1,14 +1,12 @@
 import { Express, Router } from 'express';
-import { readdirSync } from 'fs';
-import path from 'path';
+import { authRouter } from '@/domains/auth';
+import { healthCheckRouter } from '@/main/infra/express/routes/health-check-routes';
 
 export default (app: Express): void => {
   const router = Router();
-  app.use(router);
 
-  readdirSync(path.join(__dirname, '..', 'routes')).map(async (file) => {
-    if (!file.includes('.test.')) {
-      (await import(`../routes/${file}`)).default(router);
-    }
-  });
+  router.use(healthCheckRouter);
+  router.use(authRouter);
+
+  app.use(router);
 };

@@ -1,9 +1,12 @@
-import { Controller, HttpResponse } from '@/application/http-server/protocols';
+import {
+  HttpController,
+  HttpResponse,
+} from '@/shared/interface/http/protocols';
 
-import { ok, serverError } from '@/application/http-server/helpers';
+import { ok, serverError } from '@/shared/interface/http/helpers';
 
-export class HealthCheckController implements Controller {
-  async handle(httpRequest: any): Promise<HttpResponse> {
+export class HealthCheckController implements HttpController {
+  async handle(): Promise<HttpResponse> {
     try {
       return ok();
     } catch (error) {

@@ -1,4 +1,4 @@
-import { UserDTO } from '@/domains/user/user';
+import { UserDTO } from '@/domains/user';
 
 export interface ISaveUserRepository {
   save(

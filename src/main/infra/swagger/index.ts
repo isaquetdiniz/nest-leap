@@ -1,20 +1,14 @@
-import { tags, servers, securitySchemes } from '@/shared/infra/swagger/helpers';
+import { servers, securitySchemes } from '@/shared/infra/swagger/helpers';
 
-import { authPaths, userPaths } from '@/shared/infra/swagger/paths';
+import { authPaths, authTag } from '@/domains/auth';
 
-import {
-  loginSchema,
-  firstLoginSchema,
-  firstAccessSchema,
-  createUserSchema,
-  updateUserSchema,
-} from '@/shared/infra/swagger/schemas';
+const tags = [authTag];
 
 export default {
   openapi: '3.0.0',
   info: {
     title: 'Node Leap API',
-    version: '1.0.0',
+    version: '0.0.0',
     description: 'API',
     contact: {
       email: 'tech@loomi.com.br',
@@ -24,14 +18,6 @@ export default {
   tags,
   paths: {
     ...authPaths,
-    ...userPaths,
-  },
-  schemas: {
-    createUserSchema: createUserSchema,
-    updateUserSchema: updateUserSchema,
-    firstAccess: firstAccessSchema,
-    loginSchema: loginSchema,
-    firstLoginSchema: firstLoginSchema,
   },
   components: {
     securitySchemes,

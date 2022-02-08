@@ -2,7 +2,7 @@ import { adaptRoute } from '@/shared/infra/express/adapters';
 
 import { Router } from 'express';
 
-import { authMiddleware } from '@/shared/infra/express/middlewares';
+import { authMiddleware } from '@/main/infra/express/middlewares';
 
 import {
   makeHttpCreateUserController,

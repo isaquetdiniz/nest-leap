@@ -1,9 +1,9 @@
-import { Controller } from '@/application/http-server/protocols';
+import { HttpController } from '@/shared/interface/http/protocols';
 
 import { Request, Response } from 'express';
-import { convertProperties } from './express-query-converter';
+import { convertProperties } from '@/shared/helpers/query-converter-helper';
 
-export const adaptRoute = (controller: Controller) => {
+export const adaptRoute = (controller: HttpController) => {
   // @ts-ignore
   return async (req: Request, res: Response) => {
     const httRequest = {
@@ -14,11 +14,6 @@ export const adaptRoute = (controller: Controller) => {
     };
 
     const httpResponse = await controller.handle(httRequest);
-
-    if (httpResponse.type === 'csv') {
-      res.setHeader('Content-Type', 'text/csv');
-      return res.status(httpResponse.statusCode).send(httpResponse.body.data);
-    }
 
     if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
       res.status(httpResponse.statusCode).json(httpResponse.body);

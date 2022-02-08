@@ -1,5 +1,5 @@
 import { IGetUserByEmailRepository } from '@/domains/user';
-import { PrismaClient } from '.prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { prismaConnector } from '@/shared/infra/prisma';
 
 export class PrismaGetUserByEmailRepository

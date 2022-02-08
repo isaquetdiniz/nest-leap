@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/node';
 
-import { LoggerErrorCloud } from '@/domain/usecases/protocols/logs/logger-error-cloud';
+import { ILoggerCloud } from '@/shared/protocols';
 import sentryEnvironment from './sentry-environment';
 
-export class SentryLoggerErrorCloudAdapter implements LoggerErrorCloud {
+class SentryLoggerCloud implements ILoggerCloud {
   private hasSetuped: boolean = false;
 
   setup() {
@@ -16,7 +16,7 @@ export class SentryLoggerErrorCloudAdapter implements LoggerErrorCloud {
     this.hasSetuped = true;
   }
 
-  log(error: Error): void {
+  logError(error: Error): void {
     if (this.hasSetuped === false) {
       this.setup();
     }
@@ -31,3 +31,7 @@ export class SentryLoggerErrorCloudAdapter implements LoggerErrorCloud {
     transaction.finish();
   }
 }
+
+const sentryLoggerCloud = new SentryLoggerCloud();
+
+export { sentryLoggerCloud };

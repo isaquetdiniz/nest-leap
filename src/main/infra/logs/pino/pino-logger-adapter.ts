@@ -1,8 +1,8 @@
 import pino, { P } from 'pino';
 import pinoEnvironment from './pino-environment';
-import { LoggerLocal } from '@/domain/usecases/protocols/logs';
+import { ILoggerLocal } from '@/shared/protocols';
 
-export class PinoLoggerLocalAdapter implements LoggerLocal {
+class PinoLoggerLocal implements ILoggerLocal {
   private readonly pinoInstance: P.Logger = pino({
     enabled: pinoEnvironment.enabled,
     level: pinoEnvironment.level,
@@ -18,11 +18,19 @@ export class PinoLoggerLocalAdapter implements LoggerLocal {
       : {}),
   });
 
-  logInfo(message: string): void {
+  logInfo(message: any): void {
     this.pinoInstance.info(message);
   }
 
-  logError(error: Error): void {
+  logDebug(message: any): void {
+    this.pinoInstance.debug(message);
+  }
+
+  logError(error: any): void {
     this.pinoInstance.error(error);
   }
 }
+
+const pinoLoggerLocal = new PinoLoggerLocal();
+
+export { pinoLoggerLocal };

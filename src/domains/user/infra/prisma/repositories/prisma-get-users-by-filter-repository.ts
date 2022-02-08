@@ -1,5 +1,5 @@
 import { IGetUsersByFilterRepository } from '@/domains/user';
-import { PrismaClient } from '.prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { prismaConnector } from '@/shared/infra/prisma';
 import { PrismaFormatter } from '@/shared/infra/prisma/prisma-formatter';
 

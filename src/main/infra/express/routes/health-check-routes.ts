@@ -1,9 +1,12 @@
 import { Router } from 'express';
 
 import { adaptRoute } from '@/shared/infra/express/adapters';
+import { HealthCheckController } from '@/shared/interface/http/controllers';
 
-import { makeHealthCheckController } from '@/main/factories/controllers';
+const healthCheckRouter = Router();
 
-export default (router: Router): void => {
-  router.get('/health-check', adaptRoute(makeHealthCheckController()));
-};
+healthCheckRouter
+  .route('/health-check')
+  .get(adaptRoute(new HealthCheckController()));
+
+export { healthCheckRouter };

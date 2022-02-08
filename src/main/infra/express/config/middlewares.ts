@@ -6,7 +6,7 @@ import {
   contentType,
   helmetMiddleware,
   pinoHttp,
-} from '@/shared/infra/express/middlewares';
+} from '@/main/infra/express/middlewares';
 
 export default (app: Express): void => {
   app.use(helmetMiddleware);

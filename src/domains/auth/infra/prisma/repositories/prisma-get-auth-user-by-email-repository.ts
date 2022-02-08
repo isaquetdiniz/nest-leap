@@ -1,4 +1,4 @@
-import { PrismaClient } from '.prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { prismaConnector } from '@/shared/infra/prisma';
 
 import { AuthUserDTO, IGetAuthUserByEmailRepository } from '@/domains/auth';
@@ -12,9 +12,9 @@ export class PrismaGetAuthUserByEmailRepository
     this.prismaConnection = prismaConnector.connect();
   }
 
-  async get(email: string): Promise<AuthUserDTO> {
+  async get(email: string): Promise<AuthUserDTO | null> {
     const [user] = await this.prismaConnection.user.findMany({
-      where: { email: email },
+      where: { email: email, enabled: true },
       select: {
         id: true,
         isAdmin: true,

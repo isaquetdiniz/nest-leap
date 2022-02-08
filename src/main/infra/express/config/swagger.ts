@@ -1,5 +1,5 @@
-import swaggerConfig from '@/shared/infra/swagger';
-import { noCache } from '@/shared/infra/express/middlewares';
+import swaggerConfig from '@/main/infra/swagger';
+import { noCache } from '@/main/infra/express/middlewares';
 
 import { serve, setup } from 'swagger-ui-express';
 import { Express, Request, Response } from 'express';

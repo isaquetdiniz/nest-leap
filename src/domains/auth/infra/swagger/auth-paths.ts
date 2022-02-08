@@ -1,4 +1,8 @@
-import { responses } from '@/shared/infra/swagger/helpers';
+import {
+  responses,
+  SwaggerContents,
+  SwaggerTypes,
+} from '@/shared/infra/swagger/helpers';
 
 export const authTag = 'Auth';
 
@@ -9,39 +13,38 @@ export const authPaths = {
       summary: 'First login',
       produces: ['application/json'],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/schemas/firstLoginSchema',
-            },
-            example: {
-              email: 'any_email@mail.com',
-              newPassword: 'batatao',
-              temporaryPassword: 'topdemais',
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [
+            ['email', SwaggerTypes.email(true)],
+            ['newPassword', SwaggerTypes.password(true)],
+            ['temporaryPassword', SwaggerTypes.password(true)],
+          ],
+          [
+            ['email', 'any_email@mail.com'],
+            ['newPassword', 'senhaforte'],
+            ['temporaryPassword', 'topdemais'],
+          ]
+        ),
       },
       responses,
     },
   },
   '/auth/login': {
     post: {
-      tags: ['Auth'],
+      tags: [authTag],
       summary: 'Login',
       produces: ['application/json'],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/schemas/loginSchema',
-            },
-            example: {
-              email: 'any_email@mail.com',
-              password: 'batatao',
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [
+            ['email', SwaggerTypes.email(true)],
+            ['password', SwaggerTypes.password(true)],
+          ],
+          [
+            ['email', 'any_email@mail.com'],
+            ['password', 'senhaforte'],
+          ]
+        ),
       },
       responses,
     },
@@ -52,22 +55,10 @@ export const authPaths = {
       summary: 'Forgot Password',
       produces: ['application/json'],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                email: {
-                  type: 'string',
-                  required: true,
-                },
-              },
-            },
-            example: {
-              email: 'any_email@mail.com',
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [['email', SwaggerTypes.email(true)]],
+          [['email', 'any_email@mail.com']]
+        ),
       },
       responses,
     },
@@ -78,32 +69,18 @@ export const authPaths = {
       summary: 'Confirm Forgot Password',
       produces: ['application/json'],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                email: {
-                  type: 'string',
-                  required: true,
-                },
-                newPassword: {
-                  type: 'string',
-                  required: true,
-                },
-                verificationCode: {
-                  type: 'string',
-                  required: true,
-                },
-              },
-            },
-            example: {
-              email: 'any_email@mail.com',
-              newPassword: 'blablabla',
-              verificationCode: 1020,
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [
+            ['email', SwaggerTypes.email(true)],
+            ['newPassword', SwaggerTypes.password(true)],
+            ['verificationCode', SwaggerTypes.password(true)],
+          ],
+          [
+            ['email', 'any_email@mail.com'],
+            ['newPassword', 'senhaforte'],
+            ['verificationCode', '40028922'],
+          ]
+        ),
       },
       responses,
     },
@@ -114,22 +91,10 @@ export const authPaths = {
       summary: 'Get a refresh token',
       produces: ['application/json'],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                refreshToken: {
-                  type: 'string',
-                  required: true,
-                },
-              },
-            },
-            example: {
-              refreshToken: 'jwttoken',
-            },
-          },
-        },
+        content: SwaggerContents.applicationJson(
+          [['refreshToken', SwaggerTypes.email(true)]],
+          [['refreshToken', 'jwttoken']]
+        ),
       },
       responses,
     },

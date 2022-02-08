@@ -1,4 +1,4 @@
-import { Middleware } from '@/application/http-server/protocols';
+import { Middleware } from '@/shared/interface/http/protocols';
 
 import { NextFunction, Request, Response } from 'express';
 

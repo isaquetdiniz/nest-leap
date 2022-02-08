@@ -19,11 +19,11 @@
     "test:integration": "npm test -- --watch -c jest-integration-config.js --verbose",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
-    "prisma:generate": "npx prisma generate --schema=./src/infra/databases/postgres/prisma/schema.prisma",
-    "prisma:migration": "npx prisma migrate dev --schema=./src/infra/databases/postgres/prisma/schema.prisma --name",
-    "prisma:migration:push": "npx prisma migrate deploy --schema=./src/infra/databases/postgres/prisma/schema.prisma",
-    "prisma:introspect": "npx prisma introspect --force --schema=./src/infra/databases/postgres/prisma/schema.prisma && npm run prisma:generate",
-    "prisma:push": "npx prisma db push --schema=./src/infra/databases/postgres/prisma/schema.prisma --accept-data-loss",
+    "prisma:generate": "npx prisma generate --schema=./src/main/infra/prisma/schema.prisma",
+    "prisma:migration": "npx prisma migrate dev --schema=./src/main/infra/prisma/schema.prisma --name",
+    "prisma:migration:push": "npx prisma migrate deploy --schema=./src/main/infra/prisma/schema.prisma",
+    "prisma:introspect": "npx prisma introspect --force --schema=./src/main/infra/prisma/schema.prisma && npm run prisma:generate",
+    "prisma:push": "npx prisma db push --schema=./src/main/infra/prisma/schema.prisma --accept-data-loss",
     "prepare": "husky install",
     "plop": "plop"
   },
@@ -82,7 +82,6 @@
     "pino": "^7.1.0",
     "pino-http": "^6.0.0",
     "prisma": "^3.4.1",
-    "uuid": "^8.3.2",
     "validator": "^13.7.0"
   },
   "_moduleAliases": {
