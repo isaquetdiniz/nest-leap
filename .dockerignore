@@ -24,3 +24,5 @@ jest.config.js
 plopfile.js
 README.md
 .git*
+data/
+build/

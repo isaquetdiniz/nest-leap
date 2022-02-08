@@ -55,11 +55,12 @@ services:
     env_file:
       - .env
     environment:
+      NODE_ENV: 'development'
       DATABASE_HOST: 'db-dev'
       DATABASE_PORT: '5432'
       DATABASE_URL: 'postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@db-dev:5432/${DATABASE_NAME}?schema=public'
     volumes:
-      - ./src:/usr/app/src
+      - ./src:/home/node/src
     depends_on:
       - db-dev
 
@@ -67,10 +68,15 @@ services:
     profiles:
       - prod
     build:
-      context: ./build/prod
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./build/prod/Dockerfile
+      args:
+        BUILD_DATABASE_URL: '${DATABASE_URL:?DATABASE_URL env var is missing on .env file}'
     hostname: api-prod
     restart: unless-stopped
     ports:
       - '${API_PORT:?API_PORT env var is missing on .env file}:3001'
-
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: 'production'
