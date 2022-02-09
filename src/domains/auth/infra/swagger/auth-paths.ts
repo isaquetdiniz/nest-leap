@@ -7,7 +7,7 @@ import {
 export const authTag = 'Auth';
 
 export const authPaths = {
-  '/auth/first_login': {
+  '/auth/first-login': {
     post: {
       tags: [authTag],
       summary: 'First login',
@@ -49,7 +49,7 @@ export const authPaths = {
       responses,
     },
   },
-  '/auth/forgot_password': {
+  '/auth/forgot-password': {
     post: {
       tags: ['Auth'],
       summary: 'Forgot Password',
@@ -63,7 +63,7 @@ export const authPaths = {
       responses,
     },
   },
-  '/auth/confirm_forgot_password': {
+  '/auth/confirm-forgot-password': {
     post: {
       tags: ['Auth'],
       summary: 'Confirm Forgot Password',
@@ -85,7 +85,7 @@ export const authPaths = {
       responses,
     },
   },
-  '/auth/refresh_token': {
+  '/auth/refresh-token': {
     post: {
       tags: ['Auth'],
       summary: 'Get a refresh token',
