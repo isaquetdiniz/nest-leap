@@ -21,7 +21,7 @@ export class PrismaGetUsersByFilterRepository
 
     const users = await this.prismaConnection.user.findMany({
       where: filtersFormated,
-      orderBy: { [orderBy.property]: { mode: orderBy.mode } },
+      orderBy: { [orderBy.property]: orderBy.mode },
       take: pagination.take,
       skip: pagination.skip,
     });

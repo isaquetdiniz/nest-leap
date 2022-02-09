@@ -14,9 +14,9 @@ export class OrderByFilter {
   property: string;
   mode: OrderByMode;
 
-  constructor({ property, mode }: OrderByFilterDTO) {
-    this.property = property ?? 'createdAt';
-    this.mode = mode ?? OrderByMode.DESC;
+  constructor(orderByFilter: OrderByFilterDTO) {
+    this.property = orderByFilter?.property ?? 'createdAt';
+    this.mode = orderByFilter?.mode ?? OrderByMode.DESC;
   }
 
   generateDTO() {

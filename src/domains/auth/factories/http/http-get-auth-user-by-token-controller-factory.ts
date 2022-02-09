@@ -2,19 +2,19 @@ import {
   PrismaGetAuthUserByEmailRepository,
   HttpGetAuthUserByTokenController,
   makeGetAuthUserByTokenValidation,
-  CognitoGetAuthUserByEmailInCloudGateway,
+  CognitoGetAuthUserByTokenInCloudGateway,
 } from '@/domains/auth';
 
 export const makeHttpGetAuthUserByTokenController = (
   authUserRole: 'ADMIN' | 'USER' = 'USER'
 ): HttpGetAuthUserByTokenController => {
   const getAuthUserByEmailRepository = new PrismaGetAuthUserByEmailRepository();
-  const getAuthUserByEmailInCloudGateway =
-    new CognitoGetAuthUserByEmailInCloudGateway();
+  const getAuthUserByTokenInCloudGateway =
+    new CognitoGetAuthUserByTokenInCloudGateway();
   const validation = makeGetAuthUserByTokenValidation();
 
   return new HttpGetAuthUserByTokenController(
-    getAuthUserByEmailInCloudGateway,
+    getAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository,
     validation,
     authUserRole

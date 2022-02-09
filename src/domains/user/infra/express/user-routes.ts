@@ -16,7 +16,7 @@ const userRouter = Router();
 
 userRouter
   .route('/users')
-  .post(authMiddleware('ADMIN'), adaptRoute(makeHttpCreateUserController()))
+  .post(adaptRoute(makeHttpCreateUserController()))
   .get(
     authMiddleware('USER'),
     adaptRoute(makeHttpGetUsersByFilterController())

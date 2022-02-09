@@ -31,7 +31,7 @@ export class GetUserByIdController {
   async execute(request: GetUserByIdRequest): Promise<GetUserByIdResponse> {
     const { id } = request;
 
-    const hasErrors = this.validation.validate(id);
+    const hasErrors = this.validation.validate(request);
 
     if (hasErrors) {
       throw new ValidationException(hasErrors);

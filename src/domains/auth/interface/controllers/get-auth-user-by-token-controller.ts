@@ -40,8 +40,10 @@ export class GetAuthUserByTokenController {
 
     const { token } = request;
 
+    const accessTokenWithouBearer = token.replace('Bearer ', '');
+
     const authUser = await this.usecase.execute({
-      token,
+      token: accessTokenWithouBearer,
     });
 
     const autUserDTO = AuthUserTransformer.generateDTO(authUser);

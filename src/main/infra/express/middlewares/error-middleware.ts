@@ -9,20 +9,32 @@ export const errorMiddleware = async (
 ): Promise<void> => {
   const status = error?.statusCode || 500;
 
-  const exception =
-    error.body instanceof DefaultException
-      ? {
-          type: error.body?.type,
-          code: error.body?.code,
-          data: error.body?.data?.name,
-          message: error.body?.data?.message,
-        }
-      : {
-          type: ExceptionTypes.UNKNOWN,
-          code: '1',
-          data: error.stack,
-          message: error.message,
-        };
+  if (error.body instanceof DefaultException) {
+    res.status(status).json({
+      type: error.body?.type,
+      code: error.body?.code,
+      data: error.body?.data?.name,
+      message: error.body?.data?.message,
+    });
 
-  res.status(status).json(exception);
+    return;
+  }
+
+  if (error.body) {
+    res.status(status).json({
+      type: error.body?.type,
+      code: error.body?.code,
+      data: error.body?.name,
+      message: error.body?.stack,
+    });
+
+    return;
+  }
+
+  res.status(status).json({
+    type: ExceptionTypes.UNKNOWN,
+    code: '1',
+    data: error.stack,
+    message: error.message,
+  });
 };

@@ -44,11 +44,13 @@ const propertysInQueryToConvert = {
 
 export const convertProperties = (obj: any): any =>
   Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => {
-      // @ts-ignore
-      if (propertysInQueryToConvert[key])
+    Object.entries(obj)
+      .filter(([key, value]) => value !== undefined)
+      .map(([key, value]) => {
         // @ts-ignore
-        return [key, propertysInQueryToConvert[key](value)];
-      return [key, value];
-    })
+        if (propertysInQueryToConvert[key])
+          // @ts-ignore
+          return [key, propertysInQueryToConvert[key](value)];
+        return [key, value];
+      })
   );

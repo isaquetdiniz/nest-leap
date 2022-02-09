@@ -30,7 +30,7 @@ export class CognitoGetUserByEmailInCloudRepository
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return resolve(null);
           }
 
           const { Username: username, UserStatus: status }: any = data;

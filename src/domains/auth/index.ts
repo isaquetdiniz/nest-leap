@@ -48,6 +48,7 @@ export * from './interface/http/http-get-refresh-token-controller';
 
 export * from './infra/cognito/gateways/cognito-login-in-cloud-gateway';
 export * from './infra/cognito/gateways/cognito-get-auth-user-by-email-in-cloud-gateway';
+export * from './infra/cognito/gateways/cognito-get-auth-user-by-token-in-cloud-gateway';
 export * from './infra/cognito/gateways/cognito-first-login-in-cloud-gateway';
 export * from './infra/cognito/gateways/cognito-confirm-forgot-password-in-cloud-gateway';
 export * from './infra/cognito/gateways/cognito-forgot-password-in-cloud-gateway';

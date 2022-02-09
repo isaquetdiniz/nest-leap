@@ -15,9 +15,7 @@ export const adaptMiddleware = (middleware: Middleware): any => {
       Object.assign(req, httpResponse.body);
       next();
     } else {
-      res
-        .status(httpResponse.statusCode)
-        .json({ error: httpResponse.body?.message });
+      next(httpResponse);
     }
   };
 };

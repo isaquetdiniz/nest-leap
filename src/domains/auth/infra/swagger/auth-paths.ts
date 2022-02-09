@@ -7,7 +7,7 @@ import {
 export const authTag = 'Auth';
 
 export const authPaths = {
-  '/auth/first-login': {
+  '/auth/first-access': {
     post: {
       tags: [authTag],
       summary: 'First login',
