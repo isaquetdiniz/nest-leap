@@ -1,0 +1,13 @@
+import { {{pascalCase name}}DTO } from '@/domains/{{dashCase name}}';
+import { {{pascalCase name}}Filters } from '../get-{{dashCase name}}s-by-filter-usecase';
+
+export interface IGet{{pascalCase name}}ByFilterRepository {
+  get(
+    params: IGet{{pascalCase name}}sByFilterRepository.Params
+  ): Promise<IGet{{pascalCase name}}sByFilterRepository.Result>;
+}
+
+export namespace IGet{{pascalCase name}}sByFilterRepository {
+  export type Params = {{pascalCase name}}Filters;
+  export type Result = {{pascalCase name}}DTO[];
+}

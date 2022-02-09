@@ -47,6 +47,39 @@ const usecasesExceptions = [
   },
 ];
 
+const usecasesRepos = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/repos/get-{{dashCase name}}-by-id-repository.ts',
+    templateFile:
+      'plop-templates/domains/usecases/repos/get-entity-by-id-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/repos/delete-{{dashCase name}}-by-id-repository.ts',
+    templateFile:
+      'plop-templates/domains/usecases/repos/delete-entity-by-id-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/repos/save-{{dashCase name}}-repository.ts',
+    templateFile:
+      'plop-templates/domains/usecases/repos/save-entity-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/repos/get-{{dashCase name}}s-by-filter-repository.ts',
+    templateFile:
+      'plop-templates/domains/usecases/repos/get-entities-by-filter-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/repos/update-{{dashCase name}}-repository.ts',
+    templateFile:
+      'plop-templates/domains/usecases/repos/update-entity-repository.hbs',
+  },
+];
+
 const factoriesActions = {
   prisma: {
     create: [
@@ -668,6 +701,6 @@ module.exports = function (plop) {
   plop.setGenerator('[NEW DOMAIN]: Create new Domain', {
     description: 'Generate a new domain',
     prompts: [inputName],
-    actions: [...domainActions2, ...usecasesExceptions],
+    actions: [...domainActions2, ...usecasesExceptions, ...usecasesRepos],
   });
 };

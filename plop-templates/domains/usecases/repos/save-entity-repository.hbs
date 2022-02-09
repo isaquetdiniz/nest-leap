@@ -1,0 +1,12 @@
+import { {{pascalCase name}}DTO } from '@/domains/{{dashCase name}}';
+
+export interface ISave{{pascalCase name}}Repository {
+  save(
+    {{camelCase name}}Params: ISave{{pascalCase name}}Repository.Params
+  ): Promise<ISave{{pascalCase name}}Repository.Result>;
+}
+
+export namespace ISave{{pascalCase name}}Repository {
+  export type Params = {{pascalCase name}}DTO;
+  export type Result = {{pascalCase name}}DTO;
+}
