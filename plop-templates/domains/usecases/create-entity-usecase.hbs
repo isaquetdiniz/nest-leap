@@ -1,0 +1,55 @@
+import {
+  {{pascalCase name}},
+  {{pascalCase name}}Transformer,
+  IGet{{pascalCase name}}ByNameRepository,
+  ISave{{pascalCase name}}Repository,
+  {{pascalCase name}}AlreadyExistsException,
+} from '@/domains/{{dashCase name}}';
+
+import { IUuidGenerator } from '@/shared/protocols/uuid-generator';
+
+export interface ICreate{{pascalCase name}}Usecase {
+  execute(
+    params: ICreate{{pascalCase name}}Usecase.Params
+  ): Promise<ICreate{{pascalCase name}}Usecase.Response>;
+}
+
+export namespace ICreate{{pascalCase name}}Usecase {
+  export type Params = {
+    name: string;
+  };
+
+  export type Response = {{pascalCase name}};
+}
+
+export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase name}}Usecase {
+  constructor(
+    private readonly get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
+    private readonly uuidGenerator: IUuidGenerator,
+    private readonly save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
+  ) {}
+
+  async execute(
+    params: ICreate{{pascalCase name}}Usecase.Params
+  ): Promise<ICreate{{pascalCase name}}Usecase.Response> {
+    const { name } = params;
+
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByNameRepository.get(name);
+
+    if ({{camelCase name}}Exists) {
+      throw new {{pascalCase name}}AlreadyExistsException({ name });
+    }
+
+    const id = this.uuidGenerator.generate();
+
+    const {{camelCase name}} = new {{pascalCase name}}({ id, name });
+
+    const {{camelCase name}}DTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}});
+
+    const {{camelCase name}}CreatedDTO = await this.save{{pascalCase name}}Repository.save({{camelCase name}}DTO);
+
+    const {{camelCase name}}Created = new {{pascalCase name}}({{camelCase name}}CreatedDTO);
+
+    return {{camelCase name}}Created;
+  }
+}

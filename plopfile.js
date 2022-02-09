@@ -78,6 +78,20 @@ const usecasesRepos = [
     templateFile:
       'plop-templates/domains/usecases/repos/update-entity-repository.hbs',
   },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/repos/get-{{dashCase name}}-by-name-repository.ts',
+    templateFile:
+      'plop-templates/domains/usecases/repos/get-entity-by-name-repository.hbs',
+  },
+];
+
+const usecases = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/create-{{dashCase name}}-usecase.ts',
+    templateFile: 'plop-templates/domains/usecases/create-entity-usecase.hbs',
+  },
 ];
 
 const factoriesActions = {
@@ -701,6 +715,11 @@ module.exports = function (plop) {
   plop.setGenerator('[NEW DOMAIN]: Create new Domain', {
     description: 'Generate a new domain',
     prompts: [inputName],
-    actions: [...domainActions2, ...usecasesExceptions, ...usecasesRepos],
+    actions: [
+      ...domainActions2,
+      ...usecasesExceptions,
+      ...usecasesRepos,
+      ...usecases,
+    ],
   });
 };
