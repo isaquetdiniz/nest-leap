@@ -6,8 +6,6 @@ import {
   contentType,
   helmetMiddleware,
   pinoHttp,
-  responseMiddleware,
-  errorMiddleware,
 } from '@/main/infra/express/middlewares';
 
 export default (app: Express): void => {
@@ -16,6 +14,4 @@ export default (app: Express): void => {
   app.use(corsMiddleware);
   app.use(contentType);
   app.use(pinoHttp);
-  app.use(responseMiddleware);
-  app.use(errorMiddleware);
 };

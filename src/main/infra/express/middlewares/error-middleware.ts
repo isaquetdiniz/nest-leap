@@ -7,7 +7,7 @@ export const errorMiddleware = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const status = error.statusCode || 500;
+  const status = error?.statusCode || 500;
 
   const exception =
     error.body instanceof DefaultException
