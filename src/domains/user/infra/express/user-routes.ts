@@ -12,24 +12,23 @@ import {
   makeHttpUpdateUserByIdController,
 } from '@/domains/user';
 
-export default (router: Router): void => {
-  router
-    .route('/users')
-    .post(authMiddleware('ADMIN'), adaptRoute(makeHttpCreateUserController()))
-    .get(
-      authMiddleware('USER'),
-      adaptRoute(makeHttpGetUsersByFilterController())
-    );
+const userRouter = Router();
 
-  router
-    .route('/users/:id')
-    .get(authMiddleware('USER'), adaptRoute(makeHttpGetUserByIdController()))
-    .patch(
-      authMiddleware('USER'),
-      adaptRoute(makeHttpUpdateUserByIdController())
-    )
-    .delete(
-      authMiddleware('ADMIN'),
-      adaptRoute(makeHttpDeleteUserByIdController())
-    );
-};
+userRouter
+  .route('/users')
+  .post(authMiddleware('ADMIN'), adaptRoute(makeHttpCreateUserController()))
+  .get(
+    authMiddleware('USER'),
+    adaptRoute(makeHttpGetUsersByFilterController())
+  );
+
+userRouter
+  .route('/users/:id')
+  .get(authMiddleware('USER'), adaptRoute(makeHttpGetUserByIdController()))
+  .patch(authMiddleware('USER'), adaptRoute(makeHttpUpdateUserByIdController()))
+  .delete(
+    authMiddleware('ADMIN'),
+    adaptRoute(makeHttpDeleteUserByIdController())
+  );
+
+export { userRouter };

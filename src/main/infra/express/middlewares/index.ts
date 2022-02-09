@@ -5,3 +5,5 @@ export * from './no-cache';
 export * from './helmet';
 export * from './pino-http';
 export * from './auth-middleware';
+export * from './error-middleware';
+export * from './response-middleware';
