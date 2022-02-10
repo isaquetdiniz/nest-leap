@@ -1,0 +1,68 @@
+import {
+  badRequest,
+  notFound,
+  ok,
+  serverError,
+} from '@/shared/interface/http/helpers';
+import {
+  HttpController,
+  HttpResponse,
+} from '@/shared/interface/http/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  IGet{{pascalCase name}}ByIdRepository,
+  IUpdate{{pascalCase name}}Repository,
+  Update{{pascalCase name}}ByIdController,
+  {{pascalCase name}}NotFoundException,
+} from '@/domains/{{dashCase name}}';
+import { ValidationException } from '@/shared/helpers';
+
+export interface HttpUpdate{{pascalCase name}}ByIdRequest {
+  id: string;
+  name?: string;
+  enabled?: boolean;
+}
+
+export class HttpUpdate{{pascalCase name}}ByIdController implements HttpController {
+  private controller: Update{{pascalCase name}}ByIdController;
+
+  constructor(
+    get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
+    validation: Validation
+  ) {
+    this.controller = new Update{{pascalCase name}}ByIdController(
+      get{{pascalCase name}}ByIdRepository,
+      update{{pascalCase name}}Repository,
+      validation
+    );
+  }
+
+  async handle(httpRequest: HttpUpdate{{pascalCase name}}ByIdRequest): Promise<HttpResponse> {
+    const { id, name, enabled } = httpRequest;
+
+    const request = {
+      id,
+      paramsToUpdate: {
+        name,
+        enabled,
+      },
+    };
+
+    try {
+      const {{camelCase name}}Updated = await this.controller.execute(request);
+
+      return ok({{camelCase name}}Updated);
+    } catch (error) {
+      if (error instanceof ValidationException) {
+        return badRequest(error);
+      }
+
+      if (error instanceof {{pascalCase name}}NotFoundException) {
+        return notFound(error);
+      }
+
+      return serverError(error as Error);
+    }
+  }
+}

@@ -159,19 +159,19 @@ const interfaceHttoControllers = [
     templateFile:
       'plop-templates/domains/interface/http/http-delete-entity-by-id-controller.hbs',
   },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/http/http-get-{{dashCase name}}-by-id-controller.ts',
+    templateFile:
+      'plop-templates/domains/interface/http/http-get-entity-by-id-controller.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/http/http-update-{{dashCase name}}-by-id-controller.ts',
+    templateFile:
+      'plop-templates/domains/interface/http/http-update-entity-by-id-controller.hbs',
+  },
   /*
-  {
-    type: 'add',
-    path: 'src/domains/{{dashCase name}}/interface/controllers/get-{{dashCase name}}-by-id-controller.ts',
-    templateFile:
-      'plop-templates/domains/interface/controllers/get-entity-by-id-controller.hbs',
-  },
-  {
-    type: 'add',
-    path: 'src/domains/{{dashCase name}}/interface/controllers/update-{{dashCase name}}-by-id-controller.ts',
-    templateFile:
-      'plop-templates/domains/interface/controllers/update-entity-by-id-controller.hbs',
-  },
   {
     type: 'add',
     path: 'src/domains/{{dashCase name}}/interface/controllers/get-{{dashCase name}}s-by-filter-controller.ts',
