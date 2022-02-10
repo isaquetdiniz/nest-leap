@@ -171,14 +171,12 @@ const interfaceHttoControllers = [
     templateFile:
       'plop-templates/domains/interface/http/http-update-entity-by-id-controller.hbs',
   },
-  /*
   {
     type: 'add',
-    path: 'src/domains/{{dashCase name}}/interface/controllers/get-{{dashCase name}}s-by-filter-controller.ts',
+    path: 'src/domains/{{dashCase name}}/interface/http/http-get-{{dashCase name}}s-by-filter-controller.ts',
     templateFile:
-      'plop-templates/domains/interface/controllers/get-entities-by-filter-controller.hbs',
+      'plop-templates/domains/interface/http/http-get-entities-by-filter-controller.hbs',
   },
-  */
 ];
 
 const factoriesActions = {
