@@ -179,6 +179,40 @@ const interfaceHttoControllers = [
   },
 ];
 
+const interfaceValidators = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/validation/create-{{dashCase name}}-validation.ts',
+    templateFile:
+      'plop-templates/domains/interface/validation/create-entity-validation.hbs',
+  },
+
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/validation/delete-{{dashCase name}}-by-id-validation.ts',
+    templateFile:
+      'plop-templates/domains/interface/validation/delete-entity-by-id-validation.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/validation/get-{{dashCase name}}-by-id-validation.ts',
+    templateFile:
+      'plop-templates/domains/interface/validation/get-entity-by-id-validation.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/validation/update-{{dashCase name}}-by-id-validation.ts',
+    templateFile:
+      'plop-templates/domains/interface/validation/update-entity-by-id-validation.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/validation/get-{{dashCase name}}s-by-filter-validation.ts',
+    templateFile:
+      'plop-templates/domains/interface/validation/get-entities-by-filter-validation.hbs',
+  },
+];
+
 const factoriesActions = {
   prisma: {
     create: [
@@ -807,6 +841,7 @@ module.exports = function (plop) {
       ...usecases,
       ...interfaceControllers,
       ...interfaceHttoControllers,
+      ...interfaceValidators,
     ],
   });
 };
