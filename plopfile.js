@@ -250,11 +250,21 @@ const infraPrisma = [
     templateFile:
       'plop-templates/domains/infra/prisma/prisma-update-entity-repository.hbs',
   },
+  /*
   {
     type: 'append',
     path: 'src/main/infra/prisma/schema.prisma',
     separator: '',
     templateFile: 'plop-templates/domains/infra/prisma/prisma-schema.hbs',
+  },
+  */
+];
+
+const infraSwagger = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/swagger/{{dashCase name}}-paths.ts',
+    templateFile: 'plop-templates/domains/infra/swagger/entity-paths.hbs',
   },
 ];
 
@@ -888,6 +898,7 @@ module.exports = function (plop) {
       ...interfaceHttoControllers,
       ...interfaceValidators,
       ...infraPrisma,
+      ...infraSwagger,
     ],
   });
 };

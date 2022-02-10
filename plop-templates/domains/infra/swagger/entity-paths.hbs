@@ -1,0 +1,85 @@
+import {
+  responses,
+  security,
+  SwaggerContents,
+  SwaggerPath,
+  SwaggerTypes,
+  SwaggerQuery,
+  defaultFilterParams,
+} from '@/shared/infra/swagger/helpers';
+
+export const {{camelCase name}}Tag = '{{pascalCase name}}';
+
+export const {{camelCase name}}Paths = {
+  '/{{dashCase name}}s': {
+    get: {
+      tags: [{{camelCase name}}Tag],
+      summary: 'Get {{pascalCase name}}s',
+      produces: ['application/json'],
+      parameters: [
+        ...SwaggerQuery.params([
+          ['name', SwaggerTypes.string()],
+          ['enabled', SwaggerTypes.boolean()],
+        ]),
+        ...defaultFilterParams,
+      ],
+      security,
+      responses,
+    },
+    post: {
+      tags: [{{camelCase name}}Tag],
+      summary: 'Create a new {{camelCase name}}',
+      produces: ['application/json'],
+      requestBody: {
+        content: SwaggerContents.applicationJson(
+          [
+            ['name', SwaggerTypes.string(true)],
+          ],
+          [
+            ['name', 'danoninho'],
+          ]
+        ),
+      },
+      security,
+      responses,
+    },
+  },
+  '/{{dashCase name}}s/{id}': {
+    get: {
+      tags: [{{camelCase name}}Tag],
+      summary: 'Get a {{pascalCase name}}',
+      produces: ['application/json'],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      security,
+      responses,
+    },
+    patch: {
+      tags: [{{camelCase name}}Tag],
+      summary: 'Update a {{pascalCase name}} by id',
+      produces: ['application/json'],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      requestBody: {
+        content: SwaggerContents.applicationJson(
+          [
+            ['name', SwaggerTypes.string()],
+            ['enabled', SwaggerTypes.boolean()],
+          ],
+          [
+            ['name', 'danoninho'],
+            ['enabled', true],
+          ]
+        ),
+      },
+      security,
+      responses,
+    },
+    delete: {
+      tags: ['{{camelCase name}}s'],
+      summary: 'Delete a {{pascalCase name}} by id',
+      produces: ['application/json'],
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      security,
+      responses,
+    },
+  },
+};
