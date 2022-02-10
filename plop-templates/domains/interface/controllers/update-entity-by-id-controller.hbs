@@ -1,0 +1,58 @@
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  IGet{{pascalCase name}}ByIdRepository,
+  IUpdate{{pascalCase name}}Repository,
+  Update{{pascalCase name}}ByIdUsecase,
+  {{pascalCase name}}DTO,
+  {{pascalCase name}}Transformer,
+} from '@/domains/{{dashCase name}}';
+import { ValidationException } from '@/shared/helpers';
+
+export interface Update{{pascalCase name}}ByIdRequest {
+  id: string;
+  paramsToUpdate: {
+    name?: string;
+    enabled?: boolean;
+  };
+}
+
+export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}}DTO;
+
+export class Update{{pascalCase name}}ByIdController {
+  private usecase: Update{{pascalCase name}}ByIdUsecase;
+
+  constructor(
+    get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
+    private readonly validation: Validation
+  ) {
+    this.usecase = new Update{{pascalCase name}}ByIdUsecase(
+      get{{pascalCase name}}ByIdRepository,
+      update{{pascalCase name}}Repository
+    );
+  }
+
+  async execute(
+    request: Update{{pascalCase name}}ByIdRequest
+  ): Promise<Update{{pascalCase name}}ByIdResponse> {
+    const { id, paramsToUpdate } = request;
+
+    const { name, enabled } = paramsToUpdate;
+
+    const hasErrors = this.validation.validate({
+      id,
+      name,
+      enabled
+    });
+
+    if (hasErrors) {
+      throw new ValidationException(hasErrors);
+    }
+
+    const {{camelCase name}}Updated = await this.usecase.execute({ id, paramsToUpdate });
+
+    const {{camelCase name}}UpdatedDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}Updated);
+
+    return {{camelCase name}}UpdatedDTO;
+  }
+}
