@@ -1,0 +1,47 @@
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  {{pascalCase name}}DTO,
+  Get{{pascalCase name}}ByIdUsecase,
+  IGet{{pascalCase name}}ByIdRepository,
+  {{pascalCase name}}Transformer,
+} from '@/domains/{{dashCase name}}';
+import { ValidationException } from '@/shared/helpers';
+
+export interface Get{{pascalCase name}}ByIdRequest {
+  id: string;
+}
+
+export type Get{{pascalCase name}}ByIdResponse = { {{camelCase name}}: {{pascalCase name}}DTO } | null;
+
+export class Get{{pascalCase name}}ByIdController {
+  private usecase: Get{{pascalCase name}}ByIdUsecase;
+
+  constructor(
+    get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    private readonly validation: Validation
+  ) {
+    this.usecase = new Get{{pascalCase name}}ByIdUsecase(
+      get{{pascalCase name}}ByIdRepository,
+    );
+  }
+
+  async execute(request: Get{{pascalCase name}}ByIdRequest): Promise<Get{{pascalCase name}}ByIdResponse> {
+    const { id } = request;
+
+    const hasErrors = this.validation.validate(request);
+
+    if (hasErrors) {
+      throw new ValidationException(hasErrors);
+    }
+
+    const {{camelCase name}} = await this.usecase.execute(id);
+
+    if (!{{camelCase name}}) {
+      return null;
+    }
+
+    const {{camelCase name}}DTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}});
+
+    return { {{camelCase name}}: {{camelCase name}}DTO };
+  }
+}

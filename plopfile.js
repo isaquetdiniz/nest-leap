@@ -119,6 +119,12 @@ const interfaceControllers = [
     templateFile:
       'plop-templates/domains/interface/controllers/create-entity-controller.hbs',
   },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/controllers/get-{{dashCase name}}-by-id-controller.ts',
+    templateFile:
+      'plop-templates/domains/interface/controllers/get-entity-by-id-controller.hbs',
+  },
 ];
 
 const factoriesActions = {
