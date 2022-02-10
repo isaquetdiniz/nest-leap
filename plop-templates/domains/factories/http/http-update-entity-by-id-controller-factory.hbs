@@ -1,0 +1,19 @@
+import {
+  PrismaGet{{pascalCase name}}ByIdRepository,
+  HttpUpdate{{pascalCase name}}ByIdController,
+  makeUpdate{{pascalCase name}}Validation,
+  PrismaUpdate{{pascalCase name}}Repository,
+} from '@/domains/{{dashCase name}}';
+
+export const makeHttpUpdate{{pascalCase name}}ByIdController =
+  (): HttpUpdate{{pascalCase name}}ByIdController => {
+    const get{{pascalCase name}}ByIdRepository = new PrismaGet{{pascalCase name}}ByIdRepository();
+    const update{{pascalCase name}}ByIdRepository = new PrismaUpdate{{pascalCase name}}Repository();
+    const validation = makeUpdate{{pascalCase name}}Validation();
+
+    return new HttpUpdate{{pascalCase name}}ByIdController(
+      get{{pascalCase name}}ByIdRepository,
+      update{{pascalCase name}}ByIdRepository,
+      validation
+    );
+  };

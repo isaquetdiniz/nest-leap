@@ -1,0 +1,15 @@
+import {
+  HttpGet{{pascalCase name}}ByIdController,
+  PrismaGet{{pascalCase name}}ByIdRepository,
+  makeGet{{pascalCase name}}ByIdValidation,
+} from '@/domains/{{dashCase name}}';
+
+export const makeHttpGet{{pascalCase name}}ByIdController = (): HttpGet{{pascalCase name}}ByIdController => {
+  const get{{pascalCase name}}ByIdRepository = new PrismaGet{{pascalCase name}}ByIdRepository();
+  const validation = makeGet{{pascalCase name}}ByIdValidation();
+
+  return new HttpGet{{pascalCase name}}ByIdController(
+    get{{pascalCase name}}ByIdRepository,
+    validation
+  );
+};

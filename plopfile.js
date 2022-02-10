@@ -268,6 +268,39 @@ const infraSwagger = [
   },
 ];
 
+const factoriesHttp = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/factories/http/http-create-{{dashCase name}}-controller-factory.ts',
+    templateFile:
+      'plop-templates/domains/factories/http/http-create-entity-controller-factory.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/factories/http/http-get-{{dashCase name}}-by-id-controller-factory.ts',
+    templateFile:
+      'plop-templates/domains/factories/http/http-get-entity-by-id-controller-factory.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/factories/http/http-delete-{{dashCase name}}-by-id-controller-factory.ts',
+    templateFile:
+      'plop-templates/domains/factories/http/http-delete-entity-by-id-controller-factory.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/factories/http/http-update-{{dashCase name}}-by-id-controller-factory.ts',
+    templateFile:
+      'plop-templates/domains/factories/http/http-update-entity-by-id-controller-factory.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/factories/http/http-get-{{dashCase name}}s-by-filter-controller-factory.ts',
+    templateFile:
+      'plop-templates/domains/factories/http/http-get-entities-by-filter-controller-factory.hbs',
+  },
+];
+
 const factoriesActions = {
   prisma: {
     create: [
@@ -899,6 +932,7 @@ module.exports = function (plop) {
       ...interfaceValidators,
       ...infraPrisma,
       ...infraSwagger,
+      ...factoriesHttp,
     ],
   });
 };
