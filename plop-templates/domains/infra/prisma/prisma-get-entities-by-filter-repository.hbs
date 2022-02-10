@@ -1,0 +1,31 @@
+import { IGet{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}';
+import { PrismaClient } from '@prisma/client';
+import { prismaConnector } from '@/shared/infra/prisma';
+import { PrismaFormatter } from '@/shared/infra/prisma/prisma-formatter';
+
+export class PrismaGet{{pascalCase name}}sByFilterRepository
+  implements IGet{{pascalCase name}}sByFilterRepository
+{
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
+  async get(
+    filter: IGet{{pascalCase name}}sByFilterRepository.Params
+  ): Promise<IGet{{pascalCase name}}sByFilterRepository.Result> {
+    const { orderBy, pagination, filters } = filter;
+
+    const filtersFormated = PrismaFormatter.formatFilter(filters);
+
+    const {{camelCase name}}s = await this.prismaConnection.{{camelCase name}}.findMany({
+      where: filtersFormated,
+      orderBy: { [orderBy.property]: orderBy.mode },
+      take: pagination.take,
+      skip: pagination.skip,
+    });
+
+    return {{camelCase name}}s;
+  }
+}

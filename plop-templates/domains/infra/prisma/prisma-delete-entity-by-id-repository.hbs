@@ -1,0 +1,21 @@
+import { IDelete{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
+import { prismaConnector } from '@/shared/infra/prisma';
+import { PrismaClient } from '@prisma/client';
+
+export class PrismaDelete{{pascalCase name}}ByIdRepository
+  implements IDelete{{pascalCase name}}ByIdRepository
+{
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
+  async delete(
+    id: IDelete{{pascalCase name}}ByIdRepository.Params
+  ): Promise<IDelete{{pascalCase name}}ByIdRepository.Result> {
+    await this.prismaConnection.{{camelCase name}}.delete({
+      where: { id },
+    });
+  }
+}

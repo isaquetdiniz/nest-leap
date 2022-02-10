@@ -1,0 +1,21 @@
+import { IGet{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
+import { PrismaClient } from '@prisma/client';
+import { prismaConnector } from '@/shared/infra/prisma';
+
+export class PrismaGet{{pascalCase name}}ByIdRepository implements IGet{{pascalCase name}}ByIdRepository {
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
+  async getById(
+    id: IGet{{pascalCase name}}ByIdRepository.Params
+  ): Promise<IGet{{pascalCase name}}ByIdRepository.Result> {
+    const {{camelCase name}} = await this.prismaConnection.{{camelCase name}}.findUnique({
+      where: { id },
+    });
+
+    return {{camelCase name}};
+  }
+}

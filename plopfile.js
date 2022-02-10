@@ -213,6 +213,51 @@ const interfaceValidators = [
   },
 ];
 
+const infraPrisma = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/prisma-save-{{dashCase name}}-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-save-entity-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/prisma-count-{{dashCase name}}s-by-filter-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-count-entities-by-filter-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/prisma-delete-{{dashCase name}}-by-id-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-delete-entity-by-id-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/prisma-get-{{dashCase name}}-by-id-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-get-entity-by-id-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/prisma-get-{{dashCase name}}s-by-filter-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-get-entities-by-filter-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/prisma-update-{{dashCase name}}-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-update-entity-repository.hbs',
+  },
+  {
+    type: 'append',
+    path: 'src/main/infra/prisma/schema.prisma',
+    separator: '',
+    templateFile: 'plop-templates/domains/infra/prisma/prisma-schema.hbs',
+  },
+];
+
 const factoriesActions = {
   prisma: {
     create: [
@@ -842,6 +887,7 @@ module.exports = function (plop) {
       ...interfaceControllers,
       ...interfaceHttoControllers,
       ...interfaceValidators,
+      ...infraPrisma,
     ],
   });
 };
