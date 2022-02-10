@@ -1,0 +1,88 @@
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  {{pascalCase name}}DTO,
+  {{pascalCase name}}Transformer,
+  Get{{pascalCase name}}sByFilterUsecase,
+  IGet{{pascalCase name}}sByFilterRepository,
+  ICount{{pascalCase name}}sByFilterRepository,
+} from '@/domains/{{dashCase name}}';
+import {
+  OrderByFilter,
+  Pagination,
+  ValidationException,
+} from '@/shared/helpers';
+import { convertProperties } from '@/shared/helpers/query-converter-helper';
+
+export interface Get{{pascalCase name}}sByFilterRequest {
+  name?: string;
+  enabled?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  property?: string;
+  mode?: string;
+  take?: string;
+  skip?: string;
+}
+
+export interface Get{{pascalCase name}}sByFilterResponse {
+  items: {{pascalCase name}}DTO[];
+  totalItemsListed: number;
+  totalItems: number;
+}
+
+export class Get{{pascalCase name}}sByFilterController {
+  private usecase: Get{{pascalCase name}}sByFilterUsecase;
+
+  constructor(
+    get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
+    count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
+    private readonly validation: Validation
+  ) {
+    this.usecase = new Get{{pascalCase name}}sByFilterUsecase(
+      get{{pascalCase name}}sByFilterRepository,
+      count{{pascalCase name}}sByFilterRepository
+    );
+  }
+
+  async execute(
+    request: Get{{pascalCase name}}sByFilterRequest
+  ): Promise<Get{{pascalCase name}}sByFilterResponse> {
+    const filterParams = convertProperties(request);
+
+    const hasErrors = this.validation.validate(filterParams);
+
+    if (hasErrors) {
+      throw new ValidationException(hasErrors);
+    }
+
+    const {
+      orderBy: orderByDTO,
+      take,
+      skip,
+      name,
+      enabled,
+    } = filterParams;
+
+    const filters = {
+      name,
+      enabled,
+    };
+
+    const orderBy = new OrderByFilter(orderByDTO);
+    const pagination = new Pagination({ take, skip });
+
+    const { {{camelCase name}}s, total{{pascalCase name}}s } = await this.usecase.execute({
+      filters,
+      orderBy,
+      pagination,
+    });
+
+    const {{camelCase name}}sDTOs = {{camelCase name}}s.map(({{camelCase name}}) => {{pascalCase name}}Transformer.generateDTO({{camelCase name}}));
+
+    return {
+      items: {{camelCase name}}sDTOs,
+      totalItems: total{{pascalCase name}}s,
+      totalItemsListed: {{camelCase name}}sDTOs.length,
+    };
+  }
+}
