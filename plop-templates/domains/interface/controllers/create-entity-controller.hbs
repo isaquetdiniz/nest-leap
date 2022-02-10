@@ -1,0 +1,51 @@
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  {{pascalCase name}}DTO,
+  Create{{pascalCase name}}Usecase,
+  IGet{{pascalCase name}}ByNameRepository,
+  ISave{{pascalCase name}}Repository,
+  {{pascalCase name}}Transformer,
+} from '@/domains/{{dashCase name}}';
+import { ValidationException } from '@/shared/helpers';
+import { IUuidGenerator } from '@/shared/protocols';
+
+export interface Create{{pascalCase name}}Request {
+  name: string;
+}
+
+export type Create{{pascalCase name}}Response = {{pascalCase name}}DTO;
+
+export class Create{{pascalCase name}}Controller {
+  private usecase: Create{{pascalCase name}}Usecase;
+
+  constructor(
+    get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
+    uuidGenerator: IUuidGenerator,
+    save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
+    private readonly validation: Validation
+  ) {
+    this.usecase = new Create{{pascalCase name}}Usecase(
+      get{{pascalCase name}}ByNameRepository,
+      uuidGenerator,
+      save{{pascalCase name}}Repository,
+    );
+  }
+
+  async execute(request: Create{{pascalCase name}}Request): Promise<Create{{pascalCase name}}Response> {
+    const { name } = request;
+
+    const hasError = this.validation.validate({
+      name
+    });
+
+    if (hasError) {
+      throw new ValidationException(hasError);
+    }
+
+    const {{camelCase name}}Created = await this.usecase.execute({ name });
+
+    const {{camelCase name}}CreatedDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}Created);
+
+    return {{camelCase name}}CreatedDTO;
+  }
+}

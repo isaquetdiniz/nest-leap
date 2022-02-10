@@ -112,6 +112,15 @@ const usecases = [
   },
 ];
 
+const interfaceControllers = [
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/interface/controllers/create-{{dashCase name}}-controller.ts',
+    templateFile:
+      'plop-templates/domains/interface/controllers/create-entity-controller.hbs',
+  },
+];
+
 const factoriesActions = {
   prisma: {
     create: [
@@ -738,6 +747,7 @@ module.exports = function (plop) {
       ...usecasesExceptions,
       ...usecasesRepos,
       ...usecases,
+      ...interfaceControllers,
     ],
   });
 };
