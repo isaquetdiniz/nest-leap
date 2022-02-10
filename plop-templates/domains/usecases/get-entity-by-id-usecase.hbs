@@ -1,0 +1,31 @@
+import {
+  {{pascalCase name}},
+  IGet{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}';
+
+export interface IGet{{pascalCase name}}byIdUsecase {
+  execute(id: IGet{{pascalCase name}}byIdUsecase.Params): Promise<IGet{{pascalCase name}}byIdUsecase.Result>;
+}
+
+export namespace IGet{{pascalCase name}}byIdUsecase {
+  export type Params = string;
+  export type Result = {{pascalCase name}} | null;
+}
+
+export class Get{{pascalCase name}}ByIdUsecase implements IGet{{pascalCase name}}byIdUsecase {
+  constructor(
+    private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+  ) {}
+
+  async execute(
+    id: IGet{{pascalCase name}}byIdUsecase.Params
+  ): Promise<IGet{{pascalCase name}}byIdUsecase.Result> {
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.getById(id);
+
+    if (!{{camelCase name}}Exists) return null;
+
+    const {{camelCase name}}Founded = new {{pascalCase name}}({{camelCase name}}Exists);
+
+    return {{camelCase name}}Founded;
+  }
+}

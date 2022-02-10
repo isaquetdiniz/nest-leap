@@ -92,6 +92,12 @@ const usecases = [
     path: 'src/domains/{{dashCase name}}/usecases/create-{{dashCase name}}-usecase.ts',
     templateFile: 'plop-templates/domains/usecases/create-entity-usecase.hbs',
   },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/get-{{dashCase name}}-by-id-usecase.ts',
+    templateFile:
+      'plop-templates/domains/usecases/get-entity-by-id-usecase.hbs',
+  },
 ];
 
 const factoriesActions = {
