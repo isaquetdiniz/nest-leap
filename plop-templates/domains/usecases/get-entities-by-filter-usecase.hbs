@@ -1,0 +1,52 @@
+import {
+  {{pascalCase name}},
+  IGet{{pascalCase name}}sByFilterRepository,
+  ICount{{pascalCase name}}sByFilterRepository,
+} from '@/domains/{{dashCase name}}';
+
+import { DateFilter, OrderByFilter, Pagination } from '@/shared/helpers';
+
+export type {{pascalCase name}}Filters = {
+  filters: {
+    name?: string;
+    enabled?: boolean;
+    createdAt?: DateFilter;
+    updatedAt?: DateFilter;
+  };
+  orderBy: OrderByFilter;
+  pagination: Pagination;
+};
+
+export interface IGet{{pascalCase name}}sByFilterUsecase {
+  execute(
+    listParams: IGet{{pascalCase name}}sByFilterUsecase.Params
+  ): Promise<IGet{{pascalCase name}}sByFilterUsecase.Result>;
+}
+
+export namespace IGet{{pascalCase name}}sByFilterUsecase {
+  export type Params = {{pascalCase name}}Filters;
+  export type Result = { {{camelCase name}}s: {{pascalCase name}}[]; total{{pascalCase name}}s: number };
+}
+
+export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase name}}sByFilterUsecase {
+  constructor(
+    private readonly get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
+    private readonly count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository
+  ) {}
+
+  async execute(
+    filterParams: IGet{{pascalCase name}}sByFilterUsecase.Params
+  ): Promise<IGet{{pascalCase name}}sByFilterUsecase.Result> {
+    const { filters } = filterParams;
+
+    const {{camelCase name}}sDTOS = await this.get{{pascalCase name}}sByFilterRepository.get(filterParams);
+    const total{{pascalCase name}}s = await this.count{{pascalCase name}}sByFilterRepository.count(filters);
+
+    const {{camelCase name}}s = {{camelCase name}}sDTOS.map(({{camelCase name}}DTO) => new {{pascalCase name}}({{camelCase name}}DTO));
+
+    return {
+      {{camelCase name}}s,
+      total{{pascalCase name}}s,
+    };
+  }
+}
