@@ -98,6 +98,12 @@ const usecases = [
     templateFile:
       'plop-templates/domains/usecases/get-entity-by-id-usecase.hbs',
   },
+  {
+    type: 'add',
+    path: 'src/domains/{{dashCase name}}/usecases/delete-{{dashCase name}}-by-id-usecase.ts',
+    templateFile:
+      'plop-templates/domains/usecases/delete-entity-by-id-usecase.hbs',
+  },
 ];
 
 const factoriesActions = {

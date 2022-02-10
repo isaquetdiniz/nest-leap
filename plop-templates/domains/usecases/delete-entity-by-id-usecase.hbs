@@ -1,0 +1,35 @@
+import {
+  IGet{{pascalCase name}}ByIdRepository,
+  IDelete{{pascalCase name}}ByIdRepository,
+  {{pascalCase name}}NotFoundException,
+} from '@/domains/{{dashCase name}}';
+
+export interface IDelete{{pascalCase name}}ByIdUsecase {
+  execute(
+    id: IDelete{{pascalCase name}}ByIdUsecase.Params
+  ): Promise<IDelete{{pascalCase name}}ByIdUsecase.Result>;
+}
+
+export namespace IDelete{{pascalCase name}}ByIdUsecase {
+  export type Params = string;
+  export type Result = void;
+}
+
+export class Delete{{pascalCase name}}ByIdUsecase implements IDelete{{pascalCase name}}ByIdUsecase {
+  constructor(
+    private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    private readonly delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository
+  ) {}
+
+  async execute(
+    id: IDelete{{pascalCase name}}ByIdUsecase.Params
+  ): Promise<IDelete{{pascalCase name}}ByIdUsecase.Result> {
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.getById(id);
+
+    if (!{{camelCase name}}Exists) {
+      throw new {{pascalCase name}}NotFoundException({ id });
+    }
+
+    await this.delete{{pascalCase name}}ByIdRepository.delete(id);
+  }
+}
