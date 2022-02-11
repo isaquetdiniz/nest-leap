@@ -9,7 +9,7 @@ export class PrismaGet{{pascalCase name}}ByIdRepository implements IGet{{pascalC
     this.prismaConnection = prismaConnector.connect();
   }
 
-  async getById(
+  async get(
     id: IGet{{pascalCase name}}ByIdRepository.Params
   ): Promise<IGet{{pascalCase name}}ByIdRepository.Result> {
     const {{camelCase name}} = await this.prismaConnection.{{camelCase name}}.findUnique({

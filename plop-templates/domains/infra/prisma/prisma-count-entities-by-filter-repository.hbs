@@ -15,7 +15,9 @@ export class PrismaCount{{pascalCase name}}sByFilterRepository
     filter: ICount{{pascalCase name}}sByFilterRepository.Params
   ): Promise<ICount{{pascalCase name}}sByFilterRepository.Result> {
     const filterParams = PrismaFormatter.formatFilter(filter);
-    const total{{pascalCase name}}s = await this.prismaConnection.{{camelCase name}}.count(filterParams);
+    const total{{pascalCase name}}s = await this.prismaConnection.{{camelCase name}}.count({
+      where: filterParams,
+    });
 
     return total{{pascalCase name}}s;
   }

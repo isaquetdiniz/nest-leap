@@ -1,7 +1,7 @@
 import { {{pascalCase name}}DTO } from '@/domains/{{dashCase name}}';
 import { {{pascalCase name}}Filters } from '../get-{{dashCase name}}s-by-filter-usecase';
 
-export interface IGet{{pascalCase name}}ByFilterRepository {
+export interface IGet{{pascalCase name}}sByFilterRepository {
   get(
     params: IGet{{pascalCase name}}sByFilterRepository.Params
   ): Promise<IGet{{pascalCase name}}sByFilterRepository.Result>;

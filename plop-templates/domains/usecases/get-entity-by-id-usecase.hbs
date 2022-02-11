@@ -20,7 +20,7 @@ export class Get{{pascalCase name}}ByIdUsecase implements IGet{{pascalCase name}
   async execute(
     id: IGet{{pascalCase name}}byIdUsecase.Params
   ): Promise<IGet{{pascalCase name}}byIdUsecase.Result> {
-    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.getById(id);
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
 
     if (!{{camelCase name}}Exists) return null;
 

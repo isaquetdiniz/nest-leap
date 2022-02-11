@@ -24,7 +24,7 @@ export class Delete{{pascalCase name}}ByIdUsecase implements IDelete{{pascalCase
   async execute(
     id: IDelete{{pascalCase name}}ByIdUsecase.Params
   ): Promise<IDelete{{pascalCase name}}ByIdUsecase.Result> {
-    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.getById(id);
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
 
     if (!{{camelCase name}}Exists) {
       throw new {{pascalCase name}}NotFoundException({ id });

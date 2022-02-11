@@ -1,8 +1,8 @@
 import {
-  DeleteUserByIdController,
-  IDeleteUserByIdRepository,
-  IGetUserByIdRepository,
-  UserNotFoundException,
+  Delete{{pascalCase name}}ByIdController,
+  IDelete{{pascalCase name}}ByIdRepository,
+  IGet{{pascalCase name}}ByIdRepository,
+  {{pascalCase name}}NotFoundException,
 } from '@/domains/{{dashCase name}}';
 import {
   HttpController,
@@ -17,26 +17,26 @@ import {
 } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
 
-export interface HttpDeleteUserByIdRequest {
+export interface HttpDelete{{pascalCase name}}ByIdRequest {
   id: string;
 }
 
-export class HttpDeleteUserByIdController implements HttpController {
-  private controller: DeleteUserByIdController;
+export class HttpDelete{{pascalCase name}}ByIdController implements HttpController {
+  private controller: Delete{{pascalCase name}}ByIdController;
 
   constructor(
-    getUserByIdRepository: IGetUserByIdRepository,
-    deleteUserByIdRepository: IDeleteUserByIdRepository,
+    get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository,
     validation: Validation
   ) {
-    this.controller = new DeleteUserByIdController(
-      getUserByIdRepository,
-      deleteUserByIdRepository,
+    this.controller = new Delete{{pascalCase name}}ByIdController(
+      get{{pascalCase name}}ByIdRepository,
+      delete{{pascalCase name}}ByIdRepository,
       validation
     );
   }
 
-  async handle(httpRequest: HttpDeleteUserByIdRequest): Promise<HttpResponse> {
+  async handle(httpRequest: HttpDelete{{pascalCase name}}ByIdRequest): Promise<HttpResponse> {
     const { id } = httpRequest;
 
     try {
@@ -48,7 +48,7 @@ export class HttpDeleteUserByIdController implements HttpController {
         return badRequest(error);
       }
 
-      if (error instanceof UserNotFoundException) {
+      if (error instanceof {{pascalCase name}}NotFoundException) {
         return notFound(error);
       }
 

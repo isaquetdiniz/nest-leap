@@ -34,7 +34,7 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
   ): Promise<IUpdate{{pascalCase name}}ByIdUsecase.Result> {
     const { id, paramsToUpdate } = updateParams;
 
-    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.getById(id);
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
 
     if (!{{camelCase name}}Exists) {
       throw new {{pascalCase name}}NotFoundException({ id });

@@ -237,6 +237,12 @@ const infraPrisma = [
   },
   {
     type: 'add',
+    path: 'src/domains/{{dashCase name}}/infra/prisma/repositories/prisma-get-{{dashCase name}}-by-name-repository.ts',
+    templateFile:
+      'plop-templates/domains/infra/prisma/prisma-get-entity-by-name-repository.hbs',
+  },
+  {
+    type: 'add',
     path: 'src/domains/{{dashCase name}}/infra/prisma/repositories/prisma-get-{{dashCase name}}s-by-filter-repository.ts',
     templateFile:
       'plop-templates/domains/infra/prisma/prisma-get-entities-by-filter-repository.hbs',
