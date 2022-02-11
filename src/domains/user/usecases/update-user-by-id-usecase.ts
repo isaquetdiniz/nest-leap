@@ -5,6 +5,7 @@ import {
   UserNotFoundException,
   UserTransformer,
 } from '@/domains/user';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IUpdateUserByIdUsecase {
   execute(
@@ -25,14 +26,21 @@ export namespace IUpdateUserByIdUsecase {
 }
 
 export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly getUserByIdRepository: IGetUserByIdRepository,
-    private readonly updateUserRepository: IUpdateUserRepository
-  ) {}
+    private readonly updateUserRepository: IUpdateUserRepository,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'update-user-by-id' });
+  }
 
   async execute(
     updateParams: IUpdateUserByIdUsecase.Params
   ): Promise<IUpdateUserByIdUsecase.Result> {
+    this.logger.logDebug({ message: 'Request received', data: updateParams });
+
     const { id, paramsToUpdate } = updateParams;
 
     const userExists = await this.getUserByIdRepository.getById(id);
@@ -40,6 +48,8 @@ export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
     if (!userExists) {
       throw new UserNotFoundException({ id });
     }
+
+    this.logger.logDebug({ message: 'User found', data: userExists });
 
     const userToUpdate = new User({ ...userExists, ...paramsToUpdate });
 
@@ -50,6 +60,8 @@ export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
     );
 
     const userUpdated = new User(userUpdatedDTO);
+
+    this.logger.logDebug({ message: 'User updated', data: userUpdated });
 
     return userUpdated;
   }

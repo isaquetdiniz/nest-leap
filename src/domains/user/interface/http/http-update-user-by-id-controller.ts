@@ -16,6 +16,7 @@ import {
   UserNotFoundException,
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpUpdateUserByIdRequest {
   id: string;
@@ -26,20 +27,27 @@ export interface HttpUpdateUserByIdRequest {
 
 export class HttpUpdateUserByIdController implements HttpController {
   private controller: UpdateUserByIdController;
+  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     updateUserRepository: IUpdateUserRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new UpdateUserByIdController(
       getUserByIdRepository,
       updateUserRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'update-user-by-id' });
   }
 
   async handle(httpRequest: HttpUpdateUserByIdRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request received', data: httpRequest });
+
     const { id, name, isAdmin, enabled } = httpRequest;
 
     const request = {
@@ -53,6 +61,8 @@ export class HttpUpdateUserByIdController implements HttpController {
 
     try {
       const userUpdated = await this.controller.execute(request);
+
+      this.logger.logDebug({ message: 'User updated', data: userUpdated });
 
       return ok(userUpdated);
     } catch (error) {
