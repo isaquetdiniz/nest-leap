@@ -21,7 +21,7 @@ export interface HttpUpdateUserByIdRequest {
   id: string;
   name?: string;
   isAdmin?: boolean;
-  isEnabled?: boolean;
+  enabled?: boolean;
 }
 
 export class HttpUpdateUserByIdController implements HttpController {
@@ -40,14 +40,14 @@ export class HttpUpdateUserByIdController implements HttpController {
   }
 
   async handle(httpRequest: HttpUpdateUserByIdRequest): Promise<HttpResponse> {
-    const { id, name, isAdmin, isEnabled } = httpRequest;
+    const { id, name, isAdmin, enabled } = httpRequest;
 
     const request = {
       id,
       paramsToUpdate: {
         name,
         isAdmin,
-        isEnabled,
+        enabled,
       },
     };
 

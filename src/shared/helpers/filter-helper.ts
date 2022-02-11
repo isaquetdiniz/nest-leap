@@ -1,6 +1,6 @@
 export type DateFilter = { initialDate?: Date; finalDate?: Date };
 
-enum OrderByMode {
+export enum OrderByMode {
   ASC = 'asc',
   DESC = 'desc',
 }

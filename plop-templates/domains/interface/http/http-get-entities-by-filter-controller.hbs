@@ -8,11 +8,21 @@ import {
   Get{{pascalCase name}}sByFilterController,
   IGet{{pascalCase name}}sByFilterRepository,
   ICount{{pascalCase name}}sByFilterRepository,
-  Get{{pascalCase name}}sByFilterRequest,
 } from '@/domains/{{dashCase name}}';
-import { ValidationException } from '@/shared/helpers';
+import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 
-export type HttpGet{{pascalCase name}}sByFilterRequest = Get{{pascalCase name}}sByFilterRequest;
+export type HttpGet{{pascalCase name}}sByFilterRequest = {
+  name?: string;
+  enabled?: boolean;
+  createdAt?: DateFilter;
+  updatedAt?: DateFilter;
+  orderBy: {
+    property?: string;
+    mode?: OrderByMode;
+  };
+  take?: number;
+  skip?: number;
+};
 
 export class HttpGet{{pascalCase name}}sByFilterController implements HttpController {
   private controller: Get{{pascalCase name}}sByFilterController;
@@ -37,8 +47,7 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
       enabled,
       createdAt,
       updatedAt,
-      property,
-      mode,
+      orderBy,
       take,
       skip,
     } = httpRequest;
@@ -49,8 +58,7 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
         enabled,
         createdAt,
         updatedAt,
-        property,
-        mode,
+        orderBy,
         take,
         skip,
       });

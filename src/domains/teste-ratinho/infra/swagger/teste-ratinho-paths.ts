@@ -8,7 +8,7 @@ import {
   defaultFilterParams,
 } from '@/shared/infra/swagger/helpers';
 
-export const testeRatinhoTag = 'TesteRatinho';
+export const testeRatinhoTag = 'TesteRatinhos';
 
 export const testeRatinhoPaths = {
   '/teste-ratinhos': {

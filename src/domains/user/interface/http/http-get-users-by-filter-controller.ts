@@ -8,11 +8,23 @@ import {
   GetUsersByFilterController,
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
-  GetUsersByFilterRequest,
 } from '@/domains/user';
-import { ValidationException } from '@/shared/helpers';
+import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 
-export type HttpGetUsersByFilterRequest = GetUsersByFilterRequest;
+export type HttpGetUsersByFilterRequest = {
+  name?: string;
+  email?: string;
+  isAdmin?: boolean;
+  enabled?: boolean;
+  createdAt?: DateFilter;
+  updatedAt?: DateFilter;
+  orderBy: {
+    property?: string;
+    mode?: OrderByMode;
+  };
+  take?: number;
+  skip?: number;
+};
 
 export class HttpGetUsersByFilterController implements HttpController {
   private controller: GetUsersByFilterController;
@@ -39,8 +51,7 @@ export class HttpGetUsersByFilterController implements HttpController {
       enabled,
       createdAt,
       updatedAt,
-      property,
-      mode,
+      orderBy,
       take,
       skip,
     } = httpRequest;
@@ -53,8 +64,7 @@ export class HttpGetUsersByFilterController implements HttpController {
         enabled,
         createdAt,
         updatedAt,
-        property,
-        mode,
+        orderBy,
         take,
         skip,
       });

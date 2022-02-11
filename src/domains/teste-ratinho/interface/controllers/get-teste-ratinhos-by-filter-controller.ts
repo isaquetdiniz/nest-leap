@@ -8,20 +8,23 @@ import {
 } from '@/domains/teste-ratinho';
 import {
   OrderByFilter,
+  OrderByMode,
+  DateFilter,
   Pagination,
   ValidationException,
 } from '@/shared/helpers';
-import { convertProperties } from '@/shared/helpers/query-converter-helper';
 
 export interface GetTesteRatinhosByFilterRequest {
   name?: string;
   enabled?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  property?: string;
-  mode?: string;
-  take?: string;
-  skip?: string;
+  createdAt?: DateFilter;
+  updatedAt?: DateFilter;
+  orderBy: {
+    property?: string;
+    mode?: OrderByMode;
+  };
+  take?: number;
+  skip?: number;
 }
 
 export interface GetTesteRatinhosByFilterResponse {
@@ -47,19 +50,27 @@ export class GetTesteRatinhosByFilterController {
   async execute(
     request: GetTesteRatinhosByFilterRequest
   ): Promise<GetTesteRatinhosByFilterResponse> {
-    const filterParams = convertProperties(request);
-
-    const hasErrors = this.validation.validate(filterParams);
+    const hasErrors = this.validation.validate(request);
 
     if (hasErrors) {
       throw new ValidationException(hasErrors);
     }
 
-    const { orderBy: orderByDTO, take, skip, name, enabled } = filterParams;
+    const {
+      orderBy: orderByDTO,
+      take,
+      skip,
+      name,
+      enabled,
+      createdAt,
+      updatedAt,
+    } = request;
 
     const filters = {
       name,
       enabled,
+      createdAt,
+      updatedAt,
     };
 
     const orderBy = new OrderByFilter(orderByDTO);

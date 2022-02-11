@@ -15,7 +15,9 @@ export class PrismaCountUsersByFilterRepository
     filter: ICountUsersByFilterRepository.Params
   ): Promise<ICountUsersByFilterRepository.Result> {
     const filterParams = PrismaFormatter.formatFilter(filter);
-    const totalUsers = await this.prismaConnection.user.count(filterParams);
+    const totalUsers = await this.prismaConnection.user.count({
+      where: filterParams,
+    });
 
     return totalUsers;
   }

@@ -13,7 +13,7 @@ export interface UpdateUserByIdRequest {
   paramsToUpdate: {
     name?: string;
     isAdmin?: boolean;
-    isEnabled?: boolean;
+    enabled?: boolean;
   };
 }
 
@@ -38,13 +38,13 @@ export class UpdateUserByIdController {
   ): Promise<UpdateUserByIdResponse> {
     const { id, paramsToUpdate } = request;
 
-    const { name, isAdmin, isEnabled } = paramsToUpdate;
+    const { name, isAdmin, enabled } = paramsToUpdate;
 
     const hasErrors = this.validation.validate({
       id,
       name,
       isAdmin,
-      isEnabled,
+      enabled,
     });
 
     if (hasErrors) {

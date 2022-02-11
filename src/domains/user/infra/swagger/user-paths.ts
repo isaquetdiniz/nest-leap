@@ -69,10 +69,12 @@ export const userPaths = {
           [
             ['name', SwaggerTypes.string()],
             ['isAdmin', SwaggerTypes.boolean()],
+            ['enabled', SwaggerTypes.boolean()],
           ],
           [
             ['name', 'danoninho'],
             ['isAdmin', true],
+            ['enabled', true],
           ]
         ),
       },

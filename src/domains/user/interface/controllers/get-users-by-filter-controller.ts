@@ -7,23 +7,26 @@ import {
   ICountUsersByFilterRepository,
 } from '@/domains/user';
 import {
+  DateFilter,
   OrderByFilter,
+  OrderByMode,
   Pagination,
   ValidationException,
 } from '@/shared/helpers';
-import { convertProperties } from '@/shared/helpers/query-converter-helper';
 
 export interface GetUsersByFilterRequest {
   name?: string;
   email?: string;
   isAdmin?: boolean;
   enabled?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  property?: string;
-  mode?: string;
-  take?: string;
-  skip?: string;
+  createdAt?: DateFilter;
+  updatedAt?: DateFilter;
+  orderBy: {
+    property?: string;
+    mode?: OrderByMode;
+  };
+  take?: number;
+  skip?: number;
 }
 
 export interface GetUsersByFilterResponse {
@@ -49,9 +52,7 @@ export class GetUsersByFilterController {
   async execute(
     request: GetUsersByFilterRequest
   ): Promise<GetUsersByFilterResponse> {
-    const filterParams = convertProperties(request);
-
-    const hasErrors = this.validation.validate(filterParams);
+    const hasErrors = this.validation.validate(request);
 
     if (hasErrors) {
       throw new ValidationException(hasErrors);
@@ -65,13 +66,17 @@ export class GetUsersByFilterController {
       email,
       isAdmin,
       enabled,
-    } = filterParams;
+      createdAt,
+      updatedAt,
+    } = request;
 
     const filters = {
       name,
       email,
       isAdmin,
       enabled,
+      createdAt,
+      updatedAt,
     };
 
     const orderBy = new OrderByFilter(orderByDTO);

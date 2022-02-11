@@ -8,12 +8,21 @@ import {
   GetTesteRatinhosByFilterController,
   IGetTesteRatinhosByFilterRepository,
   ICountTesteRatinhosByFilterRepository,
-  GetTesteRatinhosByFilterRequest,
 } from '@/domains/teste-ratinho';
-import { ValidationException } from '@/shared/helpers';
+import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 
-export type HttpGetTesteRatinhosByFilterRequest =
-  GetTesteRatinhosByFilterRequest;
+export type HttpGetTesteRatinhosByFilterRequest = {
+  name?: string;
+  enabled?: boolean;
+  createdAt?: DateFilter;
+  updatedAt?: DateFilter;
+  orderBy: {
+    property?: string;
+    mode?: OrderByMode;
+  };
+  take?: number;
+  skip?: number;
+};
 
 export class HttpGetTesteRatinhosByFilterController implements HttpController {
   private controller: GetTesteRatinhosByFilterController;
@@ -33,7 +42,7 @@ export class HttpGetTesteRatinhosByFilterController implements HttpController {
   async handle(
     httpRequest: HttpGetTesteRatinhosByFilterRequest
   ): Promise<HttpResponse> {
-    const { name, enabled, createdAt, updatedAt, property, mode, take, skip } =
+    const { name, enabled, createdAt, updatedAt, orderBy, take, skip } =
       httpRequest;
 
     try {
@@ -42,8 +51,7 @@ export class HttpGetTesteRatinhosByFilterController implements HttpController {
         enabled,
         createdAt,
         updatedAt,
-        property,
-        mode,
+        orderBy,
         take,
         skip,
       });
