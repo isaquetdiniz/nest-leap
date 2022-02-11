@@ -1,6 +1,6 @@
 import { IGetUserByIdRepository } from '@/domains/user';
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
   private prismaConnection: PrismaClient;
@@ -12,10 +12,14 @@ export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
   async getById(
     id: IGetUserByIdRepository.Params
   ): Promise<IGetUserByIdRepository.Result> {
-    const user = await this.prismaConnection.user.findUnique({
-      where: { id },
-    });
+    try {
+      const user = await this.prismaConnection.user.findUnique({
+        where: { id },
+      });
 
-    return user;
+      return user;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

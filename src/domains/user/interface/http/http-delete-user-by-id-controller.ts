@@ -61,10 +61,7 @@ export class HttpDeleteUserByIdController implements HttpController {
 
       return ok();
     } catch (error) {
-      if (
-        error instanceof ValidationException ||
-        error instanceof CognitoException
-      ) {
+      if (error instanceof ValidationException) {
         return badRequest(error);
       }
 

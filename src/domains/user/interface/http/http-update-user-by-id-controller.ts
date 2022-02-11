@@ -67,10 +67,7 @@ export class HttpUpdateUserByIdController implements HttpController {
 
       return ok(userUpdated);
     } catch (error) {
-      if (
-        error instanceof ValidationException ||
-        error instanceof CognitoException
-      ) {
+      if (error instanceof ValidationException) {
         return badRequest(error);
       }
 

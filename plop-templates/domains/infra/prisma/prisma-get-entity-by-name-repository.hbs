@@ -1,6 +1,6 @@
 import { IGet{{pascalCase name}}ByNameRepository } from '@/domains/{{dashCase name}}';
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGet{{pascalCase name}}ByNameRepository implements IGet{{pascalCase name}}ByNameRepository {
   private prismaConnection: PrismaClient;
@@ -12,10 +12,14 @@ export class PrismaGet{{pascalCase name}}ByNameRepository implements IGet{{pasca
   async get(
     name: IGet{{pascalCase name}}ByNameRepository.Params
   ): Promise<IGet{{pascalCase name}}ByNameRepository.Result> {
-    const [{{camelCase name}}] = await this.prismaConnection.{{camelCase name}}.findMany({
-      where: { name },
-    });
+    try {
+      const [{{camelCase name}}] = await this.prismaConnection.{{camelCase name}}.findMany({
+        where: { name },
+      });
 
-    return {{camelCase name}};
+      return {{camelCase name}};
+    } catch(error) {
+      throw new PrismaException(error);
+    }
   }
 }

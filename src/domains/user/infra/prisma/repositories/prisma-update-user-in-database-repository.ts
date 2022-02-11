@@ -1,5 +1,5 @@
 import { IUpdateUserRepository } from '@/domains/user';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaUpdateUserRepository implements IUpdateUserRepository {
@@ -12,13 +12,17 @@ export class PrismaUpdateUserRepository implements IUpdateUserRepository {
   async update(
     userToUpdate: IUpdateUserRepository.Params
   ): Promise<IUpdateUserRepository.Result> {
-    const { id, ...restOfUserInJSON } = userToUpdate;
+    try {
+      const { id, ...restOfUserInJSON } = userToUpdate;
 
-    const userUpdated = await this.prismaConnection.user.update({
-      where: { id },
-      data: restOfUserInJSON,
-    });
+      const userUpdated = await this.prismaConnection.user.update({
+        where: { id },
+        data: restOfUserInJSON,
+      });
 
-    return userUpdated;
+      return userUpdated;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

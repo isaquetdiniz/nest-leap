@@ -1,6 +1,6 @@
 import { IGetTesteRatinhoByNameRepository } from '@/domains/teste-ratinho';
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGetTesteRatinhoByNameRepository
   implements IGetTesteRatinhoByNameRepository
@@ -14,10 +14,14 @@ export class PrismaGetTesteRatinhoByNameRepository
   async get(
     name: IGetTesteRatinhoByNameRepository.Params
   ): Promise<IGetTesteRatinhoByNameRepository.Result> {
-    const [testeRatinho] = await this.prismaConnection.testeRatinho.findMany({
-      where: { name },
-    });
+    try {
+      const [testeRatinho] = await this.prismaConnection.testeRatinho.findMany({
+        where: { name },
+      });
 
-    return testeRatinho;
+      return testeRatinho;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

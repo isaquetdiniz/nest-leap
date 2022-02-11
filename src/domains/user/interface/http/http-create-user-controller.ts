@@ -69,8 +69,7 @@ export class HttpCreateUserController implements HttpController {
     } catch (error) {
       if (
         error instanceof ValidationException ||
-        error instanceof UserAlreadyExistsException ||
-        error instanceof CognitoException
+        error instanceof UserAlreadyExistsException
       ) {
         return badRequest(error);
       }

@@ -1,5 +1,9 @@
 import { ICountUsersByFilterRepository } from '@/domains/user';
-import { prismaConnector, PrismaFormatter } from '@/shared/infra/prisma';
+import {
+  prismaConnector,
+  PrismaException,
+  PrismaFormatter,
+} from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaCountUsersByFilterRepository
@@ -14,11 +18,16 @@ export class PrismaCountUsersByFilterRepository
   async count(
     filter: ICountUsersByFilterRepository.Params
   ): Promise<ICountUsersByFilterRepository.Result> {
-    const filterParams = PrismaFormatter.formatFilter(filter);
-    const totalUsers = await this.prismaConnection.user.count({
-      where: filterParams,
-    });
+    try {
+      const filterParams = PrismaFormatter.formatFilter(filter);
 
-    return totalUsers;
+      const totalUsers = await this.prismaConnection.user.count({
+        where: filterParams,
+      });
+
+      return totalUsers;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

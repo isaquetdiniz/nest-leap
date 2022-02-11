@@ -1,5 +1,5 @@
 import { IDeleteUserByIdRepository } from '@/domains/user';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaDeleteUserByIdRepository
@@ -14,8 +14,12 @@ export class PrismaDeleteUserByIdRepository
   async delete(
     id: IDeleteUserByIdRepository.Params
   ): Promise<IDeleteUserByIdRepository.Result> {
-    await this.prismaConnection.user.delete({
-      where: { id },
-    });
+    try {
+      await this.prismaConnection.user.delete({
+        where: { id },
+      });
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

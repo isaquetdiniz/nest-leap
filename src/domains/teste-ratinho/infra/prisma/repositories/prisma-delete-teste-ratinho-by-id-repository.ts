@@ -1,5 +1,5 @@
 import { IDeleteTesteRatinhoByIdRepository } from '@/domains/teste-ratinho';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaDeleteTesteRatinhoByIdRepository
@@ -14,8 +14,12 @@ export class PrismaDeleteTesteRatinhoByIdRepository
   async delete(
     id: IDeleteTesteRatinhoByIdRepository.Params
   ): Promise<IDeleteTesteRatinhoByIdRepository.Result> {
-    await this.prismaConnection.testeRatinho.delete({
-      where: { id },
-    });
+    try {
+      await this.prismaConnection.testeRatinho.delete({
+        where: { id },
+      });
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

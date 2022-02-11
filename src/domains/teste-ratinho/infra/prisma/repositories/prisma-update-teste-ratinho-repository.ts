@@ -1,5 +1,5 @@
 import { IUpdateTesteRatinhoRepository } from '@/domains/teste-ratinho';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaUpdateTesteRatinhoRepository
@@ -14,15 +14,18 @@ export class PrismaUpdateTesteRatinhoRepository
   async update(
     testeRatinhoToUpdate: IUpdateTesteRatinhoRepository.Params
   ): Promise<IUpdateTesteRatinhoRepository.Result> {
-    const { id, ...restOfTesteRatinhoInJSON } = testeRatinhoToUpdate;
+    try {
+      const { id, ...restOfTesteRatinhoInJSON } = testeRatinhoToUpdate;
 
-    const testeRatinhoUpdated = await this.prismaConnection.testeRatinho.update(
-      {
-        where: { id },
-        data: restOfTesteRatinhoInJSON,
-      }
-    );
+      const testeRatinhoUpdated =
+        await this.prismaConnection.testeRatinho.update({
+          where: { id },
+          data: restOfTesteRatinhoInJSON,
+        });
 
-    return testeRatinhoUpdated;
+      return testeRatinhoUpdated;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

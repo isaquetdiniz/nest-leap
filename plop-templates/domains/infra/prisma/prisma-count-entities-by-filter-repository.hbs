@@ -1,5 +1,5 @@
 import { ICount{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}';
-import { prismaConnector, PrismaFormatter } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaFormatter, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaCount{{pascalCase name}}sByFilterRepository
@@ -14,11 +14,15 @@ export class PrismaCount{{pascalCase name}}sByFilterRepository
   async count(
     filter: ICount{{pascalCase name}}sByFilterRepository.Params
   ): Promise<ICount{{pascalCase name}}sByFilterRepository.Result> {
-    const filterParams = PrismaFormatter.formatFilter(filter);
-    const total{{pascalCase name}}s = await this.prismaConnection.{{camelCase name}}.count({
-      where: filterParams,
-    });
+    try {
+      const filterParams = PrismaFormatter.formatFilter(filter);
+      const total{{pascalCase name}}s = await this.prismaConnection.{{camelCase name}}.count({
+        where: filterParams,
+      });
 
-    return total{{pascalCase name}}s;
+      return total{{pascalCase name}}s;
+    } catch(error) {
+      throw new PrismaException(error);
+    }
   }
 }

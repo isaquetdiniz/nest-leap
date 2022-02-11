@@ -1,5 +1,5 @@
 import { ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCase name}}Repository {
@@ -12,10 +12,14 @@ export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCas
   async save(
     {{camelCase name}}Params: ISave{{pascalCase name}}Repository.Params
   ): Promise<ISave{{pascalCase name}}Repository.Result> {
-    const {{camelCase name}}Created = await this.prismaConnection.{{camelCase name}}.create({
-      data: {{camelCase name}}Params,
-    });
+    try {
+      const {{camelCase name}}Created = await this.prismaConnection.{{camelCase name}}.create({
+        data: {{camelCase name}}Params,
+      });
 
-    return {{camelCase name}}Created;
+      return {{camelCase name}}Created;
+    } catch(error) {
+      throw new PrismaException(error);
+    }
   }
 }

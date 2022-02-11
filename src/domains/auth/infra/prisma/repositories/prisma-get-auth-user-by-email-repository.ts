@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 import { AuthUserDTO, IGetAuthUserByEmailRepository } from '@/domains/auth';
 
@@ -13,16 +13,20 @@ export class PrismaGetAuthUserByEmailRepository
   }
 
   async get(email: string): Promise<AuthUserDTO | null> {
-    const [user] = await this.prismaConnection.user.findMany({
-      where: { email: email, enabled: true },
-      select: {
-        id: true,
-        isAdmin: true,
-        email: true,
-        name: true,
-      },
-    });
+    try {
+      const [user] = await this.prismaConnection.user.findMany({
+        where: { email: email, enabled: true },
+        select: {
+          id: true,
+          isAdmin: true,
+          email: true,
+          name: true,
+        },
+      });
 
-    return user;
+      return user;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

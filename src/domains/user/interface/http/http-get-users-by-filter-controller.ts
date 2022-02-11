@@ -82,10 +82,7 @@ export class HttpGetUsersByFilterController implements HttpController {
 
       return ok(users);
     } catch (error) {
-      if (
-        error instanceof ValidationException ||
-        error instanceof CognitoException
-      ) {
+      if (error instanceof ValidationException) {
         return badRequest(error);
       }
 

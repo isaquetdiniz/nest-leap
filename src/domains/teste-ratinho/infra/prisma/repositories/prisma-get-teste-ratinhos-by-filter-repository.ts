@@ -1,7 +1,10 @@
 import { IGetTesteRatinhosByFilterRepository } from '@/domains/teste-ratinho';
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector } from '@/shared/infra/prisma';
-import { PrismaFormatter } from '@/shared/infra/prisma/prisma-formatter';
+import {
+  prismaConnector,
+  PrismaFormatter,
+  PrismaException,
+} from '@/shared/infra/prisma';
 
 export class PrismaGetTesteRatinhosByFilterRepository
   implements IGetTesteRatinhosByFilterRepository
@@ -15,17 +18,21 @@ export class PrismaGetTesteRatinhosByFilterRepository
   async get(
     filter: IGetTesteRatinhosByFilterRepository.Params
   ): Promise<IGetTesteRatinhosByFilterRepository.Result> {
-    const { orderBy, pagination, filters } = filter;
+    try {
+      const { orderBy, pagination, filters } = filter;
 
-    const filtersFormated = PrismaFormatter.formatFilter(filters);
+      const filtersFormated = PrismaFormatter.formatFilter(filters);
 
-    const testeRatinhos = await this.prismaConnection.testeRatinho.findMany({
-      where: filtersFormated,
-      orderBy: { [orderBy.property]: orderBy.mode },
-      take: pagination.take,
-      skip: pagination.skip,
-    });
+      const testeRatinhos = await this.prismaConnection.testeRatinho.findMany({
+        where: filtersFormated,
+        orderBy: { [orderBy.property]: orderBy.mode },
+        take: pagination.take,
+        skip: pagination.skip,
+      });
 
-    return testeRatinhos;
+      return testeRatinhos;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

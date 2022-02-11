@@ -1,5 +1,5 @@
 import { ISaveUserRepository } from '@/domains/user';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaSaveUserRepository implements ISaveUserRepository {
@@ -12,10 +12,14 @@ export class PrismaSaveUserRepository implements ISaveUserRepository {
   async save(
     userParams: ISaveUserRepository.Params
   ): Promise<ISaveUserRepository.Result> {
-    const userCreated = await this.prismaConnection.user.create({
-      data: userParams,
-    });
+    try {
+      const userCreated = await this.prismaConnection.user.create({
+        data: userParams,
+      });
 
-    return userCreated;
+      return userCreated;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

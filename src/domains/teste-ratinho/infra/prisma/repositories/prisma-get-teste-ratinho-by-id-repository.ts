@@ -1,6 +1,6 @@
 import { IGetTesteRatinhoByIdRepository } from '@/domains/teste-ratinho';
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGetTesteRatinhoByIdRepository
   implements IGetTesteRatinhoByIdRepository
@@ -14,10 +14,14 @@ export class PrismaGetTesteRatinhoByIdRepository
   async get(
     id: IGetTesteRatinhoByIdRepository.Params
   ): Promise<IGetTesteRatinhoByIdRepository.Result> {
-    const testeRatinho = await this.prismaConnection.testeRatinho.findUnique({
-      where: { id },
-    });
+    try {
+      const testeRatinho = await this.prismaConnection.testeRatinho.findUnique({
+        where: { id },
+      });
 
-    return testeRatinho;
+      return testeRatinho;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }

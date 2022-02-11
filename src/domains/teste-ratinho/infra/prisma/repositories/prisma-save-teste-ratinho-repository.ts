@@ -1,5 +1,5 @@
 import { ISaveTesteRatinhoRepository } from '@/domains/teste-ratinho';
-import { prismaConnector } from '@/shared/infra/prisma';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
 export class PrismaSaveTesteRatinhoRepository
@@ -14,12 +14,15 @@ export class PrismaSaveTesteRatinhoRepository
   async save(
     testeRatinhoParams: ISaveTesteRatinhoRepository.Params
   ): Promise<ISaveTesteRatinhoRepository.Result> {
-    const testeRatinhoCreated = await this.prismaConnection.testeRatinho.create(
-      {
-        data: testeRatinhoParams,
-      }
-    );
+    try {
+      const testeRatinhoCreated =
+        await this.prismaConnection.testeRatinho.create({
+          data: testeRatinhoParams,
+        });
 
-    return testeRatinhoCreated;
+      return testeRatinhoCreated;
+    } catch (error) {
+      throw new PrismaException(error);
+    }
   }
 }
