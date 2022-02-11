@@ -4,6 +4,7 @@ import {
   makeGetAuthUserByTokenValidation,
   CognitoGetAuthUserByTokenInCloudGateway,
 } from '@/domains/auth';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpGetAuthUserByTokenController = (
   authUserRole: 'ADMIN' | 'USER' = 'USER'
@@ -12,11 +13,13 @@ export const makeHttpGetAuthUserByTokenController = (
   const getAuthUserByTokenInCloudGateway =
     new CognitoGetAuthUserByTokenInCloudGateway();
   const validation = makeGetAuthUserByTokenValidation();
+  const loggerLocal = pinoLoggerLocal;
 
   return new HttpGetAuthUserByTokenController(
     getAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository,
     validation,
-    authUserRole
+    authUserRole,
+    loggerLocal
   );
 };

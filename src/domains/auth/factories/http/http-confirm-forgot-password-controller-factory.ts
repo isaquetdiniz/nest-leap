@@ -5,6 +5,7 @@ import {
   makeConfirmForgotPasswordValidation,
   CognitoConfirmForgotPasswordInCloudGateway,
 } from '@/domains/auth';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpConfirmForgotPasswordController =
   (): HttpConfirmForgotPasswordController => {
@@ -15,11 +16,13 @@ export const makeHttpConfirmForgotPasswordController =
     const confirmForgotPasswordInCloudGateway =
       new CognitoConfirmForgotPasswordInCloudGateway();
     const validation = makeConfirmForgotPasswordValidation();
+    const loggerLocal = pinoLoggerLocal;
 
     return new HttpConfirmForgotPasswordController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       confirmForgotPasswordInCloudGateway,
-      validation
+      validation,
+      loggerLocal
     );
   };

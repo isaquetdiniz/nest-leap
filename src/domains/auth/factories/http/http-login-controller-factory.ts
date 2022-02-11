@@ -5,6 +5,7 @@ import {
   CognitoGetAuthUserByEmailInCloudGateway,
   CognitoLoginInCloudGateway,
 } from '@/domains/auth';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpLoginController = (): HttpLoginController => {
   const getAuthUserByEmailRepository = new PrismaGetAuthUserByEmailRepository();
@@ -12,11 +13,13 @@ export const makeHttpLoginController = (): HttpLoginController => {
     new CognitoGetAuthUserByEmailInCloudGateway();
   const loginInCloudGateway = new CognitoLoginInCloudGateway();
   const validation = makeLoginValidation();
+  const loggerLocal = pinoLoggerLocal;
 
   return new HttpLoginController(
     getAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway,
     loginInCloudGateway,
-    validation
+    validation,
+    loggerLocal
   );
 };

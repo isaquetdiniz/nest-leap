@@ -11,6 +11,7 @@ import {
   ILoginInCloudGateway,
   AuthUserTransformer,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface FirstLoginRequest {
   email: string;
@@ -25,28 +26,37 @@ export type FirstLoginResponse = {
 
 export class FirstLoginController {
   private usecase: FirstLoginUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new FirstLoginUsecase(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       firstLoginInCloudGateway,
-      loginInCloudGateway
+      loginInCloudGateway,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'first-login' });
   }
 
   async execute(request: FirstLoginRequest): Promise<FirstLoginResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: request });
+
     const hasError = this.validation.validate(request);
 
     if (hasError) {
       throw new ValidationException(hasError);
     }
+
+    this.logger.logDebug({ message: 'Params validated' });
 
     const { email, newPassword, temporaryPassword } = request;
 
@@ -62,6 +72,11 @@ export class FirstLoginController {
     };
 
     const authUserDTO = AuthUserTransformer.generateDTO(authUser);
+
+    this.logger.logDebug({
+      message: 'Auth User made first login',
+      data: authUser,
+    });
 
     return { access: accessDTO, authUser: authUserDTO };
   }

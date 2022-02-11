@@ -14,6 +14,7 @@ import {
   ConfirmForgotPasswordController,
   IConfirmForgotPasswordInCloudGateway,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpConfirmForgotPasswordRequest {
   email: string;
@@ -23,24 +24,31 @@ export interface HttpConfirmForgotPasswordRequest {
 
 export class HttpConfirmForgotPasswordController implements HttpController {
   private controller: ConfirmForgotPasswordController;
+  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     confirmforgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new ConfirmForgotPasswordController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       confirmforgotPasswordInCloudGateway,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'confirm-forgot-password' });
   }
 
   async handle(
     httpRequest: HttpConfirmForgotPasswordRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { email, verificationCode, newPassword } = httpRequest;
 
     try {
@@ -48,6 +56,11 @@ export class HttpConfirmForgotPasswordController implements HttpController {
         email,
         verificationCode,
         newPassword,
+      });
+
+      this.logger.logDebug({
+        message: 'Auth User confirmed forgot password',
+        data: httpRequest,
       });
 
       return ok();

@@ -6,6 +6,7 @@ import {
   IGetRefreshTokenInCloudGateway,
   GetRefreshTokenUsecase,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface GetRefreshTokenRequest {
   refreshToken: string;
@@ -15,22 +16,33 @@ export type GetRefreshTokenResponse = AccessDTO;
 
 export class GetRefreshTokenController {
   private usecase: GetRefreshTokenUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     getRefreshTokenInCloudGateway: IGetRefreshTokenInCloudGateway,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
-    this.usecase = new GetRefreshTokenUsecase(getRefreshTokenInCloudGateway);
+    this.usecase = new GetRefreshTokenUsecase(
+      getRefreshTokenInCloudGateway,
+      logger
+    );
+
+    this.logger = logger.child({ controller: 'get-refresh-token' });
   }
 
   async execute(
     request: GetRefreshTokenRequest
   ): Promise<GetRefreshTokenResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: request });
+
     const hasError = this.validation.validate(request);
 
     if (hasError) {
       throw new ValidationException(hasError);
     }
+
+    this.logger.logDebug({ message: 'Params validated', data: request });
 
     const { refreshToken } = request;
 
@@ -42,6 +54,8 @@ export class GetRefreshTokenController {
       accessToken: access.accessToken,
       refreshToken: access.refreshToken,
     };
+
+    this.logger.logDebug({ message: 'Refresh token getted' });
 
     return accessDTO;
   }

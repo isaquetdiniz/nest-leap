@@ -15,6 +15,7 @@ import {
   ILoginInCloudGateway,
   LoginController,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpLoginRequest {
   email: string;
@@ -23,22 +24,29 @@ export interface HttpLoginRequest {
 
 export class HttpLoginController implements HttpController {
   private controller: LoginController;
+  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new LoginController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       loginInCloudGateway,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'login' });
   }
 
   async handle(httpRequest: HttpLoginRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { email, password } = httpRequest;
 
     try {
@@ -46,6 +54,8 @@ export class HttpLoginController implements HttpController {
         email,
         password,
       });
+
+      this.logger.logDebug({ message: 'Auth User Logged', data: authUser });
 
       return ok({ access, authUser });
     } catch (error) {

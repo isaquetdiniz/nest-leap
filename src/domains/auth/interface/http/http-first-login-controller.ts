@@ -15,6 +15,7 @@ import {
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpFirstLoginRequest {
   email: string;
@@ -24,24 +25,31 @@ export interface HttpFirstLoginRequest {
 
 export class HttpFirstLoginController implements HttpController {
   private controller: FirstLoginController;
+  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     firstLoginInCloudGateway: IFirstLoginInCloudGateway,
     loginInCloudGateway: ILoginInCloudGateway,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new FirstLoginController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       firstLoginInCloudGateway,
       loginInCloudGateway,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'first-login' });
   }
 
   async handle(httpRequest: HttpFirstLoginRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { email, newPassword, temporaryPassword } = httpRequest;
 
     try {
@@ -49,6 +57,11 @@ export class HttpFirstLoginController implements HttpController {
         email,
         newPassword,
         temporaryPassword,
+      });
+
+      this.logger.logDebug({
+        message: 'Auth User made first login',
+        data: authUser,
       });
 
       return ok({ access, authUser });

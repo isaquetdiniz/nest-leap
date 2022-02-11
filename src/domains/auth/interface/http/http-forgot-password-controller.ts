@@ -14,6 +14,7 @@ import {
   IForgotPasswordInCloudGateway,
   AuthUserNotMadeFirstLoginException,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpForgotPasswordRequest {
   email: string;
@@ -21,27 +22,39 @@ export interface HttpForgotPasswordRequest {
 
 export class HttpForgotPasswordController implements HttpController {
   private controller: ForgotPasswordController;
+  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     forgotPasswordInCloudGateway: IForgotPasswordInCloudGateway,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new ForgotPasswordController(
       getAuthUserByEmailRepository,
       getAuthUserByEmailInCloudGateway,
       forgotPasswordInCloudGateway,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'forgot-password' });
   }
 
   async handle(httpRequest: HttpForgotPasswordRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { email } = httpRequest;
 
     try {
       await this.controller.execute({
         email,
+      });
+
+      this.logger.logDebug({
+        message: 'Auth User forgot password',
+        data: email,
       });
 
       return ok();

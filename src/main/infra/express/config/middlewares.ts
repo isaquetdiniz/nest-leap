@@ -5,7 +5,7 @@ import {
   corsMiddleware,
   contentType,
   helmetMiddleware,
-  pinoHttp,
+  // pinoHttp,
 } from '@/main/infra/express/middlewares';
 
 export default (app: Express): void => {
@@ -13,5 +13,5 @@ export default (app: Express): void => {
   app.use(bodyParser);
   app.use(corsMiddleware);
   app.use(contentType);
-  app.use(pinoHttp);
+  // app.use(pinoHttp);
 };

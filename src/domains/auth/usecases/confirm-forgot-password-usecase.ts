@@ -5,6 +5,7 @@ import {
   IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IConfirmForgotPasswordUsecase {
   execute(
@@ -24,15 +25,25 @@ export namespace IConfirmForgotPasswordUsecase {
 export class ConfirmForgotPasswordUsecase
   implements IConfirmForgotPasswordUsecase
 {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
-    private readonly confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway
-  ) {}
+    private readonly confirmForgotPasswordInCloudGateway: IConfirmForgotPasswordInCloudGateway,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'forgot-password' });
+  }
 
   async execute(
     confirmForgotParams: IConfirmForgotPasswordUsecase.Params
   ): Promise<IConfirmForgotPasswordUsecase.Response> {
+    this.logger.logDebug({
+      message: 'Request Received',
+      data: confirmForgotParams,
+    });
+
     const { email, verificationCode, newPassword } = confirmForgotParams;
 
     const authUserFound = await this.getAuthUserByEmailRepository.get(email);
@@ -41,6 +52,11 @@ export class ConfirmForgotPasswordUsecase
       throw new AuthUserNotFoundException({ email });
     }
 
+    this.logger.logDebug({
+      message: 'Auth User found',
+      data: authUserFound,
+    });
+
     const cloudAuthUserFound = await this.getAuthUserByEmailInCloudGateway.get(
       email
     );
@@ -48,6 +64,11 @@ export class ConfirmForgotPasswordUsecase
     if (!cloudAuthUserFound) {
       throw new AuthUserNotFoundException({ email });
     }
+
+    this.logger.logDebug({
+      message: 'Auth User found in cloud',
+      data: cloudAuthUserFound,
+    });
 
     const { status: cloudAuthUserStatus } = cloudAuthUserFound;
 
@@ -59,6 +80,11 @@ export class ConfirmForgotPasswordUsecase
       email,
       verificationCode,
       newPassword,
+    });
+
+    this.logger.logDebug({
+      message: 'Auth User confirm forgot password',
+      data: confirmForgotParams,
     });
   }
 }

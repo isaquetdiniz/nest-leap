@@ -8,6 +8,7 @@ import {
   IFirstLoginInCloudGateway,
   ILoginInCloudGateway,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IFirstLoginUsecase {
   execute(
@@ -26,16 +27,26 @@ export namespace IFirstLoginUsecase {
 }
 
 export class FirstLoginUsecase implements IFirstLoginUsecase {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     private readonly getAuthUserByEmailInCloudGateway: IGetAuthUserByEmailInCloudGateway,
     private readonly firstLoginInCloudGateway: IFirstLoginInCloudGateway,
-    private readonly loginInCloudGateway: ILoginInCloudGateway
-  ) {}
+    private readonly loginInCloudGateway: ILoginInCloudGateway,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'first-login' });
+  }
 
   async execute(
     firstLoginParams: IFirstLoginUsecase.Params
   ): Promise<IFirstLoginUsecase.Response> {
+    this.logger.logDebug({
+      message: 'Request Received',
+      data: firstLoginParams,
+    });
+
     const { email, newPassword, temporaryPassword } = firstLoginParams;
 
     const authUserDTO = await this.getAuthUserByEmailRepository.get(email);
@@ -44,6 +55,11 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
       throw new AuthUserNotFoundException({ email });
     }
 
+    this.logger.logDebug({
+      message: 'Auth User found',
+      data: authUserDTO,
+    });
+
     const cloudAuthUser = await this.getAuthUserByEmailInCloudGateway.get(
       email
     );
@@ -51,6 +67,11 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
     if (!cloudAuthUser) {
       throw new AuthUserNotFoundException({ email });
     }
+
+    this.logger.logDebug({
+      message: 'Auth User found in cloud',
+      data: cloudAuthUser,
+    });
 
     const { status: cloudAuthUserStatus } = cloudAuthUser;
 
@@ -71,6 +92,11 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
 
     const access = new Access(accessDTO);
     const authUser = new AuthUser(authUserDTO);
+
+    this.logger.logDebug({
+      message: 'Auth User made first login',
+      data: authUser,
+    });
 
     return { access, authUser };
   }

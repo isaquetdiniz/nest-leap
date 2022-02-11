@@ -19,6 +19,7 @@ import {
   IGetAuthUserByTokenInCloudGateway,
   AuthUserNotFoundByTokenException,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpGetAuthUserByTokenRequest {
   accessToken: string;
@@ -26,23 +27,30 @@ export interface HttpGetAuthUserByTokenRequest {
 
 export class HttpGetAuthUserByTokenController implements HttpController {
   private controller: GetAuthUserByTokenController;
+  private logger: ILoggerLocal;
 
   constructor(
     getAuthUserByTokenInCloudGateway: IGetAuthUserByTokenInCloudGateway,
     getAuthUserByEmailRepository: IGetAuthUserByEmailRepository,
     validation: Validation,
-    private readonly authUserRole: 'ADMIN' | 'USER'
+    private readonly authUserRole: 'ADMIN' | 'USER',
+    logger: ILoggerLocal
   ) {
     this.controller = new GetAuthUserByTokenController(
       getAuthUserByTokenInCloudGateway,
       getAuthUserByEmailRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'get-auth-user-by-token' });
   }
 
   async handle(
     httpRequest: HttpGetAuthUserByTokenRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { accessToken } = httpRequest;
 
     try {
@@ -50,9 +58,19 @@ export class HttpGetAuthUserByTokenController implements HttpController {
         token: accessToken,
       });
 
+      this.logger.logDebug({
+        message: 'Auth User found by token',
+        data: authUser,
+      });
+
       if (this.authUserRole === 'ADMIN' && !authUser.isAdmin) {
         return unauthorized();
       }
+
+      this.logger.logDebug({
+        message: 'Auth User authorized',
+        data: authUser,
+      });
 
       return ok(authUser);
     } catch (error) {

@@ -10,6 +10,7 @@ import {
   IGetRefreshTokenInCloudGateway,
   GetRefreshTokenController,
 } from '@/domains/auth';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpGetRefreshTokenRequest {
   refreshToken: string;
@@ -17,18 +18,25 @@ export interface HttpGetRefreshTokenRequest {
 
 export class HttpGetRefreshTokenController implements HttpController {
   private controller: GetRefreshTokenController;
+  private logger: ILoggerLocal;
 
   constructor(
     getRefreshTokenInCloudGateway: IGetRefreshTokenInCloudGateway,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new GetRefreshTokenController(
       getRefreshTokenInCloudGateway,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'get-refresh-token' });
   }
 
   async handle(httpRequest: HttpGetRefreshTokenRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { refreshToken } = httpRequest;
 
     try {
@@ -36,6 +44,8 @@ export class HttpGetRefreshTokenController implements HttpController {
         await this.controller.execute({
           refreshToken,
         });
+
+      this.logger.logDebug({ message: 'Token getted by refresh' });
 
       return ok({ accessToken, refreshToken: newRefreshToken });
     } catch (error) {
