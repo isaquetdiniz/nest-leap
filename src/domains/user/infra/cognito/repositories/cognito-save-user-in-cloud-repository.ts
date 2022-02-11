@@ -1,7 +1,7 @@
 import { ISaveUserInCloudRepository } from '@/domains/user';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
 export class CognitoSaveUserInCloudRepository
   implements ISaveUserInCloudRepository
@@ -46,7 +46,7 @@ export class CognitoSaveUserInCloudRepository
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return reject(new CognitoException(err));
           }
 
           resolve();

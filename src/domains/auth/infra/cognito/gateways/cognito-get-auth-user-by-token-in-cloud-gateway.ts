@@ -1,7 +1,7 @@
 import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
 export class CognitoGetAuthUserByTokenInCloudGateway
   implements IGetAuthUserByTokenInCloudGateway
@@ -29,7 +29,7 @@ export class CognitoGetAuthUserByTokenInCloudGateway
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return reject(new CognitoException(err));
           }
 
           const { UserAttributes: attributes }: any = data;

@@ -17,6 +17,7 @@ import {
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpUpdateUserByIdRequest {
   id: string;
@@ -66,7 +67,10 @@ export class HttpUpdateUserByIdController implements HttpController {
 
       return ok(userUpdated);
     } catch (error) {
-      if (error instanceof ValidationException) {
+      if (
+        error instanceof ValidationException ||
+        error instanceof CognitoException
+      ) {
         return badRequest(error);
       }
 

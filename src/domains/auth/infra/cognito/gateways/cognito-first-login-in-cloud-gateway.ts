@@ -1,5 +1,5 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 import { IFirstLoginInCloudGateway } from '@/domains/auth';
 
 export class CognitoFirstLoginInCloudGateway
@@ -40,7 +40,7 @@ export class CognitoFirstLoginInCloudGateway
         },
         (err, data) => {
           if (err) {
-            reject(err);
+            return reject(new CognitoException(err));
           }
 
           resolve(data.Session as string);
@@ -58,7 +58,7 @@ export class CognitoFirstLoginInCloudGateway
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return reject(new CognitoException(err));
           }
 
           resolve();

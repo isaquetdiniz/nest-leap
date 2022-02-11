@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
 import { IGetRefreshTokenInCloudGateway } from '@/domains/auth';
 
@@ -35,11 +35,11 @@ export class CognitoGetRefreshTokenInCloudGateway
           },
           (err, data) => {
             if (err) {
-              return reject(err);
+              return reject(new CognitoException(err));
             }
 
             if (!data.AuthenticationResult) {
-              return reject(new Error('Error with Refresh'));
+              return reject(new CognitoException(err));
             }
 
             const {

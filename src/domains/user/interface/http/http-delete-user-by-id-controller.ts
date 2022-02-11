@@ -19,6 +19,7 @@ import {
 } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpDeleteUserByIdRequest {
   id: string;
@@ -60,7 +61,10 @@ export class HttpDeleteUserByIdController implements HttpController {
 
       return ok();
     } catch (error) {
-      if (error instanceof ValidationException) {
+      if (
+        error instanceof ValidationException ||
+        error instanceof CognitoException
+      ) {
         return badRequest(error);
       }
 

@@ -1,4 +1,3 @@
-import { ServerError } from '@/shared/interface/http/errors';
 import { HttpResponse } from '@/shared/interface/http/protocols';
 
 export const badRequest = (error: Error): HttpResponse => ({
@@ -13,8 +12,7 @@ export const notFound = (error: Error): HttpResponse => ({
 
 export const serverError = (error: Error): HttpResponse => ({
   statusCode: 500,
-  // @ts-ignore
-  body: new ServerError(error.stack),
+  body: error,
 });
 
 export const created = (data: any): HttpResponse => ({

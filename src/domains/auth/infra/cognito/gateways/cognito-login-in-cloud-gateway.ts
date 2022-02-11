@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 import { ILoginInCloudGateway } from '@/domains/auth';
 
 export class CognitoLoginInCloudGateway implements ILoginInCloudGateway {
@@ -34,11 +34,11 @@ export class CognitoLoginInCloudGateway implements ILoginInCloudGateway {
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return reject(new CognitoException(err));
           }
 
           if (!data.AuthenticationResult) {
-            return reject(new Error('Error with login'));
+            return reject(new CognitoException(err));
           }
 
           const { AccessToken: accessToken, RefreshToken: refreshToken }: any =

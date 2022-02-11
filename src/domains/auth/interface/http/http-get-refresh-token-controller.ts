@@ -11,6 +11,7 @@ import {
   GetRefreshTokenController,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpGetRefreshTokenRequest {
   refreshToken: string;
@@ -49,7 +50,10 @@ export class HttpGetRefreshTokenController implements HttpController {
 
       return ok({ accessToken, refreshToken: newRefreshToken });
     } catch (error) {
-      if (error instanceof ValidationException) {
+      if (
+        error instanceof ValidationException ||
+        error instanceof CognitoException
+      ) {
         return badRequest(error);
       }
 

@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 import { IGetAuthUserByEmailInCloudGateway } from '@/domains/auth';
 
 export class CognitoGetAuthUserByEmailInCloudGateway
@@ -30,7 +30,7 @@ export class CognitoGetAuthUserByEmailInCloudGateway
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return reject(new CognitoException(err));
           }
 
           const { Username: username, UserStatus: status }: any = data;

@@ -3,7 +3,12 @@ import {
   HttpResponse,
 } from '@/shared/interface/http/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import {
+  badRequest,
+  ok,
+  serverError,
+  unauthorized,
+} from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
 
 import {
@@ -16,6 +21,7 @@ import {
   LoginController,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpLoginRequest {
   email: string;
@@ -66,6 +72,10 @@ export class HttpLoginController implements HttpController {
         error instanceof AuthUserNeedSetPasswordException
       ) {
         return badRequest(error);
+      }
+
+      if (error instanceof CognitoException) {
+        return unauthorized(error);
       }
 
       return serverError(error as Error);

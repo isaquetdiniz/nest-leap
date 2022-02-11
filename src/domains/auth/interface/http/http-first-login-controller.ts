@@ -16,6 +16,7 @@ import {
   ILoginInCloudGateway,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpFirstLoginRequest {
   email: string;
@@ -69,7 +70,8 @@ export class HttpFirstLoginController implements HttpController {
       if (
         error instanceof ValidationException ||
         error instanceof AuthUserNotFoundException ||
-        error instanceof AuthUserAlreadyMadeFirstLoginException
+        error instanceof AuthUserAlreadyMadeFirstLoginException ||
+        error instanceof CognitoException
       ) {
         return badRequest(error);
       }

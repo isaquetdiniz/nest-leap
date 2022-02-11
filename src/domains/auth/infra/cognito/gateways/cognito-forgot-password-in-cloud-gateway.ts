@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
-import cognitoEnvironment from '@/shared/infra/cognito';
+import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 import { IForgotPasswordInCloudGateway } from '@/domains/auth';
 
 export class CognitoForgotPasswordInCloudGateway
@@ -32,7 +32,7 @@ export class CognitoForgotPasswordInCloudGateway
         },
         (err, data) => {
           if (err) {
-            return reject(err);
+            return reject(new CognitoException(err));
           }
 
           resolve();

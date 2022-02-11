@@ -15,6 +15,7 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpCreateUserRequest {
   name: string;
@@ -66,11 +67,11 @@ export class HttpCreateUserController implements HttpController {
 
       return ok(userCreated);
     } catch (error) {
-      if (error instanceof ValidationException) {
-        return badRequest(error);
-      }
-
-      if (error instanceof UserAlreadyExistsException) {
+      if (
+        error instanceof ValidationException ||
+        error instanceof UserAlreadyExistsException ||
+        error instanceof CognitoException
+      ) {
         return badRequest(error);
       }
 

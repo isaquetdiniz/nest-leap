@@ -20,6 +20,7 @@ import {
   AuthUserNotFoundByTokenException,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpGetAuthUserByTokenRequest {
   accessToken: string;
@@ -80,7 +81,8 @@ export class HttpGetAuthUserByTokenController implements HttpController {
 
       if (
         error instanceof AuthUserNotFoundException ||
-        error instanceof AuthUserNotFoundByTokenException
+        error instanceof AuthUserNotFoundByTokenException ||
+        error instanceof CognitoException
       ) {
         return forbidden(error);
       }

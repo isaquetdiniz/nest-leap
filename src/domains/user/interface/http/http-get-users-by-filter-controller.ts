@@ -11,6 +11,7 @@ import {
 } from '@/domains/user';
 import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export type HttpGetUsersByFilterRequest = {
   name?: string;
@@ -81,7 +82,10 @@ export class HttpGetUsersByFilterController implements HttpController {
 
       return ok(users);
     } catch (error) {
-      if (error instanceof ValidationException) {
+      if (
+        error instanceof ValidationException ||
+        error instanceof CognitoException
+      ) {
         return badRequest(error);
       }
 

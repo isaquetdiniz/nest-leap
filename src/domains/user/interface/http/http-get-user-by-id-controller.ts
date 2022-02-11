@@ -11,6 +11,7 @@ import {
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpGetUserByIdRequest {
   id: string;
@@ -48,7 +49,10 @@ export class HttpGetUserByIdController implements HttpController {
 
       return ok(user);
     } catch (error) {
-      if (error instanceof ValidationException) {
+      if (
+        error instanceof ValidationException ||
+        error instanceof CognitoException
+      ) {
         return badRequest(error);
       }
 

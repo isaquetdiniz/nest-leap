@@ -15,6 +15,7 @@ import {
   IConfirmForgotPasswordInCloudGateway,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpConfirmForgotPasswordRequest {
   email: string;
@@ -68,7 +69,8 @@ export class HttpConfirmForgotPasswordController implements HttpController {
       if (
         error instanceof ValidationException ||
         error instanceof AuthUserNotFoundException ||
-        error instanceof AuthUserNotMadeFirstLoginException
+        error instanceof AuthUserNotMadeFirstLoginException ||
+        error instanceof CognitoException
       ) {
         return badRequest(error);
       }
