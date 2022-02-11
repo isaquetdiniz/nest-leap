@@ -13,6 +13,7 @@ import {
   Pagination,
   ValidationException,
 } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface GetUsersByFilterRequest {
   name?: string;
@@ -37,26 +38,35 @@ export interface GetUsersByFilterResponse {
 
 export class GetUsersByFilterController {
   private usecase: GetUsersByFilterUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     getUsersByFilterRepository: IGetUsersByFilterRepository,
     countUsersByFilterRepository: ICountUsersByFilterRepository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new GetUsersByFilterUsecase(
       getUsersByFilterRepository,
-      countUsersByFilterRepository
+      countUsersByFilterRepository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'get-users-by-filter' });
   }
 
   async execute(
     request: GetUsersByFilterRequest
   ): Promise<GetUsersByFilterResponse> {
+    this.logger.logDebug({ message: 'Request received', data: request });
+
     const hasErrors = this.validation.validate(request);
 
     if (hasErrors) {
       throw new ValidationException(hasErrors);
     }
+
+    this.logger.logDebug({ message: 'Params validated' });
 
     const {
       orderBy: orderByDTO,
@@ -89,6 +99,11 @@ export class GetUsersByFilterController {
     });
 
     const usersDTOs = users.map((user) => UserTransformer.generateDTO(user));
+
+    this.logger.logDebug({
+      message: 'Users found',
+      data: { totalUsers, totalItemsListed: usersDTOs.length },
+    });
 
     return {
       items: usersDTOs,

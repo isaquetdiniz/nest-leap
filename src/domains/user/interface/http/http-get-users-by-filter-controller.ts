@@ -10,6 +10,7 @@ import {
   ICountUsersByFilterRepository,
 } from '@/domains/user';
 import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export type HttpGetUsersByFilterRequest = {
   name?: string;
@@ -28,22 +29,29 @@ export type HttpGetUsersByFilterRequest = {
 
 export class HttpGetUsersByFilterController implements HttpController {
   private controller: GetUsersByFilterController;
+  private logger: ILoggerLocal;
 
   constructor(
     getUsersByFilterRepository: IGetUsersByFilterRepository,
     countUsersByFilterRepository: ICountUsersByFilterRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new GetUsersByFilterController(
       getUsersByFilterRepository,
       countUsersByFilterRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'get-users-by-filter' });
   }
 
   async handle(
     httpRequest: HttpGetUsersByFilterRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const {
       name,
       email,
@@ -68,6 +76,8 @@ export class HttpGetUsersByFilterController implements HttpController {
         take,
         skip,
       });
+
+      this.logger.logDebug({ message: 'Users found' });
 
       return ok(users);
     } catch (error) {
