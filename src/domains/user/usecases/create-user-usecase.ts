@@ -8,10 +8,7 @@ import {
   IDeleteUserByIdRepository,
   UserAlreadyExistsException,
 } from '@/domains/user';
-import { ILoggerLocal } from '@/shared/protocols';
-
-import { IUuidGenerator } from '@/shared/protocols/uuid-generator';
-
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 export interface ICreateUserUsecase {
   execute(
     params: ICreateUserUsecase.Params

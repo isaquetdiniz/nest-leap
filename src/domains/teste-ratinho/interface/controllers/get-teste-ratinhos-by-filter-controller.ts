@@ -13,6 +13,7 @@ import {
   Pagination,
   ValidationException,
 } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface GetTesteRatinhosByFilterRequest {
   name?: string;
@@ -35,26 +36,35 @@ export interface GetTesteRatinhosByFilterResponse {
 
 export class GetTesteRatinhosByFilterController {
   private usecase: GetTesteRatinhosByFilterUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     getTesteRatinhosByFilterRepository: IGetTesteRatinhosByFilterRepository,
     countTesteRatinhosByFilterRepository: ICountTesteRatinhosByFilterRepository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new GetTesteRatinhosByFilterUsecase(
       getTesteRatinhosByFilterRepository,
-      countTesteRatinhosByFilterRepository
+      countTesteRatinhosByFilterRepository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'get-teste-ratinhos-by-filter' });
   }
 
   async execute(
     request: GetTesteRatinhosByFilterRequest
   ): Promise<GetTesteRatinhosByFilterResponse> {
+    this.logger.logDebug({ message: 'Request received', data: request });
+
     const hasErrors = this.validation.validate(request);
 
     if (hasErrors) {
       throw new ValidationException(hasErrors);
     }
+
+    this.logger.logDebug({ message: 'Params validated' });
 
     const {
       orderBy: orderByDTO,
@@ -85,6 +95,11 @@ export class GetTesteRatinhosByFilterController {
     const testeRatinhosDTOs = testeRatinhos.map((testeRatinho) =>
       TesteRatinhoTransformer.generateDTO(testeRatinho)
     );
+
+    this.logger.logDebug({
+      message: 'TesteRatinhos found',
+      data: { totalTesteRatinhos, totalItemsListed: testeRatinhosDTOs.length },
+    });
 
     return {
       items: testeRatinhosDTOs,

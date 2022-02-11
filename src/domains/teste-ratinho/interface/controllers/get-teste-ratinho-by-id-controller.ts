@@ -6,6 +6,7 @@ import {
   TesteRatinhoTransformer,
 } from '@/domains/teste-ratinho';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface GetTesteRatinhoByIdRequest {
   id: string;
@@ -17,19 +18,26 @@ export type GetTesteRatinhoByIdResponse = {
 
 export class GetTesteRatinhoByIdController {
   private usecase: GetTesteRatinhoByIdUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     getTesteRatinhoByIdRepository: IGetTesteRatinhoByIdRepository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new GetTesteRatinhoByIdUsecase(
-      getTesteRatinhoByIdRepository
+      getTesteRatinhoByIdRepository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'get-teste-ratinho-by-id' });
   }
 
   async execute(
     request: GetTesteRatinhoByIdRequest
   ): Promise<GetTesteRatinhoByIdResponse> {
+    this.logger.logDebug({ message: 'Request received', data: request });
+
     const { id } = request;
 
     const hasErrors = this.validation.validate(request);
@@ -38,6 +46,8 @@ export class GetTesteRatinhoByIdController {
       throw new ValidationException(hasErrors);
     }
 
+    this.logger.logDebug({ message: 'Params validated' });
+
     const testeRatinho = await this.usecase.execute(id);
 
     if (!testeRatinho) {
@@ -45,6 +55,11 @@ export class GetTesteRatinhoByIdController {
     }
 
     const testeRatinhoDTO = TesteRatinhoTransformer.generateDTO(testeRatinho);
+
+    this.logger.logDebug({
+      message: 'TesteRatinho found',
+      data: testeRatinhoDTO,
+    });
 
     return { testeRatinho: testeRatinhoDTO };
   }

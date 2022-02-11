@@ -5,6 +5,8 @@ import {
   makeDeleteTesteRatinhoByIdValidation,
 } from '@/domains/teste-ratinho';
 
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 export const makeHttpDeleteTesteRatinhoByIdController =
   (): HttpDeleteTesteRatinhoByIdController => {
     const getTesteRatinhoByIdRepository =
@@ -12,10 +14,12 @@ export const makeHttpDeleteTesteRatinhoByIdController =
     const deleteTesteRatinhoByIdRepository =
       new PrismaDeleteTesteRatinhoByIdRepository();
     const validation = makeDeleteTesteRatinhoByIdValidation();
+    const logger = pinoLoggerLocal;
 
     return new HttpDeleteTesteRatinhoByIdController(
       getTesteRatinhoByIdRepository,
       deleteTesteRatinhoByIdRepository,
-      validation
+      validation,
+      logger
     );
   };

@@ -6,6 +6,8 @@ import {
 
 import { DateFilter, OrderByFilter, Pagination } from '@/shared/helpers';
 
+import { ILoggerLocal } from '@/shared/protocols';
+
 export type TesteRatinhoFilters = {
   filters: {
     name?: string;
@@ -34,14 +36,21 @@ export namespace IGetTesteRatinhosByFilterUsecase {
 export class GetTesteRatinhosByFilterUsecase
   implements IGetTesteRatinhosByFilterUsecase
 {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly getTesteRatinhosByFilterRepository: IGetTesteRatinhosByFilterRepository,
-    private readonly countTesteRatinhosByFilterRepository: ICountTesteRatinhosByFilterRepository
-  ) {}
+    private readonly countTesteRatinhosByFilterRepository: ICountTesteRatinhosByFilterRepository,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'get-teste-ratinhos-by-filter' });
+  }
 
   async execute(
     filterParams: IGetTesteRatinhosByFilterUsecase.Params
   ): Promise<IGetTesteRatinhosByFilterUsecase.Result> {
+    this.logger.logDebug({ message: 'Request received', data: filterParams });
+
     const { filters } = filterParams;
 
     const testeRatinhosDTOS = await this.getTesteRatinhosByFilterRepository.get(
@@ -53,6 +62,11 @@ export class GetTesteRatinhosByFilterUsecase
     const testeRatinhos = testeRatinhosDTOS.map(
       (testeRatinhoDTO) => new TesteRatinho(testeRatinhoDTO)
     );
+
+    this.logger.logDebug({
+      message: 'TesteRatinhos found',
+      data: { totalTesteRatinhos },
+    });
 
     return {
       testeRatinhos,

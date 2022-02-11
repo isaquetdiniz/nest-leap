@@ -10,6 +10,7 @@ import {
   ICountTesteRatinhosByFilterRepository,
 } from '@/domains/teste-ratinho';
 import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export type HttpGetTesteRatinhosByFilterRequest = {
   name?: string;
@@ -26,22 +27,31 @@ export type HttpGetTesteRatinhosByFilterRequest = {
 
 export class HttpGetTesteRatinhosByFilterController implements HttpController {
   private controller: GetTesteRatinhosByFilterController;
+  private logger: ILoggerLocal;
 
   constructor(
     getTesteRatinhosByFilterRepository: IGetTesteRatinhosByFilterRepository,
     countTesteRatinhosByFilterRepository: ICountTesteRatinhosByFilterRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new GetTesteRatinhosByFilterController(
       getTesteRatinhosByFilterRepository,
       countTesteRatinhosByFilterRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({
+      httpController: 'get-teste-ratinhos-by-filter',
+    });
   }
 
   async handle(
     httpRequest: HttpGetTesteRatinhosByFilterRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { name, enabled, createdAt, updatedAt, orderBy, take, skip } =
       httpRequest;
 
@@ -55,6 +65,8 @@ export class HttpGetTesteRatinhosByFilterController implements HttpController {
         take,
         skip,
       });
+
+      this.logger.logDebug({ message: 'TesteRatinhos found' });
 
       return ok(testeRatinhos);
     } catch (error) {

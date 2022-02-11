@@ -5,6 +5,8 @@ import {
   makeCreateTesteRatinhoValidation,
 } from '@/domains/teste-ratinho';
 
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 import { UUIDGeneratorAdapter } from '@/shared/infra/uuid';
 
 export const makeHttpCreateTesteRatinhoController =
@@ -14,11 +16,13 @@ export const makeHttpCreateTesteRatinhoController =
     const uuidGenerator = new UUIDGeneratorAdapter();
     const saveTesteRatinhoRepository = new PrismaSaveTesteRatinhoRepository();
     const validation = makeCreateTesteRatinhoValidation();
+    const logger = pinoLoggerLocal;
 
     return new HttpCreateTesteRatinhoController(
       getTesteRatinhoByNameRepository,
       uuidGenerator,
       saveTesteRatinhoRepository,
-      validation
+      validation,
+      logger
     );
   };

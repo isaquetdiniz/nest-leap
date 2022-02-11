@@ -5,6 +5,8 @@ import {
   makeCreate{{pascalCase name}}Validation,
 } from '@/domains/{{dashCase name}}';
 
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 import { UUIDGeneratorAdapter } from '@/shared/infra/uuid';
 
 export const makeHttpCreate{{pascalCase name}}Controller = (): HttpCreate{{pascalCase name}}Controller => {
@@ -12,11 +14,13 @@ export const makeHttpCreate{{pascalCase name}}Controller = (): HttpCreate{{pasca
   const uuidGenerator = new UUIDGeneratorAdapter();
   const save{{pascalCase name}}Repository = new PrismaSave{{pascalCase name}}Repository();
   const validation = makeCreate{{pascalCase name}}Validation();
+  const logger = pinoLoggerLocal;
 
   return new HttpCreate{{pascalCase name}}Controller(
     get{{pascalCase name}}ByNameRepository,
     uuidGenerator,
     save{{pascalCase name}}Repository,
-    validation
+    validation,
+    logger
   );
 };

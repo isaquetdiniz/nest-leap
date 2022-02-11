@@ -11,7 +11,7 @@ import {
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
-import { IUuidGenerator } from '@/shared/protocols';
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface HttpCreateTesteRatinhoRequest {
   name: string;
@@ -19,29 +19,41 @@ export interface HttpCreateTesteRatinhoRequest {
 
 export class HttpCreateTesteRatinhoController implements HttpController {
   private controller: CreateTesteRatinhoController;
+  private logger: ILoggerLocal;
 
   constructor(
     getTesteRatinhoByNameRepository: IGetTesteRatinhoByNameRepository,
     uuidGenerator: IUuidGenerator,
     saveTesteRatinhoRepository: ISaveTesteRatinhoRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new CreateTesteRatinhoController(
       getTesteRatinhoByNameRepository,
       uuidGenerator,
       saveTesteRatinhoRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'create-teste-ratinho' });
   }
 
   async handle(
     httpRequest: HttpCreateTesteRatinhoRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { name } = httpRequest;
 
     try {
       const testeRatinhoCreated = await this.controller.execute({
         name,
+      });
+
+      this.logger.logDebug({
+        message: 'TesteRatinho created',
+        data: testeRatinhoCreated,
       });
 
       return ok(testeRatinhoCreated);

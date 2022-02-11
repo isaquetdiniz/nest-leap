@@ -7,6 +7,7 @@ import {
   {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface Update{{pascalCase name}}ByIdRequest {
   id: string;
@@ -20,21 +21,28 @@ export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}}DTO;
 
 export class Update{{pascalCase name}}ByIdController {
   private usecase: Update{{pascalCase name}}ByIdUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new Update{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
-      update{{pascalCase name}}Repository
+      update{{pascalCase name}}Repository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'update-{{dashCase name}}-by-id'})
   }
 
   async execute(
     request: Update{{pascalCase name}}ByIdRequest
   ): Promise<Update{{pascalCase name}}ByIdResponse> {
+    this.logger.logDebug({ message: 'Request received', data: request });
+
     const { id, paramsToUpdate } = request;
 
     const { name, enabled } = paramsToUpdate;
@@ -49,9 +57,13 @@ export class Update{{pascalCase name}}ByIdController {
       throw new ValidationException(hasErrors);
     }
 
+    this.logger.logDebug({ message: 'Params validated'})
+
     const {{camelCase name}}Updated = await this.usecase.execute({ id, paramsToUpdate });
 
     const {{camelCase name}}UpdatedDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}Updated);
+
+    this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}UpdatedDTO })
 
     return {{camelCase name}}UpdatedDTO;
   }

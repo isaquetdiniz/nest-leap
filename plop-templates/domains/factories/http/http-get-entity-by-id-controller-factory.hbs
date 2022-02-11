@@ -4,12 +4,16 @@ import {
   makeGet{{pascalCase name}}ByIdValidation,
 } from '@/domains/{{dashCase name}}';
 
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 export const makeHttpGet{{pascalCase name}}ByIdController = (): HttpGet{{pascalCase name}}ByIdController => {
   const get{{pascalCase name}}ByIdRepository = new PrismaGet{{pascalCase name}}ByIdRepository();
   const validation = makeGet{{pascalCase name}}ByIdValidation();
+  const logger = pinoLoggerLocal;
 
   return new HttpGet{{pascalCase name}}ByIdController(
     get{{pascalCase name}}ByIdRepository,
-    validation
+    validation,
+    logger
   );
 };

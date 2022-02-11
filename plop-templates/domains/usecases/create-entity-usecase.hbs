@@ -6,7 +6,7 @@ import {
   {{pascalCase name}}AlreadyExistsException,
 } from '@/domains/{{dashCase name}}';
 
-import { IUuidGenerator } from '@/shared/protocols/uuid-generator';
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface ICreate{{pascalCase name}}Usecase {
   execute(
@@ -23,15 +23,22 @@ export namespace ICreate{{pascalCase name}}Usecase {
 }
 
 export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase name}}Usecase {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     private readonly uuidGenerator: IUuidGenerator,
     private readonly save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
-  ) {}
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'create-{{dashCase name}}'})
+  }
 
   async execute(
     params: ICreate{{pascalCase name}}Usecase.Params
   ): Promise<ICreate{{pascalCase name}}Usecase.Response> {
+    this.logger.logDebug({ message: 'Request received', data: params });
+
     const { name } = params;
 
     const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByNameRepository.get(name);
@@ -49,6 +56,8 @@ export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase nam
     const {{camelCase name}}CreatedDTO = await this.save{{pascalCase name}}Repository.save({{camelCase name}}DTO);
 
     const {{camelCase name}}Created = new {{pascalCase name}}({{camelCase name}}CreatedDTO);
+
+    this.logger.logDebug({ message: '{{pascalCase name}} created', data: {{camelCase name}}Created });
 
     return {{camelCase name}}Created;
   }

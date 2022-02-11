@@ -16,6 +16,7 @@ import {
   TesteRatinhoNotFoundException,
 } from '@/domains/teste-ratinho';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpUpdateTesteRatinhoByIdRequest {
   id: string;
@@ -25,22 +26,31 @@ export interface HttpUpdateTesteRatinhoByIdRequest {
 
 export class HttpUpdateTesteRatinhoByIdController implements HttpController {
   private controller: UpdateTesteRatinhoByIdController;
+  private logger: ILoggerLocal;
 
   constructor(
     getTesteRatinhoByIdRepository: IGetTesteRatinhoByIdRepository,
     updateTesteRatinhoRepository: IUpdateTesteRatinhoRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new UpdateTesteRatinhoByIdController(
       getTesteRatinhoByIdRepository,
       updateTesteRatinhoRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({
+      httpController: 'update-teste-ratinho-by-id',
+    });
   }
 
   async handle(
     httpRequest: HttpUpdateTesteRatinhoByIdRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { id, name, enabled } = httpRequest;
 
     const request = {
@@ -53,6 +63,11 @@ export class HttpUpdateTesteRatinhoByIdController implements HttpController {
 
     try {
       const testeRatinhoUpdated = await this.controller.execute(request);
+
+      this.logger.logDebug({
+        message: 'TesteRatinho updated',
+        data: testeRatinhoUpdated,
+      });
 
       return ok(testeRatinhoUpdated);
     } catch (error) {

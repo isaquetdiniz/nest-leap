@@ -10,6 +10,7 @@ import {
   ICount{{pascalCase name}}sByFilterRepository,
 } from '@/domains/{{dashCase name}}';
 import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export type HttpGet{{pascalCase name}}sByFilterRequest = {
   name?: string;
@@ -26,22 +27,29 @@ export type HttpGet{{pascalCase name}}sByFilterRequest = {
 
 export class HttpGet{{pascalCase name}}sByFilterController implements HttpController {
   private controller: Get{{pascalCase name}}sByFilterController;
+  private logger: ILoggerLocal;
 
   constructor(
     get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
     count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new Get{{pascalCase name}}sByFilterController(
       get{{pascalCase name}}sByFilterRepository,
       count{{pascalCase name}}sByFilterRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'get-{{dashCase name}}s-by-filter'})
   }
 
   async handle(
     httpRequest: HttpGet{{pascalCase name}}sByFilterRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const {
       name,
       enabled,
@@ -62,6 +70,8 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
         take,
         skip,
       });
+
+      this.logger.logDebug({ message: '{{pascalCase name}}s found'});
 
       return ok({{camelCase name}}s);
     } catch (error) {

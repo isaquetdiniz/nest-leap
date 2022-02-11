@@ -6,6 +6,8 @@ import {
   {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 
+import { ILoggerLocal } from '@/shared/protocols';
+
 export interface IUpdate{{pascalCase name}}ByIdUsecase {
   execute(
     updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params
@@ -24,14 +26,21 @@ export namespace IUpdate{{pascalCase name}}ByIdUsecase {
 }
 
 export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase name}}ByIdUsecase {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
-    private readonly update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository
-  ) {}
+    private readonly update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'update-{{dashCase name}}-by-id'})
+  }
 
   async execute(
     updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params
   ): Promise<IUpdate{{pascalCase name}}ByIdUsecase.Result> {
+    this.logger.logDebug({ message: 'Request received', data: updateParams });
+
     const { id, paramsToUpdate } = updateParams;
 
     const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
@@ -39,6 +48,8 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
     if (!{{camelCase name}}Exists) {
       throw new {{pascalCase name}}NotFoundException({ id });
     }
+
+    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}}Exists });
 
     const {{camelCase name}}ToUpdate = new {{pascalCase name}}({ ...{{camelCase name}}Exists, ...paramsToUpdate });
 
@@ -49,6 +60,8 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
     );
 
     const {{camelCase name}}Updated = new {{pascalCase name}}({{camelCase name}}UpdatedDTO);
+
+    this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}Updated });
 
     return {{camelCase name}}Updated;
   }

@@ -7,7 +7,7 @@ import {
   {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
-import { IUuidGenerator } from '@/shared/protocols';
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface Create{{pascalCase name}}Request {
   name: string;
@@ -17,21 +17,28 @@ export type Create{{pascalCase name}}Response = {{pascalCase name}}DTO;
 
 export class Create{{pascalCase name}}Controller {
   private usecase: Create{{pascalCase name}}Usecase;
+  private logger: ILoggerLocal;
 
   constructor(
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     uuidGenerator: IUuidGenerator,
     save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new Create{{pascalCase name}}Usecase(
       get{{pascalCase name}}ByNameRepository,
       uuidGenerator,
       save{{pascalCase name}}Repository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'create-{{dashCase name}}'})
   }
 
   async execute(request: Create{{pascalCase name}}Request): Promise<Create{{pascalCase name}}Response> {
+    this.logger.logDebug({ message: 'Request received', data: request });
+
     const { name } = request;
 
     const hasError = this.validation.validate({
@@ -42,9 +49,13 @@ export class Create{{pascalCase name}}Controller {
       throw new ValidationException(hasError);
     }
 
+    this.logger.logDebug({ message: 'Params validated'})
+
     const {{camelCase name}}Created = await this.usecase.execute({ name });
 
     const {{camelCase name}}CreatedDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}Created);
+
+    this.logger.logDebug({ message: '{{pascalCase name}} created', data: {{camelCase name}}CreatedDTO })
 
     return {{camelCase name}}CreatedDTO;
   }

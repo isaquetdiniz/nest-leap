@@ -6,7 +6,7 @@ import {
   TesteRatinhoAlreadyExistsException,
 } from '@/domains/teste-ratinho';
 
-import { IUuidGenerator } from '@/shared/protocols/uuid-generator';
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface ICreateTesteRatinhoUsecase {
   execute(
@@ -23,15 +23,22 @@ export namespace ICreateTesteRatinhoUsecase {
 }
 
 export class CreateTesteRatinhoUsecase implements ICreateTesteRatinhoUsecase {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly getTesteRatinhoByNameRepository: IGetTesteRatinhoByNameRepository,
     private readonly uuidGenerator: IUuidGenerator,
-    private readonly saveTesteRatinhoRepository: ISaveTesteRatinhoRepository
-  ) {}
+    private readonly saveTesteRatinhoRepository: ISaveTesteRatinhoRepository,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'create-teste-ratinho' });
+  }
 
   async execute(
     params: ICreateTesteRatinhoUsecase.Params
   ): Promise<ICreateTesteRatinhoUsecase.Response> {
+    this.logger.logDebug({ message: 'Request received', data: params });
+
     const { name } = params;
 
     const testeRatinhoExists = await this.getTesteRatinhoByNameRepository.get(
@@ -53,6 +60,11 @@ export class CreateTesteRatinhoUsecase implements ICreateTesteRatinhoUsecase {
     );
 
     const testeRatinhoCreated = new TesteRatinho(testeRatinhoCreatedDTO);
+
+    this.logger.logDebug({
+      message: 'TesteRatinho created',
+      data: testeRatinhoCreated,
+    });
 
     return testeRatinhoCreated;
   }

@@ -6,6 +6,8 @@ import {
   TesteRatinhoTransformer,
 } from '@/domains/teste-ratinho';
 
+import { ILoggerLocal } from '@/shared/protocols';
+
 export interface IUpdateTesteRatinhoByIdUsecase {
   execute(
     updateParams: IUpdateTesteRatinhoByIdUsecase.Params
@@ -26,14 +28,21 @@ export namespace IUpdateTesteRatinhoByIdUsecase {
 export class UpdateTesteRatinhoByIdUsecase
   implements IUpdateTesteRatinhoByIdUsecase
 {
+  private logger: ILoggerLocal;
+
   constructor(
     private readonly getTesteRatinhoByIdRepository: IGetTesteRatinhoByIdRepository,
-    private readonly updateTesteRatinhoRepository: IUpdateTesteRatinhoRepository
-  ) {}
+    private readonly updateTesteRatinhoRepository: IUpdateTesteRatinhoRepository,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'update-teste-ratinho-by-id' });
+  }
 
   async execute(
     updateParams: IUpdateTesteRatinhoByIdUsecase.Params
   ): Promise<IUpdateTesteRatinhoByIdUsecase.Result> {
+    this.logger.logDebug({ message: 'Request received', data: updateParams });
+
     const { id, paramsToUpdate } = updateParams;
 
     const testeRatinhoExists = await this.getTesteRatinhoByIdRepository.get(id);
@@ -41,6 +50,11 @@ export class UpdateTesteRatinhoByIdUsecase
     if (!testeRatinhoExists) {
       throw new TesteRatinhoNotFoundException({ id });
     }
+
+    this.logger.logDebug({
+      message: 'TesteRatinho found',
+      data: testeRatinhoExists,
+    });
 
     const testeRatinhoToUpdate = new TesteRatinho({
       ...testeRatinhoExists,
@@ -54,6 +68,11 @@ export class UpdateTesteRatinhoByIdUsecase
       await this.updateTesteRatinhoRepository.update(testeRatinhoToUpdateDTO);
 
     const testeRatinhoUpdated = new TesteRatinho(testeRatinhoUpdatedDTO);
+
+    this.logger.logDebug({
+      message: 'TesteRatinho updated',
+      data: testeRatinhoUpdated,
+    });
 
     return testeRatinhoUpdated;
   }

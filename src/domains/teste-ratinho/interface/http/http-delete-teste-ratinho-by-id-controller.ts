@@ -16,6 +16,7 @@ import {
   serverError,
 } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpDeleteTesteRatinhoByIdRequest {
   id: string;
@@ -23,26 +24,37 @@ export interface HttpDeleteTesteRatinhoByIdRequest {
 
 export class HttpDeleteTesteRatinhoByIdController implements HttpController {
   private controller: DeleteTesteRatinhoByIdController;
+  private logger: ILoggerLocal;
 
   constructor(
     getTesteRatinhoByIdRepository: IGetTesteRatinhoByIdRepository,
     deleteTesteRatinhoByIdRepository: IDeleteTesteRatinhoByIdRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new DeleteTesteRatinhoByIdController(
       getTesteRatinhoByIdRepository,
       deleteTesteRatinhoByIdRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({
+      httpController: 'delete-teste-ratinho-by-id',
+    });
   }
 
   async handle(
     httpRequest: HttpDeleteTesteRatinhoByIdRequest
   ): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { id } = httpRequest;
 
     try {
       await this.controller.execute({ id });
+
+      this.logger.logDebug({ message: 'TesteRatinho deleted', data: { id } });
 
       return ok();
     } catch (error) {

@@ -16,6 +16,7 @@ import {
   {{pascalCase name}}NotFoundException,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpUpdate{{pascalCase name}}ByIdRequest {
   id: string;
@@ -25,20 +26,27 @@ export interface HttpUpdate{{pascalCase name}}ByIdRequest {
 
 export class HttpUpdate{{pascalCase name}}ByIdController implements HttpController {
   private controller: Update{{pascalCase name}}ByIdController;
+  private logger: ILoggerLocal;
 
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new Update{{pascalCase name}}ByIdController(
       get{{pascalCase name}}ByIdRepository,
       update{{pascalCase name}}Repository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'update-{{dashCase name}}-by-id'})
   }
 
   async handle(httpRequest: HttpUpdate{{pascalCase name}}ByIdRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { id, name, enabled } = httpRequest;
 
     const request = {
@@ -51,6 +59,8 @@ export class HttpUpdate{{pascalCase name}}ByIdController implements HttpControll
 
     try {
       const {{camelCase name}}Updated = await this.controller.execute(request);
+
+      this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}Updated });
 
       return ok({{camelCase name}}Updated);
     } catch (error) {

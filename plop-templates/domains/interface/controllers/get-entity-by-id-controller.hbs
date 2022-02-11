@@ -6,6 +6,7 @@ import {
   {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface Get{{pascalCase name}}ByIdRequest {
   id: string;
@@ -15,17 +16,24 @@ export type Get{{pascalCase name}}ByIdResponse = { {{camelCase name}}: {{pascalC
 
 export class Get{{pascalCase name}}ByIdController {
   private usecase: Get{{pascalCase name}}ByIdUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new Get{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'get-{{dashCase name}}-by-id'})
   }
 
   async execute(request: Get{{pascalCase name}}ByIdRequest): Promise<Get{{pascalCase name}}ByIdResponse> {
+    this.logger.logDebug({ message: 'Request received', data: request });
+
     const { id } = request;
 
     const hasErrors = this.validation.validate(request);
@@ -34,6 +42,8 @@ export class Get{{pascalCase name}}ByIdController {
       throw new ValidationException(hasErrors);
     }
 
+    this.logger.logDebug({ message: 'Params validated'})
+
     const {{camelCase name}} = await this.usecase.execute(id);
 
     if (!{{camelCase name}}) {
@@ -41,6 +51,8 @@ export class Get{{pascalCase name}}ByIdController {
     }
 
     const {{camelCase name}}DTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}});
+
+    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}}DTO })
 
     return { {{camelCase name}}: {{camelCase name}}DTO };
   }

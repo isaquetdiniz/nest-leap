@@ -168,3 +168,63 @@ model TesteRatinho {
 
   @@map("teste_ratinho")
 }
+
+model TesteRatinho {
+  id                String        @id @db.Uuid @default(uuid())
+  name              String
+  enabled           Boolean       @default(true)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("teste_ratinho")
+}
+
+model TesteRatinho {
+  id                String        @id @db.Uuid @default(uuid())
+  name              String
+  enabled           Boolean       @default(true)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("teste_ratinho")
+}
+
+model TesteRatinho {
+  id                String        @id @db.Uuid @default(uuid())
+  name              String
+  enabled           Boolean       @default(true)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("teste_ratinho")
+}
+
+model TesteRatinho {
+  id                String        @id @db.Uuid @default(uuid())
+  name              String
+  enabled           Boolean       @default(true)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("teste_ratinho")
+}
+
+model TesteRatinho {
+  id                String        @id @db.Uuid @default(uuid())
+  name              String
+  enabled           Boolean       @default(true)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("teste_ratinho")
+}
+
+model TesteRatinho {
+  id                String        @id @db.Uuid @default(uuid())
+  name              String
+  enabled           Boolean       @default(true)
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("teste_ratinho")
+}

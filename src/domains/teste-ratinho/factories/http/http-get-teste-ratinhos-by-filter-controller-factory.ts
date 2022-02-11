@@ -5,6 +5,8 @@ import {
   makeGetTesteRatinhosByFilterValidation,
 } from '@/domains/teste-ratinho';
 
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
 export const makeHttpGetTesteRatinhosByFilterController =
   (): HttpGetTesteRatinhosByFilterController => {
     const getTesteRatinhosByFilterRepository =
@@ -12,10 +14,12 @@ export const makeHttpGetTesteRatinhosByFilterController =
     const countTesteRatinhosByFilterRepository =
       new PrismaCountTesteRatinhosByFilterRepository();
     const validation = makeGetTesteRatinhosByFilterValidation();
+    const logger = pinoLoggerLocal;
 
     return new HttpGetTesteRatinhosByFilterController(
       getTesteRatinhosByFilterRepository,
       countTesteRatinhosByFilterRepository,
-      validation
+      validation,
+      logger
     );
   };
