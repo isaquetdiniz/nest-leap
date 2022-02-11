@@ -14,7 +14,7 @@ import {
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
-import { IUuidGenerator } from '@/shared/protocols';
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface HttpCreateUserRequest {
   name: string;
@@ -24,6 +24,7 @@ export interface HttpCreateUserRequest {
 
 export class HttpCreateUserController implements HttpController {
   private controller: CreateUserController;
+  private logger: ILoggerLocal;
 
   constructor(
     getUserByEmailRepository: IGetUserByEmailRepository,
@@ -32,7 +33,8 @@ export class HttpCreateUserController implements HttpController {
     saveUserRepository: ISaveUserRepository,
     saveUserInCloudRepository: ISaveUserInCloudRepository,
     deleteUserByIdRepository: IDeleteUserByIdRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new CreateUserController(
       getUserByEmailRepository,
@@ -41,11 +43,16 @@ export class HttpCreateUserController implements HttpController {
       saveUserRepository,
       saveUserInCloudRepository,
       deleteUserByIdRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'create-user' });
   }
 
   async handle(httpRequest: HttpCreateUserRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { name, email, isAdmin } = httpRequest;
 
     try {
@@ -54,6 +61,8 @@ export class HttpCreateUserController implements HttpController {
         email,
         isAdmin,
       });
+
+      this.logger.logDebug({ message: 'User created', data: userCreated });
 
       return ok(userCreated);
     } catch (error) {

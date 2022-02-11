@@ -10,7 +10,7 @@ import {
   UserTransformer,
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
-import { IUuidGenerator } from '@/shared/protocols';
+import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface CreateUserRequest {
   name: string;
@@ -22,6 +22,7 @@ export type CreateUserResponse = UserDTO;
 
 export class CreateUserController {
   private usecase: CreateUserUsecase;
+  private logger: ILoggerLocal;
 
   constructor(
     getUserByEmailRepository: IGetUserByEmailRepository,
@@ -30,7 +31,8 @@ export class CreateUserController {
     saveUserRepository: ISaveUserRepository,
     saveUserInCloudRepository: ISaveUserInCloudRepository,
     deleteUserByIdRepository: IDeleteUserByIdRepository,
-    private readonly validation: Validation
+    private readonly validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.usecase = new CreateUserUsecase(
       getUserByEmailRepository,
@@ -38,11 +40,16 @@ export class CreateUserController {
       uuidGenerator,
       saveUserRepository,
       saveUserInCloudRepository,
-      deleteUserByIdRepository
+      deleteUserByIdRepository,
+      logger
     );
+
+    this.logger = logger.child({ controller: 'create-user' });
   }
 
   async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: request });
+
     const { name, email, isAdmin } = request;
 
     const hasError = this.validation.validate({
@@ -51,6 +58,8 @@ export class CreateUserController {
       isAdmin,
     });
 
+    this.logger.logDebug({ message: 'Params validated' });
+
     if (hasError) {
       throw new ValidationException(hasError);
     }
@@ -58,6 +67,8 @@ export class CreateUserController {
     const userCreated = await this.usecase.execute({ name, email, isAdmin });
 
     const userCreatedDTO = UserTransformer.generateDTO(userCreated);
+
+    this.logger.logDebug({ message: 'User created', data: userCreatedDTO });
 
     return userCreatedDTO;
   }

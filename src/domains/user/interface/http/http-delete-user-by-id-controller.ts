@@ -18,6 +18,7 @@ import {
   serverError,
 } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
+import { ILoggerLocal } from '@/shared/protocols';
 
 export interface HttpDeleteUserByIdRequest {
   id: string;
@@ -25,28 +26,37 @@ export interface HttpDeleteUserByIdRequest {
 
 export class HttpDeleteUserByIdController implements HttpController {
   private controller: DeleteUserByIdController;
+  private logger: ILoggerLocal;
 
   constructor(
     getUserByIdRepository: IGetUserByIdRepository,
     getUserByEmailInCloudRepository: IGetUserByEmailInCloudRepository,
     deleteUserByEmailInCloudRepository: IDeleteUserByEmailInCloudRepository,
     deleteUserByIdRepository: IDeleteUserByIdRepository,
-    validation: Validation
+    validation: Validation,
+    logger: ILoggerLocal
   ) {
     this.controller = new DeleteUserByIdController(
       getUserByIdRepository,
       getUserByEmailInCloudRepository,
       deleteUserByEmailInCloudRepository,
       deleteUserByIdRepository,
-      validation
+      validation,
+      logger
     );
+
+    this.logger = logger.child({ httpController: 'delete-user-by-id' });
   }
 
   async handle(httpRequest: HttpDeleteUserByIdRequest): Promise<HttpResponse> {
+    this.logger.logDebug({ message: 'Request Received', data: httpRequest });
+
     const { id } = httpRequest;
 
     try {
       await this.controller.execute({ id });
+
+      this.logger.logDebug({ message: 'User deleted', data: { id } });
 
       return ok();
     } catch (error) {
