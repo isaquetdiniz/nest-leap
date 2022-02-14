@@ -40,6 +40,7 @@ const propertysInQueryToConvert = {
   createdAt: rangeDateConverter,
   updatedAt: rangeDateConverter,
   orderBy: orderByConverter,
+  count: booleanConverter,
 };
 
 export const convertProperties = (obj: any): any =>

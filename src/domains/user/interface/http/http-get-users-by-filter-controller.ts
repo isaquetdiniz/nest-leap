@@ -11,7 +11,6 @@ import {
 } from '@/domains/user';
 import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
 
 export type HttpGetUsersByFilterRequest = {
   name?: string;
@@ -26,6 +25,7 @@ export type HttpGetUsersByFilterRequest = {
   };
   take?: number;
   skip?: number;
+  count?: boolean;
 };
 
 export class HttpGetUsersByFilterController implements HttpController {
@@ -63,6 +63,7 @@ export class HttpGetUsersByFilterController implements HttpController {
       orderBy,
       take,
       skip,
+      count,
     } = httpRequest;
 
     try {
@@ -76,6 +77,7 @@ export class HttpGetUsersByFilterController implements HttpController {
         orderBy,
         take,
         skip,
+        count,
       });
 
       this.logger.logDebug({ message: 'Users found' });

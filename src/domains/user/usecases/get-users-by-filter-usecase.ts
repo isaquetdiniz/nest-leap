@@ -18,6 +18,7 @@ export type UserFilters = {
   };
   orderBy: OrderByFilter;
   pagination: Pagination;
+  count?: boolean;
 };
 
 export interface IGetUsersByFilterUsecase {
@@ -28,7 +29,7 @@ export interface IGetUsersByFilterUsecase {
 
 export namespace IGetUsersByFilterUsecase {
   export type Params = UserFilters;
-  export type Result = { users: User[]; totalUsers: number };
+  export type Result = { users?: User[]; totalUsers: number };
 }
 
 export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
@@ -47,10 +48,20 @@ export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
   ): Promise<IGetUsersByFilterUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: filterParams });
 
-    const { filters } = filterParams;
+    const { count, ...restFilterParams } = filterParams;
+    const { filters } = restFilterParams;
 
-    const usersDTOS = await this.getUsersByFilterRepository.get(filterParams);
     const totalUsers = await this.countUsersByFilterRepository.count(filters);
+
+    if (count) {
+      return {
+        totalUsers,
+      };
+    }
+
+    const usersDTOS = await this.getUsersByFilterRepository.get(
+      restFilterParams
+    );
 
     const users = usersDTOS.map((userDTO) => new User(userDTO));
 

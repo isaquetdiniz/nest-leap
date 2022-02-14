@@ -28,13 +28,16 @@ export interface GetUsersByFilterRequest {
   };
   take?: number;
   skip?: number;
+  count?: boolean;
 }
 
-export interface GetUsersByFilterResponse {
-  items: UserDTO[];
-  totalItemsListed: number;
-  totalItems: number;
-}
+export type GetUsersByFilterResponse =
+  | {
+      items: UserDTO[];
+      totalItemsListed: number;
+      totalItems: number;
+    }
+  | { totalItems: number };
 
 export class GetUsersByFilterController {
   private usecase: GetUsersByFilterUsecase;
@@ -78,6 +81,7 @@ export class GetUsersByFilterController {
       enabled,
       createdAt,
       updatedAt,
+      count,
     } = request;
 
     const filters = {
@@ -96,19 +100,26 @@ export class GetUsersByFilterController {
       filters,
       orderBy,
       pagination,
+      count,
     });
 
-    const usersDTOs = users.map((user) => UserTransformer.generateDTO(user));
+    if (count) {
+      return {
+        totalItems: totalUsers,
+      };
+    }
+
+    const usersDTOs = users?.map((user) => UserTransformer.generateDTO(user));
 
     this.logger.logDebug({
       message: 'Users found',
-      data: { totalUsers, totalItemsListed: usersDTOs.length },
+      data: { totalUsers, totalItemsListed: usersDTOs?.length },
     });
 
     return {
       items: usersDTOs,
       totalItems: totalUsers,
-      totalItemsListed: usersDTOs.length,
+      totalItemsListed: usersDTOs?.length,
     };
   }
 }
