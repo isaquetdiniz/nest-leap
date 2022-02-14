@@ -13,29 +13,12 @@
 ## Requeriments
 - Docker and Docker compose
 
-## 💎 Designs and methodologies
-
-- Factory
-- Adapter
-- Composite
-- Decorator
-- Dependency Injection
-- TDD
-- Clean Code
-- Clean Archictecture
-
-## 🎒 Stack
-
-- Express
-- Prisma
-- Jest
-
 ## 💻 Running locally
 
 ### Setup
 
 **`(nano | vi | vim| nvim ) .env`**
-> Create .env follow the .env.example
+> Create .env follow the env/.env.local.example
 
 **`npm ci`**
 > Install js dependencies
@@ -49,16 +32,17 @@
 
 > Access http://localhost:{ENV.PORT} to see the swagger documentation
 
-### Generate CRUD for basic Entity
+### Generate new domain for entity
 **`npm run plop`**
-> To select plop script to run
+> To generate files in domains
 
-> Select the first option and type the Entity name (ex: TesteRatinho, Batata)
+> Type the entity name (ex: TesteRatinho, Batata, AuthUser)
 
-**`npm run prisma:migration 'Create {name of Entity}'`**
+**`npm run prisma:migration 'add-{name of Entity}-table'`**
 > To create a migration and update the prisma client
 
-> Add your entity paths to `/src/infra/swagger/index.ts`
+> Add your entity paths to `/src/main/infra/swagger/index.ts`
+> Add your entity routes to `/src/main/infra/express/routes.ts`
 
 ## 💻 Testing
 
