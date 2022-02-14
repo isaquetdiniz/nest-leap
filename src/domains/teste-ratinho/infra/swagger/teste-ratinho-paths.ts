@@ -1,5 +1,4 @@
 import {
-  responses,
   security,
   SwaggerContents,
   SwaggerPath,
@@ -7,11 +6,21 @@ import {
   SwaggerTypes,
   SwaggerQuery,
   defaultFilterParams,
+  defaultResponses,
+  SwaggerResponse,
 } from '@/shared/infra/swagger/helpers';
 
 export const testeRatinhoTag = 'TesteRatinhos';
 
 export const testeRatinhoSchema = SwaggerSchemas.create('TesteRatinho', [
+  ['id', SwaggerTypes.uuid(true)],
+  ['name', SwaggerTypes.string(true)],
+  ['enabled', SwaggerTypes.boolean(true)],
+  ['createdAt', SwaggerTypes.dateTime(true)],
+  ['updatedAt', SwaggerTypes.dateTime(true)],
+]);
+
+const testeRatinhoObject = SwaggerTypes.object(true, [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['enabled', SwaggerTypes.boolean(true)],
@@ -33,7 +42,17 @@ export const testeRatinhoPaths = {
         ...defaultFilterParams,
       ],
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'TesteRatinhos found',
+          SwaggerContents.applicationJson([
+            ['items', SwaggerTypes.array(true, testeRatinhoObject, 100)],
+            ['totalItemsListed', SwaggerTypes.integer()],
+            ['totalItems', SwaggerTypes.integer()],
+          ])
+        ),
+        ...defaultResponses,
+      },
     },
     post: {
       tags: [testeRatinhoTag],
@@ -45,7 +64,13 @@ export const testeRatinhoPaths = {
         ]),
       },
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'TesteRatinho created',
+          SwaggerContents.applicationJson([], [], testeRatinhoObject)
+        ),
+        ...defaultResponses,
+      },
     },
   },
   '/teste-ratinhos/{id}': {
@@ -55,7 +80,14 @@ export const testeRatinhoPaths = {
       produces: ['application/json'],
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'TesteRatinho found',
+          SwaggerContents.applicationJson([], [], testeRatinhoObject)
+        ),
+        ...SwaggerResponse.notFound('TesteRatinho not found'),
+        ...defaultResponses,
+      },
     },
     patch: {
       tags: [testeRatinhoTag],
@@ -69,7 +101,14 @@ export const testeRatinhoPaths = {
         ]),
       },
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'TesteRatinho updated',
+          SwaggerContents.applicationJson([], [], testeRatinhoObject)
+        ),
+        ...SwaggerResponse.notFound('TesteRatinho not found'),
+        ...defaultResponses,
+      },
     },
     delete: {
       tags: [testeRatinhoTag],
@@ -77,7 +116,11 @@ export const testeRatinhoPaths = {
       produces: ['application/json'],
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok('TesteRatinho updated'),
+        ...SwaggerResponse.notFound('TesteRatinho not found'),
+        ...defaultResponses,
+      },
     },
   },
 };

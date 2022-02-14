@@ -54,7 +54,10 @@ export class HttpFirstLoginController implements HttpController {
     const { email, newPassword, temporaryPassword } = httpRequest;
 
     try {
-      const { access, authUser } = await this.controller.execute({
+      const {
+        access: { accessToken, refreshToken },
+        authUser,
+      } = await this.controller.execute({
         email,
         newPassword,
         temporaryPassword,
@@ -65,7 +68,7 @@ export class HttpFirstLoginController implements HttpController {
         data: authUser,
       });
 
-      return ok({ access, authUser });
+      return ok({ accessToken, refreshToken, authUser });
     } catch (error) {
       if (
         error instanceof ValidationException ||

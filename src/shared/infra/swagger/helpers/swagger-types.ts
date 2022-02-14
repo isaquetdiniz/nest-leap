@@ -75,4 +75,11 @@ export class SwaggerTypes {
       },
     };
   }
+
+  static object(required: required = false, properties: any) {
+    return {
+      type: 'object',
+      properties: Object.fromEntries(properties),
+    };
+  }
 }

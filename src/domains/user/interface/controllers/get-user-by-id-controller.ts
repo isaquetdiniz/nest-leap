@@ -13,7 +13,7 @@ export interface GetUserByIdRequest {
   id: string;
 }
 
-export type GetUserByIdResponse = { user: UserDTO } | null;
+export type GetUserByIdResponse = UserDTO | null;
 
 export class GetUserByIdController {
   private usecase: GetUserByIdUsecase;
@@ -57,6 +57,6 @@ export class GetUserByIdController {
 
     const userDTO = UserTransformer.generateDTO(user);
 
-    return { user: userDTO };
+    return userDTO;
   }
 }

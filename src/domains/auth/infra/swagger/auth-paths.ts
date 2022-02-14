@@ -1,8 +1,9 @@
 import {
-  responses,
   SwaggerContents,
   SwaggerSchemas,
   SwaggerTypes,
+  SwaggerResponse,
+  defaultResponses,
 } from '@/shared/infra/swagger/helpers';
 
 export const authTag = 'Auth';
@@ -27,7 +28,31 @@ export const authPaths = {
           ['temporaryPassword', SwaggerTypes.password(true)],
         ]),
       },
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'Successfully Made First Login',
+          SwaggerContents.applicationJson([
+            [
+              'accessToken',
+              SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
+            ],
+            [
+              'refreshToken',
+              SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
+            ],
+            [
+              'authUser',
+              SwaggerTypes.object(true, [
+                ['id', SwaggerTypes.uuid(true)],
+                ['name', SwaggerTypes.string(true)],
+                ['email', SwaggerTypes.email(true)],
+                ['isAdmin', SwaggerTypes.boolean(true)],
+              ]),
+            ],
+          ])
+        ),
+        ...defaultResponses,
+      },
     },
   },
   '/auth/login': {
@@ -41,7 +66,31 @@ export const authPaths = {
           ['password', SwaggerTypes.password(true)],
         ]),
       },
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'Succesfully Logged',
+          SwaggerContents.applicationJson([
+            [
+              'accessToken',
+              SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
+            ],
+            [
+              'refreshToken',
+              SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
+            ],
+            [
+              'authUser',
+              SwaggerTypes.object(true, [
+                ['id', SwaggerTypes.uuid(true)],
+                ['name', SwaggerTypes.string(true)],
+                ['email', SwaggerTypes.email(true)],
+                ['isAdmin', SwaggerTypes.boolean(true)],
+              ]),
+            ],
+          ])
+        ),
+        ...defaultResponses,
+      },
     },
   },
   '/auth/forgot-password': {
@@ -54,7 +103,10 @@ export const authPaths = {
           ['email', SwaggerTypes.email(true)],
         ]),
       },
-      responses,
+      responses: {
+        ...SwaggerResponse.ok('Successfully forgot password'),
+        ...defaultResponses,
+      },
     },
   },
   '/auth/confirm-forgot-password': {
@@ -69,7 +121,10 @@ export const authPaths = {
           ['verificationCode', SwaggerTypes.password(true)],
         ]),
       },
-      responses,
+      responses: {
+        ...SwaggerResponse.ok('Successfully confirm forgot password'),
+        ...defaultResponses,
+      },
     },
   },
   '/auth/refresh-token': {
@@ -85,7 +140,18 @@ export const authPaths = {
           ],
         ]),
       },
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'Successfully refresh a token',
+          SwaggerContents.applicationJson([
+            [
+              'accessToken',
+              SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
+            ],
+          ])
+        ),
+        ...defaultResponses,
+      },
     },
   },
 };

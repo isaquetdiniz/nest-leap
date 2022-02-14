@@ -18,8 +18,8 @@ export const errorMiddleware = async (
     res.status(status).json({
       type: error.body?.type,
       code: error.body?.code,
-      data: error.body?.data?.name,
-      message: error.body?.data?.message,
+      data: error.body?.data?.message,
+      message: error.body?.data,
     });
 
     return;

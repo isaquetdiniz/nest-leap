@@ -1,5 +1,4 @@
 import {
-  responses,
   security,
   SwaggerContents,
   SwaggerPath,
@@ -7,9 +6,21 @@ import {
   SwaggerQuery,
   SwaggerSchemas,
   defaultFilterParams,
+  defaultResponses,
+  SwaggerResponse,
 } from '@/shared/infra/swagger/helpers';
 
 export const userTag = 'Users';
+
+const userObject = SwaggerTypes.object(true, [
+  ['id', SwaggerTypes.uuid(true)],
+  ['name', SwaggerTypes.string(true)],
+  ['email', SwaggerTypes.email(true)],
+  ['isAdmin', SwaggerTypes.boolean(true)],
+  ['enabled', SwaggerTypes.boolean(true)],
+  ['createdAt', SwaggerTypes.dateTime(true)],
+  ['updatedAt', SwaggerTypes.dateTime(true)],
+]);
 
 export const userSchema = SwaggerSchemas.create('User', [
   ['id', SwaggerTypes.uuid(true)],
@@ -37,7 +48,17 @@ export const userPaths = {
         ...defaultFilterParams,
       ],
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'Users found',
+          SwaggerContents.applicationJson([
+            ['items', SwaggerTypes.array(true, userObject, 100)],
+            ['totalItemsListed', SwaggerTypes.integer()],
+            ['totalItems', SwaggerTypes.integer()],
+          ])
+        ),
+        ...defaultResponses,
+      },
     },
     post: {
       tags: [userTag],
@@ -51,7 +72,13 @@ export const userPaths = {
         ]),
       },
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'User created',
+          SwaggerContents.applicationJson([], [], userObject)
+        ),
+        ...defaultResponses,
+      },
     },
   },
   '/users/{id}': {
@@ -61,7 +88,14 @@ export const userPaths = {
       produces: ['application/json'],
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'User found',
+          SwaggerContents.applicationJson([], [], userObject)
+        ),
+        ...SwaggerResponse.notFound('User not found'),
+        ...defaultResponses,
+      },
     },
     patch: {
       tags: [userTag],
@@ -76,7 +110,14 @@ export const userPaths = {
         ]),
       },
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok(
+          'User updated',
+          SwaggerContents.applicationJson([], [], userObject)
+        ),
+        ...SwaggerResponse.notFound('User not found'),
+        ...defaultResponses,
+      },
     },
     delete: {
       tags: ['Users'],
@@ -84,7 +125,11 @@ export const userPaths = {
       produces: ['application/json'],
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
-      responses,
+      responses: {
+        ...SwaggerResponse.ok('User deleted'),
+        ...SwaggerResponse.notFound('User not found'),
+        ...defaultResponses,
+      },
     },
   },
 };

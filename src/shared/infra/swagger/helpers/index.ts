@@ -6,3 +6,4 @@ export * from './swagger-contents';
 export * from './swagger-paths';
 export * from './swagger-query';
 export * from './swagger-schemas';
+export * from './swagger-response';
