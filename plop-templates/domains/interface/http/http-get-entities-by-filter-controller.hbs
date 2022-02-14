@@ -23,6 +23,7 @@ export type HttpGet{{pascalCase name}}sByFilterRequest = {
   };
   take?: number;
   skip?: number;
+  count?: boolean;
 };
 
 export class HttpGet{{pascalCase name}}sByFilterController implements HttpController {
@@ -58,6 +59,7 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
       orderBy,
       take,
       skip,
+      count
     } = httpRequest;
 
     try {
@@ -69,6 +71,7 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
         orderBy,
         take,
         skip,
+        count
       });
 
       this.logger.logDebug({ message: '{{pascalCase name}}s found'});

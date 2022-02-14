@@ -17,6 +17,7 @@ export type TesteRatinhoFilters = {
   };
   orderBy: OrderByFilter;
   pagination: Pagination;
+  count?: boolean;
 };
 
 export interface IGetTesteRatinhosByFilterUsecase {
@@ -28,7 +29,7 @@ export interface IGetTesteRatinhosByFilterUsecase {
 export namespace IGetTesteRatinhosByFilterUsecase {
   export type Params = TesteRatinhoFilters;
   export type Result = {
-    testeRatinhos: TesteRatinho[];
+    testeRatinhos?: TesteRatinho[];
     totalTesteRatinhos: number;
   };
 }
@@ -51,13 +52,21 @@ export class GetTesteRatinhosByFilterUsecase
   ): Promise<IGetTesteRatinhosByFilterUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: filterParams });
 
-    const { filters } = filterParams;
+    const { count, ...restFilterParams } = filterParams;
+    const { filters } = restFilterParams;
 
-    const testeRatinhosDTOS = await this.getTesteRatinhosByFilterRepository.get(
-      filterParams
-    );
     const totalTesteRatinhos =
       await this.countTesteRatinhosByFilterRepository.count(filters);
+
+    if (count) {
+      return {
+        totalTesteRatinhos,
+      };
+    }
+
+    const testeRatinhosDTOS = await this.getTesteRatinhosByFilterRepository.get(
+      restFilterParams
+    );
 
     const testeRatinhos = testeRatinhosDTOS.map(
       (testeRatinhoDTO) => new TesteRatinho(testeRatinhoDTO)

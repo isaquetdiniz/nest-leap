@@ -103,6 +103,11 @@ export class GetUsersByFilterController {
       count,
     });
 
+    this.logger.logDebug({
+      message: 'Users found',
+      data: { totalUsers, totalItemsListed: users?.length },
+    });
+
     if (count) {
       return {
         totalItems: totalUsers,
@@ -110,11 +115,6 @@ export class GetUsersByFilterController {
     }
 
     const usersDTOs = users?.map((user) => UserTransformer.generateDTO(user));
-
-    this.logger.logDebug({
-      message: 'Users found',
-      data: { totalUsers, totalItemsListed: usersDTOs?.length },
-    });
 
     return {
       items: usersDTOs,

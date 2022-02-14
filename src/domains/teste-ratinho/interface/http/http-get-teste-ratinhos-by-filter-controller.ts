@@ -23,6 +23,7 @@ export type HttpGetTesteRatinhosByFilterRequest = {
   };
   take?: number;
   skip?: number;
+  count?: boolean;
 };
 
 export class HttpGetTesteRatinhosByFilterController implements HttpController {
@@ -52,7 +53,7 @@ export class HttpGetTesteRatinhosByFilterController implements HttpController {
   ): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { name, enabled, createdAt, updatedAt, orderBy, take, skip } =
+    const { name, enabled, createdAt, updatedAt, orderBy, take, skip, count } =
       httpRequest;
 
     try {
@@ -64,6 +65,7 @@ export class HttpGetTesteRatinhosByFilterController implements HttpController {
         orderBy,
         take,
         skip,
+        count,
       });
 
       this.logger.logDebug({ message: 'TesteRatinhos found' });

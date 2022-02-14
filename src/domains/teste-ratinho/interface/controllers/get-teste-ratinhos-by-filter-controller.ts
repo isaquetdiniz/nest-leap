@@ -26,13 +26,16 @@ export interface GetTesteRatinhosByFilterRequest {
   };
   take?: number;
   skip?: number;
+  count?: boolean;
 }
 
-export interface GetTesteRatinhosByFilterResponse {
-  items: TesteRatinhoDTO[];
-  totalItemsListed: number;
-  totalItems: number;
-}
+export type GetTesteRatinhosByFilterResponse =
+  | {
+      items: TesteRatinhoDTO[];
+      totalItemsListed: number;
+      totalItems: number;
+    }
+  | { totalItems: number };
 
 export class GetTesteRatinhosByFilterController {
   private usecase: GetTesteRatinhosByFilterUsecase;
@@ -74,6 +77,7 @@ export class GetTesteRatinhosByFilterController {
       enabled,
       createdAt,
       updatedAt,
+      count,
     } = request;
 
     const filters = {
@@ -90,21 +94,28 @@ export class GetTesteRatinhosByFilterController {
       filters,
       orderBy,
       pagination,
+      count,
     });
-
-    const testeRatinhosDTOs = testeRatinhos.map((testeRatinho) =>
-      TesteRatinhoTransformer.generateDTO(testeRatinho)
-    );
 
     this.logger.logDebug({
       message: 'TesteRatinhos found',
-      data: { totalTesteRatinhos, totalItemsListed: testeRatinhosDTOs.length },
+      data: { totalTesteRatinhos, totalItemsListed: testeRatinhos?.length },
     });
+
+    if (count) {
+      return {
+        totalItems: totalTesteRatinhos,
+      };
+    }
+
+    const testeRatinhosDTOs = testeRatinhos?.map((testeRatinho) =>
+      TesteRatinhoTransformer.generateDTO(testeRatinho)
+    );
 
     return {
       items: testeRatinhosDTOs,
       totalItems: totalTesteRatinhos,
-      totalItemsListed: testeRatinhosDTOs.length,
+      totalItemsListed: testeRatinhosDTOs?.length,
     };
   }
 }

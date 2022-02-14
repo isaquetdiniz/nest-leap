@@ -17,6 +17,7 @@ export type {{pascalCase name}}Filters = {
   };
   orderBy: OrderByFilter;
   pagination: Pagination;
+  count?: boolean;
 };
 
 export interface IGet{{pascalCase name}}sByFilterUsecase {
@@ -27,7 +28,7 @@ export interface IGet{{pascalCase name}}sByFilterUsecase {
 
 export namespace IGet{{pascalCase name}}sByFilterUsecase {
   export type Params = {{pascalCase name}}Filters;
-  export type Result = { {{camelCase name}}s: {{pascalCase name}}[]; total{{pascalCase name}}s: number };
+  export type Result = { {{camelCase name}}s?: {{pascalCase name}}[]; total{{pascalCase name}}s: number };
 }
 
 export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase name}}sByFilterUsecase {
@@ -46,10 +47,18 @@ export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase 
   ): Promise<IGet{{pascalCase name}}sByFilterUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: filterParams });
 
-    const { filters } = filterParams;
+    const { count, ...restFilterParams } = filterParams;
+    const { filters } = restFilterParams;
 
-    const {{camelCase name}}sDTOS = await this.get{{pascalCase name}}sByFilterRepository.get(filterParams);
     const total{{pascalCase name}}s = await this.count{{pascalCase name}}sByFilterRepository.count(filters);
+
+    if(count) {
+      return {
+        total{{pascalCase name}}s
+      }
+    }
+
+    const {{camelCase name}}sDTOS = await this.get{{pascalCase name}}sByFilterRepository.get(restFilterParams);
 
     const {{camelCase name}}s = {{camelCase name}}sDTOS.map(({{camelCase name}}DTO) => new {{pascalCase name}}({{camelCase name}}DTO));
 
