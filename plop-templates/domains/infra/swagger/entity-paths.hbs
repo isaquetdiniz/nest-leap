@@ -3,12 +3,21 @@ import {
   security,
   SwaggerContents,
   SwaggerPath,
+  SwaggerSchemas,
   SwaggerTypes,
   SwaggerQuery,
   defaultFilterParams,
 } from '@/shared/infra/swagger/helpers';
 
 export const {{camelCase name}}Tag = '{{pascalCase name}}s';
+
+export const {{camelCase name}}Schema = SwaggerSchemas.create('{{pascalCase name}}', [
+  ['id', SwaggerTypes.uuid(true)],
+  ['name', SwaggerTypes.string(true)],
+  ['enabled', SwaggerTypes.boolean(true)],
+  ['createdAt', SwaggerTypes.dateTime(true)],
+  ['updatedAt', SwaggerTypes.dateTime(true)],
+]);
 
 export const {{camelCase name}}Paths = {
   '/{{dashCase name}}s': {
@@ -34,9 +43,6 @@ export const {{camelCase name}}Paths = {
         content: SwaggerContents.applicationJson(
           [
             ['name', SwaggerTypes.string(true)],
-          ],
-          [
-            ['name', 'danoninho'],
           ]
         ),
       },
@@ -49,7 +55,7 @@ export const {{camelCase name}}Paths = {
       tags: [{{camelCase name}}Tag],
       summary: 'Get a {{pascalCase name}}',
       produces: ['application/json'],
-      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
       responses,
     },
@@ -57,16 +63,12 @@ export const {{camelCase name}}Paths = {
       tags: [{{camelCase name}}Tag],
       summary: 'Update a {{pascalCase name}} by id',
       produces: ['application/json'],
-      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       requestBody: {
         content: SwaggerContents.applicationJson(
           [
             ['name', SwaggerTypes.string()],
             ['enabled', SwaggerTypes.boolean()],
-          ],
-          [
-            ['name', 'danoninho'],
-            ['enabled', true],
           ]
         ),
       },
@@ -77,7 +79,7 @@ export const {{camelCase name}}Paths = {
       tags: [{{camelCase name}}Tag],
       summary: 'Delete a {{pascalCase name}} by id',
       produces: ['application/json'],
-      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
       responses,
     },

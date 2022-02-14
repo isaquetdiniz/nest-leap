@@ -1,4 +1,9 @@
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import {
+  badRequest,
+  ok,
+  serverError,
+  notFound,
+} from '@/shared/interface/http/helpers';
 import {
   HttpController,
   HttpResponse,
@@ -7,6 +12,7 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import {
   GetTesteRatinhoByIdController,
   IGetTesteRatinhoByIdRepository,
+  TesteRatinhoNotFoundException,
 } from '@/domains/teste-ratinho';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -47,6 +53,10 @@ export class HttpGetTesteRatinhoByIdController implements HttpController {
         message: 'TesteRatinho found',
         data: testeRatinho,
       });
+
+      if (!testeRatinho) {
+        return notFound(new TesteRatinhoNotFoundException({ id }));
+      }
 
       return ok(testeRatinho);
     } catch (error) {

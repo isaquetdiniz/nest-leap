@@ -1,10 +1,18 @@
 import {
   responses,
   SwaggerContents,
+  SwaggerSchemas,
   SwaggerTypes,
 } from '@/shared/infra/swagger/helpers';
 
 export const authTag = 'Auth';
+
+export const authUserSchema = SwaggerSchemas.create('AuthUser', [
+  ['id', SwaggerTypes.uuid(true)],
+  ['name', SwaggerTypes.string(true)],
+  ['email', SwaggerTypes.email(true)],
+  ['isAdmin', SwaggerTypes.boolean(true)],
+]);
 
 export const authPaths = {
   '/auth/first-access': {
@@ -13,18 +21,11 @@ export const authPaths = {
       summary: 'First login',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [
-            ['email', SwaggerTypes.email(true)],
-            ['newPassword', SwaggerTypes.password(true)],
-            ['temporaryPassword', SwaggerTypes.password(true)],
-          ],
-          [
-            ['email', 'any_email@mail.com'],
-            ['newPassword', 'senhaforte'],
-            ['temporaryPassword', 'topdemais'],
-          ]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['email', SwaggerTypes.email(true)],
+          ['newPassword', SwaggerTypes.password(true)],
+          ['temporaryPassword', SwaggerTypes.password(true)],
+        ]),
       },
       responses,
     },
@@ -35,16 +36,10 @@ export const authPaths = {
       summary: 'Login',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [
-            ['email', SwaggerTypes.email(true)],
-            ['password', SwaggerTypes.password(true)],
-          ],
-          [
-            ['email', 'any_email@mail.com'],
-            ['password', 'senhaforte'],
-          ]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['email', SwaggerTypes.email(true)],
+          ['password', SwaggerTypes.password(true)],
+        ]),
       },
       responses,
     },
@@ -55,10 +50,9 @@ export const authPaths = {
       summary: 'Forgot Password',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [['email', SwaggerTypes.email(true)]],
-          [['email', 'any_email@mail.com']]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['email', SwaggerTypes.email(true)],
+        ]),
       },
       responses,
     },
@@ -69,18 +63,11 @@ export const authPaths = {
       summary: 'Confirm Forgot Password',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [
-            ['email', SwaggerTypes.email(true)],
-            ['newPassword', SwaggerTypes.password(true)],
-            ['verificationCode', SwaggerTypes.password(true)],
-          ],
-          [
-            ['email', 'any_email@mail.com'],
-            ['newPassword', 'senhaforte'],
-            ['verificationCode', '40028922'],
-          ]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['email', SwaggerTypes.email(true)],
+          ['newPassword', SwaggerTypes.password(true)],
+          ['verificationCode', SwaggerTypes.password(true)],
+        ]),
       },
       responses,
     },
@@ -91,10 +78,12 @@ export const authPaths = {
       summary: 'Get a refresh token',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [['refreshToken', SwaggerTypes.email(true)]],
-          [['refreshToken', 'jwttoken']]
-        ),
+        content: SwaggerContents.applicationJson([
+          [
+            'refreshToken',
+            SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
+          ],
+        ]),
       },
       responses,
     },

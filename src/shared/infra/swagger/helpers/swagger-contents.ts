@@ -4,7 +4,7 @@ type propertiesExamples = [property: string, example: any][];
 export class SwaggerContents {
   static applicationJson(
     properties: properties,
-    propertiesExamples: propertiesExamples
+    propertiesExamples: propertiesExamples = []
   ) {
     return {
       'application/json': {

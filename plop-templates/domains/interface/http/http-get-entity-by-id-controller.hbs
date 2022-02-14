@@ -1,4 +1,4 @@
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import { badRequest, ok, serverError, notFound } from '@/shared/interface/http/helpers';
 import {
   HttpController,
   HttpResponse,
@@ -7,6 +7,7 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import {
   Get{{pascalCase name}}ByIdController,
   IGet{{pascalCase name}}ByIdRepository,
+  {{pascalCase name}}NotFoundException,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -42,6 +43,10 @@ export class HttpGet{{pascalCase name}}ByIdController implements HttpController 
       const {{camelCase name}} = await this.controller.execute({ id });
 
       this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}} })
+
+      if(!{{camelCase name}}) {
+        return notFound(new {{pascalCase name}}NotFoundException({ id }))
+      }
 
       return ok({{camelCase name}});
     } catch (error) {

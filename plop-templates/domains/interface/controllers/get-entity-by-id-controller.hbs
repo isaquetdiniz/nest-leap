@@ -46,13 +46,14 @@ export class Get{{pascalCase name}}ByIdController {
 
     const {{camelCase name}} = await this.usecase.execute(id);
 
+    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}} })
+
     if (!{{camelCase name}}) {
       return null;
     }
 
     const {{camelCase name}}DTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}});
 
-    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}}DTO })
 
     return { {{camelCase name}}: {{camelCase name}}DTO };
   }

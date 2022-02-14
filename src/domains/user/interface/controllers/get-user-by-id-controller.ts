@@ -49,13 +49,13 @@ export class GetUserByIdController {
 
     const user = await this.usecase.execute(id);
 
+    this.logger.logDebug({ message: 'User found', data: user });
+
     if (!user) {
       return null;
     }
 
     const userDTO = UserTransformer.generateDTO(user);
-
-    this.logger.logDebug({ message: 'User found', data: userDTO });
 
     return { user: userDTO };
   }

@@ -3,12 +3,21 @@ import {
   security,
   SwaggerContents,
   SwaggerPath,
+  SwaggerSchemas,
   SwaggerTypes,
   SwaggerQuery,
   defaultFilterParams,
 } from '@/shared/infra/swagger/helpers';
 
 export const testeRatinhoTag = 'TesteRatinhos';
+
+export const testeRatinhoSchema = SwaggerSchemas.create('TesteRatinho', [
+  ['id', SwaggerTypes.uuid(true)],
+  ['name', SwaggerTypes.string(true)],
+  ['enabled', SwaggerTypes.boolean(true)],
+  ['createdAt', SwaggerTypes.dateTime(true)],
+  ['updatedAt', SwaggerTypes.dateTime(true)],
+]);
 
 export const testeRatinhoPaths = {
   '/teste-ratinhos': {
@@ -31,10 +40,9 @@ export const testeRatinhoPaths = {
       summary: 'Create a new testeRatinho',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [['name', SwaggerTypes.string(true)]],
-          [['name', 'danoninho']]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['name', SwaggerTypes.string(true)],
+        ]),
       },
       security,
       responses,
@@ -45,7 +53,7 @@ export const testeRatinhoPaths = {
       tags: [testeRatinhoTag],
       summary: 'Get a TesteRatinho',
       produces: ['application/json'],
-      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
       responses,
     },
@@ -53,18 +61,12 @@ export const testeRatinhoPaths = {
       tags: [testeRatinhoTag],
       summary: 'Update a TesteRatinho by id',
       produces: ['application/json'],
-      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [
-            ['name', SwaggerTypes.string()],
-            ['enabled', SwaggerTypes.boolean()],
-          ],
-          [
-            ['name', 'danoninho'],
-            ['enabled', true],
-          ]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['name', SwaggerTypes.string()],
+          ['enabled', SwaggerTypes.boolean()],
+        ]),
       },
       security,
       responses,
@@ -73,7 +75,7 @@ export const testeRatinhoPaths = {
       tags: [testeRatinhoTag],
       summary: 'Delete a TesteRatinho by id',
       produces: ['application/json'],
-      parameters: SwaggerPath.paths([['id', SwaggerTypes.string(), true]]),
+      parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       security,
       responses,
     },

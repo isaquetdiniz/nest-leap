@@ -50,16 +50,13 @@ export class GetTesteRatinhoByIdController {
 
     const testeRatinho = await this.usecase.execute(id);
 
+    this.logger.logDebug({ message: 'TesteRatinho found', data: testeRatinho });
+
     if (!testeRatinho) {
       return null;
     }
 
     const testeRatinhoDTO = TesteRatinhoTransformer.generateDTO(testeRatinho);
-
-    this.logger.logDebug({
-      message: 'TesteRatinho found',
-      data: testeRatinhoDTO,
-    });
 
     return { testeRatinho: testeRatinhoDTO };
   }

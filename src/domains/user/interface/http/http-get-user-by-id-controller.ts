@@ -1,4 +1,9 @@
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import {
+  badRequest,
+  notFound,
+  ok,
+  serverError,
+} from '@/shared/interface/http/helpers';
 import {
   HttpController,
   HttpResponse,
@@ -8,11 +13,10 @@ import {
   GetUserByIdController,
   IGetUserByEmailInCloudRepository,
   IGetUserByIdRepository,
+  UserNotFoundException,
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
-
 export interface HttpGetUserByIdRequest {
   id: string;
 }
@@ -46,6 +50,10 @@ export class HttpGetUserByIdController implements HttpController {
       const user = await this.controller.execute({ id });
 
       this.logger.logDebug({ message: 'User found', data: user });
+
+      if (!user) {
+        return notFound(new UserNotFoundException({ id }));
+      }
 
       return ok(user);
     } catch (error) {
