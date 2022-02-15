@@ -6,19 +6,13 @@ import {
 
 import { authPaths, authTag, authUserSchema } from '@/domains/auth';
 import { userPaths, userTag, userSchema } from '@/domains/user';
-import {
-  testeRatinhoPaths,
-  testeRatinhoTag,
-  testeRatinhoSchema,
-} from '@/domains/teste-ratinho';
 
-const tags = [authTag, userTag, testeRatinhoTag];
+const tags = [authTag, userTag];
 
 const schemas = {
   ...errorSchema,
   ...authUserSchema,
   ...userSchema,
-  ...testeRatinhoSchema,
 };
 
 export default {
@@ -36,7 +30,6 @@ export default {
   paths: {
     ...authPaths,
     ...userPaths,
-    ...testeRatinhoPaths,
   },
   components: {
     securitySchemes,

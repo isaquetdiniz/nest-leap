@@ -15,7 +15,6 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpCreateUserRequest {
   name: string;
