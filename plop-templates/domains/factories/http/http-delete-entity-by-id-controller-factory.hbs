@@ -1,0 +1,23 @@
+import {
+  PrismaDelete{{pascalCase name}}ByIdRepository,
+  HttpDelete{{pascalCase name}}ByIdController,
+  PrismaGet{{pascalCase name}}ByIdRepository,
+  makeDelete{{pascalCase name}}ByIdValidation,
+} from '@/domains/{{dashCase name}}';
+
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
+export const makeHttpDelete{{pascalCase name}}ByIdController =
+  (): HttpDelete{{pascalCase name}}ByIdController => {
+    const get{{pascalCase name}}ByIdRepository = new PrismaGet{{pascalCase name}}ByIdRepository();
+    const delete{{pascalCase name}}ByIdRepository = new PrismaDelete{{pascalCase name}}ByIdRepository();
+    const validation = makeDelete{{pascalCase name}}ByIdValidation();
+    const logger = pinoLoggerLocal;
+
+    return new HttpDelete{{pascalCase name}}ByIdController(
+      get{{pascalCase name}}ByIdRepository,
+      delete{{pascalCase name}}ByIdRepository,
+      validation,
+      logger
+    );
+  };

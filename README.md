@@ -13,52 +13,55 @@
 ## Requeriments
 - Docker and Docker compose
 
-## 💎 Designs and methodologies
+## 💻 Running
 
-- Factory
-- Adapter
-- Composite
-- Decorator
-- Dependency Injection
-- TDD
-- Clean Code
-- Clean Archictecture
-
-## 🎒 Stack
-
-- Express
-- Prisma
-- Jest
-
-## 💻 Running locally
-
-### Setup
+### Local
 
 **`(nano | vi | vim| nvim ) .env`**
-> Create .env follow the .env.example
+> Create .env follow the env/.env.local.example
 
 **`npm ci`**
 > Install js dependencies
-### Runing Local
+
+**`npx husky prepare`**
+> Add husky scripts
+
+**`sudo docker-compose --profile local up -d`**
+> Run docker with profile local
+
+**`npm run start:dev`**
+
 **`npm run start:dev`**
 > Access http://localhost:{ENV.PORT} to see the swagger documentation
 
-### Runing with Docker
-**`sudo docker-compose -f docker-compose.dev.yml build && sudo docker-compose -f docker-compose.dev.yml up -d && sudo docker-compose -f docker-compose.dev.yml logs -f`**
-> Run the docker to up the adminer, api and databases
+### Development
 
+**`(nano | vi | vim| nvim ) .env`**
+> Create .env follow the env/.env.dev.example
+
+**`sudo docker-compose --profile dev up -d && sudo docker-compose logs -f`**
+> Run docker with profile dev
 > Access http://localhost:{ENV.PORT} to see the swagger documentation
 
-### Generate CRUD for basic Entity
+### Production
+
+**`(nano | vi | vim| nvim ) .env`**
+> Create .env follow the env/.env.prod.example
+
+**`sudo docker-compose --profile prod up -d && sudo docker-compose logs -f`**
+> Run docker with profile prod
+> Access http://localhost:{ENV.PORT} to see the swagger documentation
+
+### Generate new domain for entity
 **`npm run plop`**
-> To select plop script to run
+> To generate files in domains
+> Type the entity name (ex: TesteRatinho, Batata, AuthUser)
 
-> Select the first option and type the Entity name (ex: TesteRatinho, Batata)
-
-**`npm run prisma:migration 'Create {name of Entity}'`**
+**`npm run prisma:migration 'add-{name of Entity}-table'`**
 > To create a migration and update the prisma client
 
-> Add your entity paths to `/src/infra/swagger/index.ts`
+> Add your entity paths to `/src/main/infra/swagger/index.ts`
+> Add your entity routes to `/src/main/infra/express/routes.ts`
 
 ## 💻 Testing
 

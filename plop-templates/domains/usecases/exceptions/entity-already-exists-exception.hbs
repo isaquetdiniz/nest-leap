@@ -1,0 +1,16 @@
+import {
+  DefaultException,
+  ExceptionTypes,
+} from '@/shared/helpers/error-helper';
+
+import { {{pascalCase name}}DTO } from '@/domains/{{dashCase name}}';
+
+export class {{pascalCase name}}AlreadyExistsException extends DefaultException {
+  constructor({{camelCase name}}: Partial<{{pascalCase name}}DTO>) {
+    super({
+      type: ExceptionTypes.USER,
+      code: '{{constantCase name}}_ALREADY_EXISTS',
+      data: {{camelCase name}},
+    });
+  }
+}

@@ -1,0 +1,29 @@
+import { IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
+import { PrismaClient } from '@prisma/client';
+
+export class PrismaUpdate{{pascalCase name}}Repository implements IUpdate{{pascalCase name}}Repository {
+  private prismaConnection: PrismaClient;
+
+  constructor() {
+    this.prismaConnection = prismaConnector.connect();
+  }
+
+  async update(
+    {{camelCase name}}ToUpdate: IUpdate{{pascalCase name}}Repository.Params
+  ): Promise<IUpdate{{pascalCase name}}Repository.Result> {
+    try {
+      const { id, ...restOf{{pascalCase name}}InJSON } = {{camelCase name}}ToUpdate;
+
+      const {{camelCase name}}Updated = await this.prismaConnection.{{camelCase name}}.update({
+        where: { id },
+        data: restOf{{pascalCase name}}InJSON,
+      });
+
+      return {{camelCase name}}Updated;
+
+    } catch(error) {
+      throw new PrismaException(error);
+    }
+  }
+}

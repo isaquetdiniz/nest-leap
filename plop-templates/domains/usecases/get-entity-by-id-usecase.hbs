@@ -1,0 +1,42 @@
+import {
+  {{pascalCase name}},
+  IGet{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}';
+
+import { ILoggerLocal } from '@/shared/protocols';
+
+export interface IGet{{pascalCase name}}byIdUsecase {
+  execute(id: IGet{{pascalCase name}}byIdUsecase.Params): Promise<IGet{{pascalCase name}}byIdUsecase.Result>;
+}
+
+export namespace IGet{{pascalCase name}}byIdUsecase {
+  export type Params = string;
+  export type Result = {{pascalCase name}} | null;
+}
+
+export class Get{{pascalCase name}}ByIdUsecase implements IGet{{pascalCase name}}byIdUsecase {
+  private logger: ILoggerLocal;
+
+  constructor(
+    private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    logger: ILoggerLocal
+  ) {
+    this.logger = logger.child({ usecase: 'get-{{dashCase name}}-by-id'})
+  }
+
+  async execute(
+    id: IGet{{pascalCase name}}byIdUsecase.Params
+  ): Promise<IGet{{pascalCase name}}byIdUsecase.Result> {
+    this.logger.logDebug({ message: 'Request received', data: { id } });
+
+    const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
+
+    if (!{{camelCase name}}Exists) return null;
+
+    const {{camelCase name}}Founded = new {{pascalCase name}}({{camelCase name}}Exists);
+
+    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}}Founded });
+
+    return {{camelCase name}}Founded;
+  }
+}
