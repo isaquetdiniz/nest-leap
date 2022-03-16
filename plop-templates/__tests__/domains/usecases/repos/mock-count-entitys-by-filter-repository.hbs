@@ -1,0 +1,10 @@
+import { ICount{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}';
+import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+
+export class Count{{pascalCase name}}sByFilterRepositorySpy implements ICount{{pascalCase name}}sByFilterRepository {
+  {{camelCase name}} = mockCreate{{pascalCase name}}Result();
+
+  count(filter: ICount{{pascalCase name}}sByFilterRepository.Params): Promise<number> {
+    return Promise.resolve(5);
+  }
+}
