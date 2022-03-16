@@ -4,6 +4,12 @@ const inputName = {
   message: 'Name of entity',
 };
 
+const inputNameForTests = {
+  type: 'input',
+  name: 'name',
+  message: 'Name of entity to create tests',
+};
+
 const domain = [
   {
     type: 'add',
@@ -14,6 +20,14 @@ const domain = [
     type: 'add',
     path: 'src/domains/{{dashCase name}}/entities/{{dashCase name}}-transformer.ts',
     templateFile: 'plop-templates/domains/entities/entity-transformer.hbs',
+  },
+];
+
+const testsDomain = [
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks.ts',
+    templateFile: 'plop-templates/__tests__/domains/entities/mocks/entity-mocks.hbs',
   },
 ];
 
@@ -77,6 +91,96 @@ const usecasesRepos = [
   },
 ];
 
+const testsUsecaseRepos = [
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/index.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/repos/index.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-count-{{dashCase name}}s-by-filter-repository.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/repos/mock-count-entitys-by-filter-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-delete-{{dashCase name}}-by-id-repository.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/repos/mock-delete-entity-by-id-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-get-{{dashCase name}}-by-id-repository.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/repos/mock-get-entity-by-id-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-get-{{dashCase name}}-by-name-repository.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/repos/mock-get-entity-by-name-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-get-{{dashCase name}}s-by-filter-repository.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/repos/mock-get-entitys-by-filter-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-save-{{dashCase name}}-repository.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/repos/mock-save-entity-repository.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/repos/mock-update-{{dashCase name}}-repository.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/repos/mock-update-entity-repository.hbs',
+  },
+];
+
+const testsUsecaseMocks = [
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/mocks/index.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/mocks/index.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/mocks/mock-create-{{dashCase name}}-usecase.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/mocks/mock-create-entity-usecase.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/mocks/mock-delete-{{dashCase name}}-by-id-usecase.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/mocks/mock-delete-entity-by-id-usecase.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/mocks/mock-get-{{dashCase name}}-by-id-usecase.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/mocks/mock-get-entity-by-id-usecase.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/mocks/mock-get-{{dashCase name}}s-by-filter-usecase.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/mocks/mock-get-entitys-by-filter-usecase.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/usecases/mocks/mock-update-{{dashCase name}}-usecase.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/mocks/mock-update-entity-usecase.hbs',
+  },
+];
+
 const usecases = [
   {
     type: 'add',
@@ -106,6 +210,39 @@ const usecases = [
     path: 'src/domains/{{dashCase name}}/usecases/update-{{dashCase name}}-by-id-usecase.ts',
     templateFile:
       'plop-templates/domains/usecases/update-entity-by-id-usecase.hbs',
+  },
+];
+
+const testsUsecase = [
+  {
+    type: 'add',
+    path: '__tests__/domains/usecases/create-{{dashCase name}}-usecase.spec.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/create-entity-usecase.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/usecases/delete-{{dashCase name}}-by-id-usecase.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/delete-entity-by-id-usecase.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/usecases/get-{{dashCase name}}-by-id-usecase.spec.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/get-entity-by-id-usecase.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/usecases/get-{{dashCase name}}s-by-filter-usecase.spec.ts',
+    templateFile:
+    'plop-templates/__tests__/domains/usecases/get-entitys-by-filter-usecase.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/usecases/update-{{dashCase name}}-usecase.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/usecases/update-entity-usecase.spec.hbs',
   },
 ];
 
@@ -210,6 +347,39 @@ const interfaceValidators = [
   },
 ];
 
+const testsInterfaceValidators = [
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/interface/validation/create-{{dashCase name}}-validation.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/interface/validation/create-entity-validation.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/interface/validation/delete-{{dashCase name}}-by-id-validation.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/interface/validation/delete-entity-by-id-validation.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/interface/validation/get-{{dashCase name}}-by-id-validation.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/interface/validation/get-entity-by-id-validation.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/interface/validation/get-{{dashCase name}}s-by-filter-validation.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/interface/validation/get-entitys-by-filter-validation.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/interface/validation/update-{{dashCase name}}-validation.spec.ts',
+    templateFile:
+      'plop-templates/__tests__/domains/interface/validation/update-entity-validation.spec.hbs',
+  },
+];
+
 const infraPrisma = [
   {
     type: 'add',
@@ -259,6 +429,44 @@ const infraPrisma = [
     separator: '',
     templateFile: 'plop-templates/domains/infra/prisma/prisma-schema.hbs',
   },
+];
+
+const testsInfraPrisma = [
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/count-{{dashCase name}}s-by-filter-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/count-entitys-by-filter-repository.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/delete-{{dashCase name}}-by-id-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/delete-entity-by-id-repository.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/get-{{dashCase name}}-by-id-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/get-entity-by-id-repository.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/get-{{dashCase name}}-by-name-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/get-entity-by-name-repository.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/get-{{dashCase name}}s-by-filter-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/get-entitys-by-filter-repository.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/save-{{dashCase name}}-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/save-entity-repository.spec.hbs',
+  },
+  {
+    type: 'add',
+    path: '__tests__/domains/{{dashCase name}}/infra/prisma/repositories/update-{{dashCase name}}-repository.spec.ts',
+    templateFile: 'plop-templates/__tests__/domains/infra/prisma/repositories/update-entity-repository.spec.hbs',
+  }
 ];
 
 const infraSwagger = [
@@ -335,6 +543,25 @@ module.exports = function (plop) {
       ...infraExpress,
       ...factoriesHttp,
       ...index,
+      ...testsDomain,
+      ...testsInfraPrisma,
+      ...testsInterfaceValidators,
+      ...testsUsecase,
+      ...testsUsecaseMocks,
+      ...testsUsecaseRepos,
+    ],
+  });
+
+  plop.setGenerator('[BASIC TESTS]: Create only the basic tests for an entity', {
+    description: 'Generate all basic tests for a default entity',
+    prompts: [inputNameForTests],
+    actions: [
+      ...testsDomain,
+      ...testsInfraPrisma,
+      ...testsInterfaceValidators,
+      ...testsUsecase,
+      ...testsUsecaseMocks,
+      ...testsUsecaseRepos,
     ],
   });
 };
