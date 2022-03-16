@@ -1,0 +1,78 @@
+import { Update{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}';
+import {
+  Get{{pascalCase name}}ByIdRepositorySpy,
+  Update{{pascalCase name}}RepositorySpy,
+} from '@/tests/domains/{{dashCase name}}/usecases/repos';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+
+type SutTypes = {
+  sut: Update{{pascalCase name}}ByIdUsecase;
+  get{{pascalCase name}}ByIdRepositorySpy: Get{{pascalCase name}}ByIdRepositorySpy;
+  update{{pascalCase name}}RepositorySpy: Update{{pascalCase name}}RepositorySpy;
+};
+
+const makeSut = (): SutTypes => {
+  const update{{pascalCase name}}RepositorySpy = new Update{{pascalCase name}}RepositorySpy();
+  const get{{pascalCase name}}RepositorySpy = new Get{{pascalCase name}}ByIdRepositorySpy();
+
+  const sut = new Update{{pascalCase name}}ByIdUsecase(
+    get{{pascalCase name}}RepositorySpy,
+    update{{pascalCase name}}RepositorySpy,
+    pinoLoggerLocal,
+  );
+
+  return {
+    sut,
+    get{{pascalCase name}}ByIdRepositorySpy: get{{pascalCase name}}RepositorySpy,
+    update{{pascalCase name}}RepositorySpy,
+  };
+};
+
+describe('Update {{pascalCase name}} Service', () => {
+  it('should call Update{{pascalCase name}}RepositorySpy with correct data', async () => {
+    const { sut, update{{pascalCase name}}RepositorySpy } = makeSut();
+
+    const update{{pascalCase name}}Spy = jest.spyOn(update{{pascalCase name}}RepositorySpy, 'update');
+
+    const fakeParams = mockCreate{{pascalCase name}}Result();
+
+    const { id, ...paramsToUpdate } = fakeParams;
+
+    await sut.execute({
+      id: id || '',
+      paramsToUpdate,
+    });
+
+    expect(update{{pascalCase name}}Spy).toBeCalled();
+    expect(update{{pascalCase name}}Spy).toHaveReturned();
+  });
+
+  it('should throw if Update{{pascalCase name}}ByIdRepository throws', async () => {
+    const { sut, update{{pascalCase name}}RepositorySpy } = makeSut()
+    jest.spyOn(update{{pascalCase name}}RepositorySpy, 'update').mockImplementationOnce(() => {
+      return Promise.reject(new Error())
+    })
+
+    const fakeParams = mockCreate{{pascalCase name}}Result()
+    const { id, ...paramsToUpdate } = fakeParams;
+
+    const response = sut.execute({ id: id || '', paramsToUpdate });
+
+    expect(response).rejects.toThrow();
+  })
+
+  it('should return updated {{pascalCase name}} on success', async () => {
+    const { sut, update{{pascalCase name}}RepositorySpy } = makeSut();
+
+    const fakeParams = mockCreate{{pascalCase name}}Result();
+    const { id, ...paramsToUpdate } = fakeParams;
+
+    const response = await sut.execute({
+      id: id || '',
+      paramsToUpdate,
+    });
+
+    expect(response).toBe(update{{pascalCase name}}RepositorySpy.{{camelCase name}});
+  });
+});

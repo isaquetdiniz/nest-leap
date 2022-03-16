@@ -1,0 +1,60 @@
+import { mockDelete{{pascalCase name}}ByIdParams } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { Delete{{pascalCase name}}ByIdUsecase, IDelete{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}';
+import { Delete{{pascalCase name}}ByIdRepositorySpy, Get{{pascalCase name}}ByIdRepositorySpy } from '@/tests/domains/{{dashCase name}}/usecases/repos';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
+type SutTypes = {
+  sut: IDelete{{pascalCase name}}ByIdUsecase;
+  delete{{pascalCase name}}RepositoryStub: Delete{{pascalCase name}}ByIdRepositorySpy;
+};
+
+const makeSut = (): SutTypes => {
+  const get{{pascalCase name}}RepositoryStub = new Get{{pascalCase name}}ByIdRepositorySpy();
+  const delete{{pascalCase name}}RepositoryStub = new Delete{{pascalCase name}}ByIdRepositorySpy();
+  const sut = new Delete{{pascalCase name}}ByIdUsecase(
+    get{{pascalCase name}}RepositoryStub,
+    delete{{pascalCase name}}RepositoryStub,
+    pinoLoggerLocal,
+  );
+
+  return {
+    sut,
+    delete{{pascalCase name}}RepositoryStub,
+  };
+}
+
+describe('Delete {{pascalCase name}} Service', () => {
+  it('should call Delete{{pascalCase name}}Repository with correc data', async () => {
+    const { sut, delete{{pascalCase name}}RepositoryStub } = makeSut();
+    const delete{{pascalCase name}}Spy = jest.spyOn(delete{{pascalCase name}}RepositoryStub, 'delete');
+
+    const fake{{pascalCase name}} = mockDelete{{pascalCase name}}ByIdParams();
+
+    await sut.execute(fake{{pascalCase name}});
+
+    expect(delete{{pascalCase name}}Spy).toHaveBeenCalledWith(fake{{pascalCase name}});
+  });
+
+  it('should throw if Delete{{pascalCase name}}Repository throws', async () => {
+    const { sut, delete{{pascalCase name}}RepositoryStub } = makeSut();
+    jest.spyOn(delete{{pascalCase name}}RepositoryStub, 'delete').mockImplementationOnce(() => {
+      return Promise.reject(new Error());
+    });
+
+    const fake{{pascalCase name}} = mockDelete{{pascalCase name}}ByIdParams();
+
+    const response = sut.execute(fake{{pascalCase name}});
+
+    expect(response).rejects.toThrow();
+  });
+
+  it('should return null on success', async () => {
+    const { sut, delete{{pascalCase name}}RepositoryStub } = makeSut();
+
+    const fake{{pascalCase name}} = mockDelete{{pascalCase name}}ByIdParams();
+
+    const response = await sut.execute(fake{{pascalCase name}});
+
+    expect(response).toBe(delete{{pascalCase name}}RepositoryStub.result);
+  });
+});

@@ -1,0 +1,58 @@
+import { Get{{pascalCase name}}ByIdUsecase, IGet{{pascalCase name}}byIdUsecase } from '@/domains/{{dashCase name}}';
+import { Get{{pascalCase name}}ByIdRepositorySpy } from '@/tests/domains/{{dashCase name}}/usecases/repos';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+
+type SutTypes = {
+  sut: IGet{{pascalCase name}}byIdUsecase;
+  get{{pascalCase name}}ByIdrepositorySpy: Get{{pascalCase name}}ByIdRepositorySpy;
+};
+
+const makeSut = (): SutTypes => {
+  const get{{pascalCase name}}ByIdrepositorySpy = new Get{{pascalCase name}}ByIdRepositorySpy();
+
+  const sut = new Get{{pascalCase name}}ByIdUsecase(get{{pascalCase name}}ByIdrepositorySpy, pinoLoggerLocal);
+
+  return {
+    sut,
+    get{{pascalCase name}}ByIdrepositorySpy,
+  };
+}
+
+describe('Get {{pascalCase name}} by ID Service', () => {
+  it('should call List{{pascalCase name}}Repository with correc data', async () => {
+    const { sut, get{{pascalCase name}}ByIdrepositorySpy } = makeSut();
+    const get{{pascalCase name}}ReposytorySpy = jest.spyOn(get{{pascalCase name}}ByIdrepositorySpy, 'get');
+
+    await sut.execute('');
+
+    expect(get{{pascalCase name}}ReposytorySpy).toBeCalled();
+    expect(get{{pascalCase name}}ReposytorySpy).toHaveReturned();
+  });
+
+  it('should throw if List{{pascalCase name}}Repository throws', async () => {
+    const { sut, get{{pascalCase name}}ByIdrepositorySpy } = makeSut();
+    jest.spyOn(get{{pascalCase name}}ByIdrepositorySpy, 'get').mockImplementationOnce(() => {
+      return Promise.reject(new Error());
+    });
+
+    const response = sut.execute('');
+
+    expect(response).rejects.toThrow();
+  })
+
+  it('should return a {{camelCase name}} if id is provided', async () => {
+    const { sut, get{{pascalCase name}}ByIdrepositorySpy } = makeSut();
+
+    const {{camelCase name}} = await sut.execute('a98a83d2-87f4-4a48-bfce-a80e27d7a7e2');
+
+    expect({{camelCase name}}).toBe(get{{pascalCase name}}ByIdrepositorySpy.result);
+  })
+
+  it('should return null if List{{pascalCase name}}Repository returns null', async () => {
+    const { sut } = makeSut();
+
+    const {{camelCase name}} = await sut.execute('');
+
+    expect({{camelCase name}}).toStrictEqual(null);
+  });
+});
