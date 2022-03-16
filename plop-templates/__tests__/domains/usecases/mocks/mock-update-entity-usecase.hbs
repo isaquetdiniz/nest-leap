@@ -1,0 +1,10 @@
+import { {{pascalCase name}}, IUpdate{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}';
+import { mockCreate{{pascalCase name}}Result } from '../../entities/mocks/{{dashCase name}}-mocks';
+
+export class Update{{pascalCase name}}ByIdUsecaseSpy implements IUpdate{{pascalCase name}}ByIdUsecase {
+  result = mockCreate{{pascalCase name}}Result();
+
+  execute(updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params): Promise<{{pascalCase name}}> {
+    return Promise.resolve(this.result);
+  }
+}
