@@ -1,0 +1,24 @@
+import { makeGet{{pascalCase name}}ByIdValidation } from '@/domains/{{dashCase name}}'
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  RequiredFieldsValidation,
+  ValidationComposite,
+  UuidValidation,
+} from '@/shared/interface/validation/validators';
+import { UuidValidatorSpy } from '@/tests/shared/validation/mocks';
+
+jest.mock('@/shared/interface/validation/validators/validation-composite');
+
+describe('Get {{pascalCase name}} by ID Validation Factory', () => {
+  it('should call validation composite with all validations', () => {
+    makeGet{{pascalCase name}}ByIdValidation();
+
+    const validations: Validation[] = [];
+
+    validations.push(new RequiredFieldsValidation('id'));
+
+    validations.push(new UuidValidation('id', new UuidValidatorSpy()));
+
+    expect(ValidationComposite).toHaveBeenCalledWith(validations);
+  });
+});
