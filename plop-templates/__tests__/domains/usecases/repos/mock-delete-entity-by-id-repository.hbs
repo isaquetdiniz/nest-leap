@@ -1,0 +1,9 @@
+import { IDelete{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
+
+export class Delete{{pascalCase name}}ByIdRepositorySpy implements IDelete{{pascalCase name}}ByIdRepository {
+  result = undefined;
+
+  delete(id: string): Promise<void> {
+    return Promise.resolve();
+  }
+}

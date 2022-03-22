@@ -1,0 +1,82 @@
+import { Get{{pascalCase name}}sByFilterUsecase } from '@/domains/{{dashCase name}}';
+import {
+  Get{{pascalCase name}}sByFilterRepositorySpy,
+  Count{{pascalCase name}}sByFilterRepositorySpy,
+} from '@/tests/domains/{{dashCase name}}/usecases/repos';
+import { pinoLoggerLocal } from '@/shared/infra/logs';
+import { mockList{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+
+type SutTypes = {
+  sut: Get{{pascalCase name}}sByFilterUsecase;
+  get{{pascalCase name}}sByFilterRepository: Get{{pascalCase name}}sByFilterRepositorySpy;
+};
+
+const makeSut = (): SutTypes => {
+  const get{{pascalCase name}}sByFilterRepository = new Get{{pascalCase name}}sByFilterRepositorySpy();
+  const count{{pascalCase name}}sByFilterRepository = new Count{{pascalCase name}}sByFilterRepositorySpy();
+
+  const sut = new Get{{pascalCase name}}sByFilterUsecase(
+    get{{pascalCase name}}sByFilterRepository,
+    count{{pascalCase name}}sByFilterRepository,
+    pinoLoggerLocal,
+  );
+
+  return {
+    sut,
+    get{{pascalCase name}}sByFilterRepository,
+  };
+}
+
+describe('Get {{pascalCase name}} by filters Service', () => {
+  it('should call List{{pascalCase name}}Repository with correc data', async () => {
+    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
+    const get{{pascalCase name}}Spy = jest.spyOn(get{{pascalCase name}}sByFilterRepository, 'get');
+
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+
+    await sut.execute(fake{{pascalCase name}});
+
+    expect(get{{pascalCase name}}Spy).toHaveBeenCalledWith(fake{{pascalCase name}});
+  });
+
+  it('should throw if List{{pascalCase name}}Repository throws', async () => {
+    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
+
+    jest.spyOn(get{{pascalCase name}}sByFilterRepository, 'get').mockImplementationOnce(() => {
+      return Promise.reject(new Error());
+    });
+
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+
+    const response = sut.execute(fake{{pascalCase name}});
+
+    expect(response).rejects.toThrow();
+  });
+
+  it('should return {{camelCase name}}s if nothing is passed', async () => {
+    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut()
+
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+
+    const { {{camelCase name}}s } = await sut.execute(fake{{pascalCase name}});
+
+    expect({{camelCase name}}s).toEqual([
+      get{{pascalCase name}}sByFilterRepository.result[0],
+      get{{pascalCase name}}sByFilterRepository.result[1],
+    ]);
+  });
+
+  it('should return a empty array if List{{pascalCase name}}Repository returns []', async () => {
+    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
+    get{{pascalCase name}}sByFilterRepository.result = [];
+
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+
+    const { {{camelCase name}}s } = await sut.execute({
+      ...fake{{pascalCase name}},
+      filters: { name: 'Must pass' },
+    });
+
+    expect({{camelCase name}}s).toStrictEqual([]);
+  });
+});

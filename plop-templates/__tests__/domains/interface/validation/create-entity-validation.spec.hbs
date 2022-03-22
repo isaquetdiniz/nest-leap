@@ -1,0 +1,24 @@
+import { makeCreate{{pascalCase name}}Validation } from '@/domains/{{dashCase name}}'
+import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  RequiredFieldsValidation,
+  ValidationComposite,
+  BooleanValidation,
+} from '@/shared/interface/validation/validators';
+import { BooleanValidatorSpy } from '@/tests/shared/validation/mocks';
+
+jest.mock('@/shared/interface/validation/validators/validation-composite');
+
+describe('Create {{pascalCase name}} Validation Factory', () => {
+  it('should call validation composite with all {{camelCase name}}s validation', () => {
+    makeCreate{{pascalCase name}}Validation();
+
+    const validations: Validation[] = [];
+
+    ['name'].forEach((field) => validations.push(new RequiredFieldsValidation(field)));
+
+    validations.push(new BooleanValidation('enabled', new BooleanValidatorSpy));
+
+    expect(ValidationComposite).toHaveBeenCalledWith(validations);
+  });
+});

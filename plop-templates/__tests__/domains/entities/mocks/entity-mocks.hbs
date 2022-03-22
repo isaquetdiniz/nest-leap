@@ -1,0 +1,42 @@
+import {
+  IUpdate{{pascalCase name}}Repository,
+  IGet{{pascalCase name}}sByFilterRepository,
+  ISave{{pascalCase name}}Repository,
+  IDelete{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}';
+import { OrderByFilter, Pagination } from '@/shared/helpers';
+
+export const mockCreate{{pascalCase name}}Params = (): ISave{{pascalCase name}}Repository.Params => ({
+  name: '{{camelCase name}} name',
+  enabled: true,
+});
+
+export const mockCreate{{pascalCase name}}Result = (): ISave{{pascalCase name}}Repository.Result => ({
+  id: 'a98a83d2-87f4-4a48-bfce-a80e27d7a7e2',
+  name: '{{camelCase name}} name',
+  enabled: true,
+  createdAt: new Date('2022-10-03'),
+  updatedAt: new Date('2022-10-03'),
+});
+
+export const mockList{{pascalCase name}}Params = (): IGet{{pascalCase name}}sByFilterRepository.Params => ({
+  filters: {
+    name: '{{camelCase name}} name',
+    enabled: true,
+    createdAt: { initialDate: new Date('2022-10-03') },
+    updatedAt: { initialDate: new Date('2022-10-03') },
+  },
+  orderBy: new OrderByFilter({}),
+  pagination: new Pagination({}),
+});
+
+export const mockUpdate{{pascalCase name}}Params = (): IUpdate{{pascalCase name}}Repository.Params => ({
+  id: '9f0713c8-3a0e-425b-8522-09f5b96fe6c1',
+  name: '{{camelCase name}} name',
+  enabled: true,
+  createdAt: new Date('2022-10-03'),
+  updatedAt: new Date('2022-10-03'),
+});
+
+export const mockDelete{{pascalCase name}}ByIdParams =
+  (): IDelete{{pascalCase name}}ByIdRepository.Params => ('0643fac0-318d-4817-9fac-ba8309dcc78e');

@@ -1,0 +1,10 @@
+import { {{pascalCase name}}, ICreate{{pascalCase name}}Usecase } from '@/domains/{{dashCase name}}';
+import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+
+export class Create{{pascalCase name}}UsecaseSpy implements ICreate{{pascalCase name}}Usecase {
+  result = mockCreate{{pascalCase name}}Result();
+
+  execute(params: ICreate{{pascalCase name}}Usecase.Params): Promise<{{pascalCase name}}> {
+    return Promise.resolve(this.result);
+  }
+}

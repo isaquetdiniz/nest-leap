@@ -1,0 +1,10 @@
+import { IGet{{pascalCase name}}byIdUsecase } from '@/domains/{{dashCase name}}';
+import { mockCreate{{pascalCase name}}Result } from '../../entities/mocks/{{dashCase name}}-mocks';
+
+export class Get{{pascalCase name}}ByIdUsecaseSpy implements IGet{{pascalCase name}}byIdUsecase {
+  result: IGet{{pascalCase name}}byIdUsecase.Result = mockCreate{{pascalCase name}}Result();
+
+  execute(id: string): Promise<IGet{{pascalCase name}}byIdUsecase.Result> {
+    return Promise.resolve(this.result);
+  }
+}
