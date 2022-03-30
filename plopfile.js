@@ -216,31 +216,31 @@ const usecases = [
 const testsUsecase = [
   {
     type: 'add',
-    path: '__tests__/domains/usecases/create-{{dashCase name}}-usecase.spec.ts',
+    path: '__tests__/domains/{{dashCase name}}/usecases/create-{{dashCase name}}-usecase.spec.ts',
     templateFile:
     'plop-templates/__tests__/domains/usecases/create-entity-usecase.spec.hbs',
   },
   {
     type: 'add',
-    path: '__tests__/domains/usecases/delete-{{dashCase name}}-by-id-usecase.spec.ts',
+    path: '__tests__/domains/{{dashCase name}}/usecases/delete-{{dashCase name}}-by-id-usecase.spec.ts',
     templateFile:
       'plop-templates/__tests__/domains/usecases/delete-entity-by-id-usecase.spec.hbs',
   },
   {
     type: 'add',
-    path: '__tests__/domains/usecases/get-{{dashCase name}}-by-id-usecase.spec.ts',
+    path: '__tests__/domains/{{dashCase name}}/usecases/get-{{dashCase name}}-by-id-usecase.spec.ts',
     templateFile:
     'plop-templates/__tests__/domains/usecases/get-entity-by-id-usecase.spec.hbs',
   },
   {
     type: 'add',
-    path: '__tests__/domains/usecases/get-{{dashCase name}}s-by-filter-usecase.spec.ts',
+    path: '__tests__/domains/{{dashCase name}}/usecases/get-{{dashCase name}}s-by-filter-usecase.spec.ts',
     templateFile:
     'plop-templates/__tests__/domains/usecases/get-entitys-by-filter-usecase.spec.hbs',
   },
   {
     type: 'add',
-    path: '__tests__/domains/usecases/update-{{dashCase name}}-usecase.spec.ts',
+    path: '__tests__/domains/{{dashCase name}}/usecases/update-{{dashCase name}}-usecase.spec.ts',
     templateFile:
       'plop-templates/__tests__/domains/usecases/update-entity-usecase.spec.hbs',
   },
