@@ -7,12 +7,14 @@ import {
   SomeParamWithoutValidation,
   RequiredFieldsValidation,
   UuidValidation,
+  StringLengthValidation,
 } from '@/shared/interface/validation/validators';
 
 import {
   ValidatorNameAdapter,
   ValidatorBooleanAdapter,
   ValidatorUuidAdapter,
+  ValidatorStringLengthAdapter,
 } from '@/shared/infra/validators';
 
 const validations: Validation[] = [];
@@ -24,6 +26,7 @@ for (const field of ['id']) {
 validations.push(new UuidValidation('id', new ValidatorUuidAdapter()));
 validations.push(new SomeParamWithoutValidation('id'));
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
+validations.push(new StringLengthValidation('name', new ValidatorStringLengthAdapter()));
 validations.push(
   new BooleanValidation('enabled', new ValidatorBooleanAdapter())
 );

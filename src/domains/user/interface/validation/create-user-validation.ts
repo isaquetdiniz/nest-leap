@@ -6,12 +6,14 @@ import {
   ValidationComposite,
   NameValidation,
   BooleanValidation,
+  StringLenghtValidation,
 } from '@/shared/interface/validation/validators';
 
 import {
   ValidatorEmailAdapter,
   ValidatorNameAdapter,
   ValidatorBooleanAdapter,
+  ValidatorStringLengthAdapter,
 } from '@/shared/infra/validators';
 
 const validations: Validation[] = [];
@@ -24,6 +26,9 @@ validations.push(new EmailValidation('email', new ValidatorEmailAdapter()));
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
 validations.push(
   new BooleanValidation('isAdmin', new ValidatorBooleanAdapter())
+);
+validations.push(
+  new StringLenghtValidation('name', new ValidatorStringLengthAdapter(50))
 );
 
 export const makeCreateUserValidation = (): ValidationComposite => {

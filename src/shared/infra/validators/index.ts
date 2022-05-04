@@ -9,3 +9,4 @@ export * from './validator-boolean-adapter';
 export * from './validator-number-adapter';
 export * from './validator-date-adapter';
 export * from './validator-jwt-adapter';
+export * from './validator-string-length-adapter';
