@@ -51,7 +51,7 @@ services:
     hostname: api-dev
     restart: unless-stopped
     ports:
-      - '${API_PORT:?API_PORT env var is missing on .env file}:3001'
+      - '${API_PORT:?API_PORT env var is missing on .env file}'
     env_file:
       - .env
     environment:
@@ -75,7 +75,7 @@ services:
     hostname: api-prod
     restart: unless-stopped
     ports:
-      - '${API_PORT:?API_PORT env var is missing on .env file}:3001'
+      - '${API_PORT:?API_PORT env var is missing on .env file}'
     env_file:
       - .env
     environment:
