@@ -2,12 +2,11 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import { ValidationException } from '@/shared/helpers';
 
 import {
-  AccessDTO,
-  AuthUserDTO,
+  Access,
+  AuthUser,
   IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
-  AuthUserTransformer,
   LoginUsecase,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -18,8 +17,8 @@ export interface LoginRequest {
 }
 
 export type LoginResponse = {
-  access: AccessDTO;
-  authUser: AuthUserDTO;
+  access: Access;
+  authUser: AuthUser;
 };
 
 export class LoginController {
@@ -61,15 +60,8 @@ export class LoginController {
       password,
     });
 
-    const accessDTO = {
-      accessToken: access.accessToken,
-      refreshToken: access.refreshToken,
-    };
+    this.logger.logDebug({ message: 'Auth User logged', data: authUser });
 
-    const authUserDTO = AuthUserTransformer.generateDTO(authUser);
-
-    this.logger.logDebug({ message: 'Auth User logged', data: authUserDTO });
-
-    return { access: accessDTO, authUser: authUserDTO };
+    return { access, authUser };
   }
 }

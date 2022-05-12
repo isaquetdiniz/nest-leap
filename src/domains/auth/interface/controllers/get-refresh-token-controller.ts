@@ -2,7 +2,7 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import { ValidationException } from '@/shared/helpers';
 
 import {
-  AccessDTO,
+  Access,
   IGetRefreshTokenInCloudGateway,
   GetRefreshTokenUsecase,
 } from '@/domains/auth';
@@ -12,7 +12,7 @@ export interface GetRefreshTokenRequest {
   refreshToken: string;
 }
 
-export type GetRefreshTokenResponse = AccessDTO;
+export type GetRefreshTokenResponse = Access;
 
 export class GetRefreshTokenController {
   private usecase: GetRefreshTokenUsecase;
@@ -50,13 +50,8 @@ export class GetRefreshTokenController {
       refreshToken,
     });
 
-    const accessDTO = {
-      accessToken: access.accessToken,
-      refreshToken: access.refreshToken,
-    };
-
     this.logger.logDebug({ message: 'Refresh token getted' });
 
-    return accessDTO;
+    return access;
   }
 }

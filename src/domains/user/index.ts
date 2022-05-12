@@ -1,5 +1,4 @@
 export * from './entities/user';
-export * from './entities/user-transformer';
 
 export * from './usecases/repos/get-user-by-email-repository';
 export * from './usecases/repos/get-user-by-email-in-cloud-repository';

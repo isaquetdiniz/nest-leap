@@ -72,19 +72,16 @@ export class LoginUsecase implements ILoginUsecase {
       throw new AuthUserNeedSetPasswordException({ email });
     }
 
-    const accessDTO = await this.loginInCloudGateway.login({
+    const access = await this.loginInCloudGateway.login({
       email,
       password,
     });
 
-    const access = new Access(accessDTO);
-    const authUser = new AuthUser(authUserFound);
-
     this.logger.logDebug({
       message: 'Auth User logged',
-      data: authUser,
+      data: authUserFound,
     });
 
-    return { access, authUser };
+    return { access, authUser: authUserFound };
   }
 }

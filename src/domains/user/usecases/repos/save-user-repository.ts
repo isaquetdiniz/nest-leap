@@ -1,4 +1,4 @@
-import { UserDTO } from '@/domains/user';
+import { User } from '@/domains/user';
 
 export interface ISaveUserRepository {
   save(
@@ -7,6 +7,6 @@ export interface ISaveUserRepository {
 }
 
 export namespace ISaveUserRepository {
-  export type Params = UserDTO;
-  export type Result = UserDTO;
+  export type Params = User;
+  export type Result = User;
 }

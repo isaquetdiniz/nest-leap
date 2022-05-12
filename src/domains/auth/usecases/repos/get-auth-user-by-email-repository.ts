@@ -1,5 +1,9 @@
-import { AuthUserDTO } from '@/domains/auth';
+import { AuthUser } from '@/domains/auth';
 
 export interface IGetAuthUserByEmailRepository {
-  get(email: string): Promise<AuthUserDTO | null>;
+  get(email: string): IGetAuthUserByEmailRepository.Result;
+}
+
+export namespace IGetAuthUserByEmailRepository {
+  export type Result = Promise<AuthUser | null>;
 }

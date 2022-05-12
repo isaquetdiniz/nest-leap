@@ -58,9 +58,7 @@ export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase 
       }
     }
 
-    const {{camelCase name}}sDTOS = await this.get{{pascalCase name}}sByFilterRepository.get(restFilterParams);
-
-    const {{camelCase name}}s = {{camelCase name}}sDTOS.map(({{camelCase name}}DTO) => new {{pascalCase name}}({{camelCase name}}DTO));
+    const {{camelCase name}}s = await this.get{{pascalCase name}}sByFilterRepository.get(restFilterParams);
 
     this.logger.logDebug({ message: '{{pascalCase name}}s found', data: { total{{pascalCase name}}s } });
 

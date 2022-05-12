@@ -1,4 +1,4 @@
-import { {{pascalCase name}}, {{pascalCase name}}DTO, IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
+import { {{pascalCase name}}, {{pascalCase name}}, IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
 import { mockCreate{{pascalCase name}}Result, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 export const mockUpdate{{pascalCase name}}RepositoryParams =
@@ -7,7 +7,7 @@ export const mockUpdate{{pascalCase name}}RepositoryParams =
 export class Update{{pascalCase name}}RepositorySpy implements IUpdate{{pascalCase name}}Repository {
   {{camelCase name}} = mockCreate{{pascalCase name}}Result();
 
-  update({{camelCase name}}ToUpdate: {{pascalCase name}}DTO): Promise<{{pascalCase name}}> {
+  update({{camelCase name}}ToUpdate: {{pascalCase name}}): Promise<{{pascalCase name}}> {
     return Promise.resolve(this.{{camelCase name}});
   }
 }

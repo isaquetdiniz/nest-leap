@@ -1,4 +1,4 @@
-export interface UserDTO {
+type UserType = {
   id?: string;
   isAdmin?: boolean;
   enabled?: boolean;
@@ -6,7 +6,7 @@ export interface UserDTO {
   email: string;
   createdAt?: Date;
   updatedAt?: Date;
-}
+};
 
 export class User {
   id?: string;
@@ -17,9 +17,8 @@ export class User {
   createdAt?: Date;
   updatedAt?: Date;
 
-  constructor(userParams: UserDTO) {
-    const { id, isAdmin, enabled, name, email, createdAt, updatedAt } =
-      userParams;
+  constructor(user: UserType) {
+    const { id, isAdmin, enabled, name, email, createdAt, updatedAt } = user;
 
     this.id = id;
     this.isAdmin = isAdmin ?? false;

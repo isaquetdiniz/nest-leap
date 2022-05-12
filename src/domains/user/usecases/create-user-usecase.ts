@@ -1,6 +1,5 @@
 import {
   User,
-  UserTransformer,
   IGetUserByEmailRepository,
   IGetUserByEmailInCloudRepository,
   ISaveUserRepository,
@@ -64,13 +63,13 @@ export class CreateUserUsecase implements ICreateUserUsecase {
 
     const user = new User({ id, name, email, isAdmin });
 
-    const userDTO = UserTransformer.generateDTO(user);
-
-    const userCreatedDTO = await this.saveUserRepository.save(userDTO);
+    const userCreated = await this.saveUserRepository.save({
+      ...user
+    });
 
     this.logger.logDebug({
       message: 'User created in database',
-      data: userCreatedDTO,
+      data: userCreated,
     });
 
     try {
@@ -84,8 +83,6 @@ export class CreateUserUsecase implements ICreateUserUsecase {
 
       throw error;
     }
-
-    const userCreated = new User(userCreatedDTO);
 
     this.logger.logDebug({ message: 'User created', data: userCreated });
 

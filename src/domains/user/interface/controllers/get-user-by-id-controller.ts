@@ -1,10 +1,9 @@
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  UserDTO,
+  User,
   GetUserByIdUsecase,
   IGetUserByIdRepository,
   IGetUserByEmailInCloudRepository,
-  UserTransformer,
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -13,7 +12,7 @@ export interface GetUserByIdRequest {
   id: string;
 }
 
-export type GetUserByIdResponse = UserDTO | null;
+export type GetUserByIdResponse = User | null;
 
 export class GetUserByIdController {
   private usecase: GetUserByIdUsecase;
@@ -55,8 +54,6 @@ export class GetUserByIdController {
       return null;
     }
 
-    const userDTO = UserTransformer.generateDTO(user);
-
-    return userDTO;
+    return user;
   }
 }

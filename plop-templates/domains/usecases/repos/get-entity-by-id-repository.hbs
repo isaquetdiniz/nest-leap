@@ -1,4 +1,4 @@
-import { {{pascalCase name}}DTO } from '@/domains/{{dashCase name}}';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}';
 
 export interface IGet{{pascalCase name}}ByIdRepository {
   get(
@@ -8,5 +8,5 @@ export interface IGet{{pascalCase name}}ByIdRepository {
 
 export namespace IGet{{pascalCase name}}ByIdRepository {
   export type Params = string;
-  export type Result = {{pascalCase name}}DTO | null;
+  export type Result = {{pascalCase name}} | null;
 }

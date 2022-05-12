@@ -1,4 +1,4 @@
-import { AccessDTO } from '@/domains/auth';
+import { Access } from '@/domains/auth';
 
 export interface ILoginInCloudGateway {
   login(
@@ -12,5 +12,5 @@ export namespace ILoginInCloudGateway {
     password: string;
   };
 
-  export type Result = AccessDTO;
+  export type Result = Access;
 }

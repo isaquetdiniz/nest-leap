@@ -3,8 +3,7 @@ import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
   UpdateUserByIdUsecase,
-  UserDTO,
-  UserTransformer,
+  User,
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -18,7 +17,7 @@ export interface UpdateUserByIdRequest {
   };
 }
 
-export type UpdateUserByIdResponse = UserDTO;
+export type UpdateUserByIdResponse = User;
 
 export class UpdateUserByIdController {
   private usecase: UpdateUserByIdUsecase;
@@ -63,10 +62,8 @@ export class UpdateUserByIdController {
 
     const userUpdated = await this.usecase.execute({ id, paramsToUpdate });
 
-    const userUpdatedDTO = UserTransformer.generateDTO(userUpdated);
+    this.logger.logDebug({ message: 'User updated', data: userUpdated });
 
-    this.logger.logDebug({ message: 'User updated', data: userUpdatedDTO });
-
-    return userUpdatedDTO;
+    return userUpdated;
   }
 }

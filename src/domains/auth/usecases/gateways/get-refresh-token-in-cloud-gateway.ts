@@ -1,4 +1,4 @@
-import { AccessDTO } from '@/domains/auth';
+import { Access } from '@/domains/auth';
 
 export interface IGetRefreshTokenInCloudGateway {
   get(
@@ -9,5 +9,5 @@ export interface IGetRefreshTokenInCloudGateway {
 export namespace IGetRefreshTokenInCloudGateway {
   export type Params = string;
 
-  export type Result = AccessDTO;
+  export type Result = Access;
 }

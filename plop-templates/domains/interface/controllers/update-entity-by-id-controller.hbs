@@ -3,8 +3,7 @@ import {
   IGet{{pascalCase name}}ByIdRepository,
   IUpdate{{pascalCase name}}Repository,
   Update{{pascalCase name}}ByIdUsecase,
-  {{pascalCase name}}DTO,
-  {{pascalCase name}}Transformer,
+  {{pascalCase name}},
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -17,7 +16,7 @@ export interface Update{{pascalCase name}}ByIdRequest {
   };
 }
 
-export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}}DTO;
+export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}};
 
 export class Update{{pascalCase name}}ByIdController {
   private usecase: Update{{pascalCase name}}ByIdUsecase;
@@ -61,10 +60,8 @@ export class Update{{pascalCase name}}ByIdController {
 
     const {{camelCase name}}Updated = await this.usecase.execute({ id, paramsToUpdate });
 
-    const {{camelCase name}}UpdatedDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}Updated);
+    this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}Updated })
 
-    this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}UpdatedDTO })
-
-    return {{camelCase name}}UpdatedDTO;
+    return {{camelCase name}}Updated;
   }
 }

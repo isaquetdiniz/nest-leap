@@ -1,6 +1,7 @@
 import { IGetUserByIdRepository } from '@/domains/user';
 import { PrismaClient } from '@prisma/client';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
+import { User } from '@/domains/user/entities/user';
 
 export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
   private prismaConnection: PrismaClient;
@@ -13,9 +14,15 @@ export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
     id: IGetUserByIdRepository.Params
   ): Promise<IGetUserByIdRepository.Result> {
     try {
-      const user = await this.prismaConnection.user.findUnique({
+      let user = null;
+
+      const userCreated = await this.prismaConnection.user.findUnique({
         where: { id },
       });
+
+      if (userCreated) {
+        user = new User(userCreated);
+      }
 
       return user;
     } catch (error) {

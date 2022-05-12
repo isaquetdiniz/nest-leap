@@ -1,4 +1,4 @@
-export type AuthUserDTO = {
+export type AuthUserType = {
   id: string;
   isAdmin: boolean;
   email: string;
@@ -11,7 +11,7 @@ export class AuthUser {
   email: string;
   name: string;
 
-  constructor(params: AuthUserDTO) {
+  constructor(params: AuthUserType) {
     const { id, isAdmin, email, name } = params;
 
     this.id = id;

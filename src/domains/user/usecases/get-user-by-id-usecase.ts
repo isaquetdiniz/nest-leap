@@ -54,13 +54,11 @@ export class GetUserByIdUsecase implements IGetUserbyIdUsecase {
       data: userExistsInCloud,
     });
 
-    const userFounded = new User(userExists);
-
     this.logger.logDebug({
       message: 'User found',
-      data: userFounded,
+      data: userExists,
     });
 
-    return userFounded;
+    return userExists;
   }
 }

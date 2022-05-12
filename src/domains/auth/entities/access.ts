@@ -1,4 +1,4 @@
-export interface AccessDTO {
+export interface AccessType {
   accessToken: string;
   refreshToken: string;
 }
@@ -7,7 +7,7 @@ export class Access {
   accessToken: string;
   refreshToken: string;
 
-  constructor(params: AccessDTO) {
+  constructor(params: AccessType) {
     const { accessToken, refreshToken } = params;
 
     this.accessToken = accessToken;

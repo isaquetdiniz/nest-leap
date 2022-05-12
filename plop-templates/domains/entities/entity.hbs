@@ -1,4 +1,4 @@
-export interface {{pascalCase name}}DTO {
+export interface {{pascalCase name}}Type {
   id?: string;
   enabled?: boolean;
   name: string;
@@ -13,7 +13,7 @@ export class {{pascalCase name}} {
   createdAt?: Date;
   updatedAt?: Date;
 
-  constructor({{camelCase name}}Params: {{pascalCase name}}DTO) {
+  constructor({{camelCase name}}Params: {{pascalCase name}}Type) {
     const { id, enabled, name, createdAt, updatedAt } =
       {{camelCase name}}Params;
 

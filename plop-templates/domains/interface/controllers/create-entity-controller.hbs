@@ -1,10 +1,9 @@
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  {{pascalCase name}}DTO,
+  {{pascalCase name}},
   Create{{pascalCase name}}Usecase,
   IGet{{pascalCase name}}ByNameRepository,
   ISave{{pascalCase name}}Repository,
-  {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
@@ -13,7 +12,7 @@ export interface Create{{pascalCase name}}Request {
   name: string;
 }
 
-export type Create{{pascalCase name}}Response = {{pascalCase name}}DTO;
+export type Create{{pascalCase name}}Response = {{pascalCase name}};
 
 export class Create{{pascalCase name}}Controller {
   private usecase: Create{{pascalCase name}}Usecase;
@@ -53,10 +52,8 @@ export class Create{{pascalCase name}}Controller {
 
     const {{camelCase name}}Created = await this.usecase.execute({ name });
 
-    const {{camelCase name}}CreatedDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}Created);
+    this.logger.logDebug({ message: '{{pascalCase name}} created', data: {{camelCase name}}Created })
 
-    this.logger.logDebug({ message: '{{pascalCase name}} created', data: {{camelCase name}}CreatedDTO })
-
-    return {{camelCase name}}CreatedDTO;
+    return {{camelCase name}}Created;
   }
 }

@@ -1,4 +1,5 @@
 import { IUpdateUserRepository } from '@/domains/user';
+import { User } from '@/domains/user/entities/user';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -20,7 +21,9 @@ export class PrismaUpdateUserRepository implements IUpdateUserRepository {
         data: restOfUserInJSON,
       });
 
-      return userUpdated;
+      const user = new User(userUpdated);
+
+      return user;
     } catch (error) {
       throw new PrismaException(error);
     }

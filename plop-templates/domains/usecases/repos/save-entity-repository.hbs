@@ -1,4 +1,4 @@
-import { {{pascalCase name}}DTO } from '@/domains/{{dashCase name}}';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}';
 
 export interface ISave{{pascalCase name}}Repository {
   save(
@@ -7,6 +7,6 @@ export interface ISave{{pascalCase name}}Repository {
 }
 
 export namespace ISave{{pascalCase name}}Repository {
-  export type Params = {{pascalCase name}}DTO;
-  export type Result = {{pascalCase name}}DTO;
+  export type Params = {{pascalCase name}};
+  export type Result = {{pascalCase name}};
 }

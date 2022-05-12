@@ -16,11 +16,6 @@ const domain = [
     path: 'src/domains/{{dashCase name}}/entities/{{dashCase name}}.ts',
     templateFile: 'plop-templates/domains/entities/entity.hbs',
   },
-  {
-    type: 'add',
-    path: 'src/domains/{{dashCase name}}/entities/{{dashCase name}}-transformer.ts',
-    templateFile: 'plop-templates/domains/entities/entity-transformer.hbs',
-  },
 ];
 
 const testsDomain = [

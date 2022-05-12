@@ -3,9 +3,8 @@ import { ValidationException } from '@/shared/helpers';
 
 import {
   IGetAuthUserByEmailRepository,
-  AuthUserDTO,
+  AuthUser,
   IGetAuthUserByTokenInCloudGateway,
-  AuthUserTransformer,
   GetAuthUserByTokenUsecase,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -14,7 +13,7 @@ export interface GetUserByTokenRequest {
   token: string;
 }
 
-export type GetUserByTokenResponse = AuthUserDTO;
+export type GetUserByTokenResponse = AuthUser;
 
 export class GetAuthUserByTokenController {
   private usecase: GetAuthUserByTokenUsecase;
@@ -56,13 +55,11 @@ export class GetAuthUserByTokenController {
       token: accessTokenWithouBearer,
     });
 
-    const autUserDTO = AuthUserTransformer.generateDTO(authUser);
-
     this.logger.logDebug({
       message: 'Auth User found by token',
-      data: autUserDTO,
+      data: authUser,
     });
 
-    return autUserDTO;
+    return authUser;
   }
 }

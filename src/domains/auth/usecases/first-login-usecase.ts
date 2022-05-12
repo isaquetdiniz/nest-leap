@@ -49,15 +49,15 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
 
     const { email, newPassword, temporaryPassword } = firstLoginParams;
 
-    const authUserDTO = await this.getAuthUserByEmailRepository.get(email);
+    const authUser = await this.getAuthUserByEmailRepository.get(email);
 
-    if (!authUserDTO) {
+    if (!authUser) {
       throw new AuthUserNotFoundException({ email });
     }
 
     this.logger.logDebug({
       message: 'Auth User found',
-      data: authUserDTO,
+      data: authUser,
     });
 
     const cloudAuthUser = await this.getAuthUserByEmailInCloudGateway.get(
@@ -76,7 +76,7 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
     const { status: cloudAuthUserStatus } = cloudAuthUser;
 
     if (cloudAuthUserStatus !== 'FORCE_CHANGE_PASSWORD') {
-      throw new AuthUserAlreadyMadeFirstLoginException(authUserDTO);
+      throw new AuthUserAlreadyMadeFirstLoginException(authUser);
     }
 
     await this.firstLoginInCloudGateway.login({
@@ -85,13 +85,10 @@ export class FirstLoginUsecase implements IFirstLoginUsecase {
       temporaryPassword,
     });
 
-    const accessDTO = await this.loginInCloudGateway.login({
+    const access = await this.loginInCloudGateway.login({
       email,
       password: newPassword,
     });
-
-    const access = new Access(accessDTO);
-    const authUser = new AuthUser(authUserDTO);
 
     this.logger.logDebug({
       message: 'Auth User made first login',

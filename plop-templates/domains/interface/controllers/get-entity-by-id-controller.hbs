@@ -1,9 +1,8 @@
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  {{pascalCase name}}DTO,
+  {{pascalCase name}},
   Get{{pascalCase name}}ByIdUsecase,
   IGet{{pascalCase name}}ByIdRepository,
-  {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
@@ -12,7 +11,7 @@ export interface Get{{pascalCase name}}ByIdRequest {
   id: string;
 }
 
-export type Get{{pascalCase name}}ByIdResponse = { {{camelCase name}}: {{pascalCase name}}DTO } | null;
+export type Get{{pascalCase name}}ByIdResponse = { {{camelCase name}}: {{pascalCase name}} } | null;
 
 export class Get{{pascalCase name}}ByIdController {
   private usecase: Get{{pascalCase name}}ByIdUsecase;
@@ -52,9 +51,6 @@ export class Get{{pascalCase name}}ByIdController {
       return null;
     }
 
-    const {{camelCase name}}DTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}});
-
-
-    return { {{camelCase name}}: {{camelCase name}}DTO };
+    return { {{camelCase name}}: {{camelCase name}} };
   }
 }

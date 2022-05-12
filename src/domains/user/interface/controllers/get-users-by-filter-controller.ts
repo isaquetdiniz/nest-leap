@@ -1,7 +1,6 @@
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  UserDTO,
-  UserTransformer,
+  User,
   GetUsersByFilterUsecase,
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
@@ -33,7 +32,7 @@ export interface GetUsersByFilterRequest {
 
 export type GetUsersByFilterResponse =
   | {
-      items: UserDTO[];
+      items: User[];
       totalItemsListed: number;
       totalItems: number;
     }
@@ -72,7 +71,7 @@ export class GetUsersByFilterController {
     this.logger.logDebug({ message: 'Params validated' });
 
     const {
-      orderBy: orderByDTO,
+      orderBy: orderByFilter,
       take,
       skip,
       name,
@@ -93,7 +92,7 @@ export class GetUsersByFilterController {
       updatedAt,
     };
 
-    const orderBy = new OrderByFilter(orderByDTO);
+    const orderBy = new OrderByFilter(orderByFilter);
     const pagination = new Pagination({ take, skip });
 
     const { users, totalUsers } = await this.usecase.execute({
@@ -114,12 +113,10 @@ export class GetUsersByFilterController {
       };
     }
 
-    const usersDTOs = users?.map((user) => UserTransformer.generateDTO(user));
-
     return {
-      items: usersDTOs,
+      items: users,
       totalItems: totalUsers,
-      totalItemsListed: usersDTOs?.length,
+      totalItemsListed: users?.length,
     };
   }
 }

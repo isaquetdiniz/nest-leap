@@ -1,6 +1,5 @@
 export * from './entities/access';
 export * from './entities/auth-user';
-export * from './entities/auth-user-transformer';
 
 export * from './usecases/repos/get-auth-user-by-email-repository';
 export * from './usecases/gateways/get-auth-user-by-email-in-cloud-gateway';

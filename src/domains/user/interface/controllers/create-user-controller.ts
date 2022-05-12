@@ -2,12 +2,11 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import {
   IDeleteUserByIdRepository,
   IGetUserByEmailInCloudRepository,
-  UserDTO,
+  User,
   CreateUserUsecase,
   IGetUserByEmailRepository,
   ISaveUserRepository,
   ISaveUserInCloudRepository,
-  UserTransformer,
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
@@ -18,7 +17,7 @@ export interface CreateUserRequest {
   isAdmin?: boolean;
 }
 
-export type CreateUserResponse = UserDTO;
+export type CreateUserResponse = User;
 
 export class CreateUserController {
   private usecase: CreateUserUsecase;
@@ -66,10 +65,8 @@ export class CreateUserController {
 
     const userCreated = await this.usecase.execute({ name, email, isAdmin });
 
-    const userCreatedDTO = UserTransformer.generateDTO(userCreated);
+    this.logger.logDebug({ message: 'User created', data: userCreated });
 
-    this.logger.logDebug({ message: 'User created', data: userCreatedDTO });
-
-    return userCreatedDTO;
+    return userCreated;
   }
 }

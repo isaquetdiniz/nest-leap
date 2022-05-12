@@ -1,4 +1,5 @@
 import { ISaveUserRepository } from '@/domains/user';
+import { User } from '@/domains/user/entities/user';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
@@ -17,7 +18,9 @@ export class PrismaSaveUserRepository implements ISaveUserRepository {
         data: userParams,
       });
 
-      return userCreated;
+      const user = new User(userCreated);
+
+      return user;
     } catch (error) {
       throw new PrismaException(error);
     }

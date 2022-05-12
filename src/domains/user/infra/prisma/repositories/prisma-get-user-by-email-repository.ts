@@ -1,4 +1,4 @@
-import { IGetUserByEmailRepository } from '@/domains/user';
+import { User, IGetUserByEmailRepository } from '@/domains/user';
 import { PrismaClient } from '@prisma/client';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
@@ -15,9 +15,11 @@ export class PrismaGetUserByEmailRepository
     email: IGetUserByEmailRepository.Params
   ): Promise<IGetUserByEmailRepository.Result> {
     try {
-      const [user] = await this.prismaConnection.user.findMany({
+      const [userFound] = await this.prismaConnection.user.findMany({
         where: { email: email },
       });
+
+      const user = new User(userFound);
 
       return user;
     } catch (error) {

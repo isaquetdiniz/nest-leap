@@ -1,4 +1,4 @@
-import { {{pascalCase name}}, {{pascalCase name}}DTO, ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
+import { {{pascalCase name}}, {{pascalCase name}}, ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
 import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 export const mockCreate{{pascalCase name}}RepositoryParams =
@@ -7,7 +7,7 @@ export const mockCreate{{pascalCase name}}RepositoryParams =
 export class Save{{pascalCase name}}RepositorySpy implements ISave{{pascalCase name}}Repository {
   {{camelCase name}} = mockCreate{{pascalCase name}}Result();
 
-  save({{camelCase name}}Params: {{pascalCase name}}DTO): Promise<{{pascalCase name}}> {
+  save({{camelCase name}}Params: {{pascalCase name}}): Promise<{{pascalCase name}}> {
     return Promise.resolve(this.{{camelCase name}});
   }
 }

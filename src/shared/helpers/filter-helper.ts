@@ -5,7 +5,7 @@ export enum OrderByMode {
   DESC = 'desc',
 }
 
-export interface OrderByFilterDTO {
+export interface OrderByFilterType {
   property?: string;
   mode?: OrderByMode;
 }
@@ -14,12 +14,12 @@ export class OrderByFilter {
   property: string;
   mode: OrderByMode;
 
-  constructor(orderByFilter: OrderByFilterDTO) {
+  constructor(orderByFilter: OrderByFilterType) {
     this.property = orderByFilter?.property ?? 'createdAt';
     this.mode = orderByFilter?.mode ?? OrderByMode.DESC;
   }
 
-  generateDTO() {
+  generate() {
     return {
       property: this.property,
       mode: this.mode,

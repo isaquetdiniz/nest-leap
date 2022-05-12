@@ -1,6 +1,5 @@
 import {
   {{pascalCase name}},
-  {{pascalCase name}}Transformer,
   IGet{{pascalCase name}}ByNameRepository,
   ISave{{pascalCase name}}Repository,
   {{pascalCase name}}AlreadyExistsException,
@@ -51,11 +50,7 @@ export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase nam
 
     const {{camelCase name}} = new {{pascalCase name}}({ id, name });
 
-    const {{camelCase name}}DTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}});
-
-    const {{camelCase name}}CreatedDTO = await this.save{{pascalCase name}}Repository.save({{camelCase name}}DTO);
-
-    const {{camelCase name}}Created = new {{pascalCase name}}({{camelCase name}}CreatedDTO);
+    const {{camelCase name}}Created = await this.save{{pascalCase name}}Repository.save({{camelCase name}});
 
     this.logger.logDebug({ message: '{{pascalCase name}} created', data: {{camelCase name}}Created });
 

@@ -3,10 +3,10 @@ import {
   ExceptionTypes,
 } from '@/shared/helpers/error-helper';
 
-import { UserDTO } from '@/domains/user';
+import { User } from '@/domains/user';
 
 export class UserNotFoundException extends DefaultException {
-  constructor(user: Partial<UserDTO>) {
+  constructor(user: Partial<User>) {
     super({
       type: ExceptionTypes.USER,
       code: 'USER_NOT_FOUND',

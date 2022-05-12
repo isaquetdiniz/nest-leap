@@ -39,12 +39,12 @@ export class CognitoGetAuthUserByEmailInCloudGateway
             resolve(null);
           }
 
-          const userDTO = {
+          const user = {
             status: status,
             email: username,
           };
 
-          resolve(userDTO);
+          resolve(user);
         }
       );
     });

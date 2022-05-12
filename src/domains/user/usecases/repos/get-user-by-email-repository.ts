@@ -1,4 +1,4 @@
-import { UserDTO } from '@/domains/user';
+import { User } from '@/domains/user';
 
 export interface IGetUserByEmailRepository {
   getByEmail(
@@ -8,5 +8,5 @@ export interface IGetUserByEmailRepository {
 
 export namespace IGetUserByEmailRepository {
   export type Params = string;
-  export type Result = UserDTO | null;
+  export type Result = Pick<User, 'id'> | null;
 }

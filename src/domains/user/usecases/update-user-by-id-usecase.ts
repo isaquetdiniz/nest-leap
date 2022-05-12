@@ -3,7 +3,6 @@ import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
   UserNotFoundException,
-  UserTransformer,
 } from '@/domains/user';
 import { ILoggerLocal } from '@/shared/protocols';
 
@@ -53,13 +52,9 @@ export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
 
     const userToUpdate = new User({ ...userExists, ...paramsToUpdate });
 
-    const userToUpdateDTO = UserTransformer.generateDTO(userToUpdate);
-
-    const userUpdatedDTO = await this.updateUserRepository.update(
-      userToUpdateDTO
-    );
-
-    const userUpdated = new User(userUpdatedDTO);
+    const userUpdated = await this.updateUserRepository.update({
+      ...userToUpdate
+    });
 
     this.logger.logDebug({ message: 'User updated', data: userUpdated });
 

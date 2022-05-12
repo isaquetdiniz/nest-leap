@@ -1,4 +1,4 @@
-import { UserDTO } from '@/domains/user';
+import { User } from '@/domains/user';
 
 export interface IGetUserByIdRepository {
   getById(
@@ -8,5 +8,5 @@ export interface IGetUserByIdRepository {
 
 export namespace IGetUserByIdRepository {
   export type Params = string;
-  export type Result = UserDTO | null;
+  export type Result = User | null;
 }

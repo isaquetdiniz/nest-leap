@@ -3,7 +3,6 @@ import {
   IGet{{pascalCase name}}ByIdRepository,
   IUpdate{{pascalCase name}}Repository,
   {{pascalCase name}}NotFoundException,
-  {{pascalCase name}}Transformer,
 } from '@/domains/{{dashCase name}}';
 
 import { ILoggerLocal } from '@/shared/protocols';
@@ -53,13 +52,9 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
 
     const {{camelCase name}}ToUpdate = new {{pascalCase name}}({ ...{{camelCase name}}Exists, ...paramsToUpdate });
 
-    const {{camelCase name}}ToUpdateDTO = {{pascalCase name}}Transformer.generateDTO({{camelCase name}}ToUpdate);
-
-    const {{camelCase name}}UpdatedDTO = await this.update{{pascalCase name}}Repository.update(
-      {{camelCase name}}ToUpdateDTO
+    const {{camelCase name}}Updated = await this.update{{pascalCase name}}Repository.update(
+      {{camelCase name}}ToUpdate
     );
-
-    const {{camelCase name}}Updated = new {{pascalCase name}}({{camelCase name}}UpdatedDTO);
 
     this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}Updated });
 

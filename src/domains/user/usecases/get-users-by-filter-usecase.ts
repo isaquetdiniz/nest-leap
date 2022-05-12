@@ -59,11 +59,9 @@ export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
       };
     }
 
-    const usersDTOS = await this.getUsersByFilterRepository.get(
+    const users = await this.getUsersByFilterRepository.get(
       restFilterParams
     );
-
-    const users = usersDTOS.map((userDTO) => new User(userDTO));
 
     this.logger.logDebug({ message: 'Users found', data: { totalUsers } });
 

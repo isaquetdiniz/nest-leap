@@ -2,14 +2,13 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import { ValidationException } from '@/shared/helpers';
 
 import {
-  AccessDTO,
-  AuthUserDTO,
+  Access,
+  AuthUser,
   FirstLoginUsecase,
   IFirstLoginInCloudGateway,
   IGetAuthUserByEmailInCloudGateway,
   IGetAuthUserByEmailRepository,
   ILoginInCloudGateway,
-  AuthUserTransformer,
 } from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
 
@@ -20,8 +19,8 @@ export interface FirstLoginRequest {
 }
 
 export type FirstLoginResponse = {
-  access: AccessDTO;
-  authUser: AuthUserDTO;
+  access: Access;
+  authUser: AuthUser;
 };
 
 export class FirstLoginController {
@@ -66,18 +65,11 @@ export class FirstLoginController {
       temporaryPassword,
     });
 
-    const accessDTO = {
-      accessToken: access.accessToken,
-      refreshToken: access.refreshToken,
-    };
-
-    const authUserDTO = AuthUserTransformer.generateDTO(authUser);
-
     this.logger.logDebug({
       message: 'Auth User made first login',
       data: authUser,
     });
 
-    return { access: accessDTO, authUser: authUserDTO };
+    return { access, authUser };
   }
 }

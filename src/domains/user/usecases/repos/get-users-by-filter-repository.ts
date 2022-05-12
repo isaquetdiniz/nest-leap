@@ -1,4 +1,4 @@
-import { UserDTO } from '@/domains/user';
+import { User } from '@/domains/user';
 import { UserFilters } from '../get-users-by-filter-usecase';
 
 export interface IGetUsersByFilterRepository {
@@ -9,5 +9,5 @@ export interface IGetUsersByFilterRepository {
 
 export namespace IGetUsersByFilterRepository {
   export type Params = UserFilters;
-  export type Result = UserDTO[];
+  export type Result = User[];
 }
