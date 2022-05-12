@@ -64,7 +64,7 @@ export class CreateUserUsecase implements ICreateUserUsecase {
     const user = new User({ id, name, email, isAdmin });
 
     const userCreated = await this.saveUserRepository.save({
-      ...user
+      ...user,
     });
 
     this.logger.logDebug({

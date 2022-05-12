@@ -19,6 +19,10 @@ export class PrismaGetUserByEmailRepository
         where: { email: email },
       });
 
+      if (!userFound) {
+        return null;
+      }
+
       const user = new User(userFound);
 
       return user;

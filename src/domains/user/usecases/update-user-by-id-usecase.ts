@@ -53,7 +53,7 @@ export class UpdateUserByIdUsecase implements IUpdateUserByIdUsecase {
     const userToUpdate = new User({ ...userExists, ...paramsToUpdate });
 
     const userUpdated = await this.updateUserRepository.update({
-      ...userToUpdate
+      ...userToUpdate,
     });
 
     this.logger.logDebug({ message: 'User updated', data: userUpdated });

@@ -12,10 +12,6 @@ export class CognitoSaveUserInCloudRepository
     this.cognitoInstance = new aws.CognitoIdentityServiceProvider({
       apiVersion: cognitoEnvironment.apiVersion,
       region: cognitoEnvironment.region,
-      credentials: new aws.Credentials({
-        accessKeyId: cognitoEnvironment.accessKeyId,
-        secretAccessKey: cognitoEnvironment.secretAccessKey,
-      }),
     });
   }
 

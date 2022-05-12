@@ -59,9 +59,7 @@ export class GetUsersByFilterUsecase implements IGetUsersByFilterUsecase {
       };
     }
 
-    const users = await this.getUsersByFilterRepository.get(
-      restFilterParams
-    );
+    const users = await this.getUsersByFilterRepository.get(restFilterParams);
 
     this.logger.logDebug({ message: 'Users found', data: { totalUsers } });
 
