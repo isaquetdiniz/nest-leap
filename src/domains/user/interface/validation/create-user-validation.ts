@@ -6,7 +6,7 @@ import {
   ValidationComposite,
   NameValidation,
   BooleanValidation,
-  StringLenghtValidation,
+  StringLengthValidation,
 } from '@/shared/interface/validation/validators';
 
 import {
@@ -28,7 +28,7 @@ validations.push(
   new BooleanValidation('isAdmin', new ValidatorBooleanAdapter())
 );
 validations.push(
-  new StringLenghtValidation('name', new ValidatorStringLengthAdapter(50))
+  new StringLengthValidation('name', new ValidatorStringLengthAdapter(50))
 );
 
 export const makeCreateUserValidation = (): ValidationComposite => {
