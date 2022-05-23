@@ -16,20 +16,20 @@ const userObject = SwaggerTypes.object(true, [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['email', SwaggerTypes.email(true)],
-  ['isAdmin', SwaggerTypes.boolean(true)],
+  ['is_admin', SwaggerTypes.boolean(true)],
   ['enabled', SwaggerTypes.boolean(true)],
-  ['createdAt', SwaggerTypes.dateTime(true)],
-  ['updatedAt', SwaggerTypes.dateTime(true)],
+  ['created_at', SwaggerTypes.dateTime(true)],
+  ['updated_at', SwaggerTypes.dateTime(true)],
 ]);
 
 export const userSchema = SwaggerSchemas.create('User', [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['email', SwaggerTypes.email(true)],
-  ['isAdmin', SwaggerTypes.boolean(true)],
+  ['is_admin', SwaggerTypes.boolean(true)],
   ['enabled', SwaggerTypes.boolean(true)],
-  ['createdAt', SwaggerTypes.dateTime(true)],
-  ['updatedAt', SwaggerTypes.dateTime(true)],
+  ['created_at', SwaggerTypes.dateTime(true)],
+  ['updated_at', SwaggerTypes.dateTime(true)],
 ]);
 
 export const userPaths = {
@@ -42,7 +42,7 @@ export const userPaths = {
         ...SwaggerQuery.params([
           ['name', SwaggerTypes.string()],
           ['email', SwaggerTypes.string()],
-          ['isAdmin', SwaggerTypes.boolean()],
+          ['is_admin', SwaggerTypes.boolean()],
           ['enabled', SwaggerTypes.boolean()],
         ]),
         ...defaultFilterParams,
@@ -68,7 +68,7 @@ export const userPaths = {
         content: SwaggerContents.applicationJson([
           ['name', SwaggerTypes.string(true)],
           ['email', SwaggerTypes.email(true)],
-          ['isAdmin', SwaggerTypes.boolean(true)],
+          ['is_admin', SwaggerTypes.boolean(true)],
         ]),
       },
       security,
@@ -105,7 +105,7 @@ export const userPaths = {
       requestBody: {
         content: SwaggerContents.applicationJson([
           ['name', SwaggerTypes.string()],
-          ['isAdmin', SwaggerTypes.boolean()],
+          ['is_admin', SwaggerTypes.boolean()],
           ['enabled', SwaggerTypes.boolean()],
         ]),
       },

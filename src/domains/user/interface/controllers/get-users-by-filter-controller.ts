@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
   User,
@@ -17,11 +18,11 @@ import { ILoggerLocal } from '@/shared/protocols';
 export interface GetUsersByFilterRequest {
   name?: string;
   email?: string;
-  isAdmin?: boolean;
+  is_admin?: boolean;
   enabled?: boolean;
-  createdAt?: DateFilter;
-  updatedAt?: DateFilter;
-  orderBy: {
+  created_at?: DateFilter;
+  updated_at?: DateFilter;
+  order_by: {
     property?: string;
     mode?: OrderByMode;
   };
@@ -71,25 +72,25 @@ export class GetUsersByFilterController {
     this.logger.logDebug({ message: 'Params validated' });
 
     const {
-      orderBy: orderByFilter,
+      order_by: orderByFilter,
       take,
       skip,
       name,
       email,
-      isAdmin,
+      is_admin,
       enabled,
-      createdAt,
-      updatedAt,
+      created_at,
+      updated_at,
       count,
     } = request;
 
     const filters = {
       name,
       email,
-      isAdmin,
+      isAdmin: is_admin,
       enabled,
-      createdAt,
-      updatedAt,
+      createdAt: created_at,
+      updatedAt: updated_at,
     };
 
     const orderBy = new OrderByFilter(orderByFilter);

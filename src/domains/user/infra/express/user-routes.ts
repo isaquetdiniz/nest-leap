@@ -18,7 +18,7 @@ userRouter
   .route('/users')
   .post(adaptRoute(makeHttpCreateUserController()))
   .get(
-    authMiddleware('USER'),
+    // authMiddleware('USER'),
     adaptRoute(makeHttpGetUsersByFilterController())
   );
 

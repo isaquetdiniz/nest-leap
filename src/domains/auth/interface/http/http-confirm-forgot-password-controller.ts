@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   HttpController,
   HttpResponse,
@@ -19,8 +20,8 @@ import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpConfirmForgotPasswordRequest {
   email: string;
-  verificationCode: string;
-  newPassword: string;
+  verification_code: string;
+  new_password: string;
 }
 
 export class HttpConfirmForgotPasswordController implements HttpController {
@@ -50,13 +51,13 @@ export class HttpConfirmForgotPasswordController implements HttpController {
   ): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { email, verificationCode, newPassword } = httpRequest;
+    const { email, verification_code, new_password } = httpRequest;
 
     try {
       await this.controller.execute({
         email,
-        verificationCode,
-        newPassword,
+        verificationCode: verification_code,
+        newPassword: new_password,
       });
 
       this.logger.logDebug({

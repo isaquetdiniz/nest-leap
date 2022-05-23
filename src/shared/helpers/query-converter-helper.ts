@@ -33,13 +33,13 @@ const orderByConverter = (value: string) => {
 };
 
 const propertysInQueryToConvert = {
-  isAdmin: booleanConverter,
+  is_admin: booleanConverter,
   enabled: booleanConverter,
   take: numberConverter,
   skip: numberConverter,
-  createdAt: rangeDateConverter,
-  updatedAt: rangeDateConverter,
-  orderBy: orderByConverter,
+  created_at: rangeDateConverter,
+  updated_at: rangeDateConverter,
+  order_by: orderByConverter,
   count: booleanConverter,
 };
 

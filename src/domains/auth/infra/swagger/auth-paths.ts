@@ -12,7 +12,7 @@ export const authUserSchema = SwaggerSchemas.create('AuthUser', [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
   ['email', SwaggerTypes.email(true)],
-  ['isAdmin', SwaggerTypes.boolean(true)],
+  ['is_admin', SwaggerTypes.boolean(true)],
 ]);
 
 export const authPaths = {
@@ -24,8 +24,8 @@ export const authPaths = {
       requestBody: {
         content: SwaggerContents.applicationJson([
           ['email', SwaggerTypes.email(true)],
-          ['newPassword', SwaggerTypes.password(true)],
-          ['temporaryPassword', SwaggerTypes.password(true)],
+          ['new_password', SwaggerTypes.password(true)],
+          ['temporary_password', SwaggerTypes.password(true)],
         ]),
       },
       responses: {
@@ -33,11 +33,11 @@ export const authPaths = {
           'Successfully Made First Login',
           SwaggerContents.applicationJson([
             [
-              'accessToken',
+              'access_token',
               SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
             ],
             [
-              'refreshToken',
+              'refresh_token',
               SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
             ],
             [
@@ -71,11 +71,11 @@ export const authPaths = {
           'Succesfully Logged',
           SwaggerContents.applicationJson([
             [
-              'accessToken',
+              'access_token',
               SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
             ],
             [
-              'refreshToken',
+              'refresh_token',
               SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
             ],
             [
@@ -84,7 +84,7 @@ export const authPaths = {
                 ['id', SwaggerTypes.uuid(true)],
                 ['name', SwaggerTypes.string(true)],
                 ['email', SwaggerTypes.email(true)],
-                ['isAdmin', SwaggerTypes.boolean(true)],
+                ['is_admin', SwaggerTypes.boolean(true)],
               ]),
             ],
           ])
@@ -117,8 +117,8 @@ export const authPaths = {
       requestBody: {
         content: SwaggerContents.applicationJson([
           ['email', SwaggerTypes.email(true)],
-          ['newPassword', SwaggerTypes.password(true)],
-          ['verificationCode', SwaggerTypes.password(true)],
+          ['new_password', SwaggerTypes.password(true)],
+          ['verification_code', SwaggerTypes.password(true)],
         ]),
       },
       responses: {
@@ -135,7 +135,7 @@ export const authPaths = {
       requestBody: {
         content: SwaggerContents.applicationJson([
           [
-            'refreshToken',
+            'refresh_token',
             SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
           ],
         ]),
@@ -145,7 +145,7 @@ export const authPaths = {
           'Successfully refresh a token',
           SwaggerContents.applicationJson([
             [
-              'accessToken',
+              'access_token',
               SwaggerTypes.string(true, 'eyJraWQiOiJoenp3SHBiMEdZZmJOTE9HN0J'),
             ],
           ])

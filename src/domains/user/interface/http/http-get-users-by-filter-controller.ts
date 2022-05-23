@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import {
   HttpController,
@@ -15,11 +16,11 @@ import { ILoggerLocal } from '@/shared/protocols';
 export type HttpGetUsersByFilterRequest = {
   name?: string;
   email?: string;
-  isAdmin?: boolean;
+  is_admin?: boolean;
   enabled?: boolean;
-  createdAt?: DateFilter;
-  updatedAt?: DateFilter;
-  orderBy: {
+  created_at?: DateFilter;
+  updated_at?: DateFilter;
+  order_by: {
     property?: string;
     mode?: OrderByMode;
   };
@@ -56,25 +57,27 @@ export class HttpGetUsersByFilterController implements HttpController {
     const {
       name,
       email,
-      isAdmin,
+      is_admin,
       enabled,
-      createdAt,
-      updatedAt,
-      orderBy,
+      created_at,
+      updated_at,
+      order_by,
       take,
       skip,
       count,
     } = httpRequest;
+    console.log('=====ADMIN=====', httpRequest.is_admin);
+    console.log('=====ADMIN=====', typeof httpRequest.is_admin);
 
     try {
       const users = await this.controller.execute({
         name,
         email,
-        isAdmin,
+        is_admin,
         enabled,
-        createdAt,
-        updatedAt,
-        orderBy,
+        created_at,
+        updated_at,
+        order_by,
         take,
         skip,
         count,

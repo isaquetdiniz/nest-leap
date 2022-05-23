@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   HttpController,
   HttpResponse,
@@ -23,7 +24,7 @@ import { ILoggerLocal } from '@/shared/protocols';
 import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpGetAuthUserByTokenRequest {
-  accessToken: string;
+  access_token: string;
 }
 
 export class HttpGetAuthUserByTokenController implements HttpController {
@@ -52,11 +53,11 @@ export class HttpGetAuthUserByTokenController implements HttpController {
   ): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { accessToken } = httpRequest;
+    const { access_token } = httpRequest;
 
     try {
       const authUser = await this.controller.execute({
-        token: accessToken,
+        token: access_token,
       });
 
       this.logger.logDebug({

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Validation } from '@/shared/interface/validation/protocols';
 import {
   IDeleteUserByIdRepository,
@@ -14,7 +15,7 @@ import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 export interface CreateUserRequest {
   name: string;
   email: string;
-  isAdmin?: boolean;
+  is_admin?: boolean;
 }
 
 export type CreateUserResponse = User;
@@ -49,12 +50,12 @@ export class CreateUserController {
   async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
     this.logger.logDebug({ message: 'Request Received', data: request });
 
-    const { name, email, isAdmin } = request;
+    const { name, email, is_admin } = request;
 
     const hasError = this.validation.validate({
       name,
       email,
-      isAdmin,
+      isAdmin: is_admin,
     });
 
     this.logger.logDebug({ message: 'Params validated' });
@@ -63,7 +64,7 @@ export class CreateUserController {
       throw new ValidationException(hasError);
     }
 
-    const userCreated = await this.usecase.execute({ name, email, isAdmin });
+    const userCreated = await this.usecase.execute({ name, email, isAdmin: is_admin });
 
     this.logger.logDebug({ message: 'User created', data: userCreated });
 

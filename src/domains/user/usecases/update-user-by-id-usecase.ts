@@ -17,6 +17,7 @@ export namespace IUpdateUserByIdUsecase {
     id: string;
     paramsToUpdate: {
       name?: string;
+      email?: string;
       isAdmin?: boolean;
       enabled?: boolean;
     };

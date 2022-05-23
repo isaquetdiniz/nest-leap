@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   HttpController,
   HttpResponse,
@@ -14,7 +15,7 @@ import { ILoggerLocal } from '@/shared/protocols';
 import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpGetRefreshTokenRequest {
-  refreshToken: string;
+  refresh_token: string;
 }
 
 export class HttpGetRefreshTokenController implements HttpController {
@@ -38,12 +39,12 @@ export class HttpGetRefreshTokenController implements HttpController {
   async handle(httpRequest: HttpGetRefreshTokenRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { refreshToken } = httpRequest;
+    const { refresh_token } = httpRequest;
 
     try {
       const { accessToken, refreshToken: newRefreshToken } =
         await this.controller.execute({
-          refreshToken,
+          refreshToken: refresh_token,
         });
 
       this.logger.logDebug({ message: 'Token getted by refresh' });

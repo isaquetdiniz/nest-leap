@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   CreateUserController,
   IDeleteUserByIdRepository,
@@ -19,7 +20,7 @@ import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 export interface HttpCreateUserRequest {
   name: string;
   email: string;
-  isAdmin?: boolean;
+  is_admin?: boolean;
 }
 
 export class HttpCreateUserController implements HttpController {
@@ -53,13 +54,13 @@ export class HttpCreateUserController implements HttpController {
   async handle(httpRequest: HttpCreateUserRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { name, email, isAdmin } = httpRequest;
+    const { name, email, is_admin } = httpRequest;
 
     try {
       const userCreated = await this.controller.execute({
         name,
         email,
-        isAdmin,
+        is_admin,
       });
 
       this.logger.logDebug({ message: 'User created', data: userCreated });

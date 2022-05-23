@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   HttpController,
   HttpResponse,
@@ -20,8 +21,8 @@ import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpFirstLoginRequest {
   email: string;
-  newPassword: string;
-  temporaryPassword: string;
+  new_password: string;
+  temporary_password: string;
 }
 
 export class HttpFirstLoginController implements HttpController {
@@ -51,7 +52,7 @@ export class HttpFirstLoginController implements HttpController {
   async handle(httpRequest: HttpFirstLoginRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { email, newPassword, temporaryPassword } = httpRequest;
+    const { email, new_password, temporary_password } = httpRequest;
 
     try {
       const {
@@ -59,8 +60,8 @@ export class HttpFirstLoginController implements HttpController {
         authUser,
       } = await this.controller.execute({
         email,
-        newPassword,
-        temporaryPassword,
+        newPassword: new_password,
+        temporaryPassword: temporary_password,
       });
 
       this.logger.logDebug({

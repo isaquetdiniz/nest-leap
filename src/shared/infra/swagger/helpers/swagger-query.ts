@@ -17,17 +17,17 @@ export const defaultFilterParams = SwaggerQuery.params([
   ['take', SwaggerTypes.integer()],
   ['skip', SwaggerTypes.integer()],
   [
-    'createdAt',
+    'created_at',
     SwaggerTypes.array(false, SwaggerTypes.dateTime(), 2),
     { style: 'form', explode: false },
   ],
   [
-    'updatedAt',
+    'updated_at',
     SwaggerTypes.array(false, SwaggerTypes.dateTime(), 2),
     { style: 'form', explode: false },
   ],
   [
-    'orderBy',
+    'order_by',
     SwaggerTypes.array(false, SwaggerTypes.string(), 2),
     { style: 'form', explode: false },
   ],

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   badRequest,
   notFound,
@@ -17,12 +18,12 @@ import {
 } from '@/domains/user';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpUpdateUserByIdRequest {
   id: string;
   name?: string;
-  isAdmin?: boolean;
+  email?: string;
+  is_admin?: boolean;
   enabled?: boolean;
 }
 
@@ -49,13 +50,14 @@ export class HttpUpdateUserByIdController implements HttpController {
   async handle(httpRequest: HttpUpdateUserByIdRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request received', data: httpRequest });
 
-    const { id, name, isAdmin, enabled } = httpRequest;
+    const { id, name, is_admin, enabled, email } = httpRequest;
 
     const request = {
       id,
       paramsToUpdate: {
         name,
-        isAdmin,
+        email,
+        isAdmin: is_admin,
         enabled,
       },
     };
