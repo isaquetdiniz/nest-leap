@@ -1,9 +1,9 @@
-import { {{pascalCase name}}Filters, IGet{{pascalCase name}}sByFilterUsecase } from '@/domains/{{dashCase name}}';
-import { mockCreate{{pascalCase name}}Result } from '../../entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}}Filters, IGet{{pascalCase name}}sByFilterUsecase } from '@/domains/{{dashCase name}}/usecase';
+import { mock{{pascalCase name}}Entity } from '../../entities/mocks/{{dashCase name}}-mocks';
 
 export class Get{{pascalCase name}}sByFilterUsecaseSpy implements IGet{{pascalCase name}}sByFilterUsecase {
   result: IGet{{pascalCase name}}sByFilterUsecase.Result = {
-    {{camelCase name}}s: [mockCreate{{pascalCase name}}Result()],
+    {{camelCase name}}s: [mock{{pascalCase name}}Entity()],
     total{{pascalCase name}}s: 1,
   };
 

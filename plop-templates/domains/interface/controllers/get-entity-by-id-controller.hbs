@@ -1,17 +1,23 @@
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  {{pascalCase name}},
   Get{{pascalCase name}}ByIdUsecase,
+} from '@/domains/{{dashCase name}}/usecases';
+import {
   IGet{{pascalCase name}}ByIdRepository,
-} from '@/domains/{{dashCase name}}';
-import { ValidationException } from '@/shared/helpers';
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import {
+  {{pascalCase name}}DefaultPresenter,
+  {{pascalCase name}}Transformers,
+} from '@/domains/{{dashCase name}}/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface Get{{pascalCase name}}ByIdRequest {
   id: string;
 }
 
-export type Get{{pascalCase name}}ByIdResponse = { {{camelCase name}}: {{pascalCase name}} } | null;
+export type Get{{pascalCase name}}ByIdResponse = { {{camelCase name}}: {{pascalCase name}}DefaultPresenter } | null;
 
 export class Get{{pascalCase name}}ByIdController {
   private usecase: Get{{pascalCase name}}ByIdUsecase;
@@ -27,10 +33,12 @@ export class Get{{pascalCase name}}ByIdController {
       logger
     );
 
-    this.logger = logger.child({ controller: 'get-{{dashCase name}}-by-id'})
+    this.logger = logger.child({ controller: 'get-{{dashCase name}}-by-id' });
   }
 
-  async execute(request: Get{{pascalCase name}}ByIdRequest): Promise<Get{{pascalCase name}}ByIdResponse> {
+  async execute(
+    request: Get{{pascalCase name}}ByIdRequest
+  ): Promise<Get{{pascalCase name}}ByIdResponse> {
     this.logger.logDebug({ message: 'Request received', data: request });
 
     const { id } = request;
@@ -41,16 +49,22 @@ export class Get{{pascalCase name}}ByIdController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated'})
+    this.logger.logDebug({ message: 'Params validated' });
 
     const {{camelCase name}} = await this.usecase.execute(id);
 
-    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}} })
+    this.logger.logDebug({
+      message: '{{pascalCase name}} found',
+      data: {{camelCase name}},
+    });
 
     if (!{{camelCase name}}) {
       return null;
     }
 
-    return { {{camelCase name}}: {{camelCase name}} };
+    const {{camelCase name}}DefaultPresenter =
+      {{pascalCase name}}Transformers.generateDefaultPresenter({{camelCase name}});
+
+    return { {{camelCase name}}: {{camelCase name}}DefaultPresenter };
   }
 }

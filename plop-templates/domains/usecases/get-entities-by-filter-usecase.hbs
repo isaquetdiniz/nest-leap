@@ -1,8 +1,10 @@
 import {
-  {{pascalCase name}},
   IGet{{pascalCase name}}sByFilterRepository,
   ICount{{pascalCase name}}sByFilterRepository,
-} from '@/domains/{{dashCase name}}';
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import {
+  {{pascalCase name}},
+} from '@/domains/{{dashCase name}}/entities';
 
 import { DateFilter, OrderByFilter, Pagination } from '@/shared/helpers';
 
@@ -28,10 +30,12 @@ export interface IGet{{pascalCase name}}sByFilterUsecase {
 
 export namespace IGet{{pascalCase name}}sByFilterUsecase {
   export type Params = {{pascalCase name}}Filters;
-  export type Result = { {{camelCase name}}s?: {{pascalCase name}}[]; total{{pascalCase name}}s: number };
+  export type Result = { {{camelCase name}}s?: Array<{{pascalCase name}}>; total{{pascalCase name}}s: number };
 }
 
-export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase name}}sByFilterUsecase {
+export class Get{{pascalCase name}}sByFilterUsecase
+  implements IGet{{pascalCase name}}sByFilterUsecase
+{
   private logger: ILoggerLocal;
 
   constructor(
@@ -39,7 +43,7 @@ export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase 
     private readonly count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
     logger: ILoggerLocal
   ) {
-    this.logger = logger.child({ usecase: 'get-{{dashCase name}}s-by-filter'})
+    this.logger = logger.child({ usecase: 'get-{{dashCase name}}s-by-filter' });
   }
 
   async execute(
@@ -50,17 +54,24 @@ export class Get{{pascalCase name}}sByFilterUsecase implements IGet{{pascalCase 
     const { count, ...restFilterParams } = filterParams;
     const { filters } = restFilterParams;
 
-    const total{{pascalCase name}}s = await this.count{{pascalCase name}}sByFilterRepository.count(filters);
+    const total{{pascalCase name}}s = await this.count{{pascalCase name}}sByFilterRepository.count(
+      filters
+    );
 
-    if(count) {
+    if (count) {
       return {
-        total{{pascalCase name}}s
-      }
+        total{{pascalCase name}}s,
+      };
     }
 
-    const {{camelCase name}}s = await this.get{{pascalCase name}}sByFilterRepository.get(restFilterParams);
+    const {{camelCase name}}s = await this.get{{pascalCase name}}sByFilterRepository.get(
+      restFilterParams,
+    );
 
-    this.logger.logDebug({ message: '{{pascalCase name}}s found', data: { total{{pascalCase name}}s } });
+    this.logger.logDebug({
+      message: '{{pascalCase name}}s found',
+      data: { total{{pascalCase name}}s },
+    });
 
     return {
       {{camelCase name}}s,

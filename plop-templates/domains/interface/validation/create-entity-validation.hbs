@@ -3,13 +3,11 @@ import { Validation } from '@/shared/interface/validation/protocols';
 import {
   RequiredFieldsValidation,
   ValidationComposite,
-  NameValidation,
-  StringLengthValidation,
+  NameValidation
 } from '@/shared/interface/validation/validators';
 
 import {
   ValidatorNameAdapter,
-  ValidatorStringLengthAdapter,
 } from '@/shared/infra/validators';
 
 const validations: Validation[] = [];
@@ -19,7 +17,6 @@ for (const field of ['name']) {
 }
 
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
-validations.push(new StringLengthValidation('name', new ValidatorStringLengthAdapter()));
 
 export const makeCreate{{pascalCase name}}Validation = (): ValidationComposite => {
   return new ValidationComposite(validations);

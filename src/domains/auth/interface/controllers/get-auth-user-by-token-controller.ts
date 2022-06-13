@@ -1,19 +1,26 @@
-import { Validation } from '@/shared/interface/validation/protocols';
-import { ValidationException } from '@/shared/helpers';
-
+import {
+  GetAuthUserByTokenUsecase,
+} from '@/domains/auth/usecases';
 import {
   IGetAuthUserByEmailRepository,
-  AuthUser,
+} from '@/domains/auth/usecases/repos';
+import {
   IGetAuthUserByTokenInCloudGateway,
-  GetAuthUserByTokenUsecase,
-} from '@/domains/auth';
+} from '@/domains/auth/usecases/gateways';
+import {
+  AuthUserDefaultPresenter,
+  AuthUserTransformers,
+} from '@/domains/auth/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface GetUserByTokenRequest {
   token: string;
 }
 
-export type GetUserByTokenResponse = AuthUser;
+export type GetUserByTokenResponse = AuthUserDefaultPresenter;
 
 export class GetAuthUserByTokenController {
   private usecase: GetAuthUserByTokenUsecase;
@@ -55,11 +62,13 @@ export class GetAuthUserByTokenController {
       token: accessTokenWithouBearer,
     });
 
+    const autUserPresenter = AuthUserTransformers.generateDefaultPresenter(authUser);
+
     this.logger.logDebug({
       message: 'Auth User found by token',
-      data: authUser,
+      data: autUserPresenter,
     });
 
-    return authUser;
+    return autUserPresenter;
   }
 }

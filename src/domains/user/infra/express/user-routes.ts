@@ -10,7 +10,7 @@ import {
   makeHttpGetUserByIdController,
   makeHttpGetUsersByFilterController,
   makeHttpUpdateUserByIdController,
-} from '@/domains/user';
+} from '@/domains/user/factories/http';
 
 const userRouter = Router();
 

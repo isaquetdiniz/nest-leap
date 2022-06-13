@@ -1,12 +1,13 @@
-import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
-import { Create{{pascalCase name}}Usecase, ICreate{{pascalCase name}}Usecase } from '@/domains/{{dashCase name}}';
+import { mockCreate{{pascalCase name}}Params, mock{{pascalCase name}}Entity } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+import { Create{{pascalCase name}}Usecase, ICreate{{pascalCase name}}Usecase } from '@/domains/{{dashCase name}}/usecases';
 import { Save{{pascalCase name}}RepositorySpy, Get{{pascalCase name}}ByNameRepositorySpy } from '@/tests/domains/{{dashCase name}}/usecases/repos';
 import { UUIDGeneratorAdapter } from '@/shared/infra/uuid';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 type SutTypes = {
-    sut: ICreate{{pascalCase name}}Usecase;
-    save{{pascalCase name}}RepositorySpy: Save{{pascalCase name}}RepositorySpy;
+  sut: ICreate{{pascalCase name}}Usecase;
+  save{{pascalCase name}}RepositorySpy: Save{{pascalCase name}}RepositorySpy;
 };
 
 const makeSut = (): SutTypes => {
@@ -16,8 +17,8 @@ const makeSut = (): SutTypes => {
 
   const sut = new Create{{pascalCase name}}Usecase(
     get{{pascalCase name}}ByNameRepositorySpy,
-    uuidGenerator,
     save{{pascalCase name}}RepositorySpy,
+    uuidGenerator,
     pinoLoggerLocal,
   );
 
@@ -32,7 +33,7 @@ describe('Create {{pascalCase name}} Service', () => {
     const { sut, save{{pascalCase name}}RepositorySpy } = makeSut();
     const create{{pascalCase name}}Spy = jest.spyOn(save{{pascalCase name}}RepositorySpy, 'save');
 
-    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Result();
+    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Params();
 
     await sut.execute(fake{{pascalCase name}});
 
@@ -46,7 +47,7 @@ describe('Create {{pascalCase name}} Service', () => {
       return Promise.reject(new Error());
     });
 
-    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Result();
+    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Params();
 
     const response = sut.execute(fake{{pascalCase name}});
 
@@ -56,12 +57,17 @@ describe('Create {{pascalCase name}} Service', () => {
   it('should return a new {{pascalCase name}} with success', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Result();
+    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Params();
 
     const response = await sut.execute(fake{{pascalCase name}});
 
-    expect(response).toHaveProperty('id');
-    expect(response).toHaveProperty('name', fake{{pascalCase name}}.name);
-    expect(response).toHaveProperty('type', fake{{pascalCase name}}.type);
+    const expectedResult = new {{pascalCase name}}({
+      ...mock{{pascalCase name}}Entity(),
+      id: response.id,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt,
+    });
+
+    expect(response).toStrictEqual(expectedResult);
   });
 });

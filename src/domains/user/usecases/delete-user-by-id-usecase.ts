@@ -1,10 +1,13 @@
 import {
+  UserNotFoundException,
+} from '@/domains/user/usecases/exceptions';
+import {
   IGetUserByIdRepository,
   IGetUserByEmailInCloudRepository,
   IDeleteUserByEmailInCloudRepository,
   IDeleteUserByIdRepository,
-  UserNotFoundException,
-} from '@/domains/user';
+} from '@/domains/user/usecases/repos';
+
 import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IDeleteUserByIdUsecase {

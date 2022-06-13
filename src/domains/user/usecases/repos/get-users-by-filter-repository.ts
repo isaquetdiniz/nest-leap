@@ -1,5 +1,5 @@
-import { User } from '@/domains/user';
-import { UserFilters } from '../get-users-by-filter-usecase';
+import { User } from '@/domains/user/entities';
+import { UserFilters } from '@/domains/user/usecases';
 
 export interface IGetUsersByFilterRepository {
   get(

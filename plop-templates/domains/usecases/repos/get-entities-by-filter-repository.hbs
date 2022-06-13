@@ -1,5 +1,5 @@
-import { {{pascalCase name}} } from '@/domains/{{dashCase name}}';
-import { {{pascalCase name}}Filters } from '../get-{{dashCase name}}s-by-filter-usecase';
+import { {{pascalCase name}}Filters } from '@/domains/{{dashCase name}}/usecases';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
 
 export interface IGet{{pascalCase name}}sByFilterRepository {
   get(
@@ -9,5 +9,5 @@ export interface IGet{{pascalCase name}}sByFilterRepository {
 
 export namespace IGet{{pascalCase name}}sByFilterRepository {
   export type Params = {{pascalCase name}}Filters;
-  export type Result = {{pascalCase name}}[];
+  export type Result = Array<{{pascalCase name}}>;
 }

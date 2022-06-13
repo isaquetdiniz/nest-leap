@@ -1,4 +1,10 @@
-import { Access, IGetRefreshTokenInCloudGateway } from '@/domains/auth';
+import {
+  Access,
+} from '@/domains/auth/entities';
+import{
+  IGetRefreshTokenInCloudGateway
+} from '@/domains/auth/usecases/gateways';
+
 import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IGetRefreshTokenUsecase {

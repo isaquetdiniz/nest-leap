@@ -27,7 +27,7 @@ validations.push(new UuidValidation('id', new ValidatorUuidAdapter()));
 validations.push(new SomeParamWithoutValidation('id'));
 validations.push(new EmailValidation('email', new ValidatorEmailAdapter()));
 validations.push(new NameValidation('name', new ValidatorNameAdapter()));
-validations.push(new BooleanValidation('is_admin', new ValidatorBooleanAdapter()));
+validations.push(new BooleanValidation('isAdmin', new ValidatorBooleanAdapter()));
 validations.push(new BooleanValidation('enabled', new ValidatorBooleanAdapter()));
 
 export const makeUpdateUserValidation = (): ValidationComposite => {

@@ -1,4 +1,4 @@
-import { IGetUserByEmailInCloudRepository } from '@/domains/user';
+import { IGetUserByEmailInCloudRepository } from '@/domains/user/usecases/repos';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment from '@/shared/infra/cognito';

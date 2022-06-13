@@ -1,23 +1,28 @@
-/* eslint-disable camelcase */
+import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
+  AuthUserNotFoundException,
+  AuthUserAlreadyMadeFirstLoginException,
+} from '@/domains/auth/usecases/exceptions';
+import {
+  ILoginInCloudGateway,
+  IFirstLoginInCloudGateway,
+  IGetAuthUserByEmailInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  FirstLoginController,
+} from '@/domains/auth/interface/controllers';
+
 import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
+import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
-
-import {
-  AuthUserAlreadyMadeFirstLoginException,
-  AuthUserNotFoundException,
-  FirstLoginController,
-  IFirstLoginInCloudGateway,
-  IGetAuthUserByEmailInCloudGateway,
-  IGetAuthUserByEmailRepository,
-  ILoginInCloudGateway,
-} from '@/domains/auth';
-import { ILoggerLocal } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpFirstLoginRequest {
   email: string;
@@ -52,16 +57,20 @@ export class HttpFirstLoginController implements HttpController {
   async handle(httpRequest: HttpFirstLoginRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { email, new_password, temporary_password } = httpRequest;
+    const {
+      email,
+      new_password: newPassword,
+      temporary_password: temporaryPassword,
+    } = httpRequest;
 
     try {
       const {
-        access: { accessToken, refreshToken },
+        access: { access_token: accessToken, refresh_token: refreshToken },
         authUser,
       } = await this.controller.execute({
         email,
-        newPassword: new_password,
-        temporaryPassword: temporary_password,
+        newPassword,
+        temporaryPassword,
       });
 
       this.logger.logDebug({

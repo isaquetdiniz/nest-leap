@@ -10,13 +10,13 @@ import {
   makeHttpGet{{pascalCase name}}ByIdController,
   makeHttpGet{{pascalCase name}}sByFilterController,
   makeHttpUpdate{{pascalCase name}}ByIdController,
-} from '@/domains/{{dashCase name}}';
+} from '@/domains/{{dashCase name}}/factories/http';
 
 const {{camelCase name}}Router = Router();
 
 {{camelCase name}}Router
   .route('/{{dashCase name}}s')
-  .post(adaptRoute(makeHttpCreate{{pascalCase name}}Controller()))
+  .post(authMiddleware('USER'), adaptRoute(makeHttpCreate{{pascalCase name}}Controller()))
   .get(
     authMiddleware('USER'),
     adaptRoute(makeHttpGet{{pascalCase name}}sByFilterController())
@@ -25,7 +25,10 @@ const {{camelCase name}}Router = Router();
 {{camelCase name}}Router
   .route('/{{dashCase name}}s/:id')
   .get(authMiddleware('USER'), adaptRoute(makeHttpGet{{pascalCase name}}ByIdController()))
-  .patch(authMiddleware('USER'), adaptRoute(makeHttpUpdate{{pascalCase name}}ByIdController()))
+  .patch(
+    authMiddleware('USER'),
+    adaptRoute(makeHttpUpdate{{pascalCase name}}ByIdController())
+  )
   .delete(
     authMiddleware('ADMIN'),
     adaptRoute(makeHttpDelete{{pascalCase name}}ByIdController())

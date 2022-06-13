@@ -1,8 +1,13 @@
-import { IGet{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
 import { PrismaClient } from '@prisma/client';
+
+import { IGet{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}/usecases/repos';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
-export class PrismaGet{{pascalCase name}}ByIdRepository implements IGet{{pascalCase name}}ByIdRepository {
+export class PrismaGet{{pascalCase name}}ByIdRepository
+  implements IGet{{pascalCase name}}ByIdRepository
+{
   private prismaConnection: PrismaClient;
 
   constructor() {
@@ -13,12 +18,18 @@ export class PrismaGet{{pascalCase name}}ByIdRepository implements IGet{{pascalC
     id: IGet{{pascalCase name}}ByIdRepository.Params
   ): Promise<IGet{{pascalCase name}}ByIdRepository.Result> {
     try {
-      const {{camelCase name}} = await this.prismaConnection.{{camelCase name}}.findUnique({
-        where: { id },
+      const {{camelCase name}}DTO = await this.prismaConnection.{{camelCase name}}.findFirst({
+        where: { id, enabled: true },
       });
 
+      if (!{{camelCase name}}DTO) {
+        return null;
+      }
+
+      const {{camelCase name}} = new {{pascalCase name}}({{camelCase name}}DTO);
+
       return {{camelCase name}};
-    } catch(error) {
+    } catch (error) {
       throw new PrismaException(error);
     }
   }

@@ -1,18 +1,22 @@
-import { Validation } from '@/shared/interface/validation/protocols';
-import { ValidationException } from '@/shared/helpers';
-
 import {
-  Access,
-  IGetRefreshTokenInCloudGateway,
   GetRefreshTokenUsecase,
-} from '@/domains/auth';
+} from '@/domains/auth/usecases';
+import {
+  IGetRefreshTokenInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  AccessDefaultPresenter,
+} from '@/domains/auth/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface GetRefreshTokenRequest {
   refreshToken: string;
 }
 
-export type GetRefreshTokenResponse = Access;
+export type GetRefreshTokenResponse = AccessDefaultPresenter;
 
 export class GetRefreshTokenController {
   private usecase: GetRefreshTokenUsecase;
@@ -50,8 +54,13 @@ export class GetRefreshTokenController {
       refreshToken,
     });
 
+    const accessDefaultPresenter = {
+      access_token: access.accessToken,
+      refresh_token: access.refreshToken,
+    };
+
     this.logger.logDebug({ message: 'Refresh token getted' });
 
-    return access;
+    return accessDefaultPresenter;
   }
 }

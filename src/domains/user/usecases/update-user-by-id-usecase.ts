@@ -1,9 +1,14 @@
 import {
   User,
+} from '@/domains/user/entities';
+import {
+  UserNotFoundException,
+} from '@/domains/user/usecases/exceptions';
+import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
-  UserNotFoundException,
-} from '@/domains/user';
+} from '@/domains/user/usecases/repos';
+
 import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IUpdateUserByIdUsecase {

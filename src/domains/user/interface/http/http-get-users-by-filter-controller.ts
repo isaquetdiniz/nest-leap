@@ -1,17 +1,19 @@
-/* eslint-disable camelcase */
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import {
-  HttpController,
-  HttpResponse,
-} from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
-import {
-  GetUsersByFilterController,
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
-} from '@/domains/user';
-import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
+} from '@/domains/user/usecases/repos';
+import {
+  GetUsersByFilterController,
+} from '@/domains/user/interface/controllers';
+
+import {
+  HttpResponse,
+  HttpController,
+} from '@/shared/interface/http/protocols';
 import { ILoggerLocal } from '@/shared/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
+import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 
 export type HttpGetUsersByFilterRequest = {
   name?: string;
@@ -57,27 +59,25 @@ export class HttpGetUsersByFilterController implements HttpController {
     const {
       name,
       email,
-      is_admin,
+      is_admin: isAdmin,
       enabled,
-      created_at,
-      updated_at,
-      order_by,
+      created_at: createdAt,
+      updated_at: updatedAt,
+      order_by: orderBy,
       take,
       skip,
       count,
     } = httpRequest;
-    console.log('=====ADMIN=====', httpRequest.is_admin);
-    console.log('=====ADMIN=====', typeof httpRequest.is_admin);
 
     try {
       const users = await this.controller.execute({
         name,
         email,
-        is_admin,
+        isAdmin,
         enabled,
-        created_at,
-        updated_at,
-        order_by,
+        createdAt,
+        updatedAt,
+        orderBy,
         take,
         skip,
         count,

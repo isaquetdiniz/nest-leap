@@ -1,11 +1,15 @@
-/* eslint-disable camelcase */
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  User,
   GetUsersByFilterUsecase,
+} from '@/domains/user/usecases';
+import {
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
-} from '@/domains/user';
+} from '@/domains/user/usecases/repos';
+import {
+  UserDefaultPresenter,
+  UserTransformers,
+} from '@/domains/user/interface/presenters';
+
 import {
   DateFilter,
   OrderByFilter,
@@ -14,15 +18,16 @@ import {
   ValidationException,
 } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface GetUsersByFilterRequest {
   name?: string;
   email?: string;
-  is_admin?: boolean;
+  isAdmin?: boolean;
   enabled?: boolean;
-  created_at?: DateFilter;
-  updated_at?: DateFilter;
-  order_by: {
+  createdAt?: DateFilter;
+  updatedAt?: DateFilter;
+  orderBy: {
     property?: string;
     mode?: OrderByMode;
   };
@@ -33,7 +38,7 @@ export interface GetUsersByFilterRequest {
 
 export type GetUsersByFilterResponse =
   | {
-      items: User[];
+      items: UserDefaultPresenter[];
       totalItemsListed: number;
       totalItems: number;
     }
@@ -72,25 +77,25 @@ export class GetUsersByFilterController {
     this.logger.logDebug({ message: 'Params validated' });
 
     const {
-      order_by: orderByFilter,
+      orderBy: orderByFilter,
       take,
       skip,
       name,
       email,
-      is_admin,
+      isAdmin,
       enabled,
-      created_at,
-      updated_at,
+      createdAt,
+      updatedAt,
       count,
     } = request;
 
     const filters = {
       name,
       email,
-      isAdmin: is_admin,
+      isAdmin: isAdmin,
       enabled,
-      createdAt: created_at,
-      updatedAt: updated_at,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     };
 
     const orderBy = new OrderByFilter(orderByFilter);
@@ -114,8 +119,10 @@ export class GetUsersByFilterController {
       };
     }
 
+    const userPresenters = users?.map(UserTransformers.generateDefaultTransformer) ?? [];
+
     return {
-      items: users,
+      items: userPresenters,
       totalItems: totalUsers,
       totalItemsListed: users?.length,
     };

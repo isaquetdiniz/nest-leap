@@ -1,18 +1,24 @@
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  User,
   GetUserByIdUsecase,
+} from '@/domains/user/usecases';
+import {
   IGetUserByIdRepository,
   IGetUserByEmailInCloudRepository,
-} from '@/domains/user';
-import { ValidationException } from '@/shared/helpers';
+} from '@/domains/user/usecases/repos';
+import {
+  UserDefaultPresenter,
+  UserTransformers,
+} from '@/domains/user/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface GetUserByIdRequest {
   id: string;
 }
 
-export type GetUserByIdResponse = User | null;
+export type GetUserByIdResponse = UserDefaultPresenter | null;
 
 export class GetUserByIdController {
   private usecase: GetUserByIdUsecase;
@@ -54,6 +60,8 @@ export class GetUserByIdController {
       return null;
     }
 
-    return user;
+    const userPresenter = UserTransformers.generateDefaultTransformer(user);
+
+    return userPresenter;
   }
 }

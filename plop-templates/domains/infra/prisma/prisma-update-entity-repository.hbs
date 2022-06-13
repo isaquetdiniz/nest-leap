@@ -1,8 +1,12 @@
-import { IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
-import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 
-export class PrismaUpdate{{pascalCase name}}Repository implements IUpdate{{pascalCase name}}Repository {
+import { IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/usecases/repos';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
+
+export class PrismaUpdate{{pascalCase name}}Repository
+  implements IUpdate{{pascalCase name}}Repository {
   private prismaConnection: PrismaClient;
 
   constructor() {
@@ -13,16 +17,17 @@ export class PrismaUpdate{{pascalCase name}}Repository implements IUpdate{{pasca
     {{camelCase name}}ToUpdate: IUpdate{{pascalCase name}}Repository.Params
   ): Promise<IUpdate{{pascalCase name}}Repository.Result> {
     try {
-      const { id, ...restOf{{pascalCase name}}InJSON } = {{camelCase name}}ToUpdate;
+      const { id, ...restOf{{pascalCase name}}Params } = {{camelCase name}}ToUpdate;
 
-      const {{camelCase name}}Updated = await this.prismaConnection.{{camelCase name}}.update({
+      const {{camelCase name}}DTO = await this.prismaConnection.{{camelCase name}}.update({
         where: { id },
-        data: restOf{{pascalCase name}}InJSON,
+        data: restOf{{pascalCase name}}Params,
       });
 
-      return {{camelCase name}}Updated;
+      const {{camelCase name}} = new {{pascalCase name}}({{camelCase name}}DTO);
 
-    } catch(error) {
+      return {{camelCase name}};
+    } catch (error) {
       throw new PrismaException(error);
     }
   }

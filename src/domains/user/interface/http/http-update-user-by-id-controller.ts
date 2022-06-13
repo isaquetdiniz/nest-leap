@@ -1,23 +1,27 @@
-/* eslint-disable camelcase */
 import {
-  badRequest,
-  notFound,
+  IGetUserByIdRepository,
+  IUpdateUserRepository,
+} from '@/domains/user/usecases/repos';
+import {
+  UserNotFoundException,
+} from '@/domains/user/usecases/exceptions';
+import {
+  UpdateUserByIdController,
+} from '@/domains/user/interface/controllers';
+
+import {
   ok,
+  notFound,
+  badRequest,
   serverError,
 } from '@/shared/interface/http/helpers';
 import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
-import {
-  IGetUserByIdRepository,
-  IUpdateUserRepository,
-  UpdateUserByIdController,
-  UserNotFoundException,
-} from '@/domains/user';
-import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface HttpUpdateUserByIdRequest {
   id: string;
@@ -50,14 +54,14 @@ export class HttpUpdateUserByIdController implements HttpController {
   async handle(httpRequest: HttpUpdateUserByIdRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request received', data: httpRequest });
 
-    const { id, name, is_admin, enabled, email } = httpRequest;
+    const { id, name, is_admin: isAdmin, enabled, email } = httpRequest;
 
     const request = {
       id,
       paramsToUpdate: {
         name,
         email,
-        isAdmin: is_admin,
+        isAdmin,
         enabled,
       },
     };

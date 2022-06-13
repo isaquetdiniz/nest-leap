@@ -1,11 +1,14 @@
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  IDelete{{pascalCase name}}ByIdRepository,
-  IGet{{pascalCase name}}ByIdRepository,
   Delete{{pascalCase name}}ByIdUsecase,
-} from '@/domains/{{dashCase name}}';
-import { ValidationException } from '@/shared/helpers';
+} from '@/domains/{{dashCase name}}/usecases';
+import {
+  IGet{{pascalCase name}}ByIdRepository,
+  IDelete{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface Delete{{pascalCase name}}ByIdRequest {
   id: string;
@@ -29,7 +32,7 @@ export class Delete{{pascalCase name}}ByIdController {
       logger
     );
 
-    this.logger = logger.child({ controller: 'delete-{{dashCase name}}-by-id'})
+    this.logger = logger.child({ controller: 'delete-{{dashCase name}}-by-id' });
   }
 
   async execute(
@@ -45,10 +48,10 @@ export class Delete{{pascalCase name}}ByIdController {
       throw new ValidationException(hasError);
     }
 
-    this.logger.logDebug({ message: 'Params validated'})
+    this.logger.logDebug({ message: 'Params validated' });
 
     await this.usecase.execute(id);
 
-    this.logger.logDebug({ message: '{{pascalCase name}} deleted', data: { id }})
+    this.logger.logDebug({ message: '{{pascalCase name}} deleted', data: { id } });
   }
 }

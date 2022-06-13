@@ -1,24 +1,29 @@
 import {
-  DeleteUserByIdController,
   IDeleteUserByEmailInCloudRepository,
   IDeleteUserByIdRepository,
   IGetUserByEmailInCloudRepository,
   IGetUserByIdRepository,
+} from '@/domains/user/usecases/repos';
+import {
   UserNotFoundException,
-} from '@/domains/user';
+} from '@/domains/user/usecases/exceptions';
 import {
-  HttpController,
+  DeleteUserByIdController,
+} from '@/domains/user/interface/controllers';
+
+import {
   HttpResponse,
+  HttpController,
 } from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  badRequest,
-  notFound,
   ok,
+  notFound,
+  badRequest,
   serverError,
 } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface HttpDeleteUserByIdRequest {
   id: string;

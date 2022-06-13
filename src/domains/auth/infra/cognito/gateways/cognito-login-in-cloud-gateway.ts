@@ -1,7 +1,7 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
-import { ILoginInCloudGateway } from '@/domains/auth';
+import { ILoginInCloudGateway } from '@/domains/auth/usecases/gateways';
 
 export class CognitoLoginInCloudGateway implements ILoginInCloudGateway {
   private readonly cognitoInstance: CognitoIdentityServiceProvider;

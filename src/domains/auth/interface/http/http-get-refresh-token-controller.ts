@@ -1,18 +1,19 @@
-/* eslint-disable camelcase */
+import {
+  IGetRefreshTokenInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  GetRefreshTokenController,
+} from '@/domains/auth/interface/controllers';
+
 import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
+import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
-
-import {
-  IGetRefreshTokenInCloudGateway,
-  GetRefreshTokenController,
-} from '@/domains/auth';
-import { ILoggerLocal } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpGetRefreshTokenRequest {
   refresh_token: string;
@@ -39,12 +40,12 @@ export class HttpGetRefreshTokenController implements HttpController {
   async handle(httpRequest: HttpGetRefreshTokenRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { refresh_token } = httpRequest;
+    const { refresh_token: refreshToken } = httpRequest;
 
     try {
-      const { accessToken, refreshToken: newRefreshToken } =
+      const { access_token: accessToken, refresh_token: newRefreshToken } =
         await this.controller.execute({
-          refreshToken: refresh_token,
+          refreshToken,
         });
 
       this.logger.logDebug({ message: 'Token getted by refresh' });

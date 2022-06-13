@@ -1,4 +1,4 @@
-import { ISaveUserInCloudRepository } from '@/domains/user';
+import { ISaveUserInCloudRepository } from '@/domains/user/usecases/repos';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';

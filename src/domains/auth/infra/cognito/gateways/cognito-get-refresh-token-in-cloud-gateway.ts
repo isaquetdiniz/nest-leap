@@ -2,7 +2,7 @@ import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
-import { IGetRefreshTokenInCloudGateway } from '@/domains/auth';
+import { IGetRefreshTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 
 export class CognitoGetRefreshTokenInCloudGateway
   implements IGetRefreshTokenInCloudGateway

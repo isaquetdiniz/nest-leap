@@ -1,11 +1,12 @@
-import { {{pascalCase name}}, {{pascalCase name}}, ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
-import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+import { ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/usecases/repos';
+import { mock{{pascalCase name}}Entity } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 export const mockCreate{{pascalCase name}}RepositoryParams =
-  (): ISave{{pascalCase name}}Repository.Params => mockCreate{{pascalCase name}}Result();
+  (): ISave{{pascalCase name}}Repository.Params => mock{{pascalCase name}}Entity();
 
 export class Save{{pascalCase name}}RepositorySpy implements ISave{{pascalCase name}}Repository {
-  {{camelCase name}} = mockCreate{{pascalCase name}}Result();
+  {{camelCase name}} = new {{pascalCase name}}(mock{{pascalCase name}}Entity());
 
   save({{camelCase name}}Params: {{pascalCase name}}): Promise<{{pascalCase name}}> {
     return Promise.resolve(this.{{camelCase name}});

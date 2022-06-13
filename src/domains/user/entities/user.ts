@@ -1,5 +1,5 @@
 type UserType = {
-  id?: string;
+  id: string;
   isAdmin?: boolean;
   enabled?: boolean;
   name: string;
@@ -9,7 +9,7 @@ type UserType = {
 };
 
 export class User {
-  id?: string;
+  id: string;
   isAdmin: boolean;
   enabled: boolean;
   name: string;

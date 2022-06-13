@@ -1,27 +1,50 @@
-export interface {{pascalCase name}}Type {
-  id?: string;
-  enabled?: boolean;
+// Uncomment the next lines if you need
+/*
+* import {
+*   EntityIncludedInto{{pascalCase name}},
+* } from '@/domains/{{dashCase name}}/entities';
+*/
+
+export type {{pascalCase name}}ConstructorParams = {
+  id: string;
   name: string;
+  enabled?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+
+  // association
+  // inclusionName: Array<EntityIncludedInto{{pascalCase name}}>;
 }
 
 export class {{pascalCase name}} {
-  id?: string;
+  id: string;
   name: string;
-  enabled: boolean;
+  enabled?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 
-  constructor({{camelCase name}}Params: {{pascalCase name}}Type) {
-    const { id, enabled, name, createdAt, updatedAt } =
-      {{camelCase name}}Params;
+  // association
+  // inclusionName: Array<EntityIncludedInto{{pascalCase name}}>;
+
+  constructor({{camelCase name}}Params: {{pascalCase name}}ConstructorParams) {
+    const {
+      id,
+      name,
+      enabled,
+      createdAt,
+      updatedAt,
+
+      // association
+      // inclusionName,
+    } = {{camelCase name}}Params;
 
     this.id = id;
-    this.enabled = enabled ?? true;
     this.name = name;
+    this.enabled = enabled ?? true;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+
+    // this.inclusionName = inclusionName;
 
     Object.freeze(this);
   }

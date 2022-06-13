@@ -3,10 +3,10 @@ import {
   ExceptionTypes,
 } from '@/shared/helpers/error-helper';
 
-import { AuthUser } from '@/domains/auth';
+import { AuthUserDefaultPresenter } from '@/domains/auth/interface/presenters';
 
 export class AuthUserAlreadyMadeFirstLoginException extends DefaultException {
-  constructor(authUser: Partial<AuthUser>) {
+  constructor(authUser: Partial<AuthUserDefaultPresenter>) {
     super({
       type: ExceptionTypes.USER,
       code: 'AUTH_USER_ALREADY_MADE_FIRST_LOGIN',

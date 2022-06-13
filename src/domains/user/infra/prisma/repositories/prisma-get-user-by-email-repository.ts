@@ -1,4 +1,5 @@
-import { User, IGetUserByEmailRepository } from '@/domains/user';
+import { IGetUserByEmailRepository } from '@/domains/user/usecases/repos';
+import { User } from '@/domains/user/entities';
 import { PrismaClient } from '@prisma/client';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 

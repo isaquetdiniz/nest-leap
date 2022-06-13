@@ -1,4 +1,4 @@
-import { User } from '@/domains/user';
+import { User } from '@/domains/user/entities';
 
 export interface IGetUserByIdRepository {
   getById(

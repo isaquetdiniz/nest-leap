@@ -1,15 +1,22 @@
+import {
+  LoginUsecase,
+} from '@/domains/auth/usecases';
+import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
+  ILoginInCloudGateway,
+  IGetAuthUserByEmailInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  AccessDefaultPresenter,
+  AuthUserDefaultPresenter,
+  AuthUserTransformers,
+} from '@/domains/auth/interface/presenters';
+
+import { ILoggerLocal } from '@/shared/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
 import { ValidationException } from '@/shared/helpers';
-
-import {
-  Access,
-  AuthUser,
-  IGetAuthUserByEmailInCloudGateway,
-  IGetAuthUserByEmailRepository,
-  ILoginInCloudGateway,
-  LoginUsecase,
-} from '@/domains/auth';
-import { ILoggerLocal } from '@/shared/protocols';
 
 export interface LoginRequest {
   email: string;
@@ -17,8 +24,8 @@ export interface LoginRequest {
 }
 
 export type LoginResponse = {
-  access: Access;
-  authUser: AuthUser;
+  access: AccessDefaultPresenter;
+  authUser: AuthUserDefaultPresenter;
 };
 
 export class LoginController {
@@ -60,8 +67,16 @@ export class LoginController {
       password,
     });
 
-    this.logger.logDebug({ message: 'Auth User logged', data: authUser });
+    const accessDefaultPresenter = {
+      access_token: access.accessToken,
+      refresh_token: access.refreshToken,
+    };
 
-    return { access, authUser };
+    const authUserDefaultPresenter =
+      AuthUserTransformers.generateDefaultPresenter(authUser);
+
+    this.logger.logDebug({ message: 'Auth User logged', data: authUserDefaultPresenter });
+
+    return { access: accessDefaultPresenter, authUser: authUserDefaultPresenter };
   }
 }

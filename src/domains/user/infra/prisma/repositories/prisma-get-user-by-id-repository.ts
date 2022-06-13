@@ -1,7 +1,7 @@
-import { IGetUserByIdRepository } from '@/domains/user';
+import { IGetUserByIdRepository } from '@/domains/user/usecases/repos';
 import { PrismaClient } from '@prisma/client';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
-import { User } from '@/domains/user/entities/user';
+import { User } from '@/domains/user/entities';
 
 export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
   private prismaConnection: PrismaClient;

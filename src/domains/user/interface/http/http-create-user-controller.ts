@@ -1,21 +1,25 @@
-/* eslint-disable camelcase */
 import {
-  CreateUserController,
   IDeleteUserByIdRepository,
   IGetUserByEmailInCloudRepository,
   IGetUserByEmailRepository,
   ISaveUserInCloudRepository,
   ISaveUserRepository,
-  UserAlreadyExistsException,
-} from '@/domains/user';
+} from '@/domains/user/usecases/repos';
 import {
-  HttpController,
+  UserAlreadyExistsException,
+} from '@/domains/user/usecases/exceptions';
+import {
+  CreateUserController,
+} from '@/domains/user/interface/controllers';
+
+import {
   HttpResponse,
+  HttpController,
 } from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
+import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 
 export interface HttpCreateUserRequest {
   name: string;
@@ -54,13 +58,13 @@ export class HttpCreateUserController implements HttpController {
   async handle(httpRequest: HttpCreateUserRequest): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { name, email, is_admin } = httpRequest;
+    const { name, email, is_admin: isAdmin } = httpRequest;
 
     try {
       const userCreated = await this.controller.execute({
         name,
         email,
-        is_admin,
+        isAdmin,
       });
 
       this.logger.logDebug({ message: 'User created', data: userCreated });

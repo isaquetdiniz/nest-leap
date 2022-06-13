@@ -1,10 +1,16 @@
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  {{pascalCase name}},
   Get{{pascalCase name}}sByFilterUsecase,
-  IGet{{pascalCase name}}sByFilterRepository,
+} from '@/domains/{{dashCase name}}/usecases';
+import {
   ICount{{pascalCase name}}sByFilterRepository,
-} from '@/domains/{{dashCase name}}';
+  IGet{{pascalCase name}}sByFilterRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+
+import {
+  {{pascalCase name}}DefaultPresenter,
+  {{pascalCase name}}Transformers,
+} from '@/domains/{{dashCase name}}/interface/presenters';
+
 import {
   OrderByFilter,
   OrderByMode,
@@ -12,11 +18,12 @@ import {
   Pagination,
   ValidationException,
 } from '@/shared/helpers';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface Get{{pascalCase name}}sByFilterRequest {
   name?: string;
-  enabled?: boolean;
   createdAt?: DateFilter;
   updatedAt?: DateFilter;
   orderBy: {
@@ -30,7 +37,7 @@ export interface Get{{pascalCase name}}sByFilterRequest {
 
 export type Get{{pascalCase name}}sByFilterResponse =
   | {
-      items: {{pascalCase name}}[];
+      items: {{pascalCase name}}DefaultPresenter[];
       totalItemsListed: number;
       totalItems: number;
     }
@@ -52,7 +59,7 @@ export class Get{{pascalCase name}}sByFilterController {
       logger
     );
 
-    this.logger = logger.child({ controller: 'get-{{dashCase name}}s-by-filter'})
+    this.logger = logger.child({ controller: 'get-{{dashCase name}}s-by-filter' });
   }
 
   async execute(
@@ -66,37 +73,36 @@ export class Get{{pascalCase name}}sByFilterController {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated'})
+    this.logger.logDebug({ message: 'Params validated' });
 
     const {
       orderBy: orderByDTO,
       take,
       skip,
       name,
-      enabled,
       createdAt,
       updatedAt,
-      count
+      count,
     } = request;
-
-    const filters = {
-      name,
-      enabled,
-      createdAt,
-      updatedAt
-    };
 
     const orderBy = new OrderByFilter(orderByDTO);
     const pagination = new Pagination({ take, skip });
 
     const { {{camelCase name}}s, total{{pascalCase name}}s } = await this.usecase.execute({
-      filters,
+      filters: {
+        name,
+        createdAt,
+        updatedAt,
+      },
       orderBy,
       pagination,
-      count
+      count,
     });
 
-    this.logger.logDebug({ message: '{{pascalCase name}}s found', data: { total{{pascalCase name}}s, totalItemsListed: {{camelCase name}}s?.length }});
+    this.logger.logDebug({
+      message: '{{pascalCase name}}s found',
+      data: { total{{pascalCase name}}s, totalItemsListed: {{camelCase name}}s?.length },
+    });
 
     if (count) {
       return {
@@ -104,10 +110,14 @@ export class Get{{pascalCase name}}sByFilterController {
       };
     }
 
+    const {{camelCase name}}sDTOs = {{camelCase name}}s?.map(({{camelCase name}}) =>
+      {{pascalCase name}}Transformers.generateDefaultPresenter({{camelCase name}})
+    );
+
     return {
-      items: {{camelCase name}}s,
+      items: {{camelCase name}}sDTOs,
       totalItems: total{{pascalCase name}}s,
-      totalItemsListed: {{camelCase name}}s?.length,
+      totalItemsListed: {{camelCase name}}sDTOs?.length,
     };
   }
 }

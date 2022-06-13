@@ -4,8 +4,8 @@ import {
   errorSchema,
 } from '@/shared/infra/swagger/helpers';
 
-import { authPaths, authTag, authUserSchema } from '@/domains/auth';
-import { userPaths, userTag, userSchema } from '@/domains/user';
+import { authPaths, authTag, authUserSchema } from '@/domains/auth/infra/swagger';
+import { userPaths, userTag, userSchema } from '@/domains/user/infra/swagger';
 
 const tags = [authTag, userTag];
 

@@ -1,6 +1,6 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
-import { IFirstLoginInCloudGateway } from '@/domains/auth';
+import { IFirstLoginInCloudGateway } from '@/domains/auth/usecases/gateways';
 
 export class CognitoFirstLoginInCloudGateway
   implements IFirstLoginInCloudGateway

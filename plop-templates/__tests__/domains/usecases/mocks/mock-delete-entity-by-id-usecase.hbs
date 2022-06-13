@@ -1,8 +1,6 @@
-import { IDelete{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}';
+import { IDelete{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}/usecase';
 
 export class Delete{{pascalCase name}}ByIdUsecaseSpy implements IDelete{{pascalCase name}}ByIdUsecase {
-  result = null;
-
   execute(id: string): Promise<void> {
     return Promise.resolve();
   }

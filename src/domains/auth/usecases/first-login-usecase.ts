@@ -1,13 +1,20 @@
 import {
   Access,
+  AuthUser,
+} from '@/domains/auth/entities';
+import {
   IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
   AuthUserNotFoundException,
   AuthUserAlreadyMadeFirstLoginException,
+} from '@/domains/auth/usecases/exceptions';
+
+import {
   IGetAuthUserByEmailInCloudGateway,
-  AuthUser,
   IFirstLoginInCloudGateway,
   ILoginInCloudGateway,
-} from '@/domains/auth';
+} from '@/domains/auth/usecases/gateways';
 import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IFirstLoginUsecase {

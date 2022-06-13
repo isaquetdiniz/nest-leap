@@ -1,11 +1,12 @@
-import { {{pascalCase name}}, {{pascalCase name}}, IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
-import { mockCreate{{pascalCase name}}Result, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}}, IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/usecases/repos';
+
+import { mock{{pascalCase name}}Entity } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 export const mockUpdate{{pascalCase name}}RepositoryParams =
-  (): IUpdate{{pascalCase name}}Repository.Params => mockUpdate{{pascalCase name}}Params();
+  (): IUpdate{{pascalCase name}}Repository.Params => mock{{pascalCase name}}Entity();
 
 export class Update{{pascalCase name}}RepositorySpy implements IUpdate{{pascalCase name}}Repository {
-  {{camelCase name}} = mockCreate{{pascalCase name}}Result();
+  {{camelCase name}} = new {{pascalCase name}}(mock{{pascalCase name}}Entity());
 
   update({{camelCase name}}ToUpdate: {{pascalCase name}}): Promise<{{pascalCase name}}> {
     return Promise.resolve(this.{{camelCase name}});

@@ -1,27 +1,32 @@
-/* eslint-disable camelcase */
+import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
+  AuthUserNotFoundException,
+  AuthUserNotFoundByTokenException,
+} from '@/domains/auth/usecases/exceptions';
+import {
+  IGetAuthUserByTokenInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  GetAuthUserByTokenController,
+} from '@/domains/auth/interface/controllers';
+
 import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  badRequest,
-  forbidden,
   ok,
+  forbidden,
+  badRequest,
   serverError,
   unauthorized,
 } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
-
-import {
-  AuthUserNotFoundException,
-  IGetAuthUserByEmailRepository,
-  GetAuthUserByTokenController,
-  IGetAuthUserByTokenInCloudGateway,
-  AuthUserNotFoundByTokenException,
-} from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface HttpGetAuthUserByTokenRequest {
   access_token: string;
@@ -53,11 +58,11 @@ export class HttpGetAuthUserByTokenController implements HttpController {
   ): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 
-    const { access_token } = httpRequest;
+    const { access_token: accessToken } = httpRequest;
 
     try {
       const authUser = await this.controller.execute({
-        token: access_token,
+        token: accessToken,
       });
 
       this.logger.logDebug({
@@ -65,7 +70,7 @@ export class HttpGetAuthUserByTokenController implements HttpController {
         data: authUser,
       });
 
-      if (this.authUserRole === 'ADMIN' && !authUser.isAdmin) {
+      if (this.authUserRole === 'ADMIN' && !authUser.is_admin) {
         return unauthorized();
       }
 

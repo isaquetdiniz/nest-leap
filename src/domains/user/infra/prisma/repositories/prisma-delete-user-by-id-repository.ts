@@ -1,4 +1,4 @@
-import { IDeleteUserByIdRepository } from '@/domains/user';
+import { IDeleteUserByIdRepository } from '@/domains/user/usecases/repos';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 

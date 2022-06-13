@@ -3,10 +3,10 @@ import {
   ExceptionTypes,
 } from '@/shared/helpers/error-helper';
 
-import { AuthUser } from '@/domains/auth';
+import { AuthUserDefaultPresenter } from '@/domains/auth/interface/presenters';
 
 export class AuthUserNotFoundException extends DefaultException {
-  constructor(authUser: Partial<AuthUser>) {
+  constructor(authUser: Partial<AuthUserDefaultPresenter>) {
     super({
       type: ExceptionTypes.USER,
       code: 'AUTH_USER_NOT_FOUND',

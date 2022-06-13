@@ -1,7 +1,7 @@
-import { PrismaGet{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
+import { PrismaGet{{pascalCase name}}ByIdRepository, {{pascalCase name}} } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
 import { prismaConnector } from '@/shared/infra/prisma/index';
 
-import { mockCreate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { mockCreate{{pascalCase name}}Params, mock{{pascalCase name}}Entity } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 import { PrismaClient } from '@prisma/client';
 
 const makeSut = () => {
@@ -33,10 +33,17 @@ describe('Prisma Get {{pascalCase name}} by ID Repository', () => {
     const {{camelCase name}}Created = await prismaTest?.{{camelCase name}}.create({
       data: mockCreate{{pascalCase name}}Params(),
     });
+    if (!{{camelCase name}}Created) throw new Error('{{pascalCase name}} not created');
 
-    const {{camelCase name}} = await sut.get({{camelCase name}}Created?.id || '');
+    const {{camelCase name}} = await sut.get({{camelCase name}}Created.id);
 
-    expect({{camelCase name}}).toHaveProperty('name', {{camelCase name}}Created?.name);
-    expect({{camelCase name}}).toHaveProperty('enabled', {{camelCase name}}Created?.enabled);
+    const expectedResult = new {{pascalCase name}}({
+      ...mock{{pascalCase name}}Entity(),
+      id: {{camelCase name}}Created.id,
+      createdAt: {{camelCase name}}Created.createdAt,
+      updatedAt: {{camelCase name}}Created.updatedAt,
+    });
+
+    expect({{camelCase name}}).toStrictEqual(expectedResult);
   });
 });

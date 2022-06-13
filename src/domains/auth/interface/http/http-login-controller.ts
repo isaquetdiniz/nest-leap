@@ -1,27 +1,33 @@
 import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
+  AuthUserNotFoundException,
+  AuthUserNeedSetPasswordException,
+  AuthUserNotMadeFirstLoginException,
+} from '@/domains/auth/usecases/exceptions';
+import {
+  ILoginInCloudGateway,
+  IGetAuthUserByEmailInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  LoginController,
+} from '@/domains/auth/interface/controllers';
+
+import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
   badRequest,
   ok,
   serverError,
   unauthorized,
 } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
-
-import {
-  AuthUserNeedSetPasswordException,
-  AuthUserNotFoundException,
-  AuthUserNotMadeFirstLoginException,
-  IGetAuthUserByEmailInCloudGateway,
-  IGetAuthUserByEmailRepository,
-  ILoginInCloudGateway,
-  LoginController,
-} from '@/domains/auth';
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
 import { CognitoException } from '@/shared/infra/cognito';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface HttpLoginRequest {
   email: string;
@@ -57,7 +63,7 @@ export class HttpLoginController implements HttpController {
 
     try {
       const {
-        access: { accessToken, refreshToken },
+        access: { access_token: accessToken, refresh_token: refreshToken },
         authUser,
       } = await this.controller.execute({
         email,

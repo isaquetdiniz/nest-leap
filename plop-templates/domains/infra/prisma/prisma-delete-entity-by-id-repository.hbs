@@ -1,6 +1,8 @@
-import { IDelete{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
-import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
+
+import { IDelete{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}/usecases/repos';
+
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaDelete{{pascalCase name}}ByIdRepository
   implements IDelete{{pascalCase name}}ByIdRepository
@@ -18,7 +20,7 @@ export class PrismaDelete{{pascalCase name}}ByIdRepository
       await this.prismaConnection.{{camelCase name}}.delete({
         where: { id },
       });
-    } catch(error) {
+    } catch (error) {
       throw new PrismaException(error);
     }
   }

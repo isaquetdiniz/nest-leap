@@ -1,4 +1,4 @@
-import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth';
+import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';

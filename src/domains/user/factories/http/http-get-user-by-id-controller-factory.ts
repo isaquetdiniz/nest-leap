@@ -1,9 +1,16 @@
 import {
-  HttpGetUserByIdController,
   PrismaGetUserByIdRepository,
+} from '@/domains/user/infra/prisma/repositories';
+import {
   CognitoGetUserByEmailInCloudRepository,
+} from '@/domains/user/infra/cognito/repositories';
+import {
+  HttpGetUserByIdController,
+} from '@/domains/user/interface/http';
+import {
   makeGetUserByIdValidation,
-} from '@/domains/user';
+} from '@/domains/user/interface/validation';
+
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpGetUserByIdController = (): HttpGetUserByIdController => {

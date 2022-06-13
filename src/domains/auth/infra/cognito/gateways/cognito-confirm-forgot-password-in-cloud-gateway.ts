@@ -2,7 +2,7 @@ import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
-import { IConfirmForgotPasswordInCloudGateway } from '@/domains/auth';
+import { IConfirmForgotPasswordInCloudGateway } from '@/domains/auth/usecases/gateways';
 
 export class CognitoConfirmForgotPasswordInCloudGateway
   implements IConfirmForgotPasswordInCloudGateway

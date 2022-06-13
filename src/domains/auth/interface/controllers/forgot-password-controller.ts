@@ -1,13 +1,17 @@
-import { Validation } from '@/shared/interface/validation/protocols';
-import { ValidationException } from '@/shared/helpers';
-
 import {
-  IForgotPasswordInCloudGateway,
   ForgotPasswordUsecase,
+} from '@/domains/auth/usecases';
+import {
   IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
   IGetAuthUserByEmailInCloudGateway,
-} from '@/domains/auth';
+  IForgotPasswordInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface ForgotPasswordRequest {
   email: string;

@@ -1,10 +1,15 @@
 import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
   AuthUserNotFoundException,
   AuthUserNotMadeFirstLoginException,
+} from '@/domains/auth/usecases/exceptions';
+import {
   IConfirmForgotPasswordInCloudGateway,
   IGetAuthUserByEmailInCloudGateway,
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth';
+} from '@/domains/auth/usecases/gateways';
+
 import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IConfirmForgotPasswordUsecase {

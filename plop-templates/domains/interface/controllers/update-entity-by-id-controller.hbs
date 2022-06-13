@@ -1,22 +1,29 @@
-import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  Update{{pascalCase name}}ByIdUsecase,
+} from '@/domains/{{dashCase name}}/usecases';
 import {
   IGet{{pascalCase name}}ByIdRepository,
   IUpdate{{pascalCase name}}Repository,
-  Update{{pascalCase name}}ByIdUsecase,
-  {{pascalCase name}},
-} from '@/domains/{{dashCase name}}';
-import { ValidationException } from '@/shared/helpers';
+  IGet{{pascalCase name}}ByNameRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+
+import {
+  {{pascalCase name}}DefaultPresenter,
+  {{pascalCase name}}Transformers,
+} from '@/domains/{{dashCase name}}/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface Update{{pascalCase name}}ByIdRequest {
   id: string;
   paramsToUpdate: {
     name?: string;
-    enabled?: boolean;
   };
 }
 
-export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}};
+export type Update{{pascalCase name}}ByIdResponse = {{pascalCase name}}DefaultPresenter;
 
 export class Update{{pascalCase name}}ByIdController {
   private usecase: Update{{pascalCase name}}ByIdUsecase;
@@ -24,17 +31,19 @@ export class Update{{pascalCase name}}ByIdController {
 
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
     private readonly validation: Validation,
     logger: ILoggerLocal
   ) {
     this.usecase = new Update{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
+      get{{pascalCase name}}ByNameRepository,
       update{{pascalCase name}}Repository,
       logger
     );
 
-    this.logger = logger.child({ controller: 'update-{{dashCase name}}-by-id'})
+    this.logger = logger.child({ controller: 'update-{{dashCase name}}-by-id' });
   }
 
   async execute(
@@ -44,24 +53,34 @@ export class Update{{pascalCase name}}ByIdController {
 
     const { id, paramsToUpdate } = request;
 
-    const { name, enabled } = paramsToUpdate;
+    const { name } = paramsToUpdate;
 
     const hasErrors = this.validation.validate({
       id,
       name,
-      enabled
     });
 
     if (hasErrors) {
       throw new ValidationException(hasErrors);
     }
 
-    this.logger.logDebug({ message: 'Params validated'})
+    this.logger.logDebug({ message: 'Params validated' });
 
-    const {{camelCase name}}Updated = await this.usecase.execute({ id, paramsToUpdate });
+    const {{camelCase name}}Updated = await this.usecase.execute({
+      id,
+      paramsToUpdate: {
+        name,
+      },
+    });
 
-    this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}Updated })
+    const {{camelCase name}}UpdatedPresenter =
+      {{pascalCase name}}Transformers.generateDefaultPresenter({{camelCase name}}Updated);
 
-    return {{camelCase name}}Updated;
+    this.logger.logDebug({
+      message: '{{pascalCase name}} updated',
+      data: {{camelCase name}}UpdatedPresenter,
+    });
+
+    return {{camelCase name}}UpdatedPresenter;
   }
 }

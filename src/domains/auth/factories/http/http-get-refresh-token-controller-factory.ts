@@ -1,8 +1,13 @@
 import {
-  HttpGetRefreshTokenController,
-  makeGetRefreshTokenValidation,
   CognitoGetRefreshTokenInCloudGateway,
-} from '@/domains/auth';
+} from '@/domains/auth/infra/cognito/gateways';
+import {
+  makeGetRefreshTokenValidation,
+} from '@/domains/auth/interface/validation';
+import {
+  HttpGetRefreshTokenController,
+} from '@/domains/auth/interface/http';
+
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpGetRefreshTokenController =

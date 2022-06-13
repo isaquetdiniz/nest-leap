@@ -1,16 +1,21 @@
 import {
-  Create{{pascalCase name}}Controller,
-  IGet{{pascalCase name}}ByNameRepository,
   ISave{{pascalCase name}}Repository,
+  IGet{{pascalCase name}}ByNameRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import {
   {{pascalCase name}}AlreadyExistsException,
-} from '@/domains/{{dashCase name}}';
+} from '@/domains/{{dashCase name}}/usecases/exceptions';
+import {
+  Create{{pascalCase name}}Controller,
+} from '@/domains/{{dashCase name}}/interface/controllers';
+
 import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
+import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface HttpCreate{{pascalCase name}}Request {
@@ -23,20 +28,20 @@ export class HttpCreate{{pascalCase name}}Controller implements HttpController {
 
   constructor(
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
-    uuidGenerator: IUuidGenerator,
     save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
+    uuidGenerator: IUuidGenerator,
     validation: Validation,
     logger: ILoggerLocal
   ) {
     this.controller = new Create{{pascalCase name}}Controller(
       get{{pascalCase name}}ByNameRepository,
-      uuidGenerator,
       save{{pascalCase name}}Repository,
+      uuidGenerator,
       validation,
       logger
     );
 
-    this.logger = logger.child({ httpController: 'create-{{dashCase name}}'})
+    this.logger = logger.child({ httpController: 'create-{{dashCase name}}' });
   }
 
   async handle(httpRequest: HttpCreate{{pascalCase name}}Request): Promise<HttpResponse> {
@@ -46,10 +51,13 @@ export class HttpCreate{{pascalCase name}}Controller implements HttpController {
 
     try {
       const {{camelCase name}}Created = await this.controller.execute({
-        name
+        name,
       });
 
-      this.logger.logDebug({ message: '{{pascalCase name}} created', data: {{camelCase name}}Created})
+      this.logger.logDebug({
+        message: '{{pascalCase name}} created',
+        data: {{camelCase name}}Created,
+      });
 
       return ok({{camelCase name}}Created);
     } catch (error) {

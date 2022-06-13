@@ -1,11 +1,10 @@
-import { IDeleteUserByEmailInCloudRepository } from '@/domains/user';
+import { IDeleteUserByEmailInCloudRepository } from '@/domains/user/usecases/repos';
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
 
 export class CognitoDeleteUserByEmailInCloudRepository
-  implements IDeleteUserByEmailInCloudRepository
-{
+  implements IDeleteUserByEmailInCloudRepository {
   private readonly cognitoFromstance: CognitoIdentityServiceProvider;
 
   constructor() {

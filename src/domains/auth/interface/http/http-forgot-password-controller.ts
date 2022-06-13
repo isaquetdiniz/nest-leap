@@ -1,21 +1,27 @@
 import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
+  AuthUserNotFoundException,
+  AuthUserNotMadeFirstLoginException,
+} from '@/domains/auth/usecases/exceptions';
+import {
+  IForgotPasswordInCloudGateway,
+  IGetAuthUserByEmailInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+import {
+  ForgotPasswordController,
+} from '@/domains/auth/interface/controllers';
+
+import {
   HttpController,
   HttpResponse,
 } from '@/shared/interface/http/protocols';
+import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { CognitoException } from '@/shared/infra/cognito';
 import { Validation } from '@/shared/interface/validation/protocols';
 import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
-import { ValidationException } from '@/shared/helpers';
-
-import {
-  AuthUserNotFoundException,
-  IGetAuthUserByEmailInCloudGateway,
-  IGetAuthUserByEmailRepository,
-  ForgotPasswordController,
-  IForgotPasswordInCloudGateway,
-  AuthUserNotMadeFirstLoginException,
-} from '@/domains/auth';
-import { ILoggerLocal } from '@/shared/protocols';
-import { CognitoException } from '@/shared/infra/cognito';
 
 export interface HttpForgotPasswordRequest {
   email: string;

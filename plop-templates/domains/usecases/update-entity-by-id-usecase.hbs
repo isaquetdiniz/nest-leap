@@ -1,9 +1,15 @@
 import {
-  {{pascalCase name}},
   IGet{{pascalCase name}}ByIdRepository,
+  IGet{{pascalCase name}}ByNameRepository,
   IUpdate{{pascalCase name}}Repository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import {
   {{pascalCase name}}NotFoundException,
-} from '@/domains/{{dashCase name}}';
+  {{pascalCase name}}AlreadyExistsException,
+} from '@/domains/{{dashCase name}}/usecases/exceptions';
+import {
+  {{pascalCase name}},
+} from '@/domains/{{dashCase name}}/entities';
 
 import { ILoggerLocal } from '@/shared/protocols';
 
@@ -29,10 +35,11 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
 
   constructor(
     private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
+    private readonly get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     private readonly update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
     logger: ILoggerLocal
   ) {
-    this.logger = logger.child({ usecase: 'update-{{dashCase name}}-by-id'})
+    this.logger = logger.child({ usecase: 'update-{{dashCase name}}-by-id' });
   }
 
   async execute(
@@ -45,18 +52,48 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
     const {{camelCase name}}Exists = await this.get{{pascalCase name}}ByIdRepository.get(id);
 
     if (!{{camelCase name}}Exists) {
+      this.logger.logError({
+        message: '{{pascalCase name}} found',
+        data: updateParams,
+      });
+
       throw new {{pascalCase name}}NotFoundException({ id });
     }
 
-    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}}Exists });
+    this.logger.logDebug({
+      message: '{{pascalCase name}} found',
+      data: {{camelCase name}}Exists,
+    });
 
-    const {{camelCase name}}ToUpdate = new {{pascalCase name}}({ ...{{camelCase name}}Exists, ...paramsToUpdate });
+    const {{camelCase name}}ToUpdate = new {{pascalCase name}}({
+      ...{{camelCase name}}Exists,
+      ...paramsToUpdate,
+    });
 
-    const {{camelCase name}}Updated = await this.update{{pascalCase name}}Repository.update(
-      {{camelCase name}}ToUpdate
-    );
+    if (paramsToUpdate.name) {
+      const is{{pascalCase name}} = await this.get{{pascalCase name}}ByNameRepository.get(
+        paramsToUpdate.name
+      );
 
-    this.logger.logDebug({ message: '{{pascalCase name}} updated', data: {{camelCase name}}Updated });
+      if (is{{pascalCase name}} && is{{pascalCase name}}.id !== id) {
+        this.logger.logError({
+          message: '{{pascalCase name}} already exist',
+          data: is{{pascalCase name}},
+        });
+
+        throw new {{pascalCase name}}AlreadyExistsException({
+          name: {{camelCase name}}ToUpdate.name,
+        });
+      }
+    }
+
+    const {{camelCase name}}Updated =
+      await this.update{{pascalCase name}}Repository.update({{camelCase name}}ToUpdate);
+
+    this.logger.logDebug({
+      message: '{{pascalCase name}} updated',
+      data: {{camelCase name}}Updated,
+    });
 
     return {{camelCase name}}Updated;
   }

@@ -1,11 +1,18 @@
 import {
+  PrismaDeleteUserByIdRepository,
+  PrismaGetUserByIdRepository,
+} from '@/domains/user/infra/prisma/repositories';
+import {
   CognitoGetUserByEmailInCloudRepository,
   CognitoDeleteUserByEmailInCloudRepository,
-  PrismaDeleteUserByIdRepository,
+} from '@/domains/user/infra/cognito/repositories';
+import {
   HttpDeleteUserByIdController,
-  PrismaGetUserByIdRepository,
+} from '@/domains/user/interface/http';
+import {
   makeDeleteUserByIdValidation,
-} from '@/domains/user';
+} from '@/domains/user/interface/validation';
+
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpDeleteUserByIdController =

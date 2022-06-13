@@ -1,10 +1,11 @@
-import { Update{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+import { Update{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}/usecases';
 import {
   Get{{pascalCase name}}ByIdRepositorySpy,
   Update{{pascalCase name}}RepositorySpy,
 } from '@/tests/domains/{{dashCase name}}/usecases/repos';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
-import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { mock{{pascalCase name}}Entity, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 type SutTypes = {
   sut: Update{{pascalCase name}}ByIdUsecase;
@@ -35,13 +36,13 @@ describe('Update {{pascalCase name}} Service', () => {
 
     const update{{pascalCase name}}Spy = jest.spyOn(update{{pascalCase name}}RepositorySpy, 'update');
 
-    const fakeParams = mockCreate{{pascalCase name}}Result();
+    const fakeParams = mockUpdate{{pascalCase name}}Params();
 
-    const { id, ...paramsToUpdate } = fakeParams;
+    const { id, paramsToUpdate } = fakeParams;
 
     await sut.execute({
-      id: id || '',
       paramsToUpdate,
+      id: id,
     });
 
     expect(update{{pascalCase name}}Spy).toBeCalled();
@@ -54,25 +55,32 @@ describe('Update {{pascalCase name}} Service', () => {
       return Promise.reject(new Error())
     })
 
-    const fakeParams = mockCreate{{pascalCase name}}Result()
-    const { id, ...paramsToUpdate } = fakeParams;
+    const fakeParams = mockUpdate{{pascalCase name}}Params()
+    const { id, paramsToUpdate } = fakeParams;
 
-    const response = sut.execute({ id: id || '', paramsToUpdate });
+    const response = sut.execute({ id: id, paramsToUpdate });
 
     expect(response).rejects.toThrow();
   })
 
   it('should return updated {{pascalCase name}} on success', async () => {
-    const { sut, update{{pascalCase name}}RepositorySpy } = makeSut();
+    const { sut } = makeSut();
 
-    const fakeParams = mockCreate{{pascalCase name}}Result();
-    const { id, ...paramsToUpdate } = fakeParams;
+    const fakeParams = mockUpdate{{pascalCase name}}Params();
+    const { id, paramsToUpdate } = fakeParams;
 
     const response = await sut.execute({
-      id: id || '',
       paramsToUpdate,
+      id: id,
     });
 
-    expect(response).toBe(update{{pascalCase name}}RepositorySpy.{{camelCase name}});
+    const expectedResult = new {{pascalCase name}}({
+      ...mock{{pascalCase name}}Entity(),
+      id: response.id,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt,
+    });
+
+    expect(response).toStrictEqual(expectedResult);
   });
 });

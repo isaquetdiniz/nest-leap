@@ -1,8 +1,10 @@
 import {
   User,
+} from '@/domains/user/entities';
+import {
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
-} from '@/domains/user';
+} from '@/domains/user/usecases/repos';
 
 import { DateFilter, OrderByFilter, Pagination } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';

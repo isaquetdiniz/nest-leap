@@ -1,24 +1,29 @@
-/* eslint-disable camelcase */
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  IDeleteUserByIdRepository,
-  IGetUserByEmailInCloudRepository,
-  User,
   CreateUserUsecase,
-  IGetUserByEmailRepository,
+} from '@/domains/user/usecases';
+import {
   ISaveUserRepository,
+  IGetUserByEmailRepository,
+  IDeleteUserByIdRepository,
   ISaveUserInCloudRepository,
-} from '@/domains/user';
+  IGetUserByEmailInCloudRepository,
+} from '@/domains/user/usecases/repos';
+import {
+  UserDefaultPresenter,
+  UserTransformers,
+} from '@/domains/user/interface/presenters';
+
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface CreateUserRequest {
   name: string;
   email: string;
-  is_admin?: boolean;
+  isAdmin?: boolean;
 }
 
-export type CreateUserResponse = User;
+export type CreateUserResponse = UserDefaultPresenter;
 
 export class CreateUserController {
   private usecase: CreateUserUsecase;
@@ -50,12 +55,12 @@ export class CreateUserController {
   async execute(request: CreateUserRequest): Promise<CreateUserResponse> {
     this.logger.logDebug({ message: 'Request Received', data: request });
 
-    const { name, email, is_admin } = request;
+    const { name, email, isAdmin } = request;
 
     const hasError = this.validation.validate({
       name,
       email,
-      isAdmin: is_admin,
+      isAdmin,
     });
 
     this.logger.logDebug({ message: 'Params validated' });
@@ -64,10 +69,12 @@ export class CreateUserController {
       throw new ValidationException(hasError);
     }
 
-    const userCreated = await this.usecase.execute({ name, email, isAdmin: is_admin });
+    const userCreated = await this.usecase.execute({ name, email, isAdmin: isAdmin });
 
     this.logger.logDebug({ message: 'User created', data: userCreated });
 
-    return userCreated;
+    const userPresenter = UserTransformers.generateDefaultTransformer(userCreated);
+
+    return userPresenter;
   }
 }

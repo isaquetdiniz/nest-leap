@@ -1,16 +1,23 @@
-import { Validation } from '@/shared/interface/validation/protocols';
-import { ValidationException } from '@/shared/helpers';
-
 import {
-  Access,
-  AuthUser,
   FirstLoginUsecase,
+} from '@/domains/auth/usecases';
+import {
+  IGetAuthUserByEmailRepository,
+} from '@/domains/auth/usecases/repos';
+import {
+  ILoginInCloudGateway,
   IFirstLoginInCloudGateway,
   IGetAuthUserByEmailInCloudGateway,
-  IGetAuthUserByEmailRepository,
-  ILoginInCloudGateway,
-} from '@/domains/auth';
+} from '@/domains/auth/usecases/gateways';
+import {
+  AccessDefaultPresenter,
+  AuthUserDefaultPresenter,
+  AuthUserTransformers,
+} from '@/domains/auth/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface FirstLoginRequest {
   email: string;
@@ -19,8 +26,8 @@ export interface FirstLoginRequest {
 }
 
 export type FirstLoginResponse = {
-  access: Access;
-  authUser: AuthUser;
+  access: AccessDefaultPresenter;
+  authUser: AuthUserDefaultPresenter;
 };
 
 export class FirstLoginController {
@@ -65,11 +72,19 @@ export class FirstLoginController {
       temporaryPassword,
     });
 
+    const accessDefaultPresenter = {
+      access_token: access.accessToken,
+      refresh_token: access.refreshToken,
+    };
+
+    const authUserDefaultPresenter =
+      AuthUserTransformers.generateDefaultPresenter(authUser);
+
     this.logger.logDebug({
       message: 'Auth User made first login',
       data: authUser,
     });
 
-    return { access, authUser };
+    return { access: accessDefaultPresenter, authUser: authUserDefaultPresenter };
   }
 }

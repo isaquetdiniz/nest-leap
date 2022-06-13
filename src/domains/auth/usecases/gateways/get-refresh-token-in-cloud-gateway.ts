@@ -1,4 +1,4 @@
-import { Access } from '@/domains/auth';
+import { Access } from '@/domains/auth/entities';
 
 export interface IGetRefreshTokenInCloudGateway {
   get(

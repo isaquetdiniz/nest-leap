@@ -1,5 +1,5 @@
-import { ISaveUserRepository } from '@/domains/user';
-import { User } from '@/domains/user/entities/user';
+import { ISaveUserRepository } from '@/domains/user/usecases/repos';
+import { User } from '@/domains/user/entities';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
 

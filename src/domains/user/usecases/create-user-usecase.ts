@@ -1,12 +1,17 @@
 import {
   User,
+} from '@/domains/user/entities';
+import {
+  UserAlreadyExistsException,
+} from '@/domains/user/usecases/exceptions';
+import {
   IGetUserByEmailRepository,
   IGetUserByEmailInCloudRepository,
   ISaveUserRepository,
   ISaveUserInCloudRepository,
   IDeleteUserByIdRepository,
-  UserAlreadyExistsException,
-} from '@/domains/user';
+} from '@/domains/user/usecases/repos';
+
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 export interface ICreateUserUsecase {
   execute(

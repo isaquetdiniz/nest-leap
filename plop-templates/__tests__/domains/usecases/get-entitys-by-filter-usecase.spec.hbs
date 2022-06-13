@@ -1,10 +1,10 @@
-import { Get{{pascalCase name}}sByFilterUsecase } from '@/domains/{{dashCase name}}';
+import { Get{{pascalCase name}}sByFilterUsecase } from '@/domains/{{dashCase name}}/usecases';
 import {
   Get{{pascalCase name}}sByFilterRepositorySpy,
   Count{{pascalCase name}}sByFilterRepositorySpy,
 } from '@/tests/domains/{{dashCase name}}/usecases/repos';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
-import { mockList{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { mockList{{pascalCase name}}EmptyParams } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 type SutTypes = {
   sut: Get{{pascalCase name}}sByFilterUsecase;
@@ -32,11 +32,18 @@ describe('Get {{pascalCase name}} by filters Service', () => {
     const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
     const get{{pascalCase name}}Spy = jest.spyOn(get{{pascalCase name}}sByFilterRepository, 'get');
 
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
 
-    await sut.execute(fake{{pascalCase name}});
+    const { filters, ...otherParams } = fake{{pascalCase name}};
 
-    expect(get{{pascalCase name}}Spy).toHaveBeenCalledWith(fake{{pascalCase name}});
+    const filterParams = {
+      ...otherParams,
+      filters: { ...filters, enabled: true },
+    };
+
+    await sut.execute(filterParams);
+
+    expect(get{{pascalCase name}}Spy).toHaveBeenCalledWith(filterParams);
   });
 
   it('should throw if List{{pascalCase name}}Repository throws', async () => {
@@ -46,7 +53,7 @@ describe('Get {{pascalCase name}} by filters Service', () => {
       return Promise.reject(new Error());
     });
 
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
 
     const response = sut.execute(fake{{pascalCase name}});
 
@@ -56,7 +63,7 @@ describe('Get {{pascalCase name}} by filters Service', () => {
   it('should return {{camelCase name}}s if nothing is passed', async () => {
     const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut()
 
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
 
     const { {{camelCase name}}s } = await sut.execute(fake{{pascalCase name}});
 
@@ -70,11 +77,11 @@ describe('Get {{pascalCase name}} by filters Service', () => {
     const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
     get{{pascalCase name}}sByFilterRepository.result = [];
 
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}Params();
+    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
 
     const { {{camelCase name}}s } = await sut.execute({
       ...fake{{pascalCase name}},
-      filters: { name: 'Must pass' },
+      filters: { name: '{{pascalCase name}} name' },
     });
 
     expect({{camelCase name}}s).toStrictEqual([]);

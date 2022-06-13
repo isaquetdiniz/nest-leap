@@ -1,13 +1,16 @@
-import { Validation } from '@/shared/interface/validation/protocols';
 import {
-  IDeleteUserByEmailInCloudRepository,
+  DeleteUserByIdUsecase,
+} from '@/domains/user/usecases';
+import {
+  IGetUserByIdRepository,
   IDeleteUserByIdRepository,
   IGetUserByEmailInCloudRepository,
-  IGetUserByIdRepository,
-  DeleteUserByIdUsecase,
-} from '@/domains/user';
-import { ValidationException } from '@/shared/helpers';
+  IDeleteUserByEmailInCloudRepository,
+} from '@/domains/user/usecases/repos';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface DeleteUserByIdRequest {
   id: string;

@@ -1,7 +1,7 @@
-import { PrismaUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
+import { PrismaUpdate{{pascalCase name}}Repository, {{pascalCase name}} } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
 import { prismaConnector } from '@/shared/infra/prisma/index';
 
-import { mockCreate{{pascalCase name}}Params, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { mock{{pascalCase name}}Entity, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 import { PrismaClient } from '@prisma/client';
 
 const makeSut = () => {
@@ -30,19 +30,31 @@ describe('Prisma Update {{pascalCase name}} Repository', () => {
   test('Should update a {{camelCase name}}', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}} = mockCreate{{pascalCase name}}Params();
+    const fake{{pascalCase name}}Params = mock{{pascalCase name}}Entity();
 
-    const {{camelCase name}}Created = await prismaTest?.{{camelCase name}}.create({ data: fake{{pascalCase name}} });
+    const fake{{pascalCase name}} = new {{pascalCase name}}(fake{{pascalCase name}}Params);
 
-    const dataToBeUpdated = mockUpdate{{pascalCase name}}Params();
-    dataToBeUpdated.id = {{camelCase name}}Created?.id;
+    // const { enabled, ...validParams } = fake{{pascalCase name}};
+    const validParams = fake{{pascalCase name}};
 
-    const {{camelCase name}}Updated = await sut.update(dataToBeUpdated);
+    await prismaTest?.provider.create({ data: validParams });
 
-    expect({{camelCase name}}Updated).toHaveProperty('id', dataToBeUpdated.id);
-    expect({{camelCase name}}Updated).toHaveProperty('name', dataToBeUpdated.name);
-    expect({{camelCase name}}Updated).toHaveProperty('enabled', dataToBeUpdated.enabled);
-    expect({{camelCase name}}Updated).toHaveProperty('createdAt', dataToBeUpdated.createdAt);
-    expect({{camelCase name}}Updated).toHaveProperty('updatedAt', dataToBeUpdated.updatedAt);
+    const { id, paramsToUpdate } = mockUpdate{{pascalCase name}}Params();
+
+    const {{camelCase name}}Updated = await sut.update({
+      ...fake{{pascalCase name}},
+      ...paramsToUpdate,
+      id,
+    });
+
+    const expectedResult = new {{pascalCase name}}({
+      ...mock{{pascalCase name}}Entity(),
+      ...paramsToUpdate,
+      id: {{camelCase name}}Updated.id,
+      createdAt: {{camelCase name}}Updated.createdAt,
+      updatedAt: {{camelCase name}}Updated.updatedAt,
+    });
+
+    expect({{camelCase name}}Updated).toStrictEqual(expectedResult);
   });
 });

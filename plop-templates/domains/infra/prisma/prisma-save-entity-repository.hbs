@@ -1,6 +1,9 @@
-import { ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}';
-import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaClient } from '@prisma/client';
+
+import { ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/usecases/repos';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCase name}}Repository {
   private prismaConnection: PrismaClient;
@@ -13,12 +16,16 @@ export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCas
     {{camelCase name}}Params: ISave{{pascalCase name}}Repository.Params
   ): Promise<ISave{{pascalCase name}}Repository.Result> {
     try {
-      const {{camelCase name}}Created = await this.prismaConnection.{{camelCase name}}.create({
-        data: {{camelCase name}}Params,
+      const { ...rest{{pascalCase name}}Params } = {{camelCase name}}Params;
+
+      const {{camelCase name}}DTO = await this.prismaConnection.{{camelCase name}}.create({
+        data: rest{{pascalCase name}}Params,
       });
 
-      return {{camelCase name}}Created;
-    } catch(error) {
+      const {{camelCase name}} = new {{pascalCase name}}({{camelCase name}}DTO);
+
+      return {{camelCase name}};
+    } catch (error) {
       throw new PrismaException(error);
     }
   }

@@ -8,7 +8,7 @@ import {
   makeHttpFirstLoginController,
   makeHttpForgotPasswordController,
   makeHttpConfirmForgotPasswordController,
-} from '@/domains/auth';
+} from '@/domains/auth/factories/http';
 
 const authRouter = Router();
 

@@ -10,20 +10,28 @@ import {
   SwaggerResponse,
 } from '@/shared/infra/swagger/helpers';
 
-export const {{camelCase name}}Tag = '{{pascalCase name}}s';
+export const {{camelCase name}}Tag = '{{pascalCase name}}';
+
+// Uncomment the next lines if you need
+/*
+* export const entityIncludedInto{{pascalCase name}}Object = SwaggerTypes.object(false, [
+*   ['id', SwaggerTypes.uuid(true)],
+*   ['name', SwaggerTypes.string(true)],
+* ]);
+*/
 
 export const {{camelCase name}}Schema = SwaggerSchemas.create('{{pascalCase name}}', [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
-  ['enabled', SwaggerTypes.boolean(true)],
+  // ['included_entity_name', SwaggerTypes.array(false, entityIncludedInto{{pascalCase name}}Object, 100)],
   ['created_at', SwaggerTypes.dateTime(true)],
   ['updated_at', SwaggerTypes.dateTime(true)],
 ]);
 
-const {{camelCase name}}Object = SwaggerTypes.object(true, [
+export const {{camelCase name}}Object = SwaggerTypes.object(true, [
   ['id', SwaggerTypes.uuid(true)],
   ['name', SwaggerTypes.string(true)],
-  ['enabled', SwaggerTypes.boolean(true)],
+  // ['included_entity_name', SwaggerTypes.array(false, entityIncludedInto{{pascalCase name}}Object, 100)],
   ['created_at', SwaggerTypes.dateTime(true)],
   ['updated_at', SwaggerTypes.dateTime(true)],
 ]);
@@ -37,7 +45,6 @@ export const {{camelCase name}}Paths = {
       parameters: [
         ...SwaggerQuery.params([
           ['name', SwaggerTypes.string()],
-          ['enabled', SwaggerTypes.boolean()],
         ]),
         ...defaultFilterParams,
       ],
@@ -59,11 +66,9 @@ export const {{camelCase name}}Paths = {
       summary: 'Create a new {{camelCase name}}',
       produces: ['application/json'],
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [
-            ['name', SwaggerTypes.string(true)],
-          ]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['name', SwaggerTypes.string(true)],
+        ]),
       },
       security,
       responses: {
@@ -97,12 +102,9 @@ export const {{camelCase name}}Paths = {
       produces: ['application/json'],
       parameters: SwaggerPath.paths([['id', SwaggerTypes.uuid(), true]]),
       requestBody: {
-        content: SwaggerContents.applicationJson(
-          [
-            ['name', SwaggerTypes.string()],
-            ['enabled', SwaggerTypes.boolean()],
-          ]
-        ),
+        content: SwaggerContents.applicationJson([
+          ['name', SwaggerTypes.string()],
+        ]),
       },
       security,
       responses: {

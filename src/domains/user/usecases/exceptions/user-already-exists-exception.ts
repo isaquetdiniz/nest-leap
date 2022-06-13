@@ -3,7 +3,7 @@ import {
   ExceptionTypes,
 } from '@/shared/helpers/error-helper';
 
-import { User } from '@/domains/user';
+import { User } from '@/domains/user/entities';
 
 export class UserAlreadyExistsException extends DefaultException {
   constructor(user: Partial<User>) {

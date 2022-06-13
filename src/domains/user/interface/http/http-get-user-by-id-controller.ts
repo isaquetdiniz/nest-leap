@@ -1,22 +1,27 @@
 import {
-  badRequest,
-  notFound,
+  IGetUserByEmailInCloudRepository,
+  IGetUserByIdRepository,
+} from '@/domains/user/usecases/repos';
+import {
+  UserNotFoundException,
+} from '@/domains/user/usecases/exceptions';
+import {
+  GetUserByIdController,
+} from '@/domains/user/interface/controllers';
+
+import {
   ok,
+  notFound,
+  badRequest,
   serverError,
 } from '@/shared/interface/http/helpers';
 import {
-  HttpController,
   HttpResponse,
+  HttpController,
 } from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
-import {
-  GetUserByIdController,
-  IGetUserByEmailInCloudRepository,
-  IGetUserByIdRepository,
-  UserNotFoundException,
-} from '@/domains/user';
-import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 export interface HttpGetUserByIdRequest {
   id: string;
 }

@@ -1,8 +1,8 @@
-import { IGet{{pascalCase name}}ByNameRepository } from '@/domains/{{dashCase name}}';
-import { mockCreate{{pascalCase name}}Result } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { IGet{{pascalCase name}}ByNameRepository } from '@/domains/{{dashCase name}}/usecases/repos';
+import { mock{{pascalCase name}}Entity } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
 export class Get{{pascalCase name}}ByNameRepositorySpy implements IGet{{pascalCase name}}ByNameRepository {
-  result = mockCreate{{pascalCase name}}Result();
+  result = mock{{pascalCase name}}Entity();
 
   get(name: string): Promise<IGet{{pascalCase name}}ByNameRepository.Result> {
     if (name === '{{camelCase name}} name') return Promise.resolve(null);

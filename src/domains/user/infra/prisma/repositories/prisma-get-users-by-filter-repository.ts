@@ -1,8 +1,8 @@
-import { IGetUsersByFilterRepository } from '@/domains/user';
+import { IGetUsersByFilterRepository } from '@/domains/user/usecases/repos';
 import { PrismaClient } from '@prisma/client';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaFormatter } from '@/shared/infra/prisma/prisma-formatter';
-import { User } from '@/domains/user/entities/user';
+import { User } from '@/domains/user/entities';
 
 export class PrismaGetUsersByFilterRepository
   implements IGetUsersByFilterRepository

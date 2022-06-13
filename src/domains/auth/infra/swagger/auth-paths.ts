@@ -46,7 +46,7 @@ export const authPaths = {
                 ['id', SwaggerTypes.uuid(true)],
                 ['name', SwaggerTypes.string(true)],
                 ['email', SwaggerTypes.email(true)],
-                ['isAdmin', SwaggerTypes.boolean(true)],
+                ['is_admin', SwaggerTypes.boolean(true)],
               ]),
             ],
           ])

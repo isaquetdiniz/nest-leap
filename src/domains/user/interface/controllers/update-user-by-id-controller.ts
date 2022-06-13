@@ -1,12 +1,18 @@
-import { Validation } from '@/shared/interface/validation/protocols';
+import {
+  UpdateUserByIdUsecase,
+} from '@/domains/user/usecases';
 import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
-  UpdateUserByIdUsecase,
-  User,
-} from '@/domains/user';
-import { ValidationException } from '@/shared/helpers';
+} from '@/domains/user/usecases/repos';
+import {
+  UserDefaultPresenter,
+  UserTransformers,
+} from '@/domains/user/interface/presenters';
+
 import { ILoggerLocal } from '@/shared/protocols';
+import { ValidationException } from '@/shared/helpers';
+import { Validation } from '@/shared/interface/validation/protocols';
 
 export interface UpdateUserByIdRequest {
   id: string;
@@ -18,7 +24,7 @@ export interface UpdateUserByIdRequest {
   };
 }
 
-export type UpdateUserByIdResponse = User;
+export type UpdateUserByIdResponse = UserDefaultPresenter;
 
 export class UpdateUserByIdController {
   private usecase: UpdateUserByIdUsecase;
@@ -66,6 +72,8 @@ export class UpdateUserByIdController {
 
     this.logger.logDebug({ message: 'User updated', data: userUpdated });
 
-    return userUpdated;
+    const userPresenter = UserTransformers.generateDefaultTransformer(userUpdated);
+
+    return userPresenter;
   }
 }

@@ -1,10 +1,17 @@
 import {
   AuthUser,
-  AuthUserNotFoundByTokenException,
-  AuthUserNotFoundException,
-  IGetAuthUserByTokenInCloudGateway,
+} from '@/domains/auth/entities';
+import {
   IGetAuthUserByEmailRepository,
-} from '@/domains/auth';
+} from '@/domains/auth/usecases/repos';
+import{
+  AuthUserNotFoundException,
+  AuthUserNotFoundByTokenException,
+} from '@/domains/auth/usecases/exceptions';
+import{
+  IGetAuthUserByTokenInCloudGateway,
+} from '@/domains/auth/usecases/gateways';
+
 import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IGetAuthUserByTokenUsecase {

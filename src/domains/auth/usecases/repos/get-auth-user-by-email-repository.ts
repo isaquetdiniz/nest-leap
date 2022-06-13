@@ -1,4 +1,4 @@
-import { AuthUser } from '@/domains/auth';
+import { AuthUser } from '@/domains/auth/entities';
 
 export interface IGetAuthUserByEmailRepository {
   get(email: string): IGetAuthUserByEmailRepository.Result;

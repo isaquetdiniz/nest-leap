@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
-import { AuthUser, IGetAuthUserByEmailRepository } from '@/domains/auth';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 
 export class PrismaGetAuthUserByEmailRepository
   implements IGetAuthUserByEmailRepository

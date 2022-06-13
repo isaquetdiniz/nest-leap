@@ -1,4 +1,4 @@
-import { ICountUsersByFilterRepository } from '@/domains/user';
+import { ICountUsersByFilterRepository } from '@/domains/user/usecases/repos';
 import {
   prismaConnector,
   PrismaException,

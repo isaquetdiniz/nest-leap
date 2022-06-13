@@ -1,4 +1,4 @@
-import { PrismaDelete{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}';
+import { PrismaDelete{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
 import { prismaConnector } from '@/shared/infra/prisma/index';
 
 import { mockCreate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
@@ -12,7 +12,7 @@ const makeSut = () => {
   };
 }
 
-describe('Prisma Save {{pascalCase name}} Repository', () => {
+describe('Prisma delete a {{pascalCase name}} Repository', () => {
   let prismaTest: PrismaClient | null = null;
   beforeEach(async () => {
     prismaTest = prismaConnector.connect(process.env.DATABASE_TEST_URL);

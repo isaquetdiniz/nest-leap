@@ -1,23 +1,25 @@
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
 import {
-  HttpController,
-  HttpResponse,
-} from '@/shared/interface/http/protocols';
-import { Validation } from '@/shared/interface/validation/protocols';
-import {
-  Get{{pascalCase name}}sByFilterController,
   IGet{{pascalCase name}}sByFilterRepository,
   ICount{{pascalCase name}}sByFilterRepository,
-} from '@/domains/{{dashCase name}}';
-import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import {
+  Get{{pascalCase name}}sByFilterController,
+} from '@/domains/{{dashCase name}}/interface/controllers';
+
+import {
+  HttpResponse,
+  HttpController,
+} from '@/shared/interface/http/protocols';
 import { ILoggerLocal } from '@/shared/protocols';
+import { Validation } from '@/shared/interface/validation/protocols';
+import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import { DateFilter, OrderByMode, ValidationException } from '@/shared/helpers';
 
 export type HttpGet{{pascalCase name}}sByFilterRequest = {
   name?: string;
-  enabled?: boolean;
   created_at?: DateFilter;
   updated_at?: DateFilter;
-  orderBy: {
+  order_by: {
     property?: string;
     mode?: OrderByMode;
   };
@@ -43,7 +45,7 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
       logger
     );
 
-    this.logger = logger.child({ httpController: 'get-{{dashCase name}}s-by-filter'})
+    this.logger = logger.child({ httpController: 'get-{{dashCase name}}s-by-filter' });
   }
 
   async handle(
@@ -53,28 +55,26 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
 
     const {
       name,
-      enabled,
-      createdAt,
-      updatedAt,
-      orderBy,
+      created_at: createdAt,
+      updated_at: updatedAt,
+      order_by: orderBy,
       take,
       skip,
-      count
+      count,
     } = httpRequest;
 
     try {
       const {{camelCase name}}s = await this.controller.execute({
         name,
-        enabled,
         createdAt,
         updatedAt,
         orderBy,
         take,
         skip,
-        count
+        count,
       });
 
-      this.logger.logDebug({ message: '{{pascalCase name}}s found'});
+      this.logger.logDebug({ message: '{{pascalCase name}}s found' });
 
       return ok({{camelCase name}}s);
     } catch (error) {

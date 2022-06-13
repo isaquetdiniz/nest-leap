@@ -1,10 +1,16 @@
-import { IGet{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}';
 import { PrismaClient } from '@prisma/client';
-import { prismaConnector, PrismaFormatter, PrismaException } from '@/shared/infra/prisma';
+
+import { IGet{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}/usecases/repos';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+
+import {
+  prismaConnector,
+  PrismaFormatter,
+  PrismaException,
+} from '@/shared/infra/prisma';
 
 export class PrismaGet{{pascalCase name}}sByFilterRepository
-  implements IGet{{pascalCase name}}sByFilterRepository
-{
+  implements IGet{{pascalCase name}}sByFilterRepository {
   private prismaConnection: PrismaClient;
 
   constructor() {
@@ -15,21 +21,31 @@ export class PrismaGet{{pascalCase name}}sByFilterRepository
     filter: IGet{{pascalCase name}}sByFilterRepository.Params
   ): Promise<IGet{{pascalCase name}}sByFilterRepository.Result> {
     try {
-      const { orderBy, pagination, filters } = filter;
+      const {
+        orderBy,
+        pagination,
+        filters,
+      } = filter;
 
       const filtersFormated = PrismaFormatter.formatFilter(filters);
 
-      const {{camelCase name}}s = await this.prismaConnection.{{camelCase name}}.findMany({
-        where: filtersFormated,
+      const {{camelCase name}}DTOs = await this.prismaConnection.{{camelCase name}}.findMany({
+        where: {
+          ...filtersFormated,
+          enabled: filters.enabled ?? true,
+        },
         orderBy: { [orderBy.property]: orderBy.mode },
         take: pagination.take,
         skip: pagination.skip,
       });
 
+      const {{camelCase name}}s = {{camelCase name}}DTOs.map(
+        ({{camelCase name}}DTO) => new {{pascalCase name}}({{camelCase name}}DTO),
+      );
+
       return {{camelCase name}}s;
-    } catch(error) {
+    } catch (error) {
       throw new PrismaException(error);
     }
-
   }
 }

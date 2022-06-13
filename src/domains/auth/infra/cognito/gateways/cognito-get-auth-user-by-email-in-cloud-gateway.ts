@@ -1,7 +1,7 @@
 import aws, { CognitoIdentityServiceProvider } from 'aws-sdk';
 
 import cognitoEnvironment, { CognitoException } from '@/shared/infra/cognito';
-import { IGetAuthUserByEmailInCloudGateway } from '@/domains/auth';
+import { IGetAuthUserByEmailInCloudGateway } from '@/domains/auth/usecases/gateways';
 
 export class CognitoGetAuthUserByEmailInCloudGateway
   implements IGetAuthUserByEmailInCloudGateway

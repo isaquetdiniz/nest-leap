@@ -1,9 +1,14 @@
 import {
-  PrismaGetUserByIdRepository,
-  HttpUpdateUserByIdController,
-  makeUpdateUserValidation,
   PrismaUpdateUserRepository,
-} from '@/domains/user';
+  PrismaGetUserByIdRepository,
+} from '@/domains/user/infra/prisma/repositories';
+import {
+  HttpUpdateUserByIdController,
+} from '@/domains/user/interface/http';
+import {
+  makeUpdateUserValidation,
+} from '@/domains/user/interface/validation';
+
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
 export const makeHttpUpdateUserByIdController =

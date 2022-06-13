@@ -1,8 +1,10 @@
 import {
   IGet{{pascalCase name}}ByIdRepository,
   IDelete{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import {
   {{pascalCase name}}NotFoundException,
-} from '@/domains/{{dashCase name}}';
+} from '@/domains/{{dashCase name}}/usecases/exceptions';
 
 import { ILoggerLocal } from '@/shared/protocols';
 
@@ -25,7 +27,7 @@ export class Delete{{pascalCase name}}ByIdUsecase implements IDelete{{pascalCase
     private readonly delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository,
     logger: ILoggerLocal
   ) {
-    this.logger = logger.child({ usecase: 'delete-{{dashCase name}}-by-id'})
+    this.logger = logger.child({ usecase: 'delete-{{dashCase name}}-by-id' });
   }
 
   async execute(
@@ -39,10 +41,13 @@ export class Delete{{pascalCase name}}ByIdUsecase implements IDelete{{pascalCase
       throw new {{pascalCase name}}NotFoundException({ id });
     }
 
-    this.logger.logDebug({ message: '{{pascalCase name}} found', data: {{camelCase name}}Exists });
+    this.logger.logDebug({
+      message: '{{pascalCase name}} found',
+      data: {{camelCase name}}Exists,
+    });
 
     await this.delete{{pascalCase name}}ByIdRepository.delete(id);
 
-    this.logger.logDebug({ message: '{{pascalCase name}} deleted', data: { id }})
+    this.logger.logDebug({ message: '{{pascalCase name}} deleted', data: { id } });
   }
 }
