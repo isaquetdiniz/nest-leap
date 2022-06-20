@@ -39,14 +39,14 @@ export class HttpUpdate{{pascalCase name}}ByIdController implements HttpControll
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
     validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.controller = new Update{{pascalCase name}}ByIdController(
       get{{pascalCase name}}ByIdRepository,
       get{{pascalCase name}}ByNameRepository,
       update{{pascalCase name}}Repository,
       validation,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ httpController: 'update-{{dashCase name}}-by-id' });

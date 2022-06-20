@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { {{pascalCase name}} as {{pascalCase name}}Model, PrismaClient } from '@prisma/client';
 
 import { IUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/usecases/repos';
 import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
 
+import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaUpdate{{pascalCase name}}Repository
@@ -14,7 +15,7 @@ export class PrismaUpdate{{pascalCase name}}Repository
   }
 
   async update(
-    {{camelCase name}}ToUpdate: IUpdate{{pascalCase name}}Repository.Params
+    {{camelCase name}}ToUpdate: IUpdate{{pascalCase name}}Repository.Params,
   ): Promise<IUpdate{{pascalCase name}}Repository.Result> {
     try {
       const { id, ...restOf{{pascalCase name}}Params } = {{camelCase name}}ToUpdate;
@@ -24,7 +25,7 @@ export class PrismaUpdate{{pascalCase name}}Repository
         data: restOf{{pascalCase name}}Params,
       });
 
-      const {{camelCase name}} = new {{pascalCase name}}({{camelCase name}}DTO);
+      const {{camelCase name}} = new {{pascalCase name}}(convertNullToUndefined<{{pascalCase name}}Model>({{camelCase name}}DTO));
 
       return {{camelCase name}};
     } catch (error) {

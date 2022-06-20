@@ -34,20 +34,20 @@ export class Update{{pascalCase name}}ByIdController {
     get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
     private readonly validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.usecase = new Update{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
       get{{pascalCase name}}ByNameRepository,
       update{{pascalCase name}}Repository,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ controller: 'update-{{dashCase name}}-by-id' });
   }
 
   async execute(
-    request: Update{{pascalCase name}}ByIdRequest
+    request: Update{{pascalCase name}}ByIdRequest,
   ): Promise<Update{{pascalCase name}}ByIdResponse> {
     this.logger.logDebug({ message: 'Request received', data: request });
 

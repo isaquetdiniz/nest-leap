@@ -12,20 +12,19 @@ import {
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 import { UUIDGeneratorAdapter } from '@/shared/infra/uuid';
 
-export const makeHttpCreate{{pascalCase name}}Controller =
-  (): HttpCreate{{pascalCase name}}Controller => {
-    const get{{pascalCase name}}ByNameRepository = new PrismaGet{{pascalCase name}}ByNameRepository();
-    const save{{pascalCase name}}Repository = new PrismaSave{{pascalCase name}}Repository();
+export const makeHttpCreate{{pascalCase name}}Controller = (): HttpCreate{{pascalCase name}}Controller => {
+  const get{{pascalCase name}}ByNameRepository = new PrismaGet{{pascalCase name}}ByNameRepository();
+  const save{{pascalCase name}}Repository = new PrismaSave{{pascalCase name}}Repository();
 
-    const uuidGenerator = new UUIDGeneratorAdapter();
-    const validation = makeCreate{{pascalCase name}}Validation();
-    const logger = pinoLoggerLocal;
+  const uuidGenerator = new UUIDGeneratorAdapter();
+  const validation = makeCreate{{pascalCase name}}Validation();
+  const logger = pinoLoggerLocal;
 
-    return new HttpCreate{{pascalCase name}}Controller(
+  return new HttpCreate{{pascalCase name}}Controller(
       get{{pascalCase name}}ByNameRepository,
       save{{pascalCase name}}Repository,
       uuidGenerator,
       validation,
       logger
-    );
-  };
+  );
+};

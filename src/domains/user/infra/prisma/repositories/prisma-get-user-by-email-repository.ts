@@ -1,6 +1,9 @@
+import { User as UserModel, PrismaClient } from '@prisma/client';
+
 import { IGetUserByEmailRepository } from '@/domains/user/usecases/repos';
 import { User } from '@/domains/user/entities';
-import { PrismaClient } from '@prisma/client';
+
+import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGetUserByEmailRepository
@@ -13,7 +16,7 @@ export class PrismaGetUserByEmailRepository
   }
 
   async getByEmail(
-    email: IGetUserByEmailRepository.Params
+    email: IGetUserByEmailRepository.Params,
   ): Promise<IGetUserByEmailRepository.Result> {
     try {
       const [userFound] = await this.prismaConnection.user.findMany({
@@ -24,7 +27,7 @@ export class PrismaGetUserByEmailRepository
         return null;
       }
 
-      const user = new User(userFound);
+      const user = new User(convertNullToUndefined<UserModel>(userFound));
 
       return user;
     } catch (error) {

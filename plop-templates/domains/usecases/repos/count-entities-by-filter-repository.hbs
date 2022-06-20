@@ -2,7 +2,7 @@ import { {{pascalCase name}}Filters } from '@/domains/{{dashCase name}}/usecases
 
 export interface ICount{{pascalCase name}}sByFilterRepository {
   count(
-    filters: ICount{{pascalCase name}}sByFilterRepository.Params
+    filters: ICount{{pascalCase name}}sByFilterRepository.Params,
   ): Promise<ICount{{pascalCase name}}sByFilterRepository.Result>;
 }
 

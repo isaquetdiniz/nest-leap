@@ -15,7 +15,7 @@ import { ILoggerLocal } from '@/shared/protocols';
 
 export interface IUpdate{{pascalCase name}}ByIdUsecase {
   execute(
-    updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params
+    updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params,
   ): Promise<IUpdate{{pascalCase name}}ByIdUsecase.Result>;
 }
 
@@ -37,13 +37,13 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
     private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     private readonly get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository,
     private readonly update{{pascalCase name}}Repository: IUpdate{{pascalCase name}}Repository,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.logger = logger.child({ usecase: 'update-{{dashCase name}}-by-id' });
   }
 
   async execute(
-    updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params
+    updateParams: IUpdate{{pascalCase name}}ByIdUsecase.Params,
   ): Promise<IUpdate{{pascalCase name}}ByIdUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: updateParams });
 
@@ -87,8 +87,9 @@ export class Update{{pascalCase name}}ByIdUsecase implements IUpdate{{pascalCase
       }
     }
 
-    const {{camelCase name}}Updated =
-      await this.update{{pascalCase name}}Repository.update({{camelCase name}}ToUpdate);
+    const {{camelCase name}}Updated = await this.update{{pascalCase name}}Repository.update(
+      {{camelCase name}}ToUpdate,
+    );
 
     this.logger.logDebug({
       message: '{{pascalCase name}} updated',

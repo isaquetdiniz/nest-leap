@@ -2,7 +2,7 @@ import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
 
 export interface IUpdate{{pascalCase name}}Repository {
   update(
-    {{camelCase name}}ToUpdate: IUpdate{{pascalCase name}}Repository.Params
+    {{camelCase name}}ToUpdate: IUpdate{{pascalCase name}}Repository.Params,
   ): Promise<IUpdate{{pascalCase name}}Repository.Result>;
 }
 

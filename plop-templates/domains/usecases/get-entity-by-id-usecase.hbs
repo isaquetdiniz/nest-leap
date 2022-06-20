@@ -19,13 +19,13 @@ export class Get{{pascalCase name}}ByIdUsecase implements IGet{{pascalCase name}
 
   constructor(
     private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.logger = logger.child({ usecase: 'get-{{dashCase name}}-by-id' });
   }
 
   async execute(
-    id: IGet{{pascalCase name}}ByIdUsecase.Params
+    id: IGet{{pascalCase name}}ByIdUsecase.Params,
   ): Promise<IGet{{pascalCase name}}ByIdUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: { id } });
 

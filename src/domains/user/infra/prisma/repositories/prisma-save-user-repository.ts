@@ -1,7 +1,10 @@
+import { User as UserModel, PrismaClient } from '@prisma/client';
+
 import { ISaveUserRepository } from '@/domains/user/usecases/repos';
 import { User } from '@/domains/user/entities';
+
+import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
-import { PrismaClient } from '@prisma/client';
 
 export class PrismaSaveUserRepository implements ISaveUserRepository {
   private prismaConnection: PrismaClient;
@@ -18,7 +21,7 @@ export class PrismaSaveUserRepository implements ISaveUserRepository {
         data: userParams,
       });
 
-      const user = new User(userCreated);
+      const user = new User(convertNullToUndefined<UserModel>(userCreated));
 
       return user;
     } catch (error) {

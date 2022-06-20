@@ -1,7 +1,10 @@
+import { User as UserModel, PrismaClient } from '@prisma/client';
+
 import { IGetUserByIdRepository } from '@/domains/user/usecases/repos';
-import { PrismaClient } from '@prisma/client';
-import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { User } from '@/domains/user/entities';
+
+import { convertNullToUndefined } from '@/shared/helpers';
+import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
   private prismaConnection: PrismaClient;
@@ -14,15 +17,15 @@ export class PrismaGetUserByIdRepository implements IGetUserByIdRepository {
     id: IGetUserByIdRepository.Params
   ): Promise<IGetUserByIdRepository.Result> {
     try {
-      let user = null;
-
-      const userCreated = await this.prismaConnection.user.findUnique({
+      const userFound = await this.prismaConnection.user.findUnique({
         where: { id },
       });
 
-      if (userCreated) {
-        user = new User(userCreated);
+      if (!userFound) {
+        return null;
       }
+
+      const user = new User(convertNullToUndefined<UserModel>(userFound));
 
       return user;
     } catch (error) {

@@ -51,19 +51,19 @@ export class Get{{pascalCase name}}sByFilterController {
     get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
     count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
     private readonly validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.usecase = new Get{{pascalCase name}}sByFilterUsecase(
       get{{pascalCase name}}sByFilterRepository,
       count{{pascalCase name}}sByFilterRepository,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ controller: 'get-{{dashCase name}}s-by-filter' });
   }
 
   async execute(
-    request: Get{{pascalCase name}}sByFilterRequest
+    request: Get{{pascalCase name}}sByFilterRequest,
   ): Promise<Get{{pascalCase name}}sByFilterResponse> {
     this.logger.logDebug({ message: 'Request received', data: request });
 

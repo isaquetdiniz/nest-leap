@@ -31,14 +31,14 @@ export class HttpCreate{{pascalCase name}}Controller implements HttpController {
     save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
     uuidGenerator: IUuidGenerator,
     validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.controller = new Create{{pascalCase name}}Controller(
       get{{pascalCase name}}ByNameRepository,
       save{{pascalCase name}}Repository,
       uuidGenerator,
       validation,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ httpController: 'create-{{dashCase name}}' });

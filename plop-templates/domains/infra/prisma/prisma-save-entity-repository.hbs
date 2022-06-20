@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { {{pascalCase name}} as {{pascalCase name}}Model, PrismaClient } from '@prisma/client';
 
 import { ISave{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/usecases/repos';
 import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
 
+import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCase name}}Repository {
@@ -13,7 +14,7 @@ export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCas
   }
 
   async save(
-    {{camelCase name}}Params: ISave{{pascalCase name}}Repository.Params
+    {{camelCase name}}Params: ISave{{pascalCase name}}Repository.Params,
   ): Promise<ISave{{pascalCase name}}Repository.Result> {
     try {
       const { ...rest{{pascalCase name}}Params } = {{camelCase name}}Params;
@@ -22,7 +23,7 @@ export class PrismaSave{{pascalCase name}}Repository implements ISave{{pascalCas
         data: rest{{pascalCase name}}Params,
       });
 
-      const {{camelCase name}} = new {{pascalCase name}}({{camelCase name}}DTO);
+      const {{camelCase name}} = new {{pascalCase name}}(convertNullToUndefined<{{pascalCase name}}Model>({{camelCase name}}DTO));
 
       return {{camelCase name}};
     } catch (error) {

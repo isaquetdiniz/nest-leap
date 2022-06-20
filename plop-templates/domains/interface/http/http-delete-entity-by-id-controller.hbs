@@ -35,13 +35,13 @@ export class HttpDelete{{pascalCase name}}ByIdController implements HttpControll
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository,
     validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.controller = new Delete{{pascalCase name}}ByIdController(
       get{{pascalCase name}}ByIdRepository,
       delete{{pascalCase name}}ByIdRepository,
       validation,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ httpController: 'delete-{{dashCase name}}-by-id' });

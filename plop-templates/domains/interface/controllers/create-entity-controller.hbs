@@ -29,7 +29,7 @@ export class Create{{pascalCase name}}Controller {
     save{{pascalCase name}}Repository: ISave{{pascalCase name}}Repository,
     uuidGenerator: IUuidGenerator,
     private readonly validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.usecase = new Create{{pascalCase name}}Usecase(
       get{{pascalCase name}}ByNameRepository,

@@ -14,7 +14,7 @@ export class PrismaDelete{{pascalCase name}}ByIdRepository
   }
 
   async delete(
-    id: IDelete{{pascalCase name}}ByIdRepository.Params
+    id: IDelete{{pascalCase name}}ByIdRepository.Params,
   ): Promise<IDelete{{pascalCase name}}ByIdRepository.Result> {
     try {
       await this.prismaConnection.{{camelCase name}}.delete({

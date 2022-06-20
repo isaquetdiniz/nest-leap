@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { {{pascalCase name}} as {{pascalCase name}}Model, PrismaClient } from '@prisma/client';
 
 import { IGet{{pascalCase name}}ByNameRepository } from '@/domains/{{dashCase name}}/usecases/repos';
 import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
 
+import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 
 export class PrismaGet{{pascalCase name}}ByNameRepository
@@ -15,7 +16,7 @@ export class PrismaGet{{pascalCase name}}ByNameRepository
   }
 
   async get(
-    name: IGet{{pascalCase name}}ByNameRepository.Params
+    name: IGet{{pascalCase name}}ByNameRepository.Params,
   ): Promise<IGet{{pascalCase name}}ByNameRepository.Result> {
     try {
       const {{camelCase name}}DTO = await this.prismaConnection.{{camelCase name}}.findFirst({
@@ -26,7 +27,7 @@ export class PrismaGet{{pascalCase name}}ByNameRepository
         return null;
       }
 
-      const {{camelCase name}} = new {{pascalCase name}}({{camelCase name}}DTO);
+      const {{camelCase name}} = new {{pascalCase name}}(convertNullToUndefined<{{pascalCase name}}Model>({{camelCase name}}DTO));
 
       return {{camelCase name}};
     } catch (error) {

@@ -13,7 +13,7 @@ import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface ICreate{{pascalCase name}}Usecase {
   execute(
-    params: ICreate{{pascalCase name}}Usecase.Params
+    params: ICreate{{pascalCase name}}Usecase.Params,
   ): Promise<ICreate{{pascalCase name}}Usecase.Response>;
 }
 
@@ -38,7 +38,7 @@ export class Create{{pascalCase name}}Usecase implements ICreate{{pascalCase nam
   }
 
   async execute(
-    params: ICreate{{pascalCase name}}Usecase.Params
+    params: ICreate{{pascalCase name}}Usecase.Params,
   ): Promise<ICreate{{pascalCase name}}Usecase.Response> {
     this.logger.logDebug({ message: 'Request received', data: params });
 

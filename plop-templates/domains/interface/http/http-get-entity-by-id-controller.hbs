@@ -33,12 +33,12 @@ export class HttpGet{{pascalCase name}}ByIdController implements HttpController 
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.controller = new Get{{pascalCase name}}ByIdController(
       get{{pascalCase name}}ByIdRepository,
       validation,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ httpController: 'get-{{dashCase name}}-by-id' });

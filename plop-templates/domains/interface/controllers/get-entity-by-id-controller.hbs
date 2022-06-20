@@ -26,11 +26,11 @@ export class Get{{pascalCase name}}ByIdController {
   constructor(
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     private readonly validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.usecase = new Get{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ controller: 'get-{{dashCase name}}-by-id' });

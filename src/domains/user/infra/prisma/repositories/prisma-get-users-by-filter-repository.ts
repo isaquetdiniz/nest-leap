@@ -1,8 +1,11 @@
+import { User as UserModel, PrismaClient } from '@prisma/client';
+
 import { IGetUsersByFilterRepository } from '@/domains/user/usecases/repos';
-import { PrismaClient } from '@prisma/client';
+import { User } from '@/domains/user/entities';
+
+import { convertNullToUndefined } from '@/shared/helpers';
 import { prismaConnector, PrismaException } from '@/shared/infra/prisma';
 import { PrismaFormatter } from '@/shared/infra/prisma/prisma-formatter';
-import { User } from '@/domains/user/entities';
 
 export class PrismaGetUsersByFilterRepository
   implements IGetUsersByFilterRepository
@@ -29,7 +32,7 @@ export class PrismaGetUsersByFilterRepository
       });
 
       const users = usersFound.map((userFound) => {
-        return new User(userFound);
+        return new User(convertNullToUndefined<UserModel>(userFound));
       });
 
       return users;

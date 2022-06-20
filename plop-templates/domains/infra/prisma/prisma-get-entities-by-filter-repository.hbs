@@ -1,7 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { {{pascalCase name}} as {{pascalCase name}}Model, PrismaClient } from '@prisma/client';
 
 import { IGet{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}/usecases/repos';
 import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+
+import { convertNullToUndefined } from '@/shared/helpers';
 
 import {
   prismaConnector,
@@ -18,7 +20,7 @@ export class PrismaGet{{pascalCase name}}sByFilterRepository
   }
 
   async get(
-    filter: IGet{{pascalCase name}}sByFilterRepository.Params
+    filter: IGet{{pascalCase name}}sByFilterRepository.Params,
   ): Promise<IGet{{pascalCase name}}sByFilterRepository.Result> {
     try {
       const {
@@ -39,9 +41,9 @@ export class PrismaGet{{pascalCase name}}sByFilterRepository
         skip: pagination.skip,
       });
 
-      const {{camelCase name}}s = {{camelCase name}}DTOs.map(
-        ({{camelCase name}}DTO) => new {{pascalCase name}}({{camelCase name}}DTO),
-      );
+      const {{camelCase name}}s = {{camelCase name}}DTOs.map(({{camelCase name}}DTO) => {
+        return new {{pascalCase name}}(convertNullToUndefined<{{pascalCase name}}Model>({{camelCase name}}DTO));
+      });
 
       return {{camelCase name}}s;
     } catch (error) {

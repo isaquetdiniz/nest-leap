@@ -24,7 +24,7 @@ export type {{pascalCase name}}Filters = {
 
 export interface IGet{{pascalCase name}}sByFilterUsecase {
   execute(
-    listParams: IGet{{pascalCase name}}sByFilterUsecase.Params
+    listParams: IGet{{pascalCase name}}sByFilterUsecase.Params,
   ): Promise<IGet{{pascalCase name}}sByFilterUsecase.Result>;
 }
 
@@ -41,13 +41,13 @@ export class Get{{pascalCase name}}sByFilterUsecase
   constructor(
     private readonly get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
     private readonly count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.logger = logger.child({ usecase: 'get-{{dashCase name}}s-by-filter' });
   }
 
   async execute(
-    filterParams: IGet{{pascalCase name}}sByFilterUsecase.Params
+    filterParams: IGet{{pascalCase name}}sByFilterUsecase.Params,
   ): Promise<IGet{{pascalCase name}}sByFilterUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: filterParams });
 

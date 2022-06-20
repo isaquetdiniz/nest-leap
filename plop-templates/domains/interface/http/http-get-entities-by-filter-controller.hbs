@@ -36,20 +36,20 @@ export class HttpGet{{pascalCase name}}sByFilterController implements HttpContro
     get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository,
     count{{pascalCase name}}sByFilterRepository: ICount{{pascalCase name}}sByFilterRepository,
     validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.controller = new Get{{pascalCase name}}sByFilterController(
       get{{pascalCase name}}sByFilterRepository,
       count{{pascalCase name}}sByFilterRepository,
       validation,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ httpController: 'get-{{dashCase name}}s-by-filter' });
   }
 
   async handle(
-    httpRequest: HttpGet{{pascalCase name}}sByFilterRequest
+    httpRequest: HttpGet{{pascalCase name}}sByFilterRequest,
   ): Promise<HttpResponse> {
     this.logger.logDebug({ message: 'Request Received', data: httpRequest });
 

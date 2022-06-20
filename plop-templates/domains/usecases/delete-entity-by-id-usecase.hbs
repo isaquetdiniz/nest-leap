@@ -25,13 +25,13 @@ export class Delete{{pascalCase name}}ByIdUsecase implements IDelete{{pascalCase
   constructor(
     private readonly get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     private readonly delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.logger = logger.child({ usecase: 'delete-{{dashCase name}}-by-id' });
   }
 
   async execute(
-    id: IDelete{{pascalCase name}}ByIdUsecase.Params
+    id: IDelete{{pascalCase name}}ByIdUsecase.Params,
   ): Promise<IDelete{{pascalCase name}}ByIdUsecase.Result> {
     this.logger.logDebug({ message: 'Request received', data: { id } });
 

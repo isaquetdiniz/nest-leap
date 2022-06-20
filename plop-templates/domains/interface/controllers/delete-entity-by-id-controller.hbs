@@ -24,19 +24,19 @@ export class Delete{{pascalCase name}}ByIdController {
     get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository,
     delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository,
     private readonly validation: Validation,
-    logger: ILoggerLocal
+    logger: ILoggerLocal,
   ) {
     this.usecase = new Delete{{pascalCase name}}ByIdUsecase(
       get{{pascalCase name}}ByIdRepository,
       delete{{pascalCase name}}ByIdRepository,
-      logger
+      logger,
     );
 
     this.logger = logger.child({ controller: 'delete-{{dashCase name}}-by-id' });
   }
 
   async execute(
-    request: Delete{{pascalCase name}}ByIdRequest
+    request: Delete{{pascalCase name}}ByIdRequest,
   ): Promise<Delete{{pascalCase name}}ByIdResponse> {
     this.logger.logDebug({ message: 'Request received', data: request });
 
