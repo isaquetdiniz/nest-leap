@@ -2,17 +2,35 @@ export class PrismaFormatter {
   static formatFilter(filterObject: any): Object {
     const filterEntries = Object.entries(filterObject);
 
+    const enumTypes: string[] = []; // ADICIONAR OS NOMES DA KEY QUE SÃO DO TIPO ENUMS
+    const filterdByDate = [
+      'createdAt',
+      'updatedAt',
+    ]; // ADCIONAR AS KEYS QUE SÃO DO TIPO DATE
+
     const filterWithouUndefined = filterEntries.filter(
       ([key, value]) => value !== undefined
     );
 
     const filterEntriesTransformed = filterWithouUndefined.map(
       ([key, value]) => {
+
+        if (enumTypes.includes(key)) {
+          if (Array.isArray(value)) {
+            return [key, { in: value }];
+          }
+          return [key, value];
+        }
+
+        if (key.endsWith('Id')) {
+          return [key, value];
+        }
+
         if (typeof value === 'string' && key !== 'id') {
           return [key, { contains: value, mode: 'insensitive' }];
         }
 
-        if (key === 'createdAt' || key === 'updatedAt') {
+        if (filterdByDate.includes(key)) {
           // @ts-ignore
           const { initialDate, finalDate } = value;
 
