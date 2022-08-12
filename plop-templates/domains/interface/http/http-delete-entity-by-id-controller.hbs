@@ -14,7 +14,7 @@ import {
   HttpResponse,
 } from '@/shared/interface/http/protocols';
 import {
-  ok,
+  noContent,
   notFound,
   badRequest,
   serverError,
@@ -62,7 +62,7 @@ export class HttpDelete{{pascalCase name}}ByIdController implements HttpControll
         data: { id },
       });
 
-      return ok();
+      return noContent();
     } catch (error) {
       if (error instanceof ValidationException) {
         return badRequest(error);

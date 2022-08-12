@@ -5,12 +5,8 @@ import {
   ISaveUserInCloudRepository,
   ISaveUserRepository,
 } from '@/domains/user/usecases/repos';
-import {
-  UserAlreadyExistsException,
-} from '@/domains/user/usecases/exceptions';
-import {
-  CreateUserController,
-} from '@/domains/user/interface/controllers';
+import { UserAlreadyExistsException } from '@/domains/user/usecases/exceptions';
+import { CreateUserController } from '@/domains/user/interface/controllers';
 
 import {
   HttpResponse,
@@ -19,7 +15,11 @@ import {
 import { ValidationException } from '@/shared/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 import { Validation } from '@/shared/interface/validation/protocols';
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import {
+  badRequest,
+  created,
+  serverError,
+} from '@/shared/interface/http/helpers';
 
 export interface HttpCreateUserRequest {
   name: string;
@@ -69,7 +69,7 @@ export class HttpCreateUserController implements HttpController {
 
       this.logger.logDebug({ message: 'User created', data: userCreated });
 
-      return ok(userCreated);
+      return created(userCreated);
     } catch (error) {
       if (
         error instanceof ValidationException ||

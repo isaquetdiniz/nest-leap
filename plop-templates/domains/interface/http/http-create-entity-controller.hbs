@@ -15,7 +15,7 @@ import {
 } from '@/shared/interface/http/protocols';
 import { ValidationException } from '@/shared/helpers';
 import { Validation } from '@/shared/interface/validation/protocols';
-import { badRequest, ok, serverError } from '@/shared/interface/http/helpers';
+import { badRequest, created, serverError } from '@/shared/interface/http/helpers';
 import { ILoggerLocal, IUuidGenerator } from '@/shared/protocols';
 
 export interface HttpCreate{{pascalCase name}}Request {
@@ -59,7 +59,7 @@ export class HttpCreate{{pascalCase name}}Controller implements HttpController {
         data: {{camelCase name}}Created,
       });
 
-      return ok({{camelCase name}}Created);
+      return created({{camelCase name}}Created);
     } catch (error) {
       if (error instanceof ValidationException) {
         return badRequest(error);

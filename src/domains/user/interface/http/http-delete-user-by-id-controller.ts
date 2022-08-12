@@ -4,19 +4,15 @@ import {
   IGetUserByEmailInCloudRepository,
   IGetUserByIdRepository,
 } from '@/domains/user/usecases/repos';
-import {
-  UserNotFoundException,
-} from '@/domains/user/usecases/exceptions';
-import {
-  DeleteUserByIdController,
-} from '@/domains/user/interface/controllers';
+import { UserNotFoundException } from '@/domains/user/usecases/exceptions';
+import { DeleteUserByIdController } from '@/domains/user/interface/controllers';
 
 import {
   HttpResponse,
   HttpController,
 } from '@/shared/interface/http/protocols';
 import {
-  ok,
+  noContent,
   notFound,
   badRequest,
   serverError,
@@ -63,7 +59,7 @@ export class HttpDeleteUserByIdController implements HttpController {
 
       this.logger.logDebug({ message: 'User deleted', data: { id } });
 
-      return ok();
+      return noContent();
     } catch (error) {
       if (error instanceof ValidationException) {
         return badRequest(error);
