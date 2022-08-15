@@ -1,7 +1,8 @@
-import { PrismaUpdate{{pascalCase name}}Repository, {{pascalCase name}} } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+import { PrismaUpdate{{pascalCase name}}Repository } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
 import { prismaConnector } from '@/shared/infra/prisma/index';
 
-import { mock{{pascalCase name}}Entity, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
 import { PrismaClient } from '@prisma/client';
 
 const makeSut = () => {
@@ -14,15 +15,22 @@ const makeSut = () => {
 
 describe('Prisma Update {{pascalCase name}} Repository', () => {
   let prismaTest: PrismaClient | null = null;
-  beforeEach(async () => {
+  beforeAll(async () => {
     prismaTest = prismaConnector.connect(process.env.DATABASE_TEST_URL);
 
-    await prismaTest.{{camelCase name}}.deleteMany({});
+    if (prismaTest) {
+      await prismaTest.{{camelCase name}}.deleteMany({});
+    }
   });
 
   afterEach(async () => {
     if (prismaTest) {
       await prismaTest.{{camelCase name}}.deleteMany({});
+    }
+  });
+
+  afterAll(async () => {
+    if (prismaTest) {
       await prismaTest.$disconnect();
     }
   });
@@ -30,28 +38,21 @@ describe('Prisma Update {{pascalCase name}} Repository', () => {
   test('Should update a {{camelCase name}}', async () => {
     const { sut } = makeSut();
 
-    const fake{{pascalCase name}}Params = mock{{pascalCase name}}Entity();
+    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
 
-    const fake{{pascalCase name}} = new {{pascalCase name}}(fake{{pascalCase name}}Params);
+    const paramsToUpdate = {{pascalCase name}}Factory.build();
 
-    // const { enabled, ...validParams } = fake{{pascalCase name}};
-    const validParams = fake{{pascalCase name}};
-
-    await prismaTest?.provider.create({ data: validParams });
-
-    const { id, paramsToUpdate } = mockUpdate{{pascalCase name}}Params();
+    await prismaTest?.{{camelCase name}}.create({ data: fake{{pascalCase name}} });
 
     const {{camelCase name}}Updated = await sut.update({
-      ...fake{{pascalCase name}},
       ...paramsToUpdate,
-      id,
+      id: fake{{pascalCase name}}.id,
     });
 
     const expectedResult = new {{pascalCase name}}({
-      ...mock{{pascalCase name}}Entity(),
+      ...fake{{pascalCase name}},
       ...paramsToUpdate,
       id: {{camelCase name}}Updated.id,
-      createdAt: {{camelCase name}}Updated.createdAt,
       updatedAt: {{camelCase name}}Updated.updatedAt,
     });
 

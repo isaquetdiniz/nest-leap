@@ -1,58 +1,83 @@
-import { Get{{pascalCase name}}ByIdUsecase, IGet{{pascalCase name}}byIdUsecase } from '@/domains/{{dashCase name}}/usecases';
-import { Get{{pascalCase name}}ByIdRepositorySpy } from '@/tests/domains/{{dashCase name}}/usecases/repos';
+import 'jest-ts-auto-mock';
+import { createMock } from 'ts-auto-mock';
+import { method, On } from 'ts-auto-mock/extension';
+
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
+import {
+  IGet{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import { Get{{pascalCase name}}ByIdUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
-type SutTypes = {
-  sut: IGet{{pascalCase name}}byIdUsecase;
-  get{{pascalCase name}}ByIdrepositorySpy: Get{{pascalCase name}}ByIdRepositorySpy;
-};
+const makeSut = () => {
+  const get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository =
+    createMock<IGet{{pascalCase name}}ByIdRepository>();
+  const get{{pascalCase name}}ByIdRepositorySpy: jest.Mock = On(get{{pascalCase name}}ByIdRepository).get(
+    method((mock) => mock.get)
+  );
 
-const makeSut = (): SutTypes => {
-  const get{{pascalCase name}}ByIdrepositorySpy = new Get{{pascalCase name}}ByIdRepositorySpy();
-
-  const sut = new Get{{pascalCase name}}ByIdUsecase(get{{pascalCase name}}ByIdrepositorySpy, pinoLoggerLocal);
+  const sut = new UseCase(
+    get{{pascalCase name}}ByIdRepository,
+    pinoLoggerLocal
+  );
 
   return {
     sut,
-    get{{pascalCase name}}ByIdrepositorySpy,
+    get{{pascalCase name}}ByIdRepositorySpy,
   };
-}
+};
 
-describe('Get {{pascalCase name}} by ID Service', () => {
-  it('should call List{{pascalCase name}}Repository with correc data', async () => {
-    const { sut, get{{pascalCase name}}ByIdrepositorySpy } = makeSut();
-    const get{{pascalCase name}}ReposytorySpy = jest.spyOn(get{{pascalCase name}}ByIdrepositorySpy, 'get');
+describe('Get {{pascalCase name}} By Id Service', () => {
+  describe('With valid parameters', () => {
+    it('Should get a {{dashCase name}} by id with success', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}ByIdRepositorySpy,
+      } = makeSut();
 
-    await sut.execute('');
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
 
-    expect(get{{pascalCase name}}ReposytorySpy).toBeCalled();
-    expect(get{{pascalCase name}}ReposytorySpy).toHaveReturned();
-  });
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}});
 
-  it('should throw if List{{pascalCase name}}Repository throws', async () => {
-    const { sut, get{{pascalCase name}}ByIdrepositorySpy } = makeSut();
-    jest.spyOn(get{{pascalCase name}}ByIdrepositorySpy, 'get').mockImplementationOnce(() => {
-      return Promise.reject(new Error());
+      await sut.execute(fake{{pascalCase name}}.id);
+
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
     });
 
-    const response = sut.execute('');
+    it('Should return null if {{dashCase name}} not found', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}ByIdRepositorySpy,
+      } = makeSut();
 
-    expect(response).rejects.toThrow();
-  })
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
 
-  it('should return a {{camelCase name}} if id is provided', async () => {
-    const { sut, get{{pascalCase name}}ByIdrepositorySpy } = makeSut();
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(null);
 
-    const {{camelCase name}} = await sut.execute('a98a83d2-87f4-4a48-bfce-a80e27d7a7e2');
+      await sut.execute(fake{{pascalCase name}}.id);
 
-    expect({{camelCase name}}).toBe(get{{pascalCase name}}ByIdrepositorySpy.result);
-  })
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+    });
+  });
 
-  it('should return null if List{{pascalCase name}}Repository returns null', async () => {
-    const { sut } = makeSut();
+  describe('With invalid parameters', () => {
+    it('Should throw if Get{{pascalCase name}}ByEmailInCloudRepository throws', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}ByIdRepositorySpy,
+      } = makeSut();
 
-    const {{camelCase name}} = await sut.execute('');
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
 
-    expect({{camelCase name}}).toStrictEqual(null);
+      get{{pascalCase name}}ByIdRepositorySpy.mockImplementationOnce(() => {
+        return Promise.reject(new Error());
+      });
+
+      const testScript = () => sut.execute(fake{{pascalCase name}}.id);
+
+      await expect(testScript).rejects.toThrow();
+
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+    });
   });
 });

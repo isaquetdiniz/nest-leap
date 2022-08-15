@@ -22,7 +22,10 @@
     "paths": {
       "@/tests/*": ["../__tests__/*"],
       "@/*": ["*"]
-    }
+    },
+    "plugins": [
+      { "transform": "ts-auto-mock/transformer", "cacheBetweenTests": false }
+    ]
   },
   "include": ["src", "__tests__"],
   "exclude": []

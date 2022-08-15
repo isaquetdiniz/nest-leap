@@ -1,89 +1,66 @@
-import { Get{{pascalCase name}}sByFilterUsecase } from '@/domains/{{dashCase name}}/usecases';
+import 'jest-ts-auto-mock';
+import { createMock } from 'ts-auto-mock';
+import { method, On } from 'ts-auto-mock/extension';
+
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
 import {
-  Get{{pascalCase name}}sByFilterRepositorySpy,
-  Count{{pascalCase name}}sByFilterRepositorySpy,
-} from '@/tests/domains/{{dashCase name}}/usecases/repos';
+  IGet{{pascalCase name}}sByFilterRepository,
+  ICount{{pascalCase name}}sByFilterRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import { Get{{pascalCase name}}sByFilterUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
-import { mockList{{pascalCase name}}EmptyParams } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { OrderByFilter, Pagination } from '@/shared/helpers';
 
-type SutTypes = {
-  sut: Get{{pascalCase name}}sByFilterUsecase;
-  get{{pascalCase name}}sByFilterRepository: Get{{pascalCase name}}sByFilterRepositorySpy;
-};
+const makeSut = () => {
+  const get{{pascalCase name}}sByFilterRepository: IGet{{pascalCase name}}sByFilterRepository =
+    createMock<IGet{{pascalCase name}}sByFilterRepository>();
+  const get{{pascalCase name}}sByFilterRepositorySpy: jest.Mock = On(
+    get{{pascalCase name}}sByFilterRepository
+  ).get(method((mock) => mock.get));
 
-const makeSut = (): SutTypes => {
-  const get{{pascalCase name}}sByFilterRepository = new Get{{pascalCase name}}sByFilterRepositorySpy();
-  const count{{pascalCase name}}sByFilterRepository = new Count{{pascalCase name}}sByFilterRepositorySpy();
+  const count{{pascalCase name}}ByFilterRepository: ICount{{pascalCase name}}sByFilterRepository =
+    createMock<ICount{{pascalCase name}}sByFilterRepository>();
+  const count{{pascalCase name}}ByFilterRepositorySpy: jest.Mock = On(
+    count{{pascalCase name}}ByFilterRepository
+  ).get(method((mock) => mock.count));
 
-  const sut = new Get{{pascalCase name}}sByFilterUsecase(
+  const sut = new UseCase(
     get{{pascalCase name}}sByFilterRepository,
-    count{{pascalCase name}}sByFilterRepository,
-    pinoLoggerLocal,
+    count{{pascalCase name}}ByFilterRepository,
+    pinoLoggerLocal
   );
 
   return {
     sut,
-    get{{pascalCase name}}sByFilterRepository,
+    get{{pascalCase name}}sByFilterRepositorySpy,
+    count{{pascalCase name}}ByFilterRepositorySpy,
   };
-}
+};
 
-describe('Get {{pascalCase name}} by filters Service', () => {
-  it('should call List{{pascalCase name}}Repository with correc data', async () => {
-    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
-    const get{{pascalCase name}}Spy = jest.spyOn(get{{pascalCase name}}sByFilterRepository, 'get');
+describe('Get {{pascalCase name}} By Filters Service', () => {
+  describe('With valid parameters', () => {
+    it('Should get a {{dashCase name}}s by filters with success', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}sByFilterRepositorySpy,
+        count{{pascalCase name}}ByFilterRepositorySpy,
+      } = makeSut();
 
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
+      const fake{{pascalCase name}}s = {{pascalCase name}}Factory.buildList(8);
 
-    const { filters, ...otherParams } = fake{{pascalCase name}};
+      get{{pascalCase name}}sByFilterRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}}s);
+      count{{pascalCase name}}ByFilterRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}}s.length);
 
-    const filterParams = {
-      ...otherParams,
-      filters: { ...filters, enabled: true },
-    };
+      const {{dashCase name}}s = await sut.execute({
+        filters: {},
+        orderBy: new OrderByFilter({}),
+        pagination: new Pagination({}),
+      });
 
-    await sut.execute(filterParams);
-
-    expect(get{{pascalCase name}}Spy).toHaveBeenCalledWith(filterParams);
-  });
-
-  it('should throw if List{{pascalCase name}}Repository throws', async () => {
-    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
-
-    jest.spyOn(get{{pascalCase name}}sByFilterRepository, 'get').mockImplementationOnce(() => {
-      return Promise.reject(new Error());
+      expect({{dashCase name}}s.{{dashCase name}}s).toStrictEqual(fake{{pascalCase name}}s);
+      expect({{dashCase name}}s.total{{pascalCase name}}s).toEqual(fake{{pascalCase name}}s.length);
+      expect(get{{pascalCase name}}sByFilterRepositorySpy).toBeCalledTimes(1);
+      expect(count{{pascalCase name}}ByFilterRepositorySpy).toBeCalledTimes(1);
     });
-
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
-
-    const response = sut.execute(fake{{pascalCase name}});
-
-    expect(response).rejects.toThrow();
-  });
-
-  it('should return {{camelCase name}}s if nothing is passed', async () => {
-    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut()
-
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
-
-    const { {{camelCase name}}s } = await sut.execute(fake{{pascalCase name}});
-
-    expect({{camelCase name}}s).toEqual([
-      get{{pascalCase name}}sByFilterRepository.result[0],
-      get{{pascalCase name}}sByFilterRepository.result[1],
-    ]);
-  });
-
-  it('should return a empty array if List{{pascalCase name}}Repository returns []', async () => {
-    const { sut, get{{pascalCase name}}sByFilterRepository } = makeSut();
-    get{{pascalCase name}}sByFilterRepository.result = [];
-
-    const fake{{pascalCase name}} = mockList{{pascalCase name}}EmptyParams();
-
-    const { {{camelCase name}}s } = await sut.execute({
-      ...fake{{pascalCase name}},
-      filters: { name: '{{pascalCase name}} name' },
-    });
-
-    expect({{camelCase name}}s).toStrictEqual([]);
   });
 });

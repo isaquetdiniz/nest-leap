@@ -1,60 +1,102 @@
-import { mockDelete{{pascalCase name}}ByIdParams } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
-import { Delete{{pascalCase name}}ByIdUsecase, IDelete{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}/usecases';
-import { Delete{{pascalCase name}}ByIdRepositorySpy, Get{{pascalCase name}}ByIdRepositorySpy } from '@/tests/domains/{{dashCase name}}/usecases/repos';
+import 'jest-ts-auto-mock';
+import { createMock } from 'ts-auto-mock';
+import { method, On } from 'ts-auto-mock/extension';
+
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
+import {
+  IGet{{pascalCase name}}ByIdRepository,
+  IDelete{{pascalCase name}}ByIdRepository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import { {{pascalCase name}}NotFoundException } from '@/domains/{{dashCase name}}/usecases/exceptions';
+import { Delete{{pascalCase name}}ByIdUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 
-type SutTypes = {
-  sut: IDelete{{pascalCase name}}ByIdUsecase;
-  delete{{pascalCase name}}RepositoryStub: Delete{{pascalCase name}}ByIdRepositorySpy;
-};
+const makeSut = () => {
+  const get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository =
+    createMock<IGet{{pascalCase name}}ByIdRepository>();
+  const get{{pascalCase name}}ByIdRepositorySpy: jest.Mock = On(get{{pascalCase name}}ByIdRepository).get(
+    method((mock) => mock.get)
+  );
 
-const makeSut = (): SutTypes => {
-  const get{{pascalCase name}}RepositoryStub = new Get{{pascalCase name}}ByIdRepositorySpy();
-  const delete{{pascalCase name}}RepositoryStub = new Delete{{pascalCase name}}ByIdRepositorySpy();
-  const sut = new Delete{{pascalCase name}}ByIdUsecase(
-    get{{pascalCase name}}RepositoryStub,
-    delete{{pascalCase name}}RepositoryStub,
-    pinoLoggerLocal,
+  const delete{{pascalCase name}}ByIdRepository: IDelete{{pascalCase name}}ByIdRepository =
+    createMock<IDelete{{pascalCase name}}ByIdRepository>();
+  const delete{{pascalCase name}}ByIdRepositorySpy: jest.Mock = On(
+    delete{{pascalCase name}}ByIdRepository
+  ).get(method((mock) => mock.delete));
+
+  const sut = new UseCase(
+    get{{pascalCase name}}ByIdRepository,
+    delete{{pascalCase name}}ByIdRepository,
+    pinoLoggerLocal
   );
 
   return {
     sut,
-    delete{{pascalCase name}}RepositoryStub,
+    get{{pascalCase name}}ByIdRepositorySpy,
+    delete{{pascalCase name}}ByIdRepositorySpy,
   };
-}
+};
 
 describe('Delete {{pascalCase name}} Service', () => {
-  it('should call Delete{{pascalCase name}}Repository with correc data', async () => {
-    const { sut, delete{{pascalCase name}}RepositoryStub } = makeSut();
-    const delete{{pascalCase name}}Spy = jest.spyOn(delete{{pascalCase name}}RepositoryStub, 'delete');
+  describe('With valid parameters', () => {
+    it('Should delete a {{dashCase name}} with success', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}ByIdRepositorySpy,
+        delete{{pascalCase name}}ByIdRepositorySpy,
+      } = makeSut();
 
-    const fake{{pascalCase name}} = mockDelete{{pascalCase name}}ByIdParams();
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
 
-    await sut.execute(fake{{pascalCase name}});
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}});
 
-    expect(delete{{pascalCase name}}Spy).toHaveBeenCalledWith(fake{{pascalCase name}});
+      await sut.execute(fake{{pascalCase name}}.id);
+
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+      expect(delete{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+    });
   });
 
-  it('should throw if Delete{{pascalCase name}}Repository throws', async () => {
-    const { sut, delete{{pascalCase name}}RepositoryStub } = makeSut();
-    jest.spyOn(delete{{pascalCase name}}RepositoryStub, 'delete').mockImplementationOnce(() => {
-      return Promise.reject(new Error());
+  describe('With invalid parameters', () => {
+    it('Should not delete {{dashCase name}} if not exists', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}ByIdRepositorySpy,
+        delete{{pascalCase name}}ByIdRepositorySpy,
+      } = makeSut();
+
+      const { id } = {{pascalCase name}}Factory.build();
+
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(null);
+
+      const testScript = () => sut.execute(id);
+
+      await expect(testScript).rejects.toThrow({{pascalCase name}}NotFoundException);
+
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+      expect(delete{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(0);
     });
 
-    const fake{{pascalCase name}} = mockDelete{{pascalCase name}}ByIdParams();
+    it('Should throw if Delete{{pascalCase name}}ByIdRepository throws', async () => {
+      const {
+        sut,
+        get{{pascalCase name}}ByIdRepositorySpy,
+        delete{{pascalCase name}}ByIdRepositorySpy,
+      } = makeSut();
 
-    const response = sut.execute(fake{{pascalCase name}});
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
 
-    expect(response).rejects.toThrow();
-  });
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}});
+      delete{{pascalCase name}}ByIdRepositorySpy.mockImplementationOnce(() => {
+        return Promise.reject(new Error());
+      });
 
-  it('should return null on success', async () => {
-    const { sut, delete{{pascalCase name}}RepositoryStub } = makeSut();
+      const testScript = () => sut.execute(fake{{pascalCase name}}.id);
 
-    const fake{{pascalCase name}} = mockDelete{{pascalCase name}}ByIdParams();
+      await expect(testScript).rejects.toThrow();
 
-    const response = await sut.execute(fake{{pascalCase name}});
-
-    expect(response).toBe(delete{{pascalCase name}}RepositoryStub.result);
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+      expect(delete{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+    });
   });
 });

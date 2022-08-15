@@ -3,9 +3,10 @@ import {
   ExceptionTypes,
 } from '@/shared/helpers/error-helper';
 
+
 import {
   {{pascalCase name}},
-} from '@/domains/{{dashCase name}}/interface/presenters';
+} from '@/domains/{{dashCase name}}/entities';
 
 export class {{pascalCase name}}NotFoundException extends DefaultException {
   constructor({{camelCase name}}: Partial<{{pascalCase name}}>) {

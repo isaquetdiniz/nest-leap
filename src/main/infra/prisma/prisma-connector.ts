@@ -5,7 +5,7 @@ class PrismaConnector {
   private readonly url: string = prismaEnviroment.url;
   client: null | PrismaClient = null;
 
-  connect(): PrismaClient {
+  connect(url?: string): PrismaClient {
     if (this.client !== null) {
       return this.client;
     }
@@ -13,7 +13,7 @@ class PrismaConnector {
     this.client = new PrismaClient({
       datasources: {
         db: {
-          url: this.url,
+          url: url || this.url,
         },
       },
     });

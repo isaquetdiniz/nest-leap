@@ -1,7 +1,7 @@
 import { PrismaCount{{pascalCase name}}sByFilterRepository } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
 import { prismaConnector } from '@/shared/infra/prisma/index';
 
-import { mockCreate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
 import { PrismaClient } from '@prisma/client';
 
 const makeSut = () => {
@@ -12,17 +12,24 @@ const makeSut = () => {
   };
 }
 
-describe('Prisma Save {{pascalCase name}} Repository', () => {
+describe('Prisma Count {{pascalCase name}}s By Filters Repository', () => {
   let prismaTest: PrismaClient | null = null;
-  beforeEach(async () => {
+  beforeAll(async () => {
     prismaTest = prismaConnector.connect(process.env.DATABASE_TEST_URL);
 
-    await prismaTest.{{camelCase name}}.deleteMany({});
+    if (prismaTest) {
+      await prismaTest.{{camelCase name}}.deleteMany({});
+    }
   });
 
   afterEach(async () => {
     if (prismaTest) {
       await prismaTest.{{camelCase name}}.deleteMany({});
+    }
+  });
+
+  afterAll(async () => {
+    if (prismaTest) {
       await prismaTest.$disconnect();
     }
   });
@@ -31,10 +38,13 @@ describe('Prisma Save {{pascalCase name}} Repository', () => {
     const { sut } = makeSut();
 
     for (const name of ['ABCDE', 'abce', 'abcd']) {
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build({
+        name,
+      });
+
       await prismaTest?.{{camelCase name}}.create({
         data: {
-          ...mockCreate{{pascalCase name}}Params(),
-          name,
+          ...fake{{pascalCase name}},
         },
       });
     }

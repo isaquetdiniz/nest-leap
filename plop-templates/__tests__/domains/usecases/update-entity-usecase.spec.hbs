@@ -1,86 +1,99 @@
-import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
-import { Update{{pascalCase name}}ByIdUsecase } from '@/domains/{{dashCase name}}/usecases';
+import 'jest-ts-auto-mock';
+import { createMock } from 'ts-auto-mock';
+import { method, On } from 'ts-auto-mock/extension';
+
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
 import {
-  Get{{pascalCase name}}ByIdRepositorySpy,
-  Update{{pascalCase name}}RepositorySpy,
-} from '@/tests/domains/{{dashCase name}}/usecases/repos';
+  IGet{{pascalCase name}}ByIdRepository,
+  IGet{{pascalCase name}}ByNameRepository,
+  IUpdate{{pascalCase name}}Repository,
+} from '@/domains/{{dashCase name}}/usecases/repos';
+import { {{pascalCase name}}NotFoundException } from '@/domains/{{dashCase name}}/usecases/exceptions';
+import { Update{{pascalCase name}}ByIdUsecase as UseCase } from '@/domains/{{dashCase name}}/usecases';
 import { pinoLoggerLocal } from '@/shared/infra/logs';
-import { mock{{pascalCase name}}Entity, mockUpdate{{pascalCase name}}Params } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
 
-type SutTypes = {
-  sut: Update{{pascalCase name}}ByIdUsecase;
-  get{{pascalCase name}}ByIdRepositorySpy: Get{{pascalCase name}}ByIdRepositorySpy;
-  update{{pascalCase name}}RepositorySpy: Update{{pascalCase name}}RepositorySpy;
-};
+const makeSut = () => {
+  const get{{pascalCase name}}ByIdRepository: IGet{{pascalCase name}}ByIdRepository =
+    createMock<IGet{{pascalCase name}}ByIdRepository>();
+  const get{{pascalCase name}}ByIdRepositorySpy: jest.Mock = On(get{{pascalCase name}}ByIdRepository).get(
+    method((mock) => mock.get)
+  );
 
-const makeSut = (): SutTypes => {
-  const update{{pascalCase name}}RepositorySpy = new Update{{pascalCase name}}RepositorySpy();
-  const get{{pascalCase name}}RepositorySpy = new Get{{pascalCase name}}ByIdRepositorySpy();
+  const get{{pascalCase name}}ByNameRepository: IGet{{pascalCase name}}ByNameRepository =
+    createMock<IGet{{pascalCase name}}ByNameRepository>();
+  const get{{pascalCase name}}ByNameRepositorySpy: jest.Mock = On(get{{pascalCase name}}ByNameRepository).get(
+    method((mock) => mock.get)
+  );
 
-  const sut = new Update{{pascalCase name}}ByIdUsecase(
-    get{{pascalCase name}}RepositorySpy,
-    update{{pascalCase name}}RepositorySpy,
-    pinoLoggerLocal,
+  const update{{pascalCase name}}ByIdRepository: IUpdate{{pascalCase name}}Repository =
+    createMock<IUpdate{{pascalCase name}}Repository>();
+  const update{{pascalCase name}}ByIdRepositorySpy: jest.Mock = On(
+    update{{pascalCase name}}ByIdRepository
+  ).get(method((mock) => mock.update));
+
+  const sut = new UseCase(
+    get{{pascalCase name}}ByIdRepository,
+    get{{pascalCase name}}ByNameRepository,
+    update{{pascalCase name}}ByIdRepository,
+    pinoLoggerLocal
   );
 
   return {
     sut,
-    get{{pascalCase name}}ByIdRepositorySpy: get{{pascalCase name}}RepositorySpy,
-    update{{pascalCase name}}RepositorySpy,
+    get{{pascalCase name}}ByIdRepositorySpy,
+    get{{pascalCase name}}ByNameRepositorySpy,
+    update{{pascalCase name}}ByIdRepositorySpy,
   };
 };
 
 describe('Update {{pascalCase name}} Service', () => {
-  it('should call Update{{pascalCase name}}RepositorySpy with correct data', async () => {
-    const { sut, update{{pascalCase name}}RepositorySpy } = makeSut();
+  describe('With valid parameters', () => {
+    it('Should update a {{dashCase name}} with success', async () => {
+      const { sut, get{{pascalCase name}}ByIdRepositorySpy, get{{pascalCase name}}ByNameRepositorySpy, update{{pascalCase name}}ByIdRepositorySpy } =
+        makeSut();
 
-    const update{{pascalCase name}}Spy = jest.spyOn(update{{pascalCase name}}RepositorySpy, 'update');
+      const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
+      const fake{{pascalCase name}}Update = {{pascalCase name}}Factory.build();
 
-    const fakeParams = mockUpdate{{pascalCase name}}Params();
+      const { id, ...paramsToUpdate } = fake{{pascalCase name}}Update;
 
-    const { id, paramsToUpdate } = fakeParams;
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}});
+      update{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(fake{{pascalCase name}}Update);
+      get{{pascalCase name}}ByNameRepositorySpy.mockResolvedValueOnce(null);
 
-    await sut.execute({
-      paramsToUpdate,
-      id: id,
+      const {{dashCase name}}Updated = await sut.execute({
+        id: fake{{pascalCase name}}.id,
+        paramsToUpdate,
+      });
+
+      expect({{dashCase name}}Updated).toStrictEqual(fake{{pascalCase name}}Update);
+
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+      expect(get{{pascalCase name}}ByNameRepositorySpy).toBeCalledTimes(1);
+      expect(update{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
     });
-
-    expect(update{{pascalCase name}}Spy).toBeCalled();
-    expect(update{{pascalCase name}}Spy).toHaveReturned();
   });
 
-  it('should throw if Update{{pascalCase name}}ByIdRepository throws', async () => {
-    const { sut, update{{pascalCase name}}RepositorySpy } = makeSut()
-    jest.spyOn(update{{pascalCase name}}RepositorySpy, 'update').mockImplementationOnce(() => {
-      return Promise.reject(new Error())
-    })
+  describe('With invalid parameters', () => {
+    it('Should not update {{dashCase name}} if not exists', async () => {
+      const { sut, get{{pascalCase name}}ByIdRepositorySpy, get{{pascalCase name}}ByNameRepositorySpy, update{{pascalCase name}}ByIdRepositorySpy } =
+        makeSut();
 
-    const fakeParams = mockUpdate{{pascalCase name}}Params()
-    const { id, paramsToUpdate } = fakeParams;
+      const { id, ...paramsToUpdate } = {{pascalCase name}}Factory.build();
 
-    const response = sut.execute({ id: id, paramsToUpdate });
+      get{{pascalCase name}}ByIdRepositorySpy.mockResolvedValueOnce(null);
 
-    expect(response).rejects.toThrow();
-  })
+      const testScript = () =>
+        sut.execute({
+          id,
+          paramsToUpdate,
+        });
 
-  it('should return updated {{pascalCase name}} on success', async () => {
-    const { sut } = makeSut();
+      await expect(testScript).rejects.toThrow({{pascalCase name}}NotFoundException);
 
-    const fakeParams = mockUpdate{{pascalCase name}}Params();
-    const { id, paramsToUpdate } = fakeParams;
-
-    const response = await sut.execute({
-      paramsToUpdate,
-      id: id,
+      expect(get{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(1);
+      expect(get{{pascalCase name}}ByNameRepositorySpy).toBeCalledTimes(0);
+      expect(update{{pascalCase name}}ByIdRepositorySpy).toBeCalledTimes(0);
     });
-
-    const expectedResult = new {{pascalCase name}}({
-      ...mock{{pascalCase name}}Entity(),
-      id: response.id,
-      createdAt: response.createdAt,
-      updatedAt: response.updatedAt,
-    });
-
-    expect(response).toStrictEqual(expectedResult);
   });
 });

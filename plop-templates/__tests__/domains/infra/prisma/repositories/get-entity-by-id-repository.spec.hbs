@@ -1,7 +1,8 @@
-import { PrismaGet{{pascalCase name}}ByIdRepository, {{pascalCase name}} } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
+import { {{pascalCase name}} } from '@/domains/{{dashCase name}}/entities';
+import { PrismaGet{{pascalCase name}}ByIdRepository } from '@/domains/{{dashCase name}}/infra/prisma/repositories';
 import { prismaConnector } from '@/shared/infra/prisma/index';
 
-import { mockCreate{{pascalCase name}}Params, mock{{pascalCase name}}Entity } from '@/tests/domains/{{dashCase name}}/entities/mocks/{{dashCase name}}-mocks';
+import { {{pascalCase name}}Factory } from '@/tests/domains/{{dashCase name}}/entities';
 import { PrismaClient } from '@prisma/client';
 
 const makeSut = () => {
@@ -13,16 +14,23 @@ const makeSut = () => {
 }
 
 describe('Prisma Get {{pascalCase name}} by ID Repository', () => {
-  let prismaTest: PrismaClient | null = null;
-  beforeEach(async () => {
+    let prismaTest: PrismaClient | null = null;
+  beforeAll(async () => {
     prismaTest = prismaConnector.connect(process.env.DATABASE_TEST_URL);
 
-    await prismaTest.{{camelCase name}}.deleteMany({});
+    if (prismaTest) {
+      await prismaTest.{{camelCase name}}.deleteMany({});
+    }
   });
 
   afterEach(async () => {
     if (prismaTest) {
       await prismaTest.{{camelCase name}}.deleteMany({});
+    }
+  });
+
+  afterAll(async () => {
+    if (prismaTest) {
       await prismaTest.$disconnect();
     }
   });
@@ -30,15 +38,18 @@ describe('Prisma Get {{pascalCase name}} by ID Repository', () => {
   it('should list a {{camelCase name}} by id', async () => {
     const { sut } = makeSut();
 
+    const fake{{pascalCase name}} = {{pascalCase name}}Factory.build();
+
     const {{camelCase name}}Created = await prismaTest?.{{camelCase name}}.create({
-      data: mockCreate{{pascalCase name}}Params(),
+      data: fake{{pascalCase name}},
     });
+
     if (!{{camelCase name}}Created) throw new Error('{{pascalCase name}} not created');
 
     const {{camelCase name}} = await sut.get({{camelCase name}}Created.id);
 
     const expectedResult = new {{pascalCase name}}({
-      ...mock{{pascalCase name}}Entity(),
+      ...fake{{pascalCase name}},
       id: {{camelCase name}}Created.id,
       createdAt: {{camelCase name}}Created.createdAt,
       updatedAt: {{camelCase name}}Created.updatedAt,
