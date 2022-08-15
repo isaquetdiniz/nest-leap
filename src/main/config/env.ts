@@ -35,4 +35,13 @@ export const env = {
       userPoolId: process.env.COGNITO_USER_POOL_ID as string,
     },
   },
+  storage: {
+    s3: {
+      bucketName: process.env.AWS_BUCKET_NAME as string,
+      region: process.env.AWS_BUCKET_REGION as string,
+      accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESS_KEY as string,
+      folderAwsS3Bucket: process.env.AWS_S3_FOLDER as string,
+    },
+  },
 };
