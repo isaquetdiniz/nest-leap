@@ -1,31 +1,16 @@
-## What I did
+## O que fiz
 
-- Thing I’ve done
-- Thing I’ve done
-  - Detailing
-  - Detailing
+- Coisa que eu fiz
+- Coisa que eu fiz
+  - Detalhe
+  - Detalhe
 
-## How to test
+## Como testar
+- Primeiro faça isso
+- Depois isso
+  - e isso aqui também é importante
 
-1. Open the terminal and go to the folder of this project
-
-1. In terminal:
-   1. `git checkout develop`
-   1. `git pull`
-   1. `git checkout <branch name>`
-   1. `git pull origin <branch name>`
-   1. `code .`
-   1. `sudo docker-compose build && sudo docker-compose up -d && sudo docker-compose logs -f`
-1. If is you firt time, create a .env follow the .env.base
-
-1. Open in the browser `localhost:3001/docs`
-
-   1. Next step
-   1. Next step
-
-1. Read the changed files section on GitHub
-
-1. Test the things that you think are worth testing, even the ones that are not in this description
+### [Recomendações de revisão de código](https://www.notion.so/P-lula-sobre-code-review-d9f23739e2984a6bb4f098b395e6849e)
 
 &nbsp;
 
