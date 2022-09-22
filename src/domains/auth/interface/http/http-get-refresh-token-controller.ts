@@ -1,9 +1,5 @@
-import {
-  IGetRefreshTokenInCloudGateway,
-} from '@/domains/auth/usecases/gateways';
-import {
-  GetRefreshTokenController,
-} from '@/domains/auth/interface/controllers';
+import { IGetRefreshTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
+import { GetRefreshTokenController } from '@/domains/auth/interface/controllers';
 
 import {
   HttpController,

@@ -6,12 +6,8 @@ import {
   CognitoGetUserByEmailInCloudRepository,
   CognitoDeleteUserByEmailInCloudRepository,
 } from '@/domains/user/infra/cognito/repositories';
-import {
-  HttpDeleteUserByIdController,
-} from '@/domains/user/interface/http';
-import {
-  makeDeleteUserByIdValidation,
-} from '@/domains/user/interface/validation';
+import { HttpDeleteUserByIdController } from '@/domains/user/interface/http';
+import { makeDeleteUserByIdValidation } from '@/domains/user/interface/validation';
 
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 

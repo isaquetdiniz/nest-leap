@@ -16,7 +16,7 @@ export default (app: Express): void => {
   app.use(bodyParser);
   app.use(corsMiddleware);
   app.use(contentType);
-  app.use(limiter)
+  app.use(limiter);
 
   if (env.application.mode === 'production') {
     app.use(pinoHttp);

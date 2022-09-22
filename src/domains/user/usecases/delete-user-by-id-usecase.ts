@@ -1,6 +1,4 @@
-import {
-  UserNotFoundException,
-} from '@/domains/user/usecases/exceptions';
+import { UserNotFoundException } from '@/domains/user/usecases/exceptions';
 import {
   IGetUserByIdRepository,
   IGetUserByEmailInCloudRepository,

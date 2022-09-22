@@ -7,12 +7,8 @@ import {
   CognitoGetUserByEmailInCloudRepository,
   CognitoSaveUserInCloudRepository,
 } from '@/domains/user/infra/cognito/repositories';
-import {
-  HttpCreateUserController,
-} from '@/domains/user/interface/http';
-import {
-  makeCreateUserValidation,
-} from '@/domains/user/interface/validation';
+import { HttpCreateUserController } from '@/domains/user/interface/http';
+import { makeCreateUserValidation } from '@/domains/user/interface/validation';
 
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 import { UUIDGeneratorAdapter } from '@/shared/infra/uuid';

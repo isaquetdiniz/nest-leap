@@ -1,6 +1,4 @@
-import {
-  CreateUserUsecase,
-} from '@/domains/user/usecases';
+import { CreateUserUsecase } from '@/domains/user/usecases';
 import {
   ISaveUserRepository,
   IGetUserByEmailRepository,
@@ -73,7 +71,8 @@ export class CreateUserController {
 
     this.logger.logDebug({ message: 'User created', data: userCreated });
 
-    const userPresenter = UserTransformers.generateDefaultTransformer(userCreated);
+    const userPresenter =
+      UserTransformers.generateDefaultTransformer(userCreated);
 
     return userPresenter;
   }

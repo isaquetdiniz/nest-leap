@@ -1,6 +1,4 @@
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   AuthUserNotFoundException,
   AuthUserNeedSetPasswordException,
@@ -10,9 +8,7 @@ import {
   ILoginInCloudGateway,
   IGetAuthUserByEmailInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
-import {
-  LoginController,
-} from '@/domains/auth/interface/controllers';
+import { LoginController } from '@/domains/auth/interface/controllers';
 
 import {
   HttpController,

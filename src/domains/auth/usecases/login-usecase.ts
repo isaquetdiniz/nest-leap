@@ -1,16 +1,11 @@
+import { Access, AuthUser } from '@/domains/auth/entities';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
-  Access,
-  AuthUser,
-} from '@/domains/auth/entities';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
-import{
   AuthUserNotFoundException,
   AuthUserNeedSetPasswordException,
   AuthUserNotMadeFirstLoginException,
 } from '@/domains/auth/usecases/exceptions';
-import{
+import {
   IGetAuthUserByEmailInCloudGateway,
   ILoginInCloudGateway,
 } from '@/domains/auth/usecases/gateways';

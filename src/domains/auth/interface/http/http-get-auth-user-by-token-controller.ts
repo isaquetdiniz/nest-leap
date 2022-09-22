@@ -1,16 +1,10 @@
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   AuthUserNotFoundException,
   AuthUserNotFoundByTokenException,
 } from '@/domains/auth/usecases/exceptions';
-import {
-  IGetAuthUserByTokenInCloudGateway,
-} from '@/domains/auth/usecases/gateways';
-import {
-  GetAuthUserByTokenController,
-} from '@/domains/auth/interface/controllers';
+import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
+import { GetAuthUserByTokenController } from '@/domains/auth/interface/controllers';
 
 import {
   HttpController,

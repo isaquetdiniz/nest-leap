@@ -5,4 +5,4 @@ export type UserDefaultPresenter = {
   email: string;
   created_at?: Date;
   updated_at?: Date;
-}
+};

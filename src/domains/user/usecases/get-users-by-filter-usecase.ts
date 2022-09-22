@@ -1,6 +1,4 @@
-import {
-  User,
-} from '@/domains/user/entities';
+import { User } from '@/domains/user/entities';
 import {
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,

@@ -1,10 +1,5 @@
-import {
-  Access,
-  AuthUser,
-} from '@/domains/auth/entities';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { Access, AuthUser } from '@/domains/auth/entities';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   AuthUserNotFoundException,
   AuthUserAlreadyMadeFirstLoginException,

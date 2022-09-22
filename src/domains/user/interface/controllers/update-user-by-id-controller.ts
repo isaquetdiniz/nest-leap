@@ -1,6 +1,4 @@
-import {
-  UpdateUserByIdUsecase,
-} from '@/domains/user/usecases';
+import { UpdateUserByIdUsecase } from '@/domains/user/usecases';
 import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
@@ -72,7 +70,8 @@ export class UpdateUserByIdController {
 
     this.logger.logDebug({ message: 'User updated', data: userUpdated });
 
-    const userPresenter = UserTransformers.generateDefaultTransformer(userUpdated);
+    const userPresenter =
+      UserTransformers.generateDefaultTransformer(userUpdated);
 
     return userPresenter;
   }

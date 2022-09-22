@@ -1,6 +1,4 @@
-import {
-  GetUserByIdUsecase,
-} from '@/domains/user/usecases';
+import { GetUserByIdUsecase } from '@/domains/user/usecases';
 import {
   IGetUserByIdRepository,
   IGetUserByEmailInCloudRepository,

@@ -1,6 +1,4 @@
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   AuthUserNotFoundException,
   AuthUserAlreadyMadeFirstLoginException,
@@ -10,9 +8,7 @@ import {
   IFirstLoginInCloudGateway,
   IGetAuthUserByEmailInCloudGateway,
 } from '@/domains/auth/usecases/gateways';
-import {
-  FirstLoginController,
-} from '@/domains/auth/interface/controllers';
+import { FirstLoginController } from '@/domains/auth/interface/controllers';
 
 import {
   HttpController,

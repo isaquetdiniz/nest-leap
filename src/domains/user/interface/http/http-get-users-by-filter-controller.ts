@@ -2,9 +2,7 @@ import {
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
 } from '@/domains/user/usecases/repos';
-import {
-  GetUsersByFilterController,
-} from '@/domains/user/interface/controllers';
+import { GetUsersByFilterController } from '@/domains/user/interface/controllers';
 
 import {
   HttpResponse,

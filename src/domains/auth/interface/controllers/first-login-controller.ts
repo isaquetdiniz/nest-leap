@@ -1,9 +1,5 @@
-import {
-  FirstLoginUsecase,
-} from '@/domains/auth/usecases';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { FirstLoginUsecase } from '@/domains/auth/usecases';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   ILoginInCloudGateway,
   IFirstLoginInCloudGateway,
@@ -85,6 +81,9 @@ export class FirstLoginController {
       data: authUser,
     });
 
-    return { access: accessDefaultPresenter, authUser: authUserDefaultPresenter };
+    return {
+      access: accessDefaultPresenter,
+      authUser: authUserDefaultPresenter,
+    };
   }
 }

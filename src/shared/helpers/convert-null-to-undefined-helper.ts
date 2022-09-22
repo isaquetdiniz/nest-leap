@@ -7,9 +7,9 @@ type ConvertNullToUndefined<Type> = {
 type Entries<Type> = [keyof Type, Type[keyof Type]][];
 
 export const convertNullToUndefined = <
-  Model extends { [Property in keyof Model]: Model[Property] | null },
+  Model extends { [Property in keyof Model]: Model[Property] | null }
 >(
-  model: Model,
+  model: Model
 ): ConvertNullToUndefined<Model> => {
   const modelEntries = Object.entries(model) as Entries<Model>;
 
@@ -20,11 +20,11 @@ export const convertNullToUndefined = <
       if (value === null) return [key, undefined];
 
       return [key, value];
-    },
+    }
   );
 
   const convertedModel = Object.fromEntries(
-    mappedModelEntries,
+    mappedModelEntries
   ) as ConvertNullToUndefined<Model>;
 
   return convertedModel;

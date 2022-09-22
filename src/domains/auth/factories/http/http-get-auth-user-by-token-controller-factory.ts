@@ -1,15 +1,7 @@
-import {
-  PrismaGetAuthUserByEmailRepository,
-} from '@/domains/auth/infra/prisma/repositories';
-import {
-  CognitoGetAuthUserByTokenInCloudGateway,
-} from '@/domains/auth/infra/cognito/gateways';
-import {
-  makeGetAuthUserByTokenValidation,
-} from '@/domains/auth/interface/validation';
-import {
-  HttpGetAuthUserByTokenController,
-} from '@/domains/auth/interface/http';
+import { PrismaGetAuthUserByEmailRepository } from '@/domains/auth/infra/prisma/repositories';
+import { CognitoGetAuthUserByTokenInCloudGateway } from '@/domains/auth/infra/cognito/gateways';
+import { makeGetAuthUserByTokenValidation } from '@/domains/auth/interface/validation';
+import { HttpGetAuthUserByTokenController } from '@/domains/auth/interface/http';
 
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 

@@ -1,16 +1,10 @@
-import {
-  PrismaGetAuthUserByEmailRepository,
-} from '@/domains/auth/infra/prisma/repositories';
+import { PrismaGetAuthUserByEmailRepository } from '@/domains/auth/infra/prisma/repositories';
 import {
   CognitoForgotPasswordInCloudGateway,
   CognitoGetAuthUserByEmailInCloudGateway,
 } from '@/domains/auth/infra/cognito/gateways';
-import {
-  makeForgotPasswordValidation,
-} from '@/domains/auth/interface/validation';
-import {
-  HttpForgotPasswordController,
-} from '@/domains/auth/interface/http';
+import { makeForgotPasswordValidation } from '@/domains/auth/interface/validation';
+import { HttpForgotPasswordController } from '@/domains/auth/interface/http';
 
 import { pinoLoggerLocal } from '@/shared/infra/logs';
 

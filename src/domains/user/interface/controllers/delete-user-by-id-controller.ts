@@ -1,6 +1,4 @@
-import {
-  DeleteUserByIdUsecase,
-} from '@/domains/user/usecases';
+import { DeleteUserByIdUsecase } from '@/domains/user/usecases';
 import {
   IGetUserByIdRepository,
   IDeleteUserByIdRepository,

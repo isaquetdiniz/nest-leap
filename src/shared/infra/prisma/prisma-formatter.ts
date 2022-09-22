@@ -3,10 +3,7 @@ export class PrismaFormatter {
     const filterEntries = Object.entries(filterObject);
 
     const enumTypes: string[] = []; // ADICIONAR OS NOMES DA KEY QUE SÃO DO TIPO ENUMS
-    const filterdByDate = [
-      'createdAt',
-      'updatedAt',
-    ]; // ADCIONAR AS KEYS QUE SÃO DO TIPO DATE
+    const filterdByDate = ['createdAt', 'updatedAt']; // ADCIONAR AS KEYS QUE SÃO DO TIPO DATE
 
     const filterWithouUndefined = filterEntries.filter(
       ([key, value]) => value !== undefined
@@ -14,7 +11,6 @@ export class PrismaFormatter {
 
     const filterEntriesTransformed = filterWithouUndefined.map(
       ([key, value]) => {
-
         if (enumTypes.includes(key)) {
           if (Array.isArray(value)) {
             return [key, { in: value }];

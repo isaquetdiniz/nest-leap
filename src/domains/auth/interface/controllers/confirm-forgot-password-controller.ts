@@ -1,9 +1,5 @@
-import {
-  ConfirmForgotPasswordUsecase,
-} from '@/domains/auth/usecases';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { ConfirmForgotPasswordUsecase } from '@/domains/auth/usecases';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   IGetAuthUserByEmailInCloudGateway,
   IConfirmForgotPasswordInCloudGateway,

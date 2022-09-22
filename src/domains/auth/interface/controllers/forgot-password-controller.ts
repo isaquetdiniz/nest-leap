@@ -1,9 +1,5 @@
-import {
-  ForgotPasswordUsecase,
-} from '@/domains/auth/usecases';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { ForgotPasswordUsecase } from '@/domains/auth/usecases';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   IGetAuthUserByEmailInCloudGateway,
   IForgotPasswordInCloudGateway,

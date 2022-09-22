@@ -1,9 +1,5 @@
-import {
-  User,
-} from '@/domains/user/entities';
-import {
-  UserNotFoundException,
-} from '@/domains/user/usecases/exceptions';
+import { User } from '@/domains/user/entities';
+import { UserNotFoundException } from '@/domains/user/usecases/exceptions';
 import {
   IGetUserByIdRepository,
   IUpdateUserRepository,

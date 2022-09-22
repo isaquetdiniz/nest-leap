@@ -2,12 +2,8 @@ import {
   IGetUserByEmailInCloudRepository,
   IGetUserByIdRepository,
 } from '@/domains/user/usecases/repos';
-import {
-  UserNotFoundException,
-} from '@/domains/user/usecases/exceptions';
-import {
-  GetUserByIdController,
-} from '@/domains/user/interface/controllers';
+import { UserNotFoundException } from '@/domains/user/usecases/exceptions';
+import { GetUserByIdController } from '@/domains/user/interface/controllers';
 
 import {
   ok,

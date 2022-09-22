@@ -2,12 +2,8 @@ import {
   IGetUserByIdRepository,
   IUpdateUserRepository,
 } from '@/domains/user/usecases/repos';
-import {
-  UserNotFoundException,
-} from '@/domains/user/usecases/exceptions';
-import {
-  UpdateUserByIdController,
-} from '@/domains/user/interface/controllers';
+import { UserNotFoundException } from '@/domains/user/usecases/exceptions';
+import { UpdateUserByIdController } from '@/domains/user/interface/controllers';
 
 import {
   ok,

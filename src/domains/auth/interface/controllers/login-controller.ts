@@ -1,9 +1,5 @@
-import {
-  LoginUsecase,
-} from '@/domains/auth/usecases';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
+import { LoginUsecase } from '@/domains/auth/usecases';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
 import {
   ILoginInCloudGateway,
   IGetAuthUserByEmailInCloudGateway,
@@ -75,8 +71,14 @@ export class LoginController {
     const authUserDefaultPresenter =
       AuthUserTransformers.generateDefaultPresenter(authUser);
 
-    this.logger.logDebug({ message: 'Auth User logged', data: authUserDefaultPresenter });
+    this.logger.logDebug({
+      message: 'Auth User logged',
+      data: authUserDefaultPresenter,
+    });
 
-    return { access: accessDefaultPresenter, authUser: authUserDefaultPresenter };
+    return {
+      access: accessDefaultPresenter,
+      authUser: authUserDefaultPresenter,
+    };
   }
 }

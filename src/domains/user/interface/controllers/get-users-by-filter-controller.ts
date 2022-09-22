@@ -1,6 +1,4 @@
-import {
-  GetUsersByFilterUsecase,
-} from '@/domains/user/usecases';
+import { GetUsersByFilterUsecase } from '@/domains/user/usecases';
 import {
   IGetUsersByFilterRepository,
   ICountUsersByFilterRepository,
@@ -119,7 +117,8 @@ export class GetUsersByFilterController {
       };
     }
 
-    const userPresenters = users?.map(UserTransformers.generateDefaultTransformer) ?? [];
+    const userPresenters =
+      users?.map(UserTransformers.generateDefaultTransformer) ?? [];
 
     return {
       items: userPresenters,

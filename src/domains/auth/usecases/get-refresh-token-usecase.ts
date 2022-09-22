@@ -1,9 +1,5 @@
-import {
-  Access,
-} from '@/domains/auth/entities';
-import{
-  IGetRefreshTokenInCloudGateway
-} from '@/domains/auth/usecases/gateways';
+import { Access } from '@/domains/auth/entities';
+import { IGetRefreshTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 
 import { ILoggerLocal } from '@/shared/protocols';
 

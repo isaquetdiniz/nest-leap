@@ -1,12 +1,6 @@
-import {
-  GetAuthUserByTokenUsecase,
-} from '@/domains/auth/usecases';
-import {
-  IGetAuthUserByEmailRepository,
-} from '@/domains/auth/usecases/repos';
-import {
-  IGetAuthUserByTokenInCloudGateway,
-} from '@/domains/auth/usecases/gateways';
+import { GetAuthUserByTokenUsecase } from '@/domains/auth/usecases';
+import { IGetAuthUserByEmailRepository } from '@/domains/auth/usecases/repos';
+import { IGetAuthUserByTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
 import {
   AuthUserDefaultPresenter,
   AuthUserTransformers,
@@ -62,7 +56,8 @@ export class GetAuthUserByTokenController {
       token: accessTokenWithouBearer,
     });
 
-    const autUserPresenter = AuthUserTransformers.generateDefaultPresenter(authUser);
+    const autUserPresenter =
+      AuthUserTransformers.generateDefaultPresenter(authUser);
 
     this.logger.logDebug({
       message: 'Auth User found by token',

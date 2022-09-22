@@ -16,7 +16,7 @@ export class PrismaGetUserByEmailRepository
   }
 
   async getByEmail(
-    email: IGetUserByEmailRepository.Params,
+    email: IGetUserByEmailRepository.Params
   ): Promise<IGetUserByEmailRepository.Result> {
     try {
       const [userFound] = await this.prismaConnection.user.findMany({

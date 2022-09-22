@@ -1,12 +1,6 @@
-import {
-  GetRefreshTokenUsecase,
-} from '@/domains/auth/usecases';
-import {
-  IGetRefreshTokenInCloudGateway,
-} from '@/domains/auth/usecases/gateways';
-import {
-  AccessDefaultPresenter,
-} from '@/domains/auth/interface/presenters';
+import { GetRefreshTokenUsecase } from '@/domains/auth/usecases';
+import { IGetRefreshTokenInCloudGateway } from '@/domains/auth/usecases/gateways';
+import { AccessDefaultPresenter } from '@/domains/auth/interface/presenters';
 
 import { ILoggerLocal } from '@/shared/protocols';
 import { ValidationException } from '@/shared/helpers';

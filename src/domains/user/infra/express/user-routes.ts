@@ -14,13 +14,10 @@ import {
 
 const userRouter = Router();
 
-userRouter
-  .route('/users')
-  .post(adaptRoute(makeHttpCreateUserController()))
-  .get(
-    // authMiddleware('USER'),
-    adaptRoute(makeHttpGetUsersByFilterController())
-  );
+userRouter.route('/users').post(adaptRoute(makeHttpCreateUserController())).get(
+  // authMiddleware('USER'),
+  adaptRoute(makeHttpGetUsersByFilterController())
+);
 
 userRouter
   .route('/users/:id')
