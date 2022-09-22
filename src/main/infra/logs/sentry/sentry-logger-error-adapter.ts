@@ -1,10 +1,12 @@
 import * as Sentry from '@sentry/node';
 
+import { pinoLoggerLocal as loggerLocal } from '@/main/infra/logs/pino';
 import { ILoggerCloud } from '@/shared/protocols';
+
 import sentryEnvironment from './sentry-environment';
 
 class SentryLoggerCloud implements ILoggerCloud {
-  private hasSetuped: boolean = false;
+  private hasSetuped = false;
 
   setup() {
     Sentry.init({
@@ -17,18 +19,22 @@ class SentryLoggerCloud implements ILoggerCloud {
   }
 
   logError(error: Error): void {
-    if (this.hasSetuped === false) {
-      this.setup();
+    try {
+      if (this.hasSetuped === false) {
+        this.setup();
+      }
+
+      const transaction = Sentry.startTransaction({
+        op: error.stack,
+        name: error.name,
+      });
+
+      Sentry.captureException(error);
+
+      transaction.finish();
+    } catch (errorSentry) {
+      loggerLocal.logError('Sentry problems');
     }
-
-    const transaction = Sentry.startTransaction({
-      op: error.stack,
-      name: error.name,
-    });
-
-    Sentry.captureException(error);
-
-    transaction.finish();
   }
 }
 

@@ -4,11 +4,11 @@
   "description": "Node Leap is a node boilerplate that follows best practicles of software design and agile",
   "main": "dist/main/server.js",
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig-build.json",
-    "build:prod": "tsc -p tsconfig-build.json",
+    "build": "tsc -p tsconfig-build.json",
+    "build:local": "rimraf dist && npm run build",
     "start": "node dist/main/server.js",
-    "start:dev": "npm run prisma:migration:push && npx nodemon --exec 'npm run build && node dist/main/server.js' --watch src -e ts",
-    "start:prod": "npm run prisma:migration:push && npm start",
+    "start:local": "npm run prisma:migration:push && npx nodemon --exec 'npm run build:local && npm run start' --watch src -e ts",
+    "start:watch": "npm run prisma:migration:push && npx nodemon --exec 'npm run start' --watch src -e ts",
     "lint": "eslint 'src/**' '__tests__/**'",
     "lint:fix": "eslint 'src/**' '__tests__/**' --fix",
     "style:check": "prettier --check 'src/**/*.ts' '__tests__/**/*.ts'",
@@ -20,10 +20,8 @@
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage",
     "prisma:generate": "npx prisma generate --schema=./src/main/infra/prisma/schema.prisma",
-    "prisma:migration": "npx prisma migrate dev --schema=./src/main/infra/prisma/schema.prisma --name",
+    "prisma:migration": "npx prisma migrate --schema=./src/main/infra/prisma/schema.prisma --name",
     "prisma:migration:push": "npx prisma migrate deploy --schema=./src/main/infra/prisma/schema.prisma",
-    "prisma:introspect": "npx prisma introspect --force --schema=./src/main/infra/prisma/schema.prisma && npm run prisma:generate",
-    "prisma:push": "npx prisma db push --schema=./src/main/infra/prisma/schema.prisma --accept-data-loss",
     "plop": "plop"
   },
   "repository": {
