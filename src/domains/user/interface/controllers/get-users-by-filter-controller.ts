@@ -92,10 +92,10 @@ export class GetUsersByFilterController {
     const filters = {
       name,
       email,
-      isAdmin: isAdmin,
+      isAdmin,
       enabled,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      createdAt,
+      updatedAt,
     };
 
     const orderBy = new OrderByFilter(orderByFilter);

@@ -69,7 +69,7 @@ export class CreateUserController {
       throw new ValidationException(hasError);
     }
 
-    const userCreated = await this.usecase.execute({ name, email, isAdmin: isAdmin });
+    const userCreated = await this.usecase.execute({ name, email, isAdmin });
 
     this.logger.logDebug({ message: 'User created', data: userCreated });
 

@@ -15,7 +15,7 @@
     "no-redeclare": "off",
     "import/export": "off",
     "no-useless-constructor": "off",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "off"
   },
   "globals": {
     "NodeJS": true

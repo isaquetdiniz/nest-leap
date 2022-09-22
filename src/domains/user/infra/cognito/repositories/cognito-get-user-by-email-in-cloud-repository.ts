@@ -36,7 +36,7 @@ export class CognitoGetUserByEmailInCloudRepository
           }
 
           const user = {
-            status: status,
+            status,
             email: username,
           };
 

@@ -10,7 +10,7 @@ export class SwaggerContents {
     return {
       'application/json': {
         ...(schema
-          ? { schema: schema }
+          ? { schema }
           : {
               schema: {
                 type: 'object',

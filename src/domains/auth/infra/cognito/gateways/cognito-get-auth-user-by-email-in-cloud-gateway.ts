@@ -36,7 +36,7 @@ export class CognitoGetAuthUserByEmailInCloudGateway
           }
 
           const user = {
-            status: status,
+            status,
             email: username,
           };
 

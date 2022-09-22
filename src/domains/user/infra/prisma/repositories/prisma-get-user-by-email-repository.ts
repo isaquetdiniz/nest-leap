@@ -20,7 +20,7 @@ export class PrismaGetUserByEmailRepository
   ): Promise<IGetUserByEmailRepository.Result> {
     try {
       const [userFound] = await this.prismaConnection.user.findMany({
-        where: { email: email },
+        where: { email },
       });
 
       if (!userFound) {

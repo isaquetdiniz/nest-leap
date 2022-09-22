@@ -15,7 +15,7 @@ export class PrismaGetAuthUserByEmailRepository
   async get(email: string): IGetAuthUserByEmailRepository.Result {
     try {
       const [user] = await this.prismaConnection.user.findMany({
-        where: { email: email, enabled: true },
+        where: { email, enabled: true },
         select: {
           id: true,
           isAdmin: true,

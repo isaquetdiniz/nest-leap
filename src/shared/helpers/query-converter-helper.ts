@@ -17,7 +17,7 @@ const rangeDateConverter = (value: string) => {
 
   const [initialDate, finalDate] = rangeDateArray;
 
-  const rangeDateObject = { initialDate: initialDate, finalDate: finalDate };
+  const rangeDateObject = { initialDate, finalDate };
 
   return rangeDateObject;
 };
