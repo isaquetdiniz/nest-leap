@@ -1,13 +1,17 @@
-node_modules/
-dist/
 __tests__/
+.clinic/
 .github/
-.vscode/
-coverage/
 .husky/
-app/
+build/
+coverage/
+dist/
 env/
+node_modules/
+performance/
 plop-templates/
+plopfiles/
+.vscode/
+app/
 .dockerignore
 .editorconfig
 .env
@@ -17,6 +21,7 @@ plop-templates/
 .lintstagedrc.json
 .prettierignore
 .prettierrc
+CHANGELOG.docs.md
 docker-compose.yml
 jest-integration-config.js
 jest-unit-config.js
@@ -25,4 +30,3 @@ plopfile.js
 README.md
 .git*
 data/
-build/

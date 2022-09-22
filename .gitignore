@@ -105,3 +105,5 @@ dist
 pg-data/
 
 data/
+
+.clinic/
