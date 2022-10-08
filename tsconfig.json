@@ -1,32 +1,24 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
     "module": "commonjs",
-    "target": "esnext",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "allowJs": true,
-    //"declaration": true,
-    //"declarationMap": true,
-    //"sourceMap": true,
+    "declaration": true,
     "removeComments": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "rootDirs": ["src", "__tests__"],
-    "baseUrl": "src",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@/tests/*": ["../__tests__/*"],
-      "@/*": ["*"]
-    },
-    "plugins": [
-      { "transform": "ts-auto-mock/transformer", "cacheBetweenTests": false }
-    ]
-  },
-  "include": ["src", "__tests__"],
-  "exclude": []
+      "@/*": ["src/*"]
+    }
+  }
 }

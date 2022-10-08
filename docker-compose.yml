@@ -45,9 +45,7 @@ services:
   api-local:
     profiles:
       - local
-    build:
-      context: .
-      dockerfile: ./build/app/Dockerfile
+    build: .
     command: ./wait-for.sh db-local:5432 -- npm run start:watch
     hostname: api-local
     restart: unless-stopped
