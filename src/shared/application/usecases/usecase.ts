@@ -1,3 +1,3 @@
-export interface IUsecase<T = any, K = any> {
+export interface IUsecase<T, K> {
   perform(data: T): Promise<K> | K;
 }
