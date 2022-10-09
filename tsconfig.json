@@ -18,7 +18,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@/api-users/*": ["src/apps/api-users/*"],
+      "@/users/*": ["src/apps/users/*"]
     }
   }
 }
