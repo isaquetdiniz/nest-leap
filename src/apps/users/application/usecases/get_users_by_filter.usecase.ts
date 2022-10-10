@@ -3,11 +3,7 @@ import { IUserRepository, UserFilters } from '@/users/application';
 import { IUsecase, ILoggerProvider } from '@/shared/application';
 
 export class GetUsersByFilterUsecase
-  implements
-    IUsecase<
-      UserFilters & { count?: boolean },
-      { users: User[]; totalUsers: number } | { totalUsers: number }
-    >
+  implements IUsecase<UserFilters, { users: User[]; totalUsers: number }>
 {
   constructor(
     private readonly userRepository: IUserRepository,
@@ -15,21 +11,13 @@ export class GetUsersByFilterUsecase
   ) {}
 
   async perform(
-    data: UserFilters & { count?: boolean },
-  ): Promise<{ users: User[]; totalUsers: number } | { totalUsers: number }> {
+    data: UserFilters,
+  ): Promise<{ users: User[]; totalUsers: number }> {
     this.logger.debug({ message: 'Request received', data });
 
-    const { count, ...restFilterParams } = data;
+    const totalUsers = await this.userRepository.count(data);
 
-    const totalUsers = await this.userRepository.count(restFilterParams);
-
-    if (count) {
-      return {
-        totalUsers,
-      };
-    }
-
-    const users = await this.userRepository.getByFilter(restFilterParams);
+    const users = await this.userRepository.getByFilter(data);
 
     this.logger.debug({ message: 'Users found', data: { users } });
 

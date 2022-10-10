@@ -13,7 +13,7 @@ export interface DefaultFilters {
   skip?: number;
   orderBy?: OrderByFilter;
   createdAt?: DateFilter;
-  udpatedAt?: DateFilter;
+  updatedAt?: DateFilter;
 }
 
 export class DefaultFiltersEntity implements DefaultFilters {
@@ -35,6 +35,6 @@ export class DefaultFiltersEntity implements DefaultFilters {
     };
 
     this.createdAt = props.createdAt;
-    this.updatedAt = props.udpatedAt;
+    this.updatedAt = props.updatedAt;
   }
 }

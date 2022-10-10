@@ -18,7 +18,7 @@ export class UserEntity extends DomainEntity implements User {
   name: string;
   email: string;
 
-  constructor(props: User) {
+  constructor(props: Partial<User>) {
     super(props);
 
     this.state = props.state;
