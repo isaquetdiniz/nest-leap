@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["src/*"],
+      "@/api/*": ["src/apps/*"],
       "@/api-users/*": ["src/apps/api-users/*"],
       "@/users/*": ["src/apps/users/*"]
     }
