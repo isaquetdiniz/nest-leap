@@ -1,9 +1,52 @@
+import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
+import {
+  SwaggerModule,
+  DocumentBuilder,
+  SwaggerCustomOptions,
+} from '@nestjs/swagger';
+import { shutdown } from '@/shared/infra';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+function openapi(app: INestApplication) {
+  const config = new DocumentBuilder()
+    .setTitle('Node Leap')
+    .setDescription('The Node Leap API description')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  const customOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  };
+
+  SwaggerModule.setup('api', app, document, customOptions);
 }
 
-bootstrap();
+let app: INestApplication = null;
+
+async function bootstrap() {
+  app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+
+  const appPort = configService.get<number>('API_PORT', 3000);
+  const appEnv = configService.get<string>('NODE_ENV', 'local');
+
+  // Build OpenAPI server.
+  if (appEnv !== 'production') {
+    openapi(app);
+  }
+
+  // Enable graceful shutdown
+  app.enableShutdownHooks();
+
+  await app.listen(appPort);
+}
+
+bootstrap().catch((error) => shutdown(app, error));

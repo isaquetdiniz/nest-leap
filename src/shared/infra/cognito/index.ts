@@ -1,1 +1,1 @@
-export * from './cognito-exception';
+export * from './cognito.exception';

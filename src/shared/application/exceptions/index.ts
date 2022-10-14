@@ -1,3 +1,5 @@
 export * from './missing_data.exception';
 export * from './default_error.exception';
 export * from './validation.exception';
+export * from './null_pointer.exception';
+export * from './invalid_data_format.exception';

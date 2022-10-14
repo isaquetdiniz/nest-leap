@@ -22,7 +22,10 @@ export class CreateUserController
   constructor(
     userRepository: IUserRepository,
     userCloudService: IUserCloudService,
-    private readonly validation: IValidation,
+    private readonly validation: IValidation<
+      ICreateUserRequest,
+      ICreateUserResponse
+    >,
     private readonly logger: ILoggerProvider,
   ) {
     this.usecase = new CreateUserUsecase(
