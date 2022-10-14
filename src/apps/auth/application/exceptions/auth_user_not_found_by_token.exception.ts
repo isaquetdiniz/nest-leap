@@ -1,7 +1,4 @@
-import {
-  DefaultException,
-  ExceptionTypes,
-} from '@/shared/helpers/error-helper';
+import { DefaultException, ExceptionTypes } from '@/shared/application';
 
 export class AuthUserNotFoundByTokenException extends DefaultException {
   constructor(token: string) {

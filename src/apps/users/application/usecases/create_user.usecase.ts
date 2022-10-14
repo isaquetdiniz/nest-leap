@@ -6,16 +6,16 @@ import {
 } from '@/users/application';
 import { ILoggerProvider, IUsecase } from '@/shared/application';
 
-export class CreateUserUsecase
-  implements IUsecase<{ name: string; email: string }, User>
-{
+type CreateUserType = { name: string; email: string };
+
+export class CreateUserUsecase implements IUsecase<CreateUserType, User> {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly userCloudService: IUserCloudService,
     private readonly logger: ILoggerProvider,
   ) {}
 
-  async perform(data: { name: string; email: string }): Promise<User> {
+  async perform(data: CreateUserType): Promise<User> {
     this.logger.debug({ message: 'Request received', data });
 
     const { name, email } = data;

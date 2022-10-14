@@ -1,1 +1,1 @@
-export * from './prisma-get-auth-user-by-email-repository';
+export * from './prisma-auth-user.repository';

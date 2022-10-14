@@ -2,17 +2,20 @@ import { User } from '@/users/domain';
 import { IUserRepository, UserFilters } from '@/users/application';
 import { IUsecase, ILoggerProvider } from '@/shared/application';
 
+type UserFiltersType = UserFilters & { count?: boolean };
+type GetUserResponse =
+  | { users: User[]; totalUsers: number }
+  | { totalUsers: number };
+
 export class GetUsersByFilterUsecase
-  implements IUsecase<UserFilters, { users: User[]; totalUsers: number }>
+  implements IUsecase<UserFiltersType, GetUserResponse>
 {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly logger: ILoggerProvider,
   ) {}
 
-  async perform(
-    data: UserFilters,
-  ): Promise<{ users: User[]; totalUsers: number }> {
+  async perform(data: UserFiltersType): Promise<GetUserResponse> {
     this.logger.debug({ message: 'Request received', data });
 
     const totalUsers = await this.userRepository.count(data);
