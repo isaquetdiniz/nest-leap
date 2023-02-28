@@ -6,8 +6,8 @@ import {
   DocumentBuilder,
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
-import { shutdown } from '@/shared/infra';
-import { AppModule } from './app.module';
+import { shutdown } from '@/libs/nest';
+import { ApiUsersModule } from './apps/api-users/infra/nest/modules/api_users.module';
 
 function openapi(app: INestApplication) {
   const config = new DocumentBuilder()
@@ -31,7 +31,7 @@ function openapi(app: INestApplication) {
 let app: INestApplication = null;
 
 async function bootstrap() {
-  app = await NestFactory.create(AppModule);
+  app = await NestFactory.create(ApiUsersModule);
 
   const configService = app.get(ConfigService);
 

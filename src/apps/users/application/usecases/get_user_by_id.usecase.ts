@@ -1,15 +1,10 @@
 import { User } from '@/users/domain';
-import {
-  IUserRepository,
-  UserNotFoundException,
-  IUserCloudService,
-} from '@/users/application';
-import { ILoggerProvider, IUsecase } from '@/shared/application';
+import { IUserRepository } from '@/users/application';
+import { ILoggerProvider } from '@/core/application';
 
-export class GetUserByIdUsecase implements IUsecase<string, User | null> {
+export class GetUserByIdUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly userCloudService: IUserCloudService,
     private readonly logger: ILoggerProvider,
   ) {}
 
@@ -19,24 +14,6 @@ export class GetUserByIdUsecase implements IUsecase<string, User | null> {
     const userExists = await this.userRepository.getById(id);
 
     if (!userExists) return null;
-
-    this.logger.debug({
-      message: 'User found in database',
-      data: userExists,
-    });
-
-    const { email } = userExists;
-
-    const userExistsInCloud = await this.userCloudService.getByEmail(email);
-
-    if (!userExistsInCloud) {
-      throw new UserNotFoundException({ email });
-    }
-
-    this.logger.debug({
-      message: 'User found in cloud',
-      data: userExistsInCloud,
-    });
 
     this.logger.debug({
       message: 'User found',

@@ -10,8 +10,8 @@ import {
 } from 'class-validator';
 import { UserState } from '@/users/domain';
 import { ICreateUserRequest, ICreateUserResponse } from '@/users/interface';
-import { IValidation } from '@/shared/interface';
-import { ClassValidator } from '@/shared/infra';
+import { IValidation } from '@/core/interface';
+import { ClassValidator } from '@/libs/class_validator';
 
 export class CreateUserValidation
   implements IValidation<ICreateUserRequest, ICreateUserResponse>

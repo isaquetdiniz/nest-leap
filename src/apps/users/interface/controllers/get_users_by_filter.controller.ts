@@ -4,9 +4,9 @@ import {
   UserFilters,
 } from '@/users/application';
 import { UserDTO, UserPresenter } from '@/users/interface';
-import { DefaultFiltersEntity } from '@/shared/domain';
-import { ILoggerProvider } from '@/shared/application';
-import { IController, IValidation } from '@/shared/interface';
+import { DefaultFiltersEntity } from '@/core/domain';
+import { ILoggerProvider } from '@/core/application';
+import { Controller, IValidation } from '@/core/interface';
 
 export type IGetUsersByFilterRequest = UserFilters;
 
@@ -16,28 +16,24 @@ export type IGetUsersByFilterResponse = {
   totalUsers: number;
 };
 
-export class GetUsersByFilterController
-  implements IController<IGetUsersByFilterRequest, IGetUsersByFilterResponse>
-{
+export class GetUsersByFilterController extends Controller<
+  IGetUsersByFilterRequest,
+  IGetUsersByFilterResponse
+> {
   private usecase: GetUsersByFilterUsecase;
 
   constructor(
     userRepository: IUserRepository,
-    private readonly validation: IValidation,
-    private readonly logger: ILoggerProvider,
+    validation: IValidation,
+    logger: ILoggerProvider,
   ) {
+    super(validation, logger);
     this.usecase = new GetUsersByFilterUsecase(userRepository, logger);
   }
 
-  async execute(
+  async perform(
     request: IGetUsersByFilterRequest,
   ): Promise<IGetUsersByFilterResponse> {
-    this.logger.debug({ message: 'Request received', data: request });
-
-    this.validation.request(request);
-
-    this.logger.debug({ message: 'Params validated' });
-
     const { take, skip, orderBy, createdAt, updatedAt, ...restFilters } =
       request;
 
@@ -54,14 +50,7 @@ export class GetUsersByFilterController
       ...defaultFilters,
     });
 
-    this.logger.debug({
-      message: 'Users found',
-      data: { totalUsers, totalItemsListed: users?.length },
-    });
-
     const userPresenters = users.map(UserPresenter.format);
-
-    this.validation.response(userPresenters);
 
     return {
       users: userPresenters,

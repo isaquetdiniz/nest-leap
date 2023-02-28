@@ -1,6 +1,6 @@
 import { User } from '@/users/domain';
-import { DefaultFilters } from '@/shared/domain';
-import { IRepository } from '@/shared/application';
+import { DefaultFilters } from '@/core/domain';
+import { IRepository } from '@/core/application';
 
 export type UserFilters = DefaultFilters & {
   name?: string;

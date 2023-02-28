@@ -1,14 +1,9 @@
-import {
-  IUserRepository,
-  UserNotFoundException,
-  IUserCloudService,
-} from '@/users/application';
-import { ILoggerProvider, IUsecase } from '@/shared/application';
+import { IUserRepository, UserNotFoundException } from '@/users/application';
+import { ILoggerProvider } from '@/core/application';
 
-export class DeleteUserByIdUsecase implements IUsecase<string, void> {
+export class DeleteUserByIdUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly userCloudService: IUserCloudService,
     private readonly logger: ILoggerProvider,
   ) {}
 
@@ -24,26 +19,6 @@ export class DeleteUserByIdUsecase implements IUsecase<string, void> {
     this.logger.debug({
       message: 'User found in database',
       data: userExists,
-    });
-
-    const { email } = userExists;
-
-    const userExistsInCloud = await this.userCloudService.getByEmail(email);
-
-    if (!userExistsInCloud) {
-      throw new UserNotFoundException({ email });
-    }
-
-    this.logger.debug({
-      message: 'User found in cloud',
-      data: userExistsInCloud,
-    });
-
-    await this.userCloudService.deleteByEmail(email);
-
-    this.logger.debug({
-      message: 'User deleted from cloud',
-      data: { email },
     });
 
     await this.userRepository.deleteById(id);

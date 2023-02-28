@@ -1,8 +1,8 @@
 import { UserEntity } from '@/users/domain';
 import { IUserRepository, UpdateUserUsecase } from '@/users/application';
 import { UserDTO, UserPresenter } from '@/users/interface';
-import { ILoggerProvider } from '@/shared/application';
-import { IController, IValidation } from '@/shared/interface';
+import { ILoggerProvider } from '@/core/application';
+import { Controller, IValidation } from '@/core/interface';
 
 export interface IUpdateUserRequest {
   id: string;
@@ -12,26 +12,23 @@ export interface IUpdateUserRequest {
 
 export type IUpdateUserResponse = UserDTO;
 
-export class UpdateUserByIdController
-  implements IController<IUpdateUserRequest, IUpdateUserResponse>
-{
+export class UpdateUserByIdController extends Controller<
+  IUpdateUserRequest,
+  IUpdateUserResponse
+> {
   private usecase: UpdateUserUsecase;
 
   constructor(
     userRepository: IUserRepository,
-    private readonly validation: IValidation,
-    private readonly logger: ILoggerProvider,
+    validation: IValidation<IUpdateUserRequest, IUpdateUserResponse>,
+    logger: ILoggerProvider,
   ) {
+    super(validation, logger);
+
     this.usecase = new UpdateUserUsecase(userRepository, logger);
   }
 
-  async execute(request: IUpdateUserRequest): Promise<IUpdateUserResponse> {
-    this.logger.debug({ message: 'Request received', data: request });
-
-    this.validation.request(request);
-
-    this.logger.debug({ message: 'Params validated' });
-
+  async perform(request: IUpdateUserRequest): Promise<IUpdateUserResponse> {
     const userToUpdate = new UserEntity({
       id: request.id,
       name: request.name,
@@ -40,11 +37,7 @@ export class UpdateUserByIdController
 
     const userUpdated = await this.usecase.perform(userToUpdate);
 
-    this.logger.debug({ message: 'User updated', data: userUpdated });
-
     const userPresenter = UserPresenter.format(userUpdated);
-
-    this.validation.response(userPresenter);
 
     return userPresenter;
   }

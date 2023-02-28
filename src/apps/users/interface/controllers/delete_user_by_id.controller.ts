@@ -1,10 +1,6 @@
-import {
-  DeleteUserByIdUsecase,
-  IUserCloudService,
-  IUserRepository,
-} from '@/users/application';
-import { ILoggerProvider } from '@/shared/application';
-import { IController, IValidation } from '@/shared/interface';
+import { DeleteUserByIdUsecase, IUserRepository } from '@/users/application';
+import { ILoggerProvider } from '@/core/application';
+import { Controller, IValidation } from '@/core/interface';
 
 export type IDeleteUserByIdRequest = {
   id: string;
@@ -12,35 +8,25 @@ export type IDeleteUserByIdRequest = {
 
 export type IDeleteUserByIdResponse = void;
 
-export class DeleteUserByIdController
-  implements IController<IDeleteUserByIdRequest, IDeleteUserByIdResponse>
-{
+export class DeleteUserByIdController extends Controller<
+  IDeleteUserByIdRequest,
+  IDeleteUserByIdResponse
+> {
   private usecase: DeleteUserByIdUsecase;
 
   constructor(
     userRepository: IUserRepository,
-    userCloudService: IUserCloudService,
-    private readonly validation: IValidation,
-    private readonly logger: ILoggerProvider,
+    validation: IValidation,
+    logger: ILoggerProvider,
   ) {
-    this.usecase = new DeleteUserByIdUsecase(
-      userRepository,
-      userCloudService,
-      logger,
-    );
+    super(validation, logger);
+
+    this.usecase = new DeleteUserByIdUsecase(userRepository, logger);
   }
 
-  async execute(
+  async perform(
     request: IDeleteUserByIdRequest,
   ): Promise<IDeleteUserByIdResponse> {
-    this.logger.debug({ message: 'Request Received', data: request });
-
-    this.validation.request(request);
-
-    this.logger.debug({ message: 'Params validated' });
-
     await this.usecase.perform(request.id);
-
-    this.logger.debug({ message: 'User deleted', data: { id: request.id } });
   }
 }

@@ -1,15 +1,11 @@
 import { User } from '@/users/domain';
 import { IUserRepository, UserFilters } from '@/users/application';
-import { IUsecase, ILoggerProvider } from '@/shared/application';
+import { ILoggerProvider } from '@/core/application';
 
-type UserFiltersType = UserFilters & { count?: boolean };
-type GetUserResponse =
-  | { users: User[]; totalUsers: number }
-  | { totalUsers: number };
+type UserFiltersType = UserFilters;
+type GetUserResponse = { users: User[]; totalUsers: number };
 
-export class GetUsersByFilterUsecase
-  implements IUsecase<UserFiltersType, GetUserResponse>
-{
+export class GetUsersByFilterUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly logger: ILoggerProvider,

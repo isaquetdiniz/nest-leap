@@ -6,7 +6,6 @@ export class UserPresenter {
     return {
       id: user.id,
       state: user.state,
-      enabled: user.enabled,
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,

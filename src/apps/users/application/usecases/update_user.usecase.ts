@@ -1,8 +1,8 @@
 import { User, UserEntity } from '@/users/domain';
 import { IUserRepository, UserNotFoundException } from '@/users/application';
-import { IUsecase, ILoggerProvider } from '@/shared/application';
+import { ILoggerProvider } from '@/core/application';
 
-export class UpdateUserUsecase implements IUsecase<User, User> {
+export class UpdateUserUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly logger: ILoggerProvider,

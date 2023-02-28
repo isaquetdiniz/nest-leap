@@ -1,4 +1,4 @@
-import { Domain, DomainEntity } from '@/shared/domain';
+import { Domain, DomainEntity } from '@/core/domain';
 
 export enum UserState {
   CONFIRMED = 'CONFIRMED',
@@ -7,14 +7,12 @@ export enum UserState {
 
 export interface User extends Domain {
   state: UserState;
-  enabled: boolean;
   name: string;
   email: string;
 }
 
 export class UserEntity extends DomainEntity implements User {
   state: UserState;
-  enabled: boolean;
   name: string;
   email: string;
 
@@ -22,7 +20,6 @@ export class UserEntity extends DomainEntity implements User {
     super(props);
 
     this.state = props.state;
-    this.enabled = props.enabled;
     this.name = props.name;
     this.email = props.email;
 

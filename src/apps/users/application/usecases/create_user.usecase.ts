@@ -1,17 +1,15 @@
 import { User, UserEntity, UserState } from '@/users/domain';
 import {
   IUserRepository,
-  IUserCloudService,
   UserAlreadyExistsException,
 } from '@/users/application';
-import { ILoggerProvider, IUsecase } from '@/shared/application';
+import { ILoggerProvider } from '@/core/application';
 
 type CreateUserType = { name: string; email: string };
 
-export class CreateUserUsecase implements IUsecase<CreateUserType, User> {
+export class CreateUserUsecase {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly userCloudService: IUserCloudService,
     private readonly logger: ILoggerProvider,
   ) {}
 
@@ -26,44 +24,18 @@ export class CreateUserUsecase implements IUsecase<CreateUserType, User> {
       throw new UserAlreadyExistsException({ name, email });
     }
 
-    const userExistsInCloud = await this.userCloudService.getByEmail(email);
-
-    if (userExistsInCloud) {
-      throw new UserAlreadyExistsException({ name, email });
-    }
-
     const user = new UserEntity({
       name,
       email,
       state: UserState.CONFIRMED,
-      enabled: true,
     });
 
-    const userCreated = await this.userRepository.save({
-      ...user,
-    });
+    const userCreated = await this.userRepository.save(user);
 
     this.logger.debug({
       message: 'User created in database',
       data: userCreated,
     });
-
-    try {
-      await this.userCloudService.save(email);
-
-      this.logger.debug({ message: 'User created in cloud' });
-    } catch (error) {
-      this.logger.debug({
-        message: 'User deleted',
-        data: { id: userCreated.id },
-      });
-
-      await this.userRepository.deleteById(userCreated.id);
-
-      throw error;
-    }
-
-    this.logger.debug({ message: 'User created', data: userCreated });
 
     return userCreated;
   }
