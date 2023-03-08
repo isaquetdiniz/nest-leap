@@ -1,30 +1,35 @@
 import { DeleteUserByIdUsecase, IUserRepository } from '@/users/application';
-import { ILoggerProvider } from '@/core/application';
-import { Controller, IValidation } from '@/core/interface';
+import { IController } from '@/core/interface';
+import { User } from '@/users/domain';
+import { AutoValidator } from '@/libs/class-validator';
+import { IsUUID } from 'class-validator';
 
-export type IDeleteUserByIdRequest = {
+export type IDeleteUserByIdRequest = Pick<User, 'id'>;
+
+export class DeleteUserByIdRequest
+  extends AutoValidator
+  implements IDeleteUserByIdRequest
+{
+  @IsUUID(4)
   id: string;
-};
+
+  constructor(props: IDeleteUserByIdRequest) {
+    super(props);
+  }
+}
 
 export type IDeleteUserByIdResponse = void;
 
-export class DeleteUserByIdController extends Controller<
-  IDeleteUserByIdRequest,
-  IDeleteUserByIdResponse
-> {
+export class DeleteUserByIdController
+  implements IController<IDeleteUserByIdRequest, IDeleteUserByIdResponse>
+{
   private usecase: DeleteUserByIdUsecase;
 
-  constructor(
-    userRepository: IUserRepository,
-    validation: IValidation,
-    logger: ILoggerProvider,
-  ) {
-    super(validation, logger);
-
-    this.usecase = new DeleteUserByIdUsecase(userRepository, logger);
+  constructor(userRepository: IUserRepository) {
+    this.usecase = new DeleteUserByIdUsecase(userRepository);
   }
 
-  async perform(
+  async execute(
     request: IDeleteUserByIdRequest,
   ): Promise<IDeleteUserByIdResponse> {
     await this.usecase.perform(request.id);

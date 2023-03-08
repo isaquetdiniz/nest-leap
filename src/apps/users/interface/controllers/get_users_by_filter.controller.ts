@@ -3,35 +3,92 @@ import {
   IUserRepository,
   UserFilters,
 } from '@/users/application';
-import { UserDTO, UserPresenter } from '@/users/interface';
-import { DefaultFiltersEntity } from '@/core/domain';
-import { ILoggerProvider } from '@/core/application';
-import { Controller, IValidation } from '@/core/interface';
-
+import {
+  DefaultFiltersEntity,
+  DefaultFiltersRequest,
+  PaginationResponse,
+  TPaginationResponse,
+} from '@/core/domain';
+import { IController } from '@/core/interface';
+import { User } from '@prisma/client';
+import {
+  IsDate,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Length,
+} from 'class-validator';
+import { AutoValidator } from '@/libs/class-validator';
+import { UserState } from '@/users/domain';
+/*
 export type IGetUsersByFilterRequest = UserFilters;
+export type IGetUserByFilterResponseItem = User;
+export type IGetUsersByFilterResponse =
+  TPaginationResponse<IGetUserByFilterResponseItem>;
 
-export type IGetUsersByFilterResponse = {
-  users: UserDTO[];
-  totalUsersListed: number;
-  totalUsers: number;
-};
+export class GetUsersByFilterRequest
+  extends DefaultFiltersRequest
+  implements IGetUsersByFilterRequest
+{
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  name: string;
 
-export class GetUsersByFilterController extends Controller<
-  IGetUsersByFilterRequest,
-  IGetUsersByFilterResponse
-> {
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  email: string;
+
+  constructor(props: IGetUsersByFilterRequest) {
+    super(props);
+  }
+}
+
+export class GetUserByFilterResponseItem
+  extends AutoValidator
+  implements IGetUserByFilterResponseItem
+{
+  @IsUUID(4)
+  id: string;
+
+  @IsEnum(UserState)
+  state: UserState;
+
+  @IsString()
+  @Length(1, 255)
+  name: string;
+
+  @IsString()
+  @Length(1, 255)
+  email: string;
+
+  @IsOptional()
+  @IsDate()
+  createdAt: Date;
+
+  @IsOptional()
+  @IsDate()
+  updatedAt: Date;
+
+  constructor(props: IGetUserByFilterResponseItem) {
+    super(props);
+  }
+}
+
+export class GetUsersByFilterResponse extends PaginationResponse<IGetUserByFilterResponseItem> {}
+
+export class GetUsersByFilterController
+  implements IController<IGetUsersByFilterRequest, IGetUsersByFilterResponse>
+{
   private usecase: GetUsersByFilterUsecase;
 
-  constructor(
-    userRepository: IUserRepository,
-    validation: IValidation,
-    logger: ILoggerProvider,
-  ) {
-    super(validation, logger);
-    this.usecase = new GetUsersByFilterUsecase(userRepository, logger);
+  constructor(userRepository: IUserRepository) {
+    this.usecase = new GetUsersByFilterUsecase(userRepository);
   }
 
-  async perform(
+  async execute(
     request: IGetUsersByFilterRequest,
   ): Promise<IGetUsersByFilterResponse> {
     const { take, skip, orderBy, createdAt, updatedAt, ...restFilters } =
@@ -59,3 +116,5 @@ export class GetUsersByFilterController extends Controller<
     };
   }
 }
+
+*/

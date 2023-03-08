@@ -1,9 +1,14 @@
 import { InvalidDataFormatException } from '@/core/application';
 import { validateSync, ValidationError } from 'class-validator';
 
-export class ClassValidator {
-  static validate(value: any): void {
-    const errors = validateSync(value, {
+export abstract class AutoValidator {
+  constructor(props: any) {
+    Object.assign(this, props);
+    this.validate();
+  }
+
+  validate(): void {
+    const errors = validateSync(this, {
       forbidNonWhitelisted: true,
       whitelist: true,
     });

@@ -9,12 +9,14 @@ export interface User extends Domain {
   state: UserState;
   name: string;
   email: string;
+  password: string;
 }
 
 export class UserEntity extends DomainEntity implements User {
   state: UserState;
   name: string;
   email: string;
+  password: string;
 
   constructor(props: Partial<User>) {
     super(props);

@@ -1,0 +1,112 @@
+import { User, UserEntity } from '@/users/domain';
+import { IController } from '@/core/interface';
+import { AutoValidator } from '@/libs/class-validator';
+import {
+  IsEnum,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Length,
+} from 'class-validator';
+import { Email, EmailState, EmailTemplate } from '@/notifications/domain';
+import {
+  CreateEmailUsecase,
+  IEmailRepository,
+  IEmailService,
+  IEmailTemplateRepository,
+} from '@/notifications/application';
+
+export type TCreateEmailRequest = {
+  from: Email['from'];
+  to: Email['to'];
+  tag: EmailTemplate['tag'];
+  userId?: User['id'];
+  data?: Record<string, string>;
+};
+
+export type TCreateEmailResponse = Pick<Email, 'id' | 'state' | 'from' | 'to'>;
+
+export class CreateEmailRequest
+  extends AutoValidator
+  implements TCreateEmailRequest
+{
+  @IsString()
+  @Length(1, 255)
+  from: Email['from'];
+
+  @IsString()
+  @Length(1, 255)
+  to: Email['to'];
+
+  @IsString()
+  @Length(1, 255)
+  tag: EmailTemplate['tag'];
+
+  @IsOptional()
+  @IsUUID(4)
+  userId?: User['id'];
+
+  @IsOptional()
+  @IsObject()
+  data?: Record<string, string>;
+
+  constructor(props: TCreateEmailRequest) {
+    super(props);
+  }
+}
+
+export class CreateEmailResponse
+  extends AutoValidator
+  implements TCreateEmailResponse
+{
+  @IsUUID(4)
+  id: string;
+
+  @IsEnum(EmailState)
+  state: EmailState;
+
+  @IsString()
+  @Length(1, 255)
+  from: Email['from'];
+
+  @IsString()
+  @Length(1, 255)
+  to: Email['to'];
+
+  constructor(props: TCreateEmailResponse) {
+    super(props);
+  }
+}
+
+export class CreateEmailController
+  implements IController<TCreateEmailRequest, TCreateEmailResponse>
+{
+  private usecase: CreateEmailUsecase;
+
+  constructor(
+    emailTemplateRepositorty: IEmailTemplateRepository,
+    emailRepository: IEmailRepository,
+    emailService: IEmailService,
+  ) {
+    this.usecase = new CreateEmailUsecase(
+      emailTemplateRepositorty,
+      emailRepository,
+      emailService,
+    );
+  }
+
+  async execute(request: TCreateEmailRequest): Promise<TCreateEmailResponse> {
+    const user = new UserEntity({ id: request.userId });
+
+    const emailCreated = await this.usecase.perform({
+      tag: request.tag,
+      to: request.to,
+      from: request.from,
+      user,
+      data: request.data,
+    });
+
+    return new CreateEmailResponse(emailCreated);
+  }
+}

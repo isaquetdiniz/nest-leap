@@ -54,7 +54,7 @@ export class PrismaUserRepository implements IUserRepository {
       },
       take: filter.take,
       skip: filter.skip,
-      orderBy: { [filter.orderBy.property]: filter.orderBy.mode },
+      orderBy: { [filter.orderByProperty]: filter.orderByMode },
     });
 
     return usersFound.map((userFound) =>

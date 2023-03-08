@@ -5,7 +5,7 @@ export type Serial = number;
 
 export interface Domain {
   id: ID;
-  serial?: number;
+  serial?: Serial;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;

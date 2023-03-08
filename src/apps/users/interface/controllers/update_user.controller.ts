@@ -1,34 +1,85 @@
-import { UserEntity } from '@/users/domain';
+import { User, UserEntity, UserState } from '@/users/domain';
 import { IUserRepository, UpdateUserUsecase } from '@/users/application';
-import { UserDTO, UserPresenter } from '@/users/interface';
-import { ILoggerProvider } from '@/core/application';
-import { Controller, IValidation } from '@/core/interface';
+import { IController } from '@/core/interface';
+import { AutoValidator } from '@/libs/class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Length,
+} from 'class-validator';
 
 export interface IUpdateUserRequest {
   id: string;
   name?: string;
   email?: string;
 }
+export type IUpdateUserResponse = User;
 
-export type IUpdateUserResponse = UserDTO;
+export class UpdateUserRequest
+  extends AutoValidator
+  implements IUpdateUserRequest
+{
+  @IsUUID(4)
+  id: string;
 
-export class UpdateUserByIdController extends Controller<
-  IUpdateUserRequest,
-  IUpdateUserResponse
-> {
+  @IsOptional()
+  @IsString()
+  @Length(1, 255)
+  name: string;
+
+  @IsString()
+  @Length(1, 255)
+  email: string;
+
+  constructor(props: IUpdateUserRequest) {
+    super(props);
+  }
+}
+
+export class UpdateUserResponse
+  extends AutoValidator
+  implements IUpdateUserResponse
+{
+  @IsUUID(4)
+  id: string;
+
+  @IsEnum(UserState)
+  state: UserState;
+
+  @IsString()
+  @Length(1, 255)
+  name: string;
+
+  @IsString()
+  @Length(1, 255)
+  email: string;
+
+  @IsOptional()
+  @IsDate()
+  createdAt: Date;
+
+  @IsOptional()
+  @IsDate()
+  updatedAt: Date;
+
+  constructor(props: IUpdateUserResponse) {
+    super(props);
+  }
+}
+
+export class UpdateUserByIdController
+  implements IController<IUpdateUserRequest, IUpdateUserResponse>
+{
   private usecase: UpdateUserUsecase;
 
-  constructor(
-    userRepository: IUserRepository,
-    validation: IValidation<IUpdateUserRequest, IUpdateUserResponse>,
-    logger: ILoggerProvider,
-  ) {
-    super(validation, logger);
-
-    this.usecase = new UpdateUserUsecase(userRepository, logger);
+  constructor(userRepository: IUserRepository) {
+    this.usecase = new UpdateUserUsecase(userRepository);
   }
 
-  async perform(request: IUpdateUserRequest): Promise<IUpdateUserResponse> {
+  async execute(request: IUpdateUserRequest): Promise<IUpdateUserResponse> {
     const userToUpdate = new UserEntity({
       id: request.id,
       name: request.name,
@@ -37,8 +88,6 @@ export class UpdateUserByIdController extends Controller<
 
     const userUpdated = await this.usecase.perform(userToUpdate);
 
-    const userPresenter = UserPresenter.format(userUpdated);
-
-    return userPresenter;
+    return new UpdateUserResponse(userUpdated);
   }
 }

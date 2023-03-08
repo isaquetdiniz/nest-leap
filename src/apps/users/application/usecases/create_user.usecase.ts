@@ -1,21 +1,20 @@
 import { User, UserEntity, UserState } from '@/users/domain';
 import {
+  IUserEventEmitter,
   IUserRepository,
   UserAlreadyExistsException,
 } from '@/users/application';
-import { ILoggerProvider } from '@/core/application';
+import { IUsecase } from '@/core/application';
 
-type CreateUserType = { name: string; email: string };
+type TCreateUser = { name: string; email: string };
 
-export class CreateUserUsecase {
+export class CreateUserUsecase implements IUsecase<TCreateUser, User> {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly logger: ILoggerProvider,
+    private readonly eventEmitter: IUserEventEmitter,
   ) {}
 
-  async perform(data: CreateUserType): Promise<User> {
-    this.logger.debug({ message: 'Request received', data });
-
+  async perform(data: TCreateUser): Promise<User> {
     const { name, email } = data;
 
     const userExists = await this.userRepository.getByEmail(email);
@@ -27,15 +26,12 @@ export class CreateUserUsecase {
     const user = new UserEntity({
       name,
       email,
-      state: UserState.CONFIRMED,
+      state: UserState.PENDING_CONFIRMATION,
     });
 
     const userCreated = await this.userRepository.save(user);
 
-    this.logger.debug({
-      message: 'User created in database',
-      data: userCreated,
-    });
+    this.eventEmitter.created(userCreated);
 
     return userCreated;
   }

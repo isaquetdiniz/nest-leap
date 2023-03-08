@@ -1,14 +1,13 @@
 import { IUserRepository } from '@/apps/users/application';
-import { CreateUserValidation, PrismaUserRepository } from '@/apps/users/infra';
-import { ILoggerProvider } from '@/core/application';
-import { IValidation } from '@/core/interface';
-import { LoggerParam, Service, ValidationParam } from '@/libs/nest';
+import { PrismaUserRepository } from '@/apps/users/infra';
+import { Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
 import { UserState } from '@/users/domain';
 import {
   CreateUserController,
-  ICreateUserRequest,
-  ICreateUserResponse,
+  CreateUserRequest,
+  TCreateUserRequest,
+  TCreateUserResponse,
 } from '@/users/interface';
 import { Body, Controller, Post } from '@nestjs/common';
 import {
@@ -76,7 +75,7 @@ class CreateUserRestResponse {
   })
   updated_at: string;
 
-  constructor(response: ICreateUserResponse) {
+  constructor(response: TCreateUserResponse) {
     this.id = response.id;
     this.state = response.state;
     this.name = response.name;
@@ -112,22 +111,14 @@ export class CreateUserRestController {
   async execute(
     @PrismaRepositoryParam(PrismaUserRepository)
     userRepository: IUserRepository,
-    @ValidationParam(CreateUserValidation)
-    validation: IValidation,
-    @LoggerParam()
-    logger: ILoggerProvider,
     @Body() body: CreateUserRestBody,
   ): Promise<CreateUserRestResponse> {
-    const controller = new CreateUserController(
-      userRepository,
-      validation,
-      logger,
-    );
+    const controller = new CreateUserController(userRepository);
 
-    const request: ICreateUserRequest = {
+    const request: TCreateUserRequest = new CreateUserRequest({
       name: body.name,
       email: body.email,
-    };
+    });
 
     const result = await controller.execute(request);
 

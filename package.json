@@ -54,6 +54,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/event-emitter": "^1.4.1",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.2",
     "@prisma/client": "^4.4.0",
@@ -107,7 +108,8 @@
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/../src/$1",
       "^@/api-users": "<rootDir>/../src/api-users/$1",
-      "^@/users": "<rootDir>/../src/users/$1"
+      "^@/users": "<rootDir>/../src/users/$1",
+      "^@/notifications": "<rootDir>/../src/notifications/$1"
     }
   }
 }
