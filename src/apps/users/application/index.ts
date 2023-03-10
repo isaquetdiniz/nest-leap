@@ -5,8 +5,11 @@ export * from './repos/user.repository';
 
 export * from './events/user.emitter';
 
+export * from './services/notification.service';
+
 export * from './usecases/create_user.usecase';
 export * from './usecases/delete_user_by_id.usecase';
 export * from './usecases/get_user_by_id.usecase';
 export * from './usecases/get_users_by_filter.usecase';
 export * from './usecases/update_user.usecase';
+export * from './usecases/handle_user_created.usecase';

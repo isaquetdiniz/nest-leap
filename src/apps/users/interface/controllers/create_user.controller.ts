@@ -15,7 +15,7 @@ import {
   Length,
 } from 'class-validator';
 
-export type TCreateUserRequest = Pick<User, 'name' | 'email'>;
+export type TCreateUserRequest = Pick<User, 'name' | 'email' | 'password'>;
 export type TCreateUserResponse = Pick<
   User,
   'id' | 'name' | 'email' | 'state' | 'createdAt'
@@ -32,6 +32,11 @@ export class CreateUserRequest
   @IsString()
   @Length(1, 255)
   email: string;
+
+  @IsString()
+  @Length(8, 255)
+  password: string;
+
   constructor(props: TCreateUserRequest) {
     super(props);
   }
@@ -80,8 +85,15 @@ export class CreateUserController
     const userCreated = await this.usecase.perform({
       name: request.name,
       email: request.email,
+      password: request.password,
     });
 
-    return new CreateUserResponse(userCreated);
+    return new CreateUserResponse({
+      id: userCreated.id,
+      state: userCreated.state,
+      name: userCreated.name,
+      email: userCreated.email,
+      createdAt: userCreated.createdAt,
+    });
   }
 }

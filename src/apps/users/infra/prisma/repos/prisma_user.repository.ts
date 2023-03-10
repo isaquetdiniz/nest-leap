@@ -1,5 +1,5 @@
 import { User as UserInPrisma } from '@prisma/client';
-import { User, UserEntity } from '@/users/domain';
+import { User, UserEntity, UserState } from '@/users/domain';
 import { IUserRepository, UserFilters } from '@/users/application';
 import { PrismaService } from '@/libs/prisma';
 
@@ -7,7 +7,16 @@ export class PrismaUserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   static toDomain(userInPrisma: UserInPrisma): User {
-    return new UserEntity(userInPrisma);
+    return new UserEntity({
+      id: userInPrisma.id,
+      serial: userInPrisma.serial,
+      state: UserState[userInPrisma.state],
+      name: userInPrisma.name,
+      email: userInPrisma.email,
+      createdAt: userInPrisma.createdAt,
+      updatedAt: userInPrisma.updatedAt,
+      deletedAt: userInPrisma.deletedAt,
+    });
   }
 
   async save(entity: User): Promise<User> {

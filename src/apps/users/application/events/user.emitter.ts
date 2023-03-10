@@ -1,6 +1,8 @@
 import { User } from '@/users/domain';
 
+export type TUserEvent = User;
+
 export interface IUserEventEmitter {
-  created(user: User): void;
-  confirmed(user: User): void;
+  created(user: TUserEvent): void;
+  confirmed(user: TUserEvent): void;
 }

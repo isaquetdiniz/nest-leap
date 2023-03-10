@@ -1,0 +1,60 @@
+import {
+  HandleUserCreatedUsecase,
+  INotificationService,
+} from '@/users/application';
+import { User, UserEntity } from '@/users/domain';
+import { IController } from '@/core/interface';
+import { AutoValidator } from '@/libs/class-validator';
+import { IsString, IsUUID, Length } from 'class-validator';
+import { ITokenProvider } from '@/core/application';
+
+export type THandleUserCreatedRequest = Pick<User, 'id' | 'name' | 'email'>;
+export type THandleUserCreatedResponse = void;
+
+export class HandleUserCreatedRequest
+  extends AutoValidator
+  implements THandleUserCreatedRequest
+{
+  @IsUUID(4)
+  id: User['id'];
+
+  @IsString()
+  @Length(1, 255)
+  name: User['name'];
+
+  @IsString()
+  @Length(1, 255)
+  email: User['email'];
+
+  constructor(props: THandleUserCreatedRequest) {
+    super(props);
+  }
+}
+
+export class HandleUserCreatedController
+  implements IController<THandleUserCreatedRequest, THandleUserCreatedResponse>
+{
+  private usecase: HandleUserCreatedUsecase;
+
+  constructor(
+    tokenProvider: ITokenProvider,
+    notificationService: INotificationService,
+  ) {
+    this.usecase = new HandleUserCreatedUsecase(
+      tokenProvider,
+      notificationService,
+    );
+  }
+
+  async execute(
+    request: THandleUserCreatedRequest,
+  ): Promise<THandleUserCreatedResponse> {
+    const user = new UserEntity({
+      id: request.id,
+      name: request.name,
+      email: request.email,
+    });
+
+    await this.usecase.perform(user);
+  }
+}

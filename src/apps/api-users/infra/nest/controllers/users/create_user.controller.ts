@@ -1,6 +1,6 @@
-import { IUserRepository } from '@/apps/users/application';
-import { PrismaUserRepository } from '@/apps/users/infra';
-import { Service } from '@/libs/nest';
+import { IUserEventEmitter, IUserRepository } from '@/apps/users/application';
+import { PrismaUserRepository, UserEventEmitter } from '@/apps/users/infra';
+import { EventEmitterParam, Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
 import { UserState } from '@/users/domain';
 import {
@@ -70,10 +70,12 @@ class CreateUserRestResponse {
   })
   created_at: string;
 
+  /*
   @ApiProperty({
     description: 'User updated at.',
   })
   updated_at: string;
+  */
 
   constructor(response: TCreateUserResponse) {
     this.id = response.id;
@@ -81,7 +83,6 @@ class CreateUserRestResponse {
     this.name = response.name;
     this.email = response.email;
     this.created_at = response.createdAt.toISOString();
-    this.updated_at = response.updatedAt.toISOString();
   }
 }
 
@@ -111,13 +112,19 @@ export class CreateUserRestController {
   async execute(
     @PrismaRepositoryParam(PrismaUserRepository)
     userRepository: IUserRepository,
+    @EventEmitterParam(UserEventEmitter)
+    userEventEmitter: IUserEventEmitter,
     @Body() body: CreateUserRestBody,
   ): Promise<CreateUserRestResponse> {
-    const controller = new CreateUserController(userRepository);
+    const controller = new CreateUserController(
+      userRepository,
+      userEventEmitter,
+    );
 
     const request: TCreateUserRequest = new CreateUserRequest({
       name: body.name,
       email: body.email,
+      password: body.password,
     });
 
     const result = await controller.execute(request);

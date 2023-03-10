@@ -6,7 +6,7 @@ export enum TokenType {
 }
 
 export interface ITokenProvider {
-  generate(data: Record<string, string | number>, expiresIn: string): string;
+  generate(type: TokenType, data: Record<string, string | number>): string;
 
   decrypt(token: string): Record<string, string | number>;
 }

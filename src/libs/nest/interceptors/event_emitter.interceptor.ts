@@ -4,17 +4,17 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Observable } from 'rxjs';
-import { PrismaService } from '../services/prisma.service';
 
 @Injectable()
-export class PrismaInterceptor implements NestInterceptor {
-  constructor(private readonly prismaService: PrismaService) {}
+export class EventEmitterInterceptor implements NestInterceptor {
+  constructor(private eventEmitter: EventEmitter2) {}
 
   intercept(ctx: ExecutionContext, next: CallHandler): Observable<any> {
     const request = ctx.switchToHttp().getRequest();
 
-    request.prisma = this.prismaService;
+    request.eventEmitter = this.eventEmitter;
 
     return next.handle();
   }

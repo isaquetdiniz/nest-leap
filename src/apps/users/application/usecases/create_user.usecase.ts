@@ -6,7 +6,7 @@ import {
 } from '@/users/application';
 import { IUsecase } from '@/core/application';
 
-type TCreateUser = { name: string; email: string };
+type TCreateUser = { name: string; email: string; password: string };
 
 export class CreateUserUsecase implements IUsecase<TCreateUser, User> {
   constructor(
@@ -15,7 +15,7 @@ export class CreateUserUsecase implements IUsecase<TCreateUser, User> {
   ) {}
 
   async perform(data: TCreateUser): Promise<User> {
-    const { name, email } = data;
+    const { name, email, password } = data;
 
     const userExists = await this.userRepository.getByEmail(email);
 
@@ -27,6 +27,7 @@ export class CreateUserUsecase implements IUsecase<TCreateUser, User> {
       name,
       email,
       state: UserState.PENDING_CONFIRMATION,
+      password,
     });
 
     const userCreated = await this.userRepository.save(user);

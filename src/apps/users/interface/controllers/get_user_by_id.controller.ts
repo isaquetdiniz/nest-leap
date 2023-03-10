@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 
 export type IGetUserByIdRequest = Pick<User, 'id'>;
-export type IGetUserByIdResponse = User;
+export type IGetUserByIdResponse = Omit<User, 'password'>;
 
 export class GetUserByIdRequest
   extends AutoValidator
