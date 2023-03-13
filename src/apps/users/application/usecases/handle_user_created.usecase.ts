@@ -15,12 +15,11 @@ export class HandleUserCreatedUsecase implements IUsecase<TUserEvent, void> {
       email,
     });
 
-    const data = {
+    await this.notificationService.sendConfirmationEmail(
+      email,
       userId,
       name,
-      token: token,
-    };
-
-    await this.notificationService.sendConfirmationEmail(email, data);
+      token,
+    );
   }
 }

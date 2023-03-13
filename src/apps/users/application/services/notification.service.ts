@@ -9,6 +9,8 @@ export type TSendConfirmationEmail = {
 export interface INotificationService {
   sendConfirmationEmail(
     to: Email['to'],
-    data: TSendConfirmationEmail,
+    userId: User['id'],
+    name: User['name'],
+    token: string,
   ): Promise<void>;
 }

@@ -25,7 +25,7 @@ export class EmailTemplateEntity extends DomainEntity implements EmailTemplate {
     super(props);
 
     this.tag = props.tag;
-    this.tag = props.title;
+    this.title = props.title;
     this.body = props.body;
     this.html = props.html;
 

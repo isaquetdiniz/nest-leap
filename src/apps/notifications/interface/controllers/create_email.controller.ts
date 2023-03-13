@@ -107,6 +107,11 @@ export class CreateEmailController
       data: request.data,
     });
 
-    return new CreateEmailResponse(emailCreated);
+    return new CreateEmailResponse({
+      id: emailCreated.id,
+      state: emailCreated.state,
+      from: emailCreated.from,
+      to: emailCreated.to,
+    });
   }
 }
