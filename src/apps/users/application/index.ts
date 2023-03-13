@@ -19,3 +19,4 @@ export * from './usecases/get_users_by_filter.usecase';
 export * from './usecases/update_user.usecase';
 export * from './usecases/handle_user_created.usecase';
 export * from './usecases/confirm.usecase';
+export * from './usecases/get_user_by_email.usecase';
