@@ -1,9 +1,10 @@
 import {
   ConfirmUserUsecase,
+  IUserConfirmationRepository,
   IUserEventEmitter,
   IUserRepository,
 } from '@/users/application';
-import { User, UserEntity, UserState } from '@/users/domain';
+import { User, UserConfirmation, UserState } from '@/users/domain';
 import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import {
@@ -15,7 +16,7 @@ import {
   Length,
 } from 'class-validator';
 
-export type TConfirmUserRequest = Pick<User, 'id' | 'email'>;
+export type TConfirmUserRequest = Pick<UserConfirmation, 'code' | 'email'>;
 export type TConfirmUserResponse = Pick<
   User,
   'id' | 'name' | 'email' | 'state' | 'createdAt'
@@ -25,8 +26,9 @@ export class ConfirmUserRequest
   extends AutoValidator
   implements TConfirmUserRequest
 {
-  @IsUUID(4)
-  id: string;
+  @IsString()
+  @Length(5)
+  code: string;
 
   @IsString()
   @Length(1, 255)
@@ -71,15 +73,21 @@ export class ConfirmUserController
 
   constructor(
     userRepository: IUserRepository,
+    userConfirmationRepository: IUserConfirmationRepository,
     eventEmitter: IUserEventEmitter,
   ) {
-    this.usecase = new ConfirmUserUsecase(userRepository, eventEmitter);
+    this.usecase = new ConfirmUserUsecase(
+      userRepository,
+      userConfirmationRepository,
+      eventEmitter,
+    );
   }
 
   async execute(request: TConfirmUserRequest): Promise<TConfirmUserResponse> {
-    const user = new UserEntity({ id: request.id, email: request.email });
-
-    const userConfirmd = await this.usecase.perform(user);
+    const userConfirmd = await this.usecase.perform({
+      email: request.email,
+      code: request.code,
+    });
 
     return new ConfirmUserResponse({
       id: userConfirmd.id,

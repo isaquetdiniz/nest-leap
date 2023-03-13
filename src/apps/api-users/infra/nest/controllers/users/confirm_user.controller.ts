@@ -1,5 +1,13 @@
-import { IUserEventEmitter, IUserRepository } from '@/apps/users/application';
-import { PrismaUserRepository, UserEventEmitter } from '@/apps/users/infra';
+import {
+  IUserConfirmationRepository,
+  IUserEventEmitter,
+  IUserRepository,
+} from '@/users/application';
+import {
+  PrismaUserConfirmationRepository,
+  PrismaUserRepository,
+  UserEventEmitter,
+} from '@/users/infra';
 import { TokenType } from '@/core/application';
 import { EventEmitterParam, JwtTokenService, Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
@@ -8,7 +16,7 @@ import {
   ConfirmUserRequest,
   TConfirmUserRequest,
 } from '@/users/interface';
-import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
@@ -21,11 +29,16 @@ import {
 
 class ConfirmUserRestBody {
   @ApiProperty({
-    description: 'The JWT confirm token.',
-    example:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0MzE3MjA3LTdhMmYtNDg5ZC1hNjZiLTExMzExODlhZTdiMSIsImVtYWlsIjoiaXNhcXVlQGxvb21pLmNvbS5iciIsImlhdCI6MTY3ODcyMzQ3OSwiZXhwIjoxNjc4NzI3MDc5fQ.t6f1VZMvgktRBIX_yOueXNn5elRD7-Dho5i17zeJHmA',
+    description: 'The email of user.',
+    example: 'abc@email.com',
   })
-  confirm_token: string;
+  email: string;
+
+  @ApiProperty({
+    description: 'The confirmation code received.',
+    example: '00358',
+  })
+  code: string;
 }
 
 class ConfirmUserRestResponse {
@@ -41,11 +54,11 @@ class ConfirmUserRestResponse {
 @Controller('users/confirm')
 @Service()
 export class ConfirmUserRestController {
-  constructor(private readonly tokenService: JwtTokenService) {}
+  constructor(private readonly tokenProvider: JwtTokenService) {}
 
   @ApiOperation({
     summary: 'Confirm a new user.',
-    description: 'Confirm a new user using the confirm token.',
+    description: 'Confirm a new user using the code and the email.',
   })
   @ApiOkResponse({
     description: 'The access token returned successfully.',
@@ -66,29 +79,26 @@ export class ConfirmUserRestController {
   async execute(
     @PrismaRepositoryParam(PrismaUserRepository)
     userRepository: IUserRepository,
+    @PrismaRepositoryParam(PrismaUserConfirmationRepository)
+    userConfirmationRepository: IUserConfirmationRepository,
     @EventEmitterParam(UserEventEmitter)
     userEventEmitter: IUserEventEmitter,
     @Body() body: ConfirmUserRestBody,
   ): Promise<ConfirmUserRestResponse> {
     const controller = new ConfirmUserController(
       userRepository,
+      userConfirmationRepository,
       userEventEmitter,
     );
 
-    const { type, id, email } = this.tokenService.decrypt(body.confirm_token);
-
-    if (type !== TokenType.CONFIRM_EMAIL) {
-      throw new ForbiddenException();
-    }
-
     const request: TConfirmUserRequest = new ConfirmUserRequest({
-      id,
-      email,
+      code: body.code,
+      email: body.email,
     });
 
     const result = await controller.execute(request);
 
-    const accessToken = this.tokenService.generate(TokenType.ACCESS, {
+    const accessToken = this.tokenProvider.generate(TokenType.ACCESS, {
       id: result.id,
       email: result.email,
     });

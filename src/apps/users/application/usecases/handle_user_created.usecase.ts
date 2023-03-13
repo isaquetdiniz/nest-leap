@@ -24,7 +24,9 @@ export class HandleUserCreatedUsecase implements IUsecase<TUserEvent, void> {
 
     const userConfirmation = new UserConfirmationEntity({
       state: UserConfirmationState.PENDING,
+      attempts: 0,
       code,
+      email,
       user: new UserEntity({ id: userId }),
     });
 
@@ -39,6 +41,6 @@ export class HandleUserCreatedUsecase implements IUsecase<TUserEvent, void> {
   }
 
   generateRandomCode(): string {
-    return new RandomCode(5).getCode();
+    return RandomCode.generate(5);
   }
 }

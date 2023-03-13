@@ -28,9 +28,12 @@ export class PrismaUserConfirmationRepository
       serial: userConfirmationInPrisma.serial,
       state: UserConfirmationState[userConfirmationInPrisma.state],
       code: userConfirmationInPrisma.code,
+      attempts: userConfirmationInPrisma.attempts,
+      email: userConfirmationInPrisma.email,
       user,
       confirmedAt: userConfirmationInPrisma.confirmedAt,
       expiredAt: userConfirmationInPrisma.expiredAt,
+      declinedAt: userConfirmationInPrisma.declinedAt,
       createdAt: userConfirmationInPrisma.createdAt,
       updatedAt: userConfirmationInPrisma.updatedAt,
       deletedAt: userConfirmationInPrisma.deletedAt,
@@ -43,6 +46,8 @@ export class PrismaUserConfirmationRepository
         id: entity.id,
         state: entity.state,
         code: entity.code,
+        attempts: entity.attempts,
+        email: entity.email,
         userId: entity.user.id,
       },
     });
@@ -50,9 +55,9 @@ export class PrismaUserConfirmationRepository
     return PrismaUserConfirmationRepository.toDomain(userCreated);
   }
 
-  async getByUser(user: User): Promise<UserConfirmation> {
+  async getByUserAndIsPending(user: User): Promise<UserConfirmation> {
     const userConfirmationFound = await this.prisma.userConfirmation.findFirst({
-      where: { userId: user.id },
+      where: { userId: user.id, state: UserConfirmationState.PENDING },
     });
 
     if (!userConfirmationFound) {
@@ -60,5 +65,22 @@ export class PrismaUserConfirmationRepository
     }
 
     return PrismaUserConfirmationRepository.toDomain(userConfirmationFound);
+  }
+
+  async update(userConfirmation: UserConfirmation): Promise<UserConfirmation> {
+    const userConfirmationUpdate = await this.prisma.userConfirmation.update({
+      where: {
+        id: userConfirmation.id,
+      },
+      data: {
+        state: userConfirmation.state,
+        attempts: userConfirmation.attempts,
+        confirmedAt: userConfirmation.confirmedAt,
+        expiredAt: userConfirmation.expiredAt,
+        declinedAt: userConfirmation.declinedAt,
+      },
+    });
+
+    return PrismaUserConfirmationRepository.toDomain(userConfirmationUpdate);
   }
 }

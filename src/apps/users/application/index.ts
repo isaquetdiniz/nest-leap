@@ -1,6 +1,9 @@
 export * from './exceptions/user_already_exists.exception';
 export * from './exceptions/user_not_found.exception';
 export * from './exceptions/user_invalid_state.exception';
+export * from './exceptions/user_confirmation_invalid_state.exception';
+export * from './exceptions/user_confirmation_not_found.exception';
+export * from './exceptions/user_confirmation_code_wrong.exception';
 
 export * from './repos/user.repository';
 export * from './repos/user_confirmation.repository';

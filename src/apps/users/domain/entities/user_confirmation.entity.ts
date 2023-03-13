@@ -11,9 +11,12 @@ export enum UserConfirmationState {
 export interface UserConfirmation extends Domain {
   state: UserConfirmationState;
   code: string;
+  attempts: number;
+  email: string;
   user: User;
   confirmedAt?: Date;
   expiredAt?: Date;
+  declinedAt?: Date;
 }
 
 export class UserConfirmationEntity
@@ -22,17 +25,23 @@ export class UserConfirmationEntity
 {
   state: UserConfirmationState;
   code: string;
+  attempts: number;
+  email: string;
   user: User;
   confirmedAt?: Date;
   expiredAt?: Date;
+  declinedAt?: Date;
 
   constructor(props: Partial<UserConfirmation>) {
     super(props);
 
     this.state = props.state;
     this.code = props.code;
+    this.attempts = props.attempts;
+    this.email = props.email;
     this.user = props.user;
     this.confirmedAt = props.confirmedAt;
     this.expiredAt = props.expiredAt;
+    this.declinedAt = props.declinedAt;
   }
 }
