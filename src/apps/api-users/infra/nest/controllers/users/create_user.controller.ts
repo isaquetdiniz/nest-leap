@@ -15,6 +15,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiProperty,
+  ApiTags,
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
@@ -86,6 +87,7 @@ class CreateUserRestResponse {
   }
 }
 
+@ApiTags('Users')
 @Controller('users')
 @Service()
 export class CreateUserRestController {

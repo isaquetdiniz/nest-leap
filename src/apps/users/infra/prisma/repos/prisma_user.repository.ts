@@ -51,6 +51,18 @@ export class PrismaUserRepository implements IUserRepository {
     return PrismaUserRepository.toDomain(userFound);
   }
 
+  async getByIdAndEmail(id: string, email: string): Promise<User> {
+    const userFound = await this.prisma.user.findFirst({
+      where: { id, email },
+    });
+
+    if (!userFound) {
+      return null;
+    }
+
+    return PrismaUserRepository.toDomain(userFound);
+  }
+
   async getByFilter(filter: UserFilters): Promise<User[]> {
     const usersFound = await this.prisma.user.findMany({
       where: {

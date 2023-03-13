@@ -1,5 +1,6 @@
 export * from './exceptions/user_already_exists.exception';
 export * from './exceptions/user_not_found.exception';
+export * from './exceptions/user_invalid_state.exception';
 
 export * from './repos/user.repository';
 
@@ -13,3 +14,4 @@ export * from './usecases/get_user_by_id.usecase';
 export * from './usecases/get_users_by_filter.usecase';
 export * from './usecases/update_user.usecase';
 export * from './usecases/handle_user_created.usecase';
+export * from './usecases/confirm.usecase';

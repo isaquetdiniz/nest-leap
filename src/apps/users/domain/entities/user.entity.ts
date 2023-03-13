@@ -25,7 +25,5 @@ export class UserEntity extends DomainEntity implements User {
     this.name = props.name;
     this.email = props.email;
     this.password = props.password;
-
-    Object.freeze(this);
   }
 }
