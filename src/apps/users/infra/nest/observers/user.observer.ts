@@ -1,20 +1,23 @@
 import { OnEvent } from '@nestjs/event-emitter';
-import { EVENTS, NotificationService } from '@/users/infra';
+import {
+  EVENTS,
+  NotificationService,
+  PrismaUserConfirmationRepository,
+} from '@/users/infra';
 import { TUserEvent } from '@/apps/users/application';
 import { HandleUserCreatedController } from '@/apps/users/interface';
 import { Injectable } from '@nestjs/common';
-import { JwtTokenService } from '@/libs/nest';
 
 @Injectable()
 export class UserObserver {
   handleUserCreatedController: HandleUserCreatedController;
 
   constructor(
-    tokenProvider: JwtTokenService,
+    userConfirmationRepository: PrismaUserConfirmationRepository,
     notificationService: NotificationService,
   ) {
     this.handleUserCreatedController = new HandleUserCreatedController(
-      tokenProvider,
+      userConfirmationRepository,
       notificationService,
     );
   }

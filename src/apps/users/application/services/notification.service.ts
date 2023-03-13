@@ -11,6 +11,6 @@ export interface INotificationService {
     to: Email['to'],
     userId: User['id'],
     name: User['name'],
-    token: string,
+    code: string,
   ): Promise<void>;
 }

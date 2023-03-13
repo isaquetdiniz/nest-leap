@@ -1,12 +1,12 @@
 import {
   HandleUserCreatedUsecase,
   INotificationService,
+  IUserConfirmationRepository,
 } from '@/users/application';
 import { User, UserEntity } from '@/users/domain';
 import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import { IsString, IsUUID, Length } from 'class-validator';
-import { ITokenProvider } from '@/core/application';
 
 export type THandleUserCreatedRequest = Pick<User, 'id' | 'name' | 'email'>;
 export type THandleUserCreatedResponse = void;
@@ -37,11 +37,11 @@ export class HandleUserCreatedController
   private usecase: HandleUserCreatedUsecase;
 
   constructor(
-    tokenProvider: ITokenProvider,
+    userConfirmationRepository: IUserConfirmationRepository,
     notificationService: INotificationService,
   ) {
     this.usecase = new HandleUserCreatedUsecase(
-      tokenProvider,
+      userConfirmationRepository,
       notificationService,
     );
   }

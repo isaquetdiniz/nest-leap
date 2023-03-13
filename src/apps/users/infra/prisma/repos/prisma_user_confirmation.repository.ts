@@ -8,7 +8,9 @@ import {
 } from '@/users/domain';
 import { IUserConfirmationRepository } from '@/users/application';
 import { PrismaService } from '@/libs/prisma';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class PrismaUserConfirmationRepository
   implements IUserConfirmationRepository
 {

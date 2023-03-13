@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
-import { NotificationService, UserObserver } from '@/users/infra';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtTokenService } from '@/libs/nest';
-import { ConfigModule } from '@nestjs/config';
+import {
+  NotificationService,
+  PrismaUserConfirmationRepository,
+  UserObserver,
+} from '@/users/infra';
+import { PrismaModule } from '@/libs/prisma';
 
 @Module({
-  imports: [ConfigModule, JwtModule],
-  providers: [UserObserver, NotificationService, JwtTokenService],
+  imports: [PrismaModule],
+  providers: [
+    UserObserver,
+    NotificationService,
+    PrismaUserConfirmationRepository,
+  ],
 })
 export class UsersModule {}

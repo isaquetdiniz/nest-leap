@@ -1,25 +1,44 @@
-import { INotificationService, TUserEvent } from '@/users/application';
-import { ITokenProvider, IUsecase, TokenType } from '@/core/application';
+import {
+  INotificationService,
+  IUserConfirmationRepository,
+  TUserEvent,
+} from '@/users/application';
+import { IUsecase } from '@/core/application';
+import {
+  UserConfirmationEntity,
+  UserConfirmationState,
+  UserEntity,
+} from '@/users/domain';
+import { RandomCode } from '@/core/domain';
 
 export class HandleUserCreatedUsecase implements IUsecase<TUserEvent, void> {
   constructor(
-    private readonly tokenProvider: ITokenProvider,
+    private readonly userConfirmationRepository: IUserConfirmationRepository,
     private readonly notificationService: INotificationService,
   ) {}
 
   async perform(event: TUserEvent): Promise<void> {
     const { id: userId, name, email } = event;
 
-    const token = await this.tokenProvider.generate(TokenType.CONFIRM_EMAIL, {
-      id: userId,
-      email,
+    const code = this.generateRandomCode();
+
+    const userConfirmation = new UserConfirmationEntity({
+      state: UserConfirmationState.PENDING,
+      code,
+      user: new UserEntity({ id: userId }),
     });
+
+    await this.userConfirmationRepository.save(userConfirmation);
 
     await this.notificationService.sendConfirmationEmail(
       email,
       userId,
       name,
-      token,
+      code,
     );
+  }
+
+  generateRandomCode(): string {
+    return new RandomCode(5).getCode();
   }
 }

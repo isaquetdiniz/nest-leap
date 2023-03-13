@@ -33,7 +33,7 @@ export class NotificationService implements INotificationService {
     to: Email['to'],
     userId: User['id'],
     name: User['name'],
-    token: string,
+    code: string,
   ): Promise<void> {
     const event: TCreateEmailEvent = {
       from: this.CONFIRMATION_EMAIL_SENDER,
@@ -42,7 +42,7 @@ export class NotificationService implements INotificationService {
       userId,
       data: {
         name,
-        token,
+        code,
       },
     };
 
