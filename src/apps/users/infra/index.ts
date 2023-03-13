@@ -1,4 +1,5 @@
 export * from './prisma/repos/prisma_user.repository';
+export * from './prisma/repos/prisma_user_confirmation.repository';
 
 export * from './nest/events/constants';
 export * from './nest/events/user.emitter';

@@ -3,6 +3,7 @@ export * from './exceptions/user_not_found.exception';
 export * from './exceptions/user_invalid_state.exception';
 
 export * from './repos/user.repository';
+export * from './repos/user_confirmation.repository';
 
 export * from './events/user.emitter';
 
