@@ -29,7 +29,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:generate": "npx prisma generate --schema=./src/libs/prisma/schema.prisma",
     "prisma:migration": "npx prisma migrate dev --schema=./src/libs/prisma/schema.prisma --name",
-    "prisma:migration:push": "npx prisma migrate deploy --schema=./src/lbis/prisma/schema.prisma",
+    "prisma:migration:push": "npx prisma migrate deploy --schema=./src/libs/prisma/schema.prisma",
     "old:build": "tsc -p tsconfig-build.json",
     "old:build:local": "rimraf dist && npm run build",
     "old:start": "node dist/main/server.js",
