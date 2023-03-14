@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 
 export type IGetUserByEmailRequest = Pick<User, 'email'>;
-export type IGetUserByEmailResponse = Omit<User, 'password'>;
+export type IGetUserByEmailResponse = User;
 
 export class GetUserByEmailRequest
   extends AutoValidator
@@ -45,6 +45,10 @@ export class GetUserByEmailResponse
   @Length(1, 255)
   email: string;
 
+  @IsString()
+  @Length(1, 255)
+  password: string;
+
   @IsOptional()
   @IsDate()
   createdAt: Date;
@@ -72,7 +76,17 @@ export class GetUserByEmailController
   ): Promise<IGetUserByEmailResponse> {
     const user = await this.usecase.perform(request.email);
 
-    const response = user && new GetUserByEmailResponse(user);
+    const response =
+      user &&
+      new GetUserByEmailResponse({
+        id: user.id,
+        state: user.state,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      });
 
     return response;
   }

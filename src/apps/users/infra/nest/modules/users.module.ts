@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import {
+  GetUserByEmailService,
   NotificationService,
   PrismaUserConfirmationRepository,
+  PrismaUserRepository,
   UserObserver,
 } from '@/users/infra';
 import { PrismaModule } from '@/libs/prisma';
@@ -11,7 +13,10 @@ import { PrismaModule } from '@/libs/prisma';
   providers: [
     UserObserver,
     NotificationService,
+    PrismaUserRepository,
     PrismaUserConfirmationRepository,
+    GetUserByEmailService,
   ],
+  exports: [GetUserByEmailService],
 })
 export class UsersModule {}

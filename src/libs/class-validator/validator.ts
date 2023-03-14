@@ -14,6 +14,7 @@ export abstract class AutoValidator {
     });
 
     if (errors.length) {
+      console.log(errors);
       throw new InvalidDataFormatException(
         errors.map((err: ValidationError) => JSON.stringify(err.constraints)),
       );
