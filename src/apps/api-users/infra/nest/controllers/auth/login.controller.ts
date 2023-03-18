@@ -1,4 +1,4 @@
-import { JwtTokenService, Service } from '@/libs/nest';
+import { Service } from '@/libs/nest';
 import { Controller, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -10,9 +10,12 @@ import {
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
-import { AuthUserParam, LocalAuthGuard } from '@/api-users/infra';
+import {
+  AuthUserParam,
+  LocalAuthGuard,
+  JwtTokenService,
+} from '@/api-users/infra';
 import { AuthUser } from '@/api-users/domain';
-import { TokenType } from '@/core/application';
 
 class LoginRestBody {
   @ApiProperty({
@@ -42,7 +45,7 @@ class LoginRestResponse {
 @UseGuards(LocalAuthGuard)
 @Service()
 export class LoginRestController {
-  constructor(private readonly tokenProvider: JwtTokenService) {}
+  constructor(private readonly tokenService: JwtTokenService) {}
 
   @ApiOperation({
     summary: 'User login.',
@@ -70,10 +73,7 @@ export class LoginRestController {
   })
   @Post()
   async execute(@AuthUserParam() user: AuthUser): Promise<LoginRestResponse> {
-    const accessToken = this.tokenProvider.generate(TokenType.ACCESS, {
-      id: user.id,
-      email: user.email,
-    });
+    const accessToken = this.tokenService.generate(user);
 
     return {
       access_token: accessToken,
