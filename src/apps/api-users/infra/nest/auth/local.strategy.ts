@@ -25,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
 
-    return {
+    const authUser: AuthUser = {
       id: user.id,
       serial: user.serial,
       state: user.state,
@@ -35,5 +35,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       updatedAt: user.updatedAt,
       deletedAt: user.deletedAt,
     };
+
+    return authUser;
   }
 }

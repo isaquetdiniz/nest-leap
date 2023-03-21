@@ -2,6 +2,8 @@ export * from './nest/decorators/auth_user.decorator';
 
 export * from './nest/auth/local.strategy';
 export * from './nest/auth/local_auth.guard';
+export * from './nest/auth/jwt.strategy';
+export * from './nest/auth/jwt_auth.guard';
 
 export * from './nest/services/jwt.service';
 

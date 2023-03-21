@@ -1,4 +1,4 @@
-import { Service } from '@/libs/nest';
+import { Public, Service } from '@/libs/nest';
 import { Controller, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -43,6 +43,7 @@ class LoginRestResponse {
 @ApiTags('Auth')
 @Controller('auth/login')
 @UseGuards(LocalAuthGuard)
+@Public()
 @Service()
 export class LoginRestController {
   constructor(private readonly tokenService: JwtTokenService) {}

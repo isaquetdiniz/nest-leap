@@ -18,6 +18,7 @@ import {
 import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
   ApiProperty,
@@ -54,6 +55,7 @@ class ConfirmUserRestResponse {
 @ApiTags('Users')
 @Controller('users/confirm')
 @Service()
+@ApiBearerAuth()
 export class ConfirmUserRestController {
   constructor(private readonly tokenProvider: JwtTokenService) {}
 

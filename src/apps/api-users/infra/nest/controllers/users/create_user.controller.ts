@@ -1,6 +1,6 @@
 import { IUserEventEmitter, IUserRepository } from '@/apps/users/application';
 import { PrismaUserRepository, UserEventEmitter } from '@/apps/users/infra';
-import { EventEmitterParam, Service } from '@/libs/nest';
+import { EventEmitterParam, Public, Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
 import { UserState } from '@/users/domain';
 import {
@@ -89,6 +89,7 @@ class CreateUserRestResponse {
 
 @ApiTags('Users')
 @Controller('users')
+@Public()
 @Service()
 export class CreateUserRestController {
   @ApiOperation({
