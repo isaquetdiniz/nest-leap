@@ -30,7 +30,7 @@ export class EmailObserver {
     );
   }
 
-  @OnEvent(EVENTS.EMAIL.CREATE)
+  @OnEvent(EVENTS.EMAIL.CREATE, { async: true })
   async handleCreateEmail(event: TCreateEmailEvent) {
     const request = new CreateEmailRequest({
       from: event.from,

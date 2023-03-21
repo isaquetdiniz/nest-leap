@@ -30,6 +30,7 @@
     "prisma:generate": "npx prisma generate --schema=./src/libs/prisma/schema.prisma",
     "prisma:migration": "npx prisma migrate dev --schema=./src/libs/prisma/schema.prisma --name",
     "prisma:migration:push": "npx prisma migrate deploy --schema=./src/libs/prisma/schema.prisma",
+    "prisma:seed": "npx prisma db seed",
     "old:build": "tsc -p tsconfig-build.json",
     "old:build:local": "rimraf dist && npm run build",
     "old:start": "node dist/main/server.js",
@@ -119,5 +120,8 @@
       "^@/users": "<rootDir>/../src/users/$1",
       "^@/notifications": "<rootDir>/../src/notifications/$1"
     }
+  },
+  "prisma": {
+    "seed": "ts-node src/libs/prisma/seed.ts"
   }
 }
