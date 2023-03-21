@@ -1,5 +1,11 @@
-import { AccessToken, AuthUser, RefreshToken } from '@/api-users/domain';
+import {
+  AccessToken,
+  AuthUser,
+  RefreshToken,
+  RefreshTokenCache,
+} from '@/api-users/domain';
 import { MissingEnvVarException } from '@/core/application';
+import { IORedisService } from '@/libs/ioredis';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
@@ -28,6 +34,7 @@ export class JwtTokenService {
   constructor(
     private readonly configService: ConfigService<JwtTokenServiceConfig>,
     private readonly jwtService: JwtService,
+    private readonly redisService: IORedisService,
   ) {
     this.accessTokenSecret = this.configService.get<string>(
       'APP_JWT_ACCESS_TOKEN_SECRET',
@@ -59,7 +66,7 @@ export class JwtTokenService {
     );
   }
 
-  generate(user: AuthUser): string {
+  async generate(user: AuthUser): Promise<string> {
     const options: JwtSignOptions = {
       secret: this.accessTokenSecret,
       expiresIn: this.accessTokenExpiresIn,
@@ -69,6 +76,17 @@ export class JwtTokenService {
       id: uuid(),
       eat: new Date(Date.now() + this.refreshTokenExpiresIn),
     };
+
+    const refreshTokenCache: RefreshTokenCache = {
+      user,
+      refreshToken,
+    };
+
+    await this.redisService.set<RefreshTokenCache>({
+      key: `refresh-token-users-${user.id}`,
+      data: refreshTokenCache,
+      ttl: this.refreshTokenExpiresIn,
+    });
 
     const data: AccessToken = {
       version: this.accessTokenVersion,

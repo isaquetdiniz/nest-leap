@@ -1,3 +1,10 @@
+import { AuthUser } from './auth_user.entity';
+
+export interface RefreshTokenCache {
+  user: AuthUser;
+  refreshToken: RefreshToken;
+}
+
 export interface RefreshToken {
   id: string;
   eat: Date;

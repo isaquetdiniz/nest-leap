@@ -8,8 +8,7 @@ import {
   PrismaUserRepository,
   UserEventEmitter,
 } from '@/users/infra';
-import { TokenType } from '@/core/application';
-import { EventEmitterParam, JwtTokenService, Service } from '@/libs/nest';
+import { EventEmitterParam, Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
 import {
   ConfirmUserController,
@@ -26,6 +25,8 @@ import {
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { JwtTokenService } from '../../services/jwt.service';
+import { AuthUser } from '@/apps/api-users/domain';
 
 class ConfirmUserRestBody {
   @ApiProperty({
@@ -98,10 +99,14 @@ export class ConfirmUserRestController {
 
     const result = await controller.execute(request);
 
-    const accessToken = this.tokenProvider.generate(TokenType.ACCESS, {
+    const authUser: AuthUser = {
       id: result.id,
+      state: result.state,
+      name: result.name,
       email: result.email,
-    });
+    };
+
+    const accessToken = await this.tokenProvider.generate(authUser);
 
     return {
       access_token: accessToken,

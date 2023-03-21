@@ -73,7 +73,7 @@ export class LoginRestController {
   })
   @Post()
   async execute(@AuthUserParam() user: AuthUser): Promise<LoginRestResponse> {
-    const accessToken = this.tokenService.generate(user);
+    const accessToken = await this.tokenService.generate(user);
 
     return {
       access_token: accessToken,
