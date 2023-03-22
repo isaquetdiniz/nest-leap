@@ -1,5 +1,7 @@
 import { IUserEventEmitter, IUserRepository } from '@/apps/users/application';
 import { PrismaUserRepository, UserEventEmitter } from '@/apps/users/infra';
+import { BcryptService } from '@/libs/bcrypt';
+import { IsPassword } from '@/libs/class-validator';
 import { EventEmitterParam, Public, Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
 import { UserState } from '@/users/domain';
@@ -19,24 +21,30 @@ import {
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { IsEmail, IsString, Length } from 'class-validator';
 
 class CreateUserRestBody {
   @ApiProperty({
     description: 'The name of new user.',
     example: 'Jorge',
   })
+  @IsString()
+  @Length(1, 255)
   name: string;
 
   @ApiProperty({
     description: 'The email of new user.',
     example: 'abc@email.com',
   })
+  @IsEmail()
   email: string;
 
   @ApiProperty({
     description: 'The pasword of new user.',
     example: '007NoTimeToDie',
   })
+  @IsPassword()
+  @Length(8, 255)
   password: string;
 }
 
@@ -92,6 +100,8 @@ class CreateUserRestResponse {
 @Public()
 @Service()
 export class CreateUserRestController {
+  constructor(private readonly hashService: BcryptService) {}
+
   @ApiOperation({
     summary: 'Create a new user.',
     description: 'Create a new user using name, email and password.',
@@ -124,10 +134,12 @@ export class CreateUserRestController {
       userEventEmitter,
     );
 
+    const passwordHash = this.hashService.hashSync(body.password);
+
     const request: TCreateUserRequest = new CreateUserRequest({
       name: body.name,
       email: body.email,
-      password: body.password,
+      password: passwordHash,
     });
 
     const result = await controller.execute(request);

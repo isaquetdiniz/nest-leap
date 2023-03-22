@@ -8,6 +8,7 @@ import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import {
   IsDate,
+  IsEmail,
   IsEnum,
   IsOptional,
   IsString,
@@ -30,11 +31,11 @@ export class CreateUserRequest
   name: string;
 
   @IsString()
-  @Length(1, 255)
+  @IsEmail()
   email: string;
 
   @IsString()
-  @Length(8, 255)
+  @Length(8)
   password: string;
 
   constructor(props: TCreateUserRequest) {

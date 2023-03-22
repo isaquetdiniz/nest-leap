@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -42,6 +42,8 @@ async function bootstrap() {
   if (appEnv !== 'production') {
     openapi(app);
   }
+
+  app.useGlobalPipes(new ValidationPipe());
 
   // Enable graceful shutdown
   app.enableShutdownHooks();

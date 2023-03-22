@@ -4,10 +4,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthUser } from '@/api-users/domain';
 import { GetUserByEmailService } from '@/users/infra';
 import { UserState } from '@/apps/users/domain';
+import { BcryptService } from '@/libs/bcrypt';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly getUserByEmailService: GetUserByEmailService) {
+  constructor(
+    private readonly getUserByEmailService: GetUserByEmailService,
+    private readonly hashService: BcryptService,
+  ) {
     super({
       usernameField: 'email',
       passwordField: 'password',
@@ -17,11 +21,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(email: string, password: string): Promise<AuthUser> {
     const user = await this.getUserByEmailService.execute({ email });
 
-    if (
-      !user ||
-      user.state !== UserState.CONFIRMED ||
-      user.password !== password
-    ) {
+    const invalidState = user.state !== UserState.CONFIRMED;
+    const wrongPassword = !this.hashService.compareHash(
+      password,
+      user.password,
+    );
+
+    if (!user || invalidState || wrongPassword) {
       throw new UnauthorizedException();
     }
 
