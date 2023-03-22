@@ -13,6 +13,7 @@ import { PrismaModule } from '@/libs/prisma';
 import { IORedisModule } from '@/libs/ioredis';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { BcryptModule } from '@/libs/bcrypt';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ConfigModule } from '@nestjs/config';
     PassportModule,
     UsersModule,
     IORedisModule,
+    BcryptModule,
   ],
   controllers: [LoginRestController],
   providers: [

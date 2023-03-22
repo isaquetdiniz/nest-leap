@@ -9,6 +9,7 @@ import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import {
   IsDate,
+  IsEmail,
   IsEnum,
   IsOptional,
   IsString,
@@ -31,7 +32,7 @@ export class ConfirmUserRequest
   code: string;
 
   @IsString()
-  @Length(1, 255)
+  @IsEmail()
   email: string;
 
   constructor(props: TConfirmUserRequest) {

@@ -28,18 +28,22 @@ import {
 } from '@nestjs/swagger';
 import { JwtTokenService } from '../../services/jwt.service';
 import { AuthUser } from '@/apps/api-users/domain';
+import { IsEmail, IsString, Length } from 'class-validator';
 
 class ConfirmUserRestBody {
   @ApiProperty({
     description: 'The email of user.',
     example: 'abc@email.com',
   })
+  @IsEmail()
   email: string;
 
   @ApiProperty({
     description: 'The confirmation code received.',
     example: '00358',
   })
+  @IsString()
+  @Length(5)
   code: string;
 }
 
