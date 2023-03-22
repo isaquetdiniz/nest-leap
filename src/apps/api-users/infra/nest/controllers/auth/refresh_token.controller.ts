@@ -12,7 +12,6 @@ import {
 } from '@nestjs/swagger';
 import {
   AuthUserParam,
-  LocalAuthGuard,
   JwtTokenService,
   RefreshTokenGuard,
 } from '@/api-users/infra';
@@ -61,7 +60,7 @@ export class RefreshTokenRestController {
     type: RefreshTokenRestResponse,
   })
   @ApiUnauthorizedResponse({
-    description: 'Acces token authentication failed.',
+    description: 'Access token authentication failed.',
   })
   @ApiBadRequestResponse({
     description:

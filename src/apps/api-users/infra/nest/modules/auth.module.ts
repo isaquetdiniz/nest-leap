@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import {
+  CreateForgotPasswordRestController,
   JwtAuthGuard,
   JwtStrategy,
   JwtTokenService,
@@ -7,6 +8,7 @@ import {
   LoginRestController,
   RefreshTokenGuard,
   RefreshTokenRestController,
+  UpdateForgotPasswordRestController,
 } from '@/api-users/infra';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -27,7 +29,12 @@ import { BcryptModule } from '@/libs/bcrypt';
     IORedisModule,
     BcryptModule,
   ],
-  controllers: [LoginRestController, RefreshTokenRestController],
+  controllers: [
+    LoginRestController,
+    RefreshTokenRestController,
+    CreateForgotPasswordRestController,
+    UpdateForgotPasswordRestController,
+  ],
   providers: [
     {
       provide: APP_GUARD,

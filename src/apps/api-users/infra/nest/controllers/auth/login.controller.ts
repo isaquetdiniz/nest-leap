@@ -16,18 +16,22 @@ import {
   JwtTokenService,
 } from '@/api-users/infra';
 import { AuthUser } from '@/api-users/domain';
+import { IsEmail } from 'class-validator';
+import { IsPassword } from '@/libs/class-validator';
 
 class LoginRestBody {
   @ApiProperty({
     description: 'The user email.',
     example: 'abc@email.com',
   })
+  @IsEmail()
   email: string;
 
   @ApiProperty({
     description: 'The user password.',
     example: '007NoTimeToDie',
   })
+  @IsPassword()
   password: string;
 }
 
