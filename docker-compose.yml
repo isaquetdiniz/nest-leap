@@ -32,6 +32,7 @@ services:
       - local
       - infra
     image: redis:7-alpine
+    hostname: redis
     restart: unless-stopped
     ports:
       - '${REDIS_PORT:?REDIS_PORT env var is missing on .env file}:6379'
@@ -41,6 +42,7 @@ services:
       - local
       - infra
     image: redislabs/redisinsight:latest
+    hostname: redisinsight
     restart: unless-stopped
     ports:
       - '${REDIS_INSIGHT_PORT:?REDIS_INSIGHT_PORT env var is missing on .env file}:8001'
