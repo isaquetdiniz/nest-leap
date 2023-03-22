@@ -5,6 +5,8 @@ import {
   JwtTokenService,
   LocalStrategy,
   LoginRestController,
+  RefreshTokenGuard,
+  RefreshTokenRestController,
 } from '@/api-users/infra';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -25,7 +27,7 @@ import { BcryptModule } from '@/libs/bcrypt';
     IORedisModule,
     BcryptModule,
   ],
-  controllers: [LoginRestController],
+  controllers: [LoginRestController, RefreshTokenRestController],
   providers: [
     {
       provide: APP_GUARD,
@@ -34,6 +36,7 @@ import { BcryptModule } from '@/libs/bcrypt';
     JwtTokenService,
     LocalStrategy,
     JwtStrategy,
+    RefreshTokenGuard,
   ],
 })
 export class AuthModule {}

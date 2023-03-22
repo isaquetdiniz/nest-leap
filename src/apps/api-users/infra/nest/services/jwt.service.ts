@@ -8,7 +8,7 @@ import { MissingEnvVarException } from '@/core/application';
 import { IORedisService } from '@/libs/ioredis';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JwtService, JwtSignOptions } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
 import { randomUUID as uuid } from 'node:crypto';
 
 const HOUR_IN_MILISECONDS = 86400000;
@@ -98,5 +98,16 @@ export class JwtTokenService {
     const token = this.jwtService.sign(data, options);
 
     return token;
+  }
+
+  decodeWithoutExpiration(plain: string): AccessToken {
+    const options: JwtVerifyOptions = {
+      secret: this.accessTokenSecret,
+      ignoreExpiration: true,
+    };
+
+    const decoded: AccessToken = this.jwtService.verify(plain, options);
+
+    return decoded;
   }
 }
