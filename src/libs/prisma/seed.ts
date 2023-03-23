@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  const emailTemplate = await prisma.emailTemplate.upsert({
+  const emailConfirmationTemplate = await prisma.emailTemplate.upsert({
     where: { tag: 'CONFIRMATION_EMAIL_TEMPLATE' },
     update: {},
     create: {
@@ -14,7 +14,22 @@ async function main() {
     },
   });
 
-  console.log('Emails templated created', emailTemplate);
+  const emailForgotPasswordTemplate = await prisma.emailTemplate.upsert({
+    where: { tag: 'FORGOT_PASSWORD_EMAIL_TEMPLATE' },
+    update: {},
+    create: {
+      tag: 'FORGOT_PASSWORD_EMAIL_TEMPLATE',
+      markups: ['name', 'code'],
+      title: 'Recuperação de Senha',
+      body: 'Olá, {{ name }}! Esse é o código para você recuperar sua senha. {{ code }}',
+      html: null,
+    },
+  });
+
+  console.log('Emails templated created', [
+    emailConfirmationTemplate,
+    emailForgotPasswordTemplate,
+  ]);
 }
 
 main()

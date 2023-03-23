@@ -8,9 +8,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from '@/libs/prisma';
 import { IORedisModule } from '@/libs/ioredis';
 import { BcryptModule } from '@/libs/bcrypt';
+import { UsersModule as MUsersModule } from '@/users/infra';
 
 @Module({
-  imports: [PrismaModule, UsersModule, JwtModule, IORedisModule, BcryptModule],
+  imports: [PrismaModule, MUsersModule, JwtModule, IORedisModule, BcryptModule],
   controllers: [CreateUserRestController, ConfirmUserRestController],
   providers: [JwtTokenService],
 })

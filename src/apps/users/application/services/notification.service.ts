@@ -13,4 +13,11 @@ export interface INotificationService {
     name: User['name'],
     code: string,
   ): Promise<void>;
+
+  sendForgotPasswordEmail(
+    to: Email['to'],
+    userId: User['id'],
+    name: User['name'],
+    code: string,
+  ): Promise<void>;
 }

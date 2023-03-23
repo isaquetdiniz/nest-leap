@@ -7,16 +7,21 @@ export * from './exceptions/user_confirmation_code_wrong.exception';
 
 export * from './repos/user.repository';
 export * from './repos/user_confirmation.repository';
+export * from './repos/user_forgot_password.repository';
 
 export * from './events/user.emitter';
+export * from './events/user_forgot_password.emitter';
 
 export * from './services/notification.service';
 
-export * from './usecases/create_user.usecase';
-export * from './usecases/delete_user_by_id.usecase';
-export * from './usecases/get_user_by_id.usecase';
-export * from './usecases/get_users_by_filter.usecase';
-export * from './usecases/update_user.usecase';
-export * from './usecases/handle_user_created.usecase';
-export * from './usecases/confirm.usecase';
-export * from './usecases/get_user_by_email.usecase';
+export * from './usecases/user/create_user.usecase';
+export * from './usecases/user/delete_user_by_id.usecase';
+export * from './usecases/user/get_user_by_id.usecase';
+export * from './usecases/user/get_users_by_filter.usecase';
+export * from './usecases/user/update_user.usecase';
+export * from './usecases/user/handle_user_created.usecase';
+export * from './usecases/user/get_user_by_email.usecase';
+
+export * from './usecases/user_confirmation/confirm.usecase';
+
+export * from './usecases/user_forgot_password/create_user_forgot_password.usecase';

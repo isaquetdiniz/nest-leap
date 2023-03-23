@@ -1,5 +1,11 @@
+import { CreateUserForgotPasswordService } from '@/users/infra';
+import {
+  CreateUserForgotPasswordRequest,
+  TCreateUserForgotPasswordRequest,
+  TCreateUserForgotPasswordResponse,
+} from '@/users/interface';
 import { Public, Service } from '@/libs/nest';
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -27,6 +33,10 @@ class CreateForgotPasswordRestResponse {
     example: '20879d85-303d-4ebc-ba11-4ca85f3beebd',
   })
   id: string;
+
+  constructor(props: TCreateUserForgotPasswordResponse) {
+    this.id = props.id;
+  }
 }
 
 @ApiTags('Auth')
@@ -34,6 +44,7 @@ class CreateForgotPasswordRestResponse {
 @Public()
 @Service()
 export class CreateForgotPasswordRestController {
+  constructor(private readonly service: CreateUserForgotPasswordService) {}
   @ApiOperation({
     summary: 'User create forgot password.',
     description: 'Endpoint to create a new forgot password.',
@@ -59,9 +70,14 @@ export class CreateForgotPasswordRestController {
       'If any required params are missing or has invalid format or type.',
   })
   @Post()
-  async execute(): Promise<CreateForgotPasswordRestResponse> {
-    return {
-      id: '',
-    };
+  async execute(
+    @Body() body: CreateForgotPasswordRestBody,
+  ): Promise<CreateForgotPasswordRestResponse> {
+    const request: TCreateUserForgotPasswordRequest =
+      new CreateUserForgotPasswordRequest({ email: body.email });
+
+    const userForgotPassword = await this.service.execute(request);
+
+    return new CreateForgotPasswordRestResponse(userForgotPassword);
   }
 }

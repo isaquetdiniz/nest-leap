@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import {
+  CreateUserForgotPasswordService,
   GetUserByEmailService,
   NotificationService,
   PrismaUserConfirmationRepository,
@@ -16,7 +17,8 @@ import { PrismaModule } from '@/libs/prisma';
     PrismaUserRepository,
     PrismaUserConfirmationRepository,
     GetUserByEmailService,
+    CreateUserForgotPasswordService,
   ],
-  exports: [GetUserByEmailService],
+  exports: [GetUserByEmailService, CreateUserForgotPasswordService],
 })
 export class UsersModule {}
