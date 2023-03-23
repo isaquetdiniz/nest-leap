@@ -1,3 +1,4 @@
+import { UpdateUserForgotPasswordService } from '@/users/infra';
 import { IsEqualThan, IsPassword } from '@/libs/class-validator';
 import { Public, Service } from '@/libs/nest';
 import { Body, Controller, Param, Patch } from '@nestjs/common';
@@ -13,6 +14,9 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { IsString, IsUUID, Length } from 'class-validator';
+import { JwtTokenService } from '@/api-users/infra';
+import { BcryptService } from '@/libs/bcrypt';
+import { AuthUser } from '@/api-users/domain';
 
 class UpdateForgotPasswordParams {
   @ApiProperty({
@@ -67,6 +71,12 @@ class UpdateForgotPasswordRestResponse {
 @Public()
 @Service()
 export class UpdateForgotPasswordRestController {
+  constructor(
+    private readonly service: UpdateUserForgotPasswordService,
+    private readonly tokenService: JwtTokenService,
+    private readonly hashService: BcryptService,
+  ) {}
+
   @ApiOperation({
     summary: 'User update forgot password.',
     description: 'Endpoint to update forgot password.',
@@ -97,9 +107,27 @@ export class UpdateForgotPasswordRestController {
     @Param() params: UpdateForgotPasswordParams,
     @Body() body: UpdateForgotPasswordRestBody,
   ): Promise<UpdateForgotPasswordRestResponse> {
+    const { id } = params;
+    const { code, new_password } = body;
+
+    const newPassword = this.hashService.hashSync(new_password);
+
+    const userForgotPassword = await this.service.execute({
+      id,
+      code,
+      newPassword,
+    });
+
+    const authUser = {
+      id: userForgotPassword.userId,
+      email: userForgotPassword.userEmail,
+    } as AuthUser;
+
+    const accessToken = await this.tokenService.generate(authUser);
+
     return {
-      access_token: null,
-      state: 'DECLINED',
+      access_token: accessToken,
+      state: userForgotPassword.state,
     };
   }
 }

@@ -5,5 +5,6 @@ export const EVENTS = {
   },
   USER_FORGOT_PASSWORD: {
     CREATED: 'users.events.userForgotPassword.created',
+    CONFIRMED: 'users.events.userForgotPassword.confirmed',
   },
 };

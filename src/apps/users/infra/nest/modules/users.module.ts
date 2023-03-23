@@ -4,7 +4,10 @@ import {
   GetUserByEmailService,
   NotificationService,
   PrismaUserConfirmationRepository,
+  PrismaUserForgotPasswordRepository,
   PrismaUserRepository,
+  UpdateUserForgotPasswordService,
+  UserForgotPasswordEventEmitter,
   UserObserver,
 } from '@/users/infra';
 import { PrismaModule } from '@/libs/prisma';
@@ -16,9 +19,16 @@ import { PrismaModule } from '@/libs/prisma';
     NotificationService,
     PrismaUserRepository,
     PrismaUserConfirmationRepository,
+    PrismaUserForgotPasswordRepository,
+    GetUserByEmailService,
+    UserForgotPasswordEventEmitter,
+    CreateUserForgotPasswordService,
+    UpdateUserForgotPasswordService,
+  ],
+  exports: [
     GetUserByEmailService,
     CreateUserForgotPasswordService,
+    UpdateUserForgotPasswordService,
   ],
-  exports: [GetUserByEmailService, CreateUserForgotPasswordService],
 })
 export class UsersModule {}

@@ -45,6 +45,7 @@ class CreateForgotPasswordRestResponse {
 @Service()
 export class CreateForgotPasswordRestController {
   constructor(private readonly service: CreateUserForgotPasswordService) {}
+
   @ApiOperation({
     summary: 'User create forgot password.',
     description: 'Endpoint to create a new forgot password.',

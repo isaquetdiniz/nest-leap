@@ -4,6 +4,9 @@ export * from './exceptions/user_invalid_state.exception';
 export * from './exceptions/user_confirmation_invalid_state.exception';
 export * from './exceptions/user_confirmation_not_found.exception';
 export * from './exceptions/user_confirmation_code_wrong.exception';
+export * from './exceptions/user_forgot_password_not_found.exception';
+export * from './exceptions/user_forgot_password_invalid_state.exception';
+export * from './exceptions/user_forgot_password_code_wrong.exception';
 
 export * from './repos/user.repository';
 export * from './repos/user_confirmation.repository';
@@ -25,3 +28,4 @@ export * from './usecases/user/get_user_by_email.usecase';
 export * from './usecases/user_confirmation/confirm.usecase';
 
 export * from './usecases/user_forgot_password/create_user_forgot_password.usecase';
+export * from './usecases/user_forgot_password/update_user_forgot_password.usecase';

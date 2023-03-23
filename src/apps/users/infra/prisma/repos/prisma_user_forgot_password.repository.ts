@@ -41,7 +41,7 @@ export class PrismaUserForgotPasswordRepository
   }
 
   async save(entity: UserForgotPassword): Promise<UserForgotPassword> {
-    const userCreated = await this.prisma.userConfirmation.create({
+    const userCreated = await this.prisma.userForgotPassword.create({
       data: {
         id: entity.id,
         state: entity.state,
@@ -56,9 +56,10 @@ export class PrismaUserForgotPasswordRepository
   }
 
   async getByUserAndIsPending(user: User): Promise<UserForgotPassword> {
-    const userConfirmationFound = await this.prisma.userConfirmation.findFirst({
-      where: { userId: user.id, state: UserForgotPasswordState.PENDING },
-    });
+    const userConfirmationFound =
+      await this.prisma.userForgotPassword.findFirst({
+        where: { userId: user.id, state: UserForgotPasswordState.PENDING },
+      });
 
     if (!userConfirmationFound) {
       return null;
@@ -70,7 +71,7 @@ export class PrismaUserForgotPasswordRepository
   async update(
     userConfirmation: UserForgotPassword,
   ): Promise<UserForgotPassword> {
-    const userConfirmationUpdate = await this.prisma.userConfirmation.update({
+    const userConfirmationUpdate = await this.prisma.userForgotPassword.update({
       where: {
         id: userConfirmation.id,
       },
@@ -84,5 +85,18 @@ export class PrismaUserForgotPasswordRepository
     });
 
     return PrismaUserForgotPasswordRepository.toDomain(userConfirmationUpdate);
+  }
+
+  async getById(id: string): Promise<UserForgotPassword> {
+    const userConfirmationFound =
+      await this.prisma.userForgotPassword.findUnique({
+        where: { id },
+      });
+
+    if (!userConfirmationFound) {
+      return null;
+    }
+
+    return PrismaUserForgotPasswordRepository.toDomain(userConfirmationFound);
   }
 }

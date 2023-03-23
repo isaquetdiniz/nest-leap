@@ -8,7 +8,7 @@ import {
   PrismaUserRepository,
   UserEventEmitter,
 } from '@/users/infra';
-import { EventEmitterParam, Service } from '@/libs/nest';
+import { EventEmitterParam, Public, Service } from '@/libs/nest';
 import { PrismaRepositoryParam } from '@/libs/prisma';
 import {
   ConfirmUserController,
@@ -58,6 +58,7 @@ class ConfirmUserRestResponse {
 
 @ApiTags('Users')
 @Controller('users/confirm')
+@Public()
 @Service()
 @ApiBearerAuth()
 export class ConfirmUserRestController {
