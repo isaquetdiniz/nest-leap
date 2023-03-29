@@ -17,7 +17,7 @@ export * from './events/user_forgot_password.emitter';
 
 export * from './services/notification.service';
 
-export * from './usecases/user/create_user.usecase';
+export * from './usecases/user/create.usecase';
 export * from './usecases/user/delete_user_by_id.usecase';
 export * from './usecases/user/get_user_by_id.usecase';
 export * from './usecases/user/get_users_by_filter.usecase';

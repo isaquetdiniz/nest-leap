@@ -11,6 +11,10 @@ export * from './nest/services/get_user_by_email.service';
 export * from './nest/services/create_user_forgot_password.service';
 export * from './nest/services/update_user_forgot_password.service';
 
+export * from './nest/services/user/create.service';
+
+export * from './nest/services/user_confirmation/confirm.service';
+
 export * from './nest/observers/user.observer';
 
 export * from './nest/modules/users.module';

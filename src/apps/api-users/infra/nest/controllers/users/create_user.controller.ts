@@ -1,16 +1,9 @@
-import { IUserEventEmitter, IUserRepository } from '@/apps/users/application';
-import { PrismaUserRepository, UserEventEmitter } from '@/apps/users/infra';
+import { CreateUserNestService } from '@/apps/users/infra';
 import { BcryptService } from '@/libs/bcrypt';
 import { IsPassword } from '@/libs/class-validator';
-import { EventEmitterParam, Public, Service } from '@/libs/nest';
-import { PrismaRepositoryParam } from '@/libs/prisma';
+import { Public } from '@/libs/nest';
 import { UserState } from '@/users/domain';
-import {
-  CreateUserController,
-  CreateUserRequest,
-  TCreateUserRequest,
-  TCreateUserResponse,
-} from '@/users/interface';
+import { CreateUserResponse, TCreateUserRequest } from '@/users/interface';
 import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -40,11 +33,10 @@ class CreateUserRestBody {
   email: string;
 
   @ApiProperty({
-    description: 'The pasword of new user.',
-    example: '007NoTimeToDie',
+    description: 'The password of new user.',
+    example: '007NoTimeToDie%',
   })
   @IsPassword()
-  @Length(8, 255)
   password: string;
 }
 
@@ -64,7 +56,7 @@ class CreateUserRestResponse {
 
   @ApiProperty({
     description: 'User name.',
-    example: 'Jorbe',
+    example: 'Jorge',
   })
   name: string;
 
@@ -74,33 +66,22 @@ class CreateUserRestResponse {
   })
   email: string;
 
-  @ApiProperty({
-    description: 'User created at.',
-  })
-  created_at: string;
-
-  /*
-  @ApiProperty({
-    description: 'User updated at.',
-  })
-  updated_at: string;
-  */
-
-  constructor(response: TCreateUserResponse) {
+  constructor(response: CreateUserResponse) {
     this.id = response.id;
     this.state = response.state;
     this.name = response.name;
     this.email = response.email;
-    this.created_at = response.createdAt.toISOString();
   }
 }
 
 @ApiTags('Users')
 @Controller('users')
 @Public()
-@Service()
 export class CreateUserRestController {
-  constructor(private readonly hashService: BcryptService) {}
+  constructor(
+    private readonly hashService: BcryptService,
+    private readonly createUserService: CreateUserNestService,
+  ) {}
 
   @ApiOperation({
     summary: 'Create a new user.',
@@ -123,26 +104,17 @@ export class CreateUserRestController {
   })
   @Post()
   async execute(
-    @PrismaRepositoryParam(PrismaUserRepository)
-    userRepository: IUserRepository,
-    @EventEmitterParam(UserEventEmitter)
-    userEventEmitter: IUserEventEmitter,
     @Body() body: CreateUserRestBody,
   ): Promise<CreateUserRestResponse> {
-    const controller = new CreateUserController(
-      userRepository,
-      userEventEmitter,
-    );
-
     const passwordHash = this.hashService.hashSync(body.password);
 
-    const request: TCreateUserRequest = new CreateUserRequest({
+    const request: TCreateUserRequest = {
       name: body.name,
       email: body.email,
       password: passwordHash,
-    });
+    };
 
-    const result = await controller.execute(request);
+    const result = await this.createUserService.execute(request);
 
     const response = new CreateUserRestResponse(result);
 

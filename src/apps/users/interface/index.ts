@@ -1,4 +1,4 @@
-export * from './controllers/user/create_user.controller';
+export * from './controllers/user/create.controller';
 export * from './controllers/user/delete_user_by_id.controller';
 export * from './controllers/user/get_user_by_id.controller';
 export * from './controllers/user/get_users_by_filter.controller';

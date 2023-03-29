@@ -1,24 +1,9 @@
-import {
-  IUserConfirmationRepository,
-  IUserEventEmitter,
-  IUserRepository,
-} from '@/users/application';
-import {
-  PrismaUserConfirmationRepository,
-  PrismaUserRepository,
-  UserEventEmitter,
-} from '@/users/infra';
-import { EventEmitterParam, Public, Service } from '@/libs/nest';
-import { PrismaRepositoryParam } from '@/libs/prisma';
-import {
-  ConfirmUserController,
-  ConfirmUserRequest,
-  TConfirmUserRequest,
-} from '@/users/interface';
+import { ConfirmUserNestService } from '@/users/infra';
+import { Public } from '@/libs/nest';
+import { TConfirmUserRequest } from '@/users/interface';
 import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
   ApiProperty,
@@ -26,8 +11,8 @@ import {
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
-import { JwtTokenService } from '../../services/jwt.service';
-import { AuthUser } from '@/apps/api-users/domain';
+import { JwtTokenService } from '@/api-users/infra';
+import { AuthUser } from '@/api-users/domain';
 import { IsEmail, IsString, Length } from 'class-validator';
 
 class ConfirmUserRestBody {
@@ -59,10 +44,11 @@ class ConfirmUserRestResponse {
 @ApiTags('Users')
 @Controller('users/confirm')
 @Public()
-@Service()
-@ApiBearerAuth()
 export class ConfirmUserRestController {
-  constructor(private readonly tokenProvider: JwtTokenService) {}
+  constructor(
+    private readonly tokenProvider: JwtTokenService,
+    private readonly confirmUserService: ConfirmUserNestService,
+  ) {}
 
   @ApiOperation({
     summary: 'Confirm a new user.',
@@ -85,26 +71,14 @@ export class ConfirmUserRestController {
   })
   @Post()
   async execute(
-    @PrismaRepositoryParam(PrismaUserRepository)
-    userRepository: IUserRepository,
-    @PrismaRepositoryParam(PrismaUserConfirmationRepository)
-    userConfirmationRepository: IUserConfirmationRepository,
-    @EventEmitterParam(UserEventEmitter)
-    userEventEmitter: IUserEventEmitter,
     @Body() body: ConfirmUserRestBody,
   ): Promise<ConfirmUserRestResponse> {
-    const controller = new ConfirmUserController(
-      userRepository,
-      userConfirmationRepository,
-      userEventEmitter,
-    );
-
-    const request: TConfirmUserRequest = new ConfirmUserRequest({
+    const request: TConfirmUserRequest = {
       code: body.code,
       email: body.email,
-    });
+    };
 
-    const result = await controller.execute(request);
+    const result = await this.confirmUserService.execute(request);
 
     const authUser: AuthUser = {
       id: result.id,
