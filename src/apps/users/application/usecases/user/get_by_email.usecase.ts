@@ -8,8 +8,6 @@ export class GetUserByEmailUsecase implements IUsecase<User['email'], User> {
   async perform(email: User['email']): Promise<User> {
     const userFound = await this.userRepository.getByEmail(email);
 
-    if (!userFound) return null;
-
     return userFound;
   }
 }

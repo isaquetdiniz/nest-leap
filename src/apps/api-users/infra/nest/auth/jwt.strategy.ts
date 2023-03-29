@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AccessToken, AuthUser } from '@/api-users/domain';
-import { GetUserByEmailService } from '@/users/infra';
+import { GetUserByEmailNestService } from '@/users/infra';
 import { ConfigService } from '@nestjs/config';
 import { JwtTokenServiceConfig } from '@/api-users/infra';
 
@@ -10,7 +10,7 @@ import { JwtTokenServiceConfig } from '@/api-users/infra';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     configService: ConfigService<JwtTokenServiceConfig>,
-    private readonly getUserByEmailService: GetUserByEmailService,
+    private readonly getUserByEmailService: GetUserByEmailNestService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -38,7 +38,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      deletedAt: user.deletedAt,
     };
 
     return authUser;

@@ -2,14 +2,14 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthUser } from '@/api-users/domain';
-import { GetUserByEmailService } from '@/users/infra';
+import { GetUserByEmailNestService } from '@/users/infra';
 import { UserState } from '@/apps/users/domain';
 import { BcryptService } from '@/libs/bcrypt';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly getUserByEmailService: GetUserByEmailService,
+    private readonly getUserByEmailService: GetUserByEmailNestService,
     private readonly hashService: BcryptService,
   ) {
     super({
@@ -39,7 +39,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      deletedAt: user.deletedAt,
     };
 
     return authUser;

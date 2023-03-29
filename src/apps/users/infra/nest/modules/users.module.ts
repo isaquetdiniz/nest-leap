@@ -3,7 +3,7 @@ import {
   ConfirmUserNestService,
   CreateUserForgotPasswordService,
   CreateUserNestService,
-  GetUserByEmailService,
+  GetUserByEmailNestService,
   NotificationService,
   PrismaUserConfirmationRepository,
   PrismaUserForgotPasswordRepository,
@@ -23,7 +23,7 @@ import { PrismaModule } from '@/libs/prisma';
     PrismaUserRepository,
     PrismaUserConfirmationRepository,
     PrismaUserForgotPasswordRepository,
-    GetUserByEmailService,
+    GetUserByEmailNestService,
     UserEventEmitter,
     UserForgotPasswordEventEmitter,
     CreateUserForgotPasswordService,
@@ -32,11 +32,11 @@ import { PrismaModule } from '@/libs/prisma';
     ConfirmUserNestService,
   ],
   exports: [
-    GetUserByEmailService,
-    CreateUserForgotPasswordService,
-    UpdateUserForgotPasswordService,
     CreateUserNestService,
     ConfirmUserNestService,
+    GetUserByEmailNestService,
+    CreateUserForgotPasswordService,
+    UpdateUserForgotPasswordService,
   ],
 })
 export class UsersModule {}

@@ -4,11 +4,14 @@ import { User, UserState } from '@/users/domain';
 import { AutoValidator } from '@/libs/class-validator';
 import {
   IsDate,
+  IsEmail,
   IsEnum,
+  IsInt,
   IsOptional,
   IsString,
   IsUUID,
   Length,
+  Min,
 } from 'class-validator';
 
 export type IGetUserByEmailRequest = Pick<User, 'email'>;
@@ -18,9 +21,8 @@ export class GetUserByEmailRequest
   extends AutoValidator
   implements IGetUserByEmailRequest
 {
-  @IsString()
-  @Length(1, 255)
-  email: string;
+  @IsEmail()
+  email: User['email'];
 
   constructor(props: IGetUserByEmailRequest) {
     super(props);
@@ -32,30 +34,33 @@ export class GetUserByEmailResponse
   implements IGetUserByEmailResponse
 {
   @IsUUID(4)
-  id: string;
+  id: User['id'];
+
+  @IsInt()
+  @Min(1)
+  serial: User['serial'];
 
   @IsEnum(UserState)
-  state: UserState;
+  state: User['state'];
 
   @IsString()
   @Length(1, 255)
-  name: string;
+  name: User['name'];
+
+  @IsEmail()
+  email: User['email'];
 
   @IsString()
-  @Length(1, 255)
-  email: string;
-
-  @IsString()
-  @Length(1, 255)
-  password: string;
+  @Length(8)
+  password: User['password'];
 
   @IsOptional()
   @IsDate()
-  createdAt: Date;
+  createdAt: User['createdAt'];
 
   @IsOptional()
   @IsDate()
-  updatedAt: Date;
+  updatedAt: User['updatedAt'];
 
   constructor(props: IGetUserByEmailResponse) {
     super(props);
@@ -63,7 +68,7 @@ export class GetUserByEmailResponse
 }
 
 export class GetUserByEmailController
-  implements IController<IGetUserByEmailRequest, IGetUserByEmailResponse>
+  implements IController<GetUserByEmailRequest, GetUserByEmailResponse>
 {
   private usecase: GetUserByEmailUsecase;
 
@@ -72,8 +77,8 @@ export class GetUserByEmailController
   }
 
   async execute(
-    request: IGetUserByEmailRequest,
-  ): Promise<IGetUserByEmailResponse> {
+    request: GetUserByEmailRequest,
+  ): Promise<GetUserByEmailResponse> {
     const user = await this.usecase.perform(request.email);
 
     const response =

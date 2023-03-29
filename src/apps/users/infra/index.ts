@@ -7,10 +7,11 @@ export * from './nest/events/user.emitter';
 export * from './nest/events/user_forgot_password.emitter';
 
 export * from './nest/services/notification.service';
-export * from './nest/services/get_user_by_email.service';
+
 export * from './nest/services/create_user_forgot_password.service';
 export * from './nest/services/update_user_forgot_password.service';
 
+export * from './nest/services/user/get_user_by_email.service';
 export * from './nest/services/user/create.service';
 
 export * from './nest/services/user_confirmation/confirm.service';

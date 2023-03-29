@@ -20,14 +20,14 @@ export class CreateUserRequest
 {
   @IsString()
   @Length(1, 255)
-  name: string;
+  name: User['name'];
 
   @IsEmail()
-  email: string;
+  email: User['email'];
 
   @IsString()
   @Length(8)
-  password: string;
+  password: User['password'];
 
   constructor(props: TCreateUserRequest) {
     super(props);
@@ -39,17 +39,17 @@ export class CreateUserResponse
   implements TCreateUserResponse
 {
   @IsUUID(4)
-  id: string;
+  id: User['id'];
 
   @IsEnum(UserState)
-  state: UserState;
+  state: User['state'];
 
   @IsString()
   @Length(1, 255)
-  name: string;
+  name: User['name'];
 
   @IsEmail()
-  email: string;
+  email: User['email'];
 
   constructor(props: TCreateUserResponse) {
     super(props);

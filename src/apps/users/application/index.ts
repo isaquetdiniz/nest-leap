@@ -23,7 +23,7 @@ export * from './usecases/user/get_user_by_id.usecase';
 export * from './usecases/user/get_users_by_filter.usecase';
 export * from './usecases/user/update_user.usecase';
 export * from './usecases/user/handle_user_created.usecase';
-export * from './usecases/user/get_user_by_email.usecase';
+export * from './usecases/user/get_by_email.usecase';
 
 export * from './usecases/user_confirmation/confirm.usecase';
 

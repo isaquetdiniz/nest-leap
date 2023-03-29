@@ -21,10 +21,10 @@ export class ConfirmUserRequest
 {
   @IsString()
   @Length(5)
-  code: string;
+  code: UserConfirmation['code'];
 
   @IsEmail()
-  email: string;
+  email: UserConfirmation['email'];
 
   constructor(props: TConfirmUserRequest) {
     super(props);
@@ -36,17 +36,17 @@ export class ConfirmUserResponse
   implements TConfirmUserResponse
 {
   @IsUUID(4)
-  id: string;
+  id: User['id'];
 
   @IsEnum(UserState)
-  state: UserState;
+  state: User['state'];
 
   @IsString()
   @Length(1, 255)
-  name: string;
+  name: User['name'];
 
   @IsEmail()
-  email: string;
+  email: User['email'];
 
   constructor(props: TConfirmUserResponse) {
     super(props);
