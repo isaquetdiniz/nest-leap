@@ -10,6 +10,8 @@ export interface User extends Domain {
   name: string;
   email: string;
   password: string;
+
+  isConfirmed(): boolean;
 }
 
 export class UserEntity extends DomainEntity implements User {
@@ -25,5 +27,9 @@ export class UserEntity extends DomainEntity implements User {
     this.name = props.name;
     this.email = props.email;
     this.password = props.password;
+  }
+
+  isConfirmed(): boolean {
+    return this.state === UserState.CONFIRMED;
   }
 }

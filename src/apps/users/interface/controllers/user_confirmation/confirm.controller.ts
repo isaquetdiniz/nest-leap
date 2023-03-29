@@ -62,11 +62,15 @@ export class ConfirmUserController
     userRepository: IUserRepository,
     userConfirmationRepository: IUserConfirmationRepository,
     eventEmitter: IUserEventEmitter,
+    maxAttempts: number,
+    expirationMs: number,
   ) {
     this.usecase = new ConfirmUserUsecase(
       userRepository,
       userConfirmationRepository,
       eventEmitter,
+      maxAttempts,
+      expirationMs,
     );
   }
 

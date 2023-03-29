@@ -16,7 +16,7 @@ export interface IUpdateUserRequest {
   name?: string;
   email?: string;
 }
-export type IUpdateUserResponse = Omit<User, 'password'>;
+export type IUpdateUserResponse = Omit<User, 'password' | 'isConfirmed'>;
 
 export class UpdateUserRequest
   extends AutoValidator

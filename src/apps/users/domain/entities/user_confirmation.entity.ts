@@ -17,6 +17,10 @@ export interface UserConfirmation extends Domain {
   confirmedAt?: Date;
   expiredAt?: Date;
   declinedAt?: Date;
+
+  isDeclined(): boolean;
+  isExpired(): boolean;
+  isConfirmed(): boolean;
 }
 
 export class UserConfirmationEntity
@@ -43,5 +47,17 @@ export class UserConfirmationEntity
     this.confirmedAt = props.confirmedAt;
     this.expiredAt = props.expiredAt;
     this.declinedAt = props.declinedAt;
+  }
+
+  isDeclined(): boolean {
+    return this.state === UserConfirmationState.DECLINED;
+  }
+
+  isExpired(): boolean {
+    return this.state === UserConfirmationState.EXPIRED;
+  }
+
+  isConfirmed(): boolean {
+    return this.state === UserConfirmationState.CONFIRMED;
   }
 }

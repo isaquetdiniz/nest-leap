@@ -15,7 +15,7 @@ import {
 } from 'class-validator';
 
 export type IGetUserByEmailRequest = Pick<User, 'email'>;
-export type IGetUserByEmailResponse = User;
+export type IGetUserByEmailResponse = Omit<User, 'isConfirmed'>;
 
 export class GetUserByEmailRequest
   extends AutoValidator

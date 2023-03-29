@@ -55,9 +55,9 @@ export class PrismaUserConfirmationRepository
     return PrismaUserConfirmationRepository.toDomain(userCreated);
   }
 
-  async getByUserAndIsPending(user: User): Promise<UserConfirmation> {
+  async getByUser(user: User): Promise<UserConfirmation> {
     const userConfirmationFound = await this.prisma.userConfirmation.findFirst({
-      where: { userId: user.id, state: UserConfirmationState.PENDING },
+      where: { userId: user.id },
     });
 
     if (!userConfirmationFound) {

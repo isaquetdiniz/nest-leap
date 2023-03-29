@@ -1,12 +1,16 @@
 export * from './exceptions/user_already_exists.exception';
 export * from './exceptions/user_not_found.exception';
 export * from './exceptions/user_invalid_state.exception';
-export * from './exceptions/user_confirmation_invalid_state.exception';
-export * from './exceptions/user_confirmation_not_found.exception';
-export * from './exceptions/user_confirmation_code_wrong.exception';
+
 export * from './exceptions/user_forgot_password_not_found.exception';
 export * from './exceptions/user_forgot_password_invalid_state.exception';
 export * from './exceptions/user_forgot_password_code_wrong.exception';
+
+export * from './exceptions/user_confirmation/user_confirmation_invalid_state.exception';
+export * from './exceptions/user_confirmation/user_confirmation_not_found.exception';
+export * from './exceptions/user_confirmation/user_confirmation_code_wrong.exception';
+export * from './exceptions/user_confirmation/user_confirmation_max_attempts.exception';
+export * from './exceptions/user_confirmation/user_confirmation_expired.exception';
 
 export * from './repos/user.repository';
 export * from './repos/user_confirmation.repository';

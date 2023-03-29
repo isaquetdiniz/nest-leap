@@ -1,4 +1,9 @@
-import { User, UserConfirmationState, UserState } from '@/users/domain';
+import {
+  User,
+  UserConfirmation,
+  UserConfirmationState,
+  UserState,
+} from '@/users/domain';
 import {
   IUserConfirmationRepository,
   IUserEventEmitter,
@@ -8,6 +13,8 @@ import {
   UserNotFoundException,
   UserConfirmationNotFoundException,
   UserConfirmationCodeWrongException,
+  UserConfirmationMaxAttemptsException,
+  UserConfirmationExpiredException,
 } from '@/users/application';
 import { IUsecase } from '@/core/application';
 
@@ -18,6 +25,8 @@ export class ConfirmUserUsecase implements IUsecase<TConfirmUser, User> {
     private readonly userRepository: IUserRepository,
     private readonly userConfirmationRepository: IUserConfirmationRepository,
     private readonly eventEmitter: IUserEventEmitter,
+    private readonly maxAttempts: number,
+    private readonly expirationMs: number,
   ) {}
 
   async perform(data: TConfirmUser): Promise<User> {
@@ -34,30 +43,93 @@ export class ConfirmUserUsecase implements IUsecase<TConfirmUser, User> {
     }
 
     const userConfirmationFound =
-      await this.userConfirmationRepository.getByUserAndIsPending(userFound);
+      await this.userConfirmationRepository.getByUser(userFound);
 
-    if (!userConfirmationFound) {
-      throw new UserConfirmationNotFoundException({});
+    await this.checkIsValid(userConfirmationFound);
+
+    if (this.hasExpired(userConfirmationFound)) {
+      await this.expire(userConfirmationFound);
     }
 
-    if (userConfirmationFound.state !== UserConfirmationState.PENDING) {
-      throw new UserConfirmationInvalidStateException({});
+    userConfirmationFound.attempts += 1;
+
+    const isLastAttempt = userConfirmationFound.attempts >= this.maxAttempts;
+    const isWrongCode = userConfirmationFound.code !== code;
+
+    if (isWrongCode && isLastAttempt) {
+      await this.decline(userConfirmationFound);
     }
 
-    if (userConfirmationFound.code !== code) {
-      userConfirmationFound.attempts += 1;
+    if (isWrongCode) {
       await this.userConfirmationRepository.update(userConfirmationFound);
 
       throw new UserConfirmationCodeWrongException({ code });
     }
 
-    userFound.state = UserState.CONFIRMED;
-    userConfirmationFound.state = UserConfirmationState.CONFIRMED;
-    userConfirmationFound.confirmedAt = new Date();
+    await this.confirm(userConfirmationFound);
 
-    const userConfirmed = await this.userRepository.update(userFound);
+    const userConfirmed = await this.confirmUser(userFound);
 
-    await this.userConfirmationRepository.update(userConfirmationFound);
+    return userConfirmed;
+  }
+
+  async checkIsValid(userConfirmation: UserConfirmation): Promise<void> {
+    if (!userConfirmation) {
+      throw new UserConfirmationNotFoundException({});
+    }
+
+    if (userConfirmation.isDeclined()) {
+      throw new UserConfirmationMaxAttemptsException({});
+    }
+
+    if (userConfirmation.isExpired()) {
+      throw new UserConfirmationExpiredException({});
+    }
+
+    if (userConfirmation.isConfirmed()) {
+      throw new UserConfirmationInvalidStateException({});
+    }
+  }
+
+  hasExpired(userConfirmation: UserConfirmation): boolean {
+    const nowInMs = new Date().getTime();
+    const hasExpired =
+      userConfirmation.createdAt.getTime() + this.expirationMs <= nowInMs;
+
+    return hasExpired;
+  }
+
+  async expire(userConfirmation: UserConfirmation): Promise<void> {
+    userConfirmation.state = UserConfirmationState.EXPIRED;
+    userConfirmation.expiredAt = new Date();
+
+    await this.userConfirmationRepository.update(userConfirmation);
+
+    throw new UserConfirmationExpiredException({});
+  }
+
+  async decline(userConfirmation: UserConfirmation): Promise<void> {
+    userConfirmation.state === UserConfirmationState.DECLINED;
+    userConfirmation.declinedAt = new Date();
+
+    await this.userConfirmationRepository.update(userConfirmation);
+
+    throw new UserConfirmationMaxAttemptsException({
+      attempts: userConfirmation.attempts,
+    });
+  }
+
+  async confirm(userConfirmation: UserConfirmation): Promise<void> {
+    userConfirmation.state === UserConfirmationState.CONFIRMED;
+    userConfirmation.confirmedAt = new Date();
+
+    await this.userConfirmationRepository.update(userConfirmation);
+  }
+
+  async confirmUser(user: User): Promise<User> {
+    user.state = UserState.CONFIRMED;
+
+    const userConfirmed = await this.userRepository.update(user);
 
     this.eventEmitter.confirmed(userConfirmed);
 

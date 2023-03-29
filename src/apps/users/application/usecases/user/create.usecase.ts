@@ -19,8 +19,12 @@ export class CreateUserUsecase implements IUsecase<TCreateUser, User> {
 
     const userExists = await this.userRepository.getByEmail(email);
 
-    if (userExists) {
+    if (userExists && userExists.isConfirmed()) {
       throw new UserAlreadyExistsException({ name, email });
+    }
+
+    if (userExists) {
+      return userExists;
     }
 
     const user = new UserEntity({
