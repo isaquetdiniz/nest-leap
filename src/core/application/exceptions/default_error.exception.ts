@@ -3,7 +3,10 @@ export enum ExceptionTypes {
   ADMIN = 'ADMIN',
   SYSTEM = 'SYSTEM',
   SECURITY = 'SECURITY',
-  UNKNOWN = 'UNKNOW',
+  FORBIDDEN = 'FORBIDDEN',
+  UNAUTHORIZED = 'UNAUTHORIZED',
+  UNKNOWN = 'UNKNOWN',
+  CONFLICT = 'CONFLICT',
 }
 
 export interface Exception {
@@ -23,5 +26,15 @@ export class DefaultException extends Error implements Exception {
     this.code = exception.code;
     this.type = exception.type;
     this.data = exception.data;
+  }
+
+  isUserError(): boolean {
+    return [
+      ExceptionTypes.USER,
+      ExceptionTypes.ADMIN,
+      ExceptionTypes.FORBIDDEN,
+      ExceptionTypes.UNAUTHORIZED,
+      ExceptionTypes.CONFLICT,
+    ].includes(this.type);
   }
 }

@@ -6,7 +6,11 @@ import {
   DocumentBuilder,
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
-import { shutdown } from '@/libs/nest';
+import {
+  DefaultExceptionFilter,
+  HttpExceptionFilter,
+  shutdown,
+} from '@/libs/nest';
 import { ApiUsersModule } from './apps/api-users/infra/nest/modules/api_users.module';
 
 function openapi(app: INestApplication) {
@@ -43,6 +47,7 @@ async function bootstrap() {
     openapi(app);
   }
 
+  app.useGlobalFilters(new DefaultExceptionFilter(), new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
 
   // Enable graceful shutdown

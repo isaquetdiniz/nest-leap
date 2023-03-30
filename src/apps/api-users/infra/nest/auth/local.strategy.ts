@@ -21,13 +21,17 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(email: string, password: string): Promise<AuthUser> {
     const user = await this.getUserByEmailService.execute({ email });
 
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
     const invalidState = user.state !== UserState.CONFIRMED;
     const wrongPassword = !this.hashService.compareHash(
       password,
       user.password,
     );
 
-    if (!user || invalidState || wrongPassword) {
+    if (invalidState || wrongPassword) {
       throw new UnauthorizedException();
     }
 
