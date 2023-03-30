@@ -8,8 +8,8 @@ export * from './nest/events/user_forgot_password.emitter';
 
 export * from './nest/services/notification.service';
 
-export * from './nest/services/create_user_forgot_password.service';
-export * from './nest/services/update_user_forgot_password.service';
+export * from './nest/services/user_forgot_password/create.service';
+export * from './nest/services/user_forgot_password/update.service';
 
 export * from './nest/services/user/get_user_by_email.service';
 export * from './nest/services/user/create.service';

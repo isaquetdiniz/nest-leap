@@ -18,6 +18,7 @@ export type TUpdateUserForgotPasswordRequest = {
   code: UserForgotPassword['code'];
   newPassword: User['password'];
 };
+
 export type TUpdateUserForgotPasswordResponse = Pick<
   UserForgotPassword,
   'id' | 'state'
@@ -67,8 +68,8 @@ export class UpdateUserForgotPasswordResponse
 export class UpdateUserForgotPasswordController
   implements
     IController<
-      TUpdateUserForgotPasswordRequest,
-      TUpdateUserForgotPasswordResponse
+      UpdateUserForgotPasswordRequest,
+      UpdateUserForgotPasswordResponse
     >
 {
   private usecase: UpdateUserForgotPasswordUsecase;
@@ -77,17 +78,21 @@ export class UpdateUserForgotPasswordController
     userRepository: IUserRepository,
     userForgotPasswordRepository: IUserForgotPasswordRepository,
     eventEmitter: IUserForgotPasswordEventEmitter,
+    maxAttempts: number,
+    expirationMs: number,
   ) {
     this.usecase = new UpdateUserForgotPasswordUsecase(
       userRepository,
       userForgotPasswordRepository,
       eventEmitter,
+      maxAttempts,
+      expirationMs,
     );
   }
 
   async execute(
-    request: TUpdateUserForgotPasswordRequest,
-  ): Promise<TUpdateUserForgotPasswordResponse> {
+    request: UpdateUserForgotPasswordRequest,
+  ): Promise<UpdateUserForgotPasswordResponse> {
     const userForgotPassoword = await this.usecase.perform({
       id: request.id,
       code: request.code,

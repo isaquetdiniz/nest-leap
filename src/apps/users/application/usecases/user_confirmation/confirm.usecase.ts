@@ -45,7 +45,7 @@ export class ConfirmUserUsecase implements IUsecase<TConfirmUser, User> {
     const userConfirmationFound =
       await this.userConfirmationRepository.getByUser(userFound);
 
-    await this.checkIsValid(userConfirmationFound);
+    this.checkIsValid(userConfirmationFound);
 
     if (this.hasExpired(userConfirmationFound)) {
       await this.expire(userConfirmationFound);
@@ -73,7 +73,7 @@ export class ConfirmUserUsecase implements IUsecase<TConfirmUser, User> {
     return userConfirmed;
   }
 
-  async checkIsValid(userConfirmation: UserConfirmation): Promise<void> {
+  checkIsValid(userConfirmation: UserConfirmation): void {
     if (!userConfirmation) {
       throw new UserConfirmationNotFoundException({});
     }
@@ -105,7 +105,9 @@ export class ConfirmUserUsecase implements IUsecase<TConfirmUser, User> {
 
     await this.userConfirmationRepository.update(userConfirmation);
 
-    throw new UserConfirmationExpiredException({});
+    throw new UserConfirmationExpiredException({
+      expiredAt: userConfirmation.expiredAt,
+    });
   }
 
   async decline(userConfirmation: UserConfirmation): Promise<void> {

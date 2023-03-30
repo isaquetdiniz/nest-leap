@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import {
   ConfirmUserNestService,
-  CreateUserForgotPasswordService,
+  CreateUserForgotPasswordNestService,
   CreateUserNestService,
   GetUserByEmailNestService,
   NotificationService,
   PrismaUserConfirmationRepository,
   PrismaUserForgotPasswordRepository,
   PrismaUserRepository,
-  UpdateUserForgotPasswordService,
+  UpdateUserForgotPasswordNestService,
   UserEventEmitter,
   UserForgotPasswordEventEmitter,
   UserObserver,
@@ -26,8 +26,8 @@ import { PrismaModule } from '@/libs/prisma';
     GetUserByEmailNestService,
     UserEventEmitter,
     UserForgotPasswordEventEmitter,
-    CreateUserForgotPasswordService,
-    UpdateUserForgotPasswordService,
+    CreateUserForgotPasswordNestService,
+    UpdateUserForgotPasswordNestService,
     CreateUserNestService,
     ConfirmUserNestService,
   ],
@@ -35,8 +35,8 @@ import { PrismaModule } from '@/libs/prisma';
     CreateUserNestService,
     ConfirmUserNestService,
     GetUserByEmailNestService,
-    CreateUserForgotPasswordService,
-    UpdateUserForgotPasswordService,
+    CreateUserForgotPasswordNestService,
+    UpdateUserForgotPasswordNestService,
   ],
 })
 export class UsersModule {}

@@ -40,8 +40,8 @@ export class CreateUserForgotPasswordResponse
 export class CreateUserForgotPasswordController
   implements
     IController<
-      TCreateUserForgotPasswordRequest,
-      TCreateUserForgotPasswordResponse
+      CreateUserForgotPasswordRequest,
+      CreateUserForgotPasswordResponse
     >
 {
   private usecase: CreateUserForgotPasswordUsecase;
@@ -61,14 +61,14 @@ export class CreateUserForgotPasswordController
   }
 
   async execute(
-    request: TCreateUserForgotPasswordRequest,
-  ): Promise<TCreateUserForgotPasswordResponse> {
-    const userForgotPassoword = await this.usecase.perform({
+    request: CreateUserForgotPasswordRequest,
+  ): Promise<CreateUserForgotPasswordResponse> {
+    const userForgotPassword = await this.usecase.perform({
       email: request.email,
     });
 
     return new CreateUserForgotPasswordResponse({
-      id: userForgotPassoword.id,
+      id: userForgotPassword.id,
     });
   }
 }

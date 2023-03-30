@@ -1,6 +1,5 @@
-import { CreateUserForgotPasswordService } from '@/users/infra';
+import { CreateUserForgotPasswordNestService } from '@/users/infra';
 import {
-  CreateUserForgotPasswordRequest,
   TCreateUserForgotPasswordRequest,
   TCreateUserForgotPasswordResponse,
 } from '@/users/interface';
@@ -44,7 +43,9 @@ class CreateForgotPasswordRestResponse {
 @Public()
 @Service()
 export class CreateForgotPasswordRestController {
-  constructor(private readonly service: CreateUserForgotPasswordService) {}
+  constructor(
+    private readonly createUserForgotPasswordService: CreateUserForgotPasswordNestService,
+  ) {}
 
   @ApiOperation({
     summary: 'User create forgot password.',
@@ -74,10 +75,10 @@ export class CreateForgotPasswordRestController {
   async execute(
     @Body() body: CreateForgotPasswordRestBody,
   ): Promise<CreateForgotPasswordRestResponse> {
-    const request: TCreateUserForgotPasswordRequest =
-      new CreateUserForgotPasswordRequest({ email: body.email });
+    const request: TCreateUserForgotPasswordRequest = { email: body.email };
 
-    const userForgotPassword = await this.service.execute(request);
+    const userForgotPassword =
+      await this.createUserForgotPasswordService.execute(request);
 
     return new CreateForgotPasswordRestResponse(userForgotPassword);
   }

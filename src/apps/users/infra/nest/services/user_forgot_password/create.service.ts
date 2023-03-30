@@ -1,10 +1,11 @@
 import {
-  UpdateUserForgotPasswordController,
-  UpdateUserForgotPasswordRequest,
-  TUpdateUserForgotPasswordRequest,
-  TUpdateUserForgotPasswordResponse,
+  CreateUserForgotPasswordController,
+  CreateUserForgotPasswordRequest,
+  CreateUserForgotPasswordResponse,
+  TCreateUserForgotPasswordRequest,
 } from '@/users/interface';
 import {
+  NotificationService,
   PrismaUserForgotPasswordRepository,
   PrismaUserRepository,
   UserForgotPasswordEventEmitter,
@@ -12,28 +13,28 @@ import {
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class UpdateUserForgotPasswordService {
-  controller: UpdateUserForgotPasswordController;
+export class CreateUserForgotPasswordNestService {
+  controller: CreateUserForgotPasswordController;
 
   constructor(
     userRepository: PrismaUserRepository,
     userForgotPasswordRepository: PrismaUserForgotPasswordRepository,
+    notificationService: NotificationService,
     eventEmitter: UserForgotPasswordEventEmitter,
   ) {
-    this.controller = new UpdateUserForgotPasswordController(
+    this.controller = new CreateUserForgotPasswordController(
       userRepository,
       userForgotPasswordRepository,
+      notificationService,
       eventEmitter,
     );
   }
 
   async execute(
-    params: TUpdateUserForgotPasswordRequest,
-  ): Promise<TUpdateUserForgotPasswordResponse> {
-    const request = new UpdateUserForgotPasswordRequest({
-      id: params.id,
-      code: params.code,
-      newPassword: params.newPassword,
+    params: TCreateUserForgotPasswordRequest,
+  ): Promise<CreateUserForgotPasswordResponse> {
+    const request = new CreateUserForgotPasswordRequest({
+      email: params.email,
     });
 
     const response = await this.controller.execute(request);

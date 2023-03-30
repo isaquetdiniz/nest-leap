@@ -1,4 +1,4 @@
-import { UpdateUserForgotPasswordService } from '@/users/infra';
+import { UpdateUserForgotPasswordNestService } from '@/users/infra';
 import { IsEqualThan, IsPassword } from '@/libs/class-validator';
 import { Public, Service } from '@/libs/nest';
 import { Body, Controller, Param, Patch } from '@nestjs/common';
@@ -72,7 +72,7 @@ class UpdateForgotPasswordRestResponse {
 @Service()
 export class UpdateForgotPasswordRestController {
   constructor(
-    private readonly service: UpdateUserForgotPasswordService,
+    private readonly service: UpdateUserForgotPasswordNestService,
     private readonly tokenService: JwtTokenService,
     private readonly hashService: BcryptService,
   ) {}

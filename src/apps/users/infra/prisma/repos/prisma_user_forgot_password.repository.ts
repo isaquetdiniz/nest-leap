@@ -91,6 +91,14 @@ export class PrismaUserForgotPasswordRepository
     const userConfirmationFound =
       await this.prisma.userForgotPassword.findUnique({
         where: { id },
+        include: {
+          user: {
+            select: {
+              id: true,
+              email: true,
+            },
+          },
+        },
       });
 
     if (!userConfirmationFound) {
