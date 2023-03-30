@@ -48,7 +48,6 @@ class LoginRestResponse {
 @Controller('auth/login')
 @UseGuards(LocalAuthGuard)
 @Public()
-@Service()
 export class LoginRestController {
   constructor(private readonly tokenService: JwtTokenService) {}
 

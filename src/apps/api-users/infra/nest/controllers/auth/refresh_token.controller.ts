@@ -41,7 +41,6 @@ class RefreshTokenRestResponse {
 @Controller('auth/refresh-token')
 @UseGuards(RefreshTokenGuard)
 @Public()
-@Service()
 export class RefreshTokenRestController {
   constructor(private readonly tokenService: JwtTokenService) {}
 

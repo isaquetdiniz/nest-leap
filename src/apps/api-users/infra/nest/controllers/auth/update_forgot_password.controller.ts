@@ -69,7 +69,6 @@ class UpdateForgotPasswordRestResponse {
 @ApiTags('Auth')
 @Controller('auth/forgot-password/:id')
 @Public()
-@Service()
 export class UpdateForgotPasswordRestController {
   constructor(
     private readonly service: UpdateUserForgotPasswordNestService,
