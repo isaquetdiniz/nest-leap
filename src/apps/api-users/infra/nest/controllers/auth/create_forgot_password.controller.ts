@@ -3,7 +3,7 @@ import {
   TCreateUserForgotPasswordRequest,
   TCreateUserForgotPasswordResponse,
 } from '@/users/interface';
-import { Public, Service } from '@/libs/nest';
+import { Public } from '@/libs/nest';
 import { Body, Controller, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,

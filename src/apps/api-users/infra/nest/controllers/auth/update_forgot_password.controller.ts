@@ -1,6 +1,6 @@
 import { UpdateUserForgotPasswordNestService } from '@/users/infra';
 import { IsEqualThan, IsPassword } from '@/libs/class-validator';
-import { Public, Service } from '@/libs/nest';
+import { Public } from '@/libs/nest';
 import { Body, Controller, Param, Patch } from '@nestjs/common';
 import {
   ApiBadRequestResponse,

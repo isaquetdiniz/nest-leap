@@ -1,4 +1,4 @@
-import { Public, Service } from '@/libs/nest';
+import { Public } from '@/libs/nest';
 import { Controller, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
