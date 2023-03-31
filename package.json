@@ -20,7 +20,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -46,9 +46,6 @@
     "old:test:integration": "npm test -- --watch -c jest-integration-config.js --verbose",
     "old:test:staged": "npm test -- --findRelatedTests",
     "old:test:ci": "npm test -- --coverage",
-    "old:prisma:generate": "npx prisma generate --schema=./src/main/infra/prisma/schema.prisma",
-    "old:prisma:migration": "npx prisma migrate --schema=./src/main/infra/prisma/schema.prisma --name",
-    "old:prisma:migration:push": "npx prisma migrate deploy --schema=./src/main/infra/prisma/schema.prisma",
     "old:plop": "plop"
   },
   "dependencies": {

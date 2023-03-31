@@ -9,7 +9,7 @@ COPY --chown=node:node package*.json ./
 
 RUN npm ci
 
-COPY --chown=node:node src/main/infra/prisma/schema.prisma ./prisma/
+COPY --chown=node:node src/libs/prisma/schema.prisma ./prisma/
 
 RUN npx prisma generate
 
@@ -38,9 +38,9 @@ WORKDIR /home/node
 
 COPY --chown=node:node --from=installer /home/node/node_modules ./node_modules
 COPY --chown=node:node --from=builder /home/node/dist ./dist
-COPY --chown=node:node src/main/infra/prisma/migrations ./migrations
-COPY --chown=node:node src/main/infra/prisma/schema.prisma ./
+COPY --chown=node:node src/libs/prisma/migrations ./migrations
+COPY --chown=node:node src/libs/prisma/schema.prisma ./
 COPY --chown=node:node package.json ./
 COPY --chown=node:node wait-for.sh ./
 
-CMD ["dumb-init", "node", "dist/main/server.js"]
+CMD ["dumb-init", "node", "dist/main.js"]
