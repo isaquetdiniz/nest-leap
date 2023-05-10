@@ -20,7 +20,7 @@ export class RefreshTokenGuard implements CanActivate {
 
     const { body } = request;
 
-    if (!body?.['access_token']) {
+    if (!body?.access_token) {
       throw new UnauthorizedException();
     }
 
