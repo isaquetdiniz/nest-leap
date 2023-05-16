@@ -1,0 +1,42 @@
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { Delete{{pascalCase name}}ByIdUsecase } from '@/{{dashCase name}}/application/usecases';
+import { IController } from '@/core/interface';
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { AutoValidator } from '@/libs/class-validator';
+import { IsUUID } from 'class-validator';
+
+export type TDelete{{pascalCase name}}ByIdRequest = Pick<{{pascalCase name}}, 'id'>;
+
+export class Delete{{pascalCase name}}ByIdRequest
+  extends AutoValidator
+  implements TDelete{{pascalCase name}}ByIdRequest
+{
+  @IsUUID(4)
+  id: string;
+
+  constructor(props: TDelete{{pascalCase name}}ByIdRequest) {
+    super(props);
+  }
+}
+
+export type TDelete{{pascalCase name}}ByIdResponse = void;
+
+export class Delete{{pascalCase name}}ByIdController
+  implements
+    IController<
+      TDelete{{pascalCase name}}ByIdRequest,
+      TDelete{{pascalCase name}}ByIdResponse
+    >
+{
+  private usecase: Delete{{pascalCase name}}ByIdUsecase;
+
+  constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
+    this.usecase = new Delete{{pascalCase name}}ByIdUsecase({{camelCase name}}Repository);
+  }
+
+  async execute(
+    request: TDelete{{pascalCase name}}ByIdRequest,
+  ): Promise<TDelete{{pascalCase name}}ByIdResponse> {
+    await this.usecase.perform(request.id);
+  }
+}

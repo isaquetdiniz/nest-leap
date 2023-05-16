@@ -1,0 +1,30 @@
+import {
+  Update{{pascalCase name}}Controller,
+  Update{{pascalCase name}}Request,
+  Update{{pascalCase name}}Response,
+  TUpdate{{pascalCase name}}Request,
+} from '@/{{dashCase name}}/interface/controllers';
+import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class Update{{pascalCase name}}NestService {
+  controller: Update{{pascalCase name}}Controller;
+
+  constructor({{camelCase name}}Repository: Prisma{{pascalCase name}}Repository) {
+    this.controller = new Update{{pascalCase name}}Controller({{camelCase name}}Repository);
+  }
+
+  async execute(
+    params: TUpdate{{pascalCase name}}Request,
+  ): Promise<Update{{pascalCase name}}Response> {
+    const request = new Update{{pascalCase name}}Request({
+      id: params.id,
+      name: params.name,
+    });
+
+    const response = await this.controller.execute(request);
+
+    return response;
+  }
+}

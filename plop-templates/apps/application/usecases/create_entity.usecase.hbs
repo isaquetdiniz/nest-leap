@@ -1,0 +1,38 @@
+import {
+  {{pascalCase name}},
+  {{pascalCase name}}Entity,
+} from '@/{{dashCase name}}/domain';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { {{pascalCase name}}AlreadyExistsException } from '@/{{dashCase name}}/application/exceptions';
+import { IUsecase } from '@/core/application';
+
+type TCreate{{pascalCase name}} = { name: string };
+
+export class Create{{pascalCase name}}Usecase
+  implements IUsecase<TCreate{{pascalCase name}}, {{pascalCase name}}>
+{
+  constructor(
+    private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,
+  ) {}
+
+  async perform(data: TCreate{{pascalCase name}}): Promise<{{pascalCase name}}> {
+    const { name } = data;
+
+    const {{camelCase name}}Exists =
+      await this.{{camelCase name}}Repository.getByName(name);
+
+    if ({{camelCase name}}Exists) {
+      throw new {{pascalCase name}}AlreadyExistsException({ name });
+    }
+
+    const {{camelCase name}} = new {{pascalCase name}}Entity({
+      name,
+    });
+
+    const {{camelCase name}}Created = await this.{{camelCase name}}Repository.save(
+      {{camelCase name}},
+    );
+
+    return {{camelCase name}}Created;
+  }
+}

@@ -1,0 +1,109 @@
+import {
+  Create{{pascalCase name}}NestService
+} from '@/{{dashCase name}}/infra/nest/services';
+import {
+  Create{{pascalCase name}}Response,
+  TCreate{{pascalCase name}}Request,
+} from '@/{{dashCase name}}/interface/controllers';
+import { Body, Controller, Post } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiProperty,
+  ApiTags,
+  ApiUnauthorizedResponse,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
+import { IsAlpha } from 'class-validator';
+
+class Create{{pascalCase name}}RestBody {
+  @ApiProperty({
+    description: '{{pascalCase name}} name.',
+    example: 'Test',
+  })
+  @IsAlpha()
+  name: string;
+}
+
+class Create{{pascalCase name}}RestResponse {
+  @ApiProperty({
+    description: '{{pascalCase name}} id.',
+    example: '882e725d-d9c5-45b6-b37d-c19834d8c090',
+  })
+  id: string;
+
+  @ApiProperty({
+    description: '{{pascalCase name}} name.',
+    example: 'Test',
+  })
+  name: string;
+
+  @ApiProperty({
+    description: '{{pascalCase name}} created at date.',
+    example: '1970-01-01T00:00:00.000Z',
+  })
+  created_at: Date;
+
+  @ApiProperty({
+    description: '{{pascalCase name}} updated at date.',
+    example: '1970-01-01T00:00:00.000Z',
+  })
+  updated_at: Date;
+
+  @ApiProperty({
+    description: '{{pascalCase name}} deleted at date.',
+    example: '1970-01-01T00:00:00.000Z',
+  })
+  deleted_at: Date;
+
+  constructor(response: Create{{pascalCase name}}Response) {
+    this.id = response.id;
+    this.name = response.name;
+    this.created_at = response.createdAt;
+    this.updated_at = response.updatedAt;
+    this.deleted_at = response.deletedAt;
+  }
+}
+
+@ApiTags('{{pascalCase name}}')
+@Controller('{{dashCase name}}')
+export class Create{{pascalCase name}}RestController {
+  constructor(
+    private readonly create{{pascalCase name}}Service: Create{{pascalCase name}}NestService,
+  ) {}
+
+  @ApiOperation({
+    summary: 'Create a new {{lowerCase name}}.',
+    description: 'Create a new {{lowerCase name}} using score and userId.',
+  })
+  @ApiOkResponse({
+    description: 'The {{lowerCase name}} was created successfully.',
+    type: Create{{pascalCase name}}RestResponse,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'User authentication failed.',
+  })
+  @ApiBadRequestResponse({
+    description:
+      'If any required params are missing or has invalid format or type.',
+  })
+  @ApiUnprocessableEntityResponse({
+    description:
+      'If any required params are missing or has invalid format or type.',
+  })
+  @Post()
+  async execute(
+    @Body() body: Create{{pascalCase name}}RestBody,
+  ): Promise<Create{{pascalCase name}}RestResponse> {
+    const request: TCreate{{pascalCase name}}Request = {
+      name: body.name,
+    };
+
+    const result = await this.create{{pascalCase name}}Service.execute(request);
+
+    const response = new Create{{pascalCase name}}RestResponse(result);
+
+    return response;
+  }
+}

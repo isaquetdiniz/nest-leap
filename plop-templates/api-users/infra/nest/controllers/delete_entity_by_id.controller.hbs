@@ -1,0 +1,60 @@
+import { Delete{{pascalCase name}}ByIdNestService } from '@/{{dashCase name}}/infra/nest/services';
+import { TDelete{{pascalCase name}}ByIdRequest } from '@/{{dashCase name}}/interface/controllers';
+import { Controller, Delete, Param } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiProperty,
+  ApiTags,
+  ApiUnauthorizedResponse,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
+import { IsUUID } from 'class-validator';
+
+class Delete{{pascalCase name}}ByIdRestParams {
+  @ApiProperty({
+    description: 'The {{pascalCase name}} id.',
+    example: '882e725d-d9c5-45b6-b37d-c19834d8c090',
+  })
+  @IsUUID(4)
+  id: string;
+}
+
+@ApiTags('{{pascalCase name}}')
+@Controller('{{dashCase name}}/:id')
+export class Delete{{pascalCase name}}ByIdRestController {
+  constructor(
+    private readonly delete{{pascalCase name}}ByIdService: Delete{{pascalCase name}}ByIdNestService,
+  ) {}
+
+  @ApiOperation({
+    summary: 'Delete a {{camelCase name}}.',
+    description: 'Delete a {{camelCase name}} using id.',
+  })
+  @ApiOkResponse({
+    description: 'The {{camelCase name}} was deleted successfully.',
+    type: null,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'User authentication failed.',
+  })
+  @ApiBadRequestResponse({
+    description:
+      'If any required params are missing or has invalid format or type.',
+  })
+  @ApiUnprocessableEntityResponse({
+    description:
+      'If any required params are missing or has invalid format or type.',
+  })
+  @Delete()
+  async execute(
+    @Param() params: Delete{{pascalCase name}}ByIdRestParams,
+  ): Promise<void> {
+    const request: TDelete{{pascalCase name}}ByIdRequest = {
+      id: params.id,
+    };
+
+    await this.delete{{pascalCase name}}ByIdService.execute(request);
+  }
+}

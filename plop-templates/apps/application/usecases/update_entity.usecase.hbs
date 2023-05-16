@@ -1,0 +1,36 @@
+import {
+  {{pascalCase name}},
+  {{pascalCase name}}Entity,
+} from '@/{{dashCase name}}/domain';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { {{pascalCase name}}NotFoundException } from '@/{{dashCase name}}/application/exceptions';
+import { IUsecase } from '@/core/application';
+
+export class Update{{pascalCase name}}Usecase
+  implements IUsecase<{{pascalCase name}}, {{pascalCase name}}>
+{
+  constructor(
+    private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,
+  ) {}
+
+  async perform({{camelCase name}}: {{pascalCase name}}): Promise<{{pascalCase name}}> {
+    const {{camelCase name}}Exists = await this.{{camelCase name}}Repository.getById(
+      {{camelCase name}}.id,
+    );
+
+    if (!{{camelCase name}}Exists) {
+      throw new {{pascalCase name}}NotFoundException({ id: {{camelCase name}}.id });
+    }
+
+    const {{camelCase name}}ToUpdate = new {{pascalCase name}}Entity({
+      ...{{camelCase name}}Exists,
+      ...{{camelCase name}},
+    });
+
+    const {{camelCase name}}Updated = await this.{{camelCase name}}Repository.update(
+      {{camelCase name}}ToUpdate,
+    );
+
+    return {{camelCase name}}Updated;
+  }
+}

@@ -1,0 +1,12 @@
+import { DefaultException, ExceptionTypes } from '@/core/application';
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+
+export class {{pascalCase name}}AlreadyExistsException extends DefaultException {
+  constructor({{camelCase name}}: Partial<{{pascalCase name}}>) {
+    super({
+      type: ExceptionTypes.USER,
+      code: '{{constantCase name}}_ALREADY_EXISTS',
+      data: {{camelCase name}},
+    });
+  }
+}

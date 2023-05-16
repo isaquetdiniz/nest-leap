@@ -1,0 +1,32 @@
+import { Module } from '@nestjs/common';
+import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
+import {
+  Create{{pascalCase name}}NestService,
+  Delete{{pascalCase name}}ByIdNestService,
+  Get{{pascalCase name}}ByIdNestService,
+  Get{{pascalCase name}}sByFilterNestService,
+  Update{{pascalCase name}}NestService,
+} from '@/{{dashCase name}}/infra/nest/services';
+import { PrismaModule } from '@/libs/prisma';
+import { PrismaUserRepository } from '@/users/infra/prisma/repos';
+
+@Module({
+  imports: [PrismaModule],
+  providers: [
+    Prisma{{pascalCase name}}Repository,
+    PrismaUserRepository,
+    Create{{pascalCase name}}NestService,
+    Delete{{pascalCase name}}ByIdNestService,
+    Get{{pascalCase name}}ByIdNestService,
+    Get{{pascalCase name}}sByFilterNestService,
+    Update{{pascalCase name}}NestService,
+  ],
+  exports: [
+    Create{{pascalCase name}}NestService,
+    Delete{{pascalCase name}}ByIdNestService,
+    Get{{pascalCase name}}ByIdNestService,
+    Get{{pascalCase name}}sByFilterNestService,
+    Update{{pascalCase name}}NestService,
+  ],
+})
+export class {{pascalCase name}}Module {}

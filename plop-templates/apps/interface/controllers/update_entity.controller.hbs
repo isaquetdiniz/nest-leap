@@ -1,0 +1,91 @@
+import {
+  {{pascalCase name}},
+  {{pascalCase name}}Entity,
+} from '@/{{dashCase name}}/domain';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { Update{{pascalCase name}}Usecase } from '@/{{dashCase name}}/application/usecases';
+import { IController } from '@/core/interface';
+import { AutoValidator } from '@/libs/class-validator';
+import { IsDate, IsOptional, IsUUID, IsAlpha } from 'class-validator';
+
+export interface TUpdate{{pascalCase name}}Request {
+  id: string;
+  name?: string;
+}
+export type TUpdate{{pascalCase name}}Response = {{pascalCase name}};
+
+export class Update{{pascalCase name}}Request
+  extends AutoValidator
+  implements TUpdate{{pascalCase name}}Request
+{
+  @IsUUID(4)
+  id: string;
+
+  @IsOptional()
+  @IsAlpha()
+  name: {{pascalCase name}}['name'];
+
+  constructor(props: TUpdate{{pascalCase name}}Request) {
+    super(props);
+  }
+}
+
+export class Update{{pascalCase name}}Response
+  extends AutoValidator
+  implements TUpdate{{pascalCase name}}Response
+{
+  @IsUUID(4)
+  id: string;
+
+  @IsOptional()
+  serial: {{pascalCase name}}['serial'];
+
+  @IsAlpha()
+  name: {{pascalCase name}}['name'];
+
+  @IsOptional()
+  @IsDate()
+  createdAt: {{pascalCase name}}['createdAt'];
+
+  @IsOptional()
+  @IsDate()
+  updatedAt: {{pascalCase name}}['updatedAt'];
+
+  @IsOptional()
+  @IsDate()
+  deletedAt: {{pascalCase name}}['deletedAt'];
+
+  constructor(props: TUpdate{{pascalCase name}}Response) {
+    super(props);
+  }
+}
+
+export class Update{{pascalCase name}}Controller
+  implements
+    IController<TUpdate{{pascalCase name}}Request, Update{{pascalCase name}}Response>
+{
+  private usecase: Update{{pascalCase name}}Usecase;
+
+  constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
+    this.usecase = new Update{{pascalCase name}}Usecase({{camelCase name}}Repository);
+  }
+
+  async execute(
+    request: TUpdate{{pascalCase name}}Request,
+  ): Promise<Update{{pascalCase name}}Response> {
+    const {{camelCase name}}ToUpdate = new {{pascalCase name}}Entity({
+      id: request.id,
+      name: request.name,
+    });
+
+    const {{camelCase name}}Updated = await this.usecase.perform({{camelCase name}}ToUpdate);
+
+    return new Update{{pascalCase name}}Response({
+      id: {{camelCase name}}Updated.id,
+      name: {{camelCase name}}Updated.name,
+      createdAt: {{camelCase name}}Updated.createdAt,
+      updatedAt: {{camelCase name}}Updated.updatedAt,
+      deletedAt: {{camelCase name}}Updated.deletedAt,
+    });
+  }
+}

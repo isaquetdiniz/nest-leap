@@ -1,0 +1,19 @@
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { IUsecase } from '@/core/application';
+
+export class Get{{pascalCase name}}ByIdUsecase
+  implements IUsecase<string, {{pascalCase name}}>
+{
+  constructor(
+    private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,
+  ) {}
+
+  async perform(id: string): Promise<{{pascalCase name}} | null> {
+    const {{camelCase name}}Exists = await this.{{camelCase name}}Repository.getById(
+      id,
+    );
+
+    return {{camelCase name}}Exists;
+  }
+}

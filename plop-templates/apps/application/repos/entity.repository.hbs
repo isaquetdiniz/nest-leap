@@ -1,0 +1,12 @@
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { DefaultFilters } from '@/core/domain';
+import { IRepository } from '@/core/application';
+
+export type {{pascalCase name}}Filters = DefaultFilters & {
+  name?: string;
+};
+
+export interface I{{pascalCase name}}Repository
+  extends IRepository<{{pascalCase name}}, {{pascalCase name}}Filters> {
+  getByName(name: string): Promise<{{pascalCase name}}>;
+}

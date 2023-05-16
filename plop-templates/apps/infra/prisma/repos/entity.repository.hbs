@@ -1,0 +1,111 @@
+import {
+  {{pascalCase name}} as {{pascalCase name}}InPrisma,
+  User as UserInPrisma,
+} from '@prisma/client';
+import {
+  {{pascalCase name}},
+  {{pascalCase name}}Entity,
+} from '@/{{dashCase name}}/domain';
+import {
+  I{{pascalCase name}}Repository,
+  {{pascalCase name}}Filters,
+} from '@/{{dashCase name}}/application/repos';
+import { PrismaService } from '@/libs/prisma';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class Prisma{{pascalCase name}}Repository
+  implements I{{pascalCase name}}Repository
+{
+  constructor(private readonly prisma: PrismaService) {}
+
+  static toDomain(
+    {{camelCase name}}InPrisma: {{pascalCase name}}InPrisma & {
+      user?: UserInPrisma;
+    },
+  ): {{pascalCase name}} {
+    return new {{pascalCase name}}Entity({
+      id: {{camelCase name}}InPrisma.id,
+      serial: {{camelCase name}}InPrisma.serial,
+      name: {{camelCase name}}InPrisma.name,
+      createdAt: {{camelCase name}}InPrisma.createdAt,
+      updatedAt: {{camelCase name}}InPrisma.updatedAt,
+      deletedAt: {{camelCase name}}InPrisma.deletedAt,
+    });
+  }
+
+  async save(entity: {{pascalCase name}}): Promise<{{pascalCase name}}> {
+    const {{camelCase name}}Created = await this.prisma.{{camelCase name}}.create({
+      data: entity,
+    });
+
+    return Prisma{{pascalCase name}}Repository.toDomain({{camelCase name}}Created);
+  }
+
+  async getById(id: string): Promise<{{pascalCase name}} | null> {
+    const {{camelCase name}}Found = await this.prisma.{{camelCase name}}.findUnique({
+      where: { id },
+    });
+
+    if (!{{camelCase name}}Found) {
+      return null;
+    }
+
+    return Prisma{{pascalCase name}}Repository.toDomain({{camelCase name}}Found);
+  }
+
+  async getByName(name: string): Promise<{{pascalCase name}}> {
+    const {{camelCase name}}Found = await this.prisma.{{camelCase name}}.findFirst({
+      where: { name },
+    });
+
+    if (!{{camelCase name}}Found) {
+      return null;
+    }
+
+    return Prisma{{pascalCase name}}Repository.toDomain({{camelCase name}}Found);
+  }
+
+  async getByFilter(
+    filter: {{pascalCase name}}Filters,
+  ): Promise<{{pascalCase name}}[]> {
+    const {{camelCase name}}sFound = await this.prisma.{{camelCase name}}.findMany({
+      where: {
+        name: filter.name,
+      },
+      take: filter.take,
+      skip: filter.skip,
+      orderBy: { [filter.orderByProperty]: filter.orderByMode },
+    });
+
+    return {{camelCase name}}sFound.map(({{camelCase name}}Found) =>
+      Prisma{{pascalCase name}}Repository.toDomain({{camelCase name}}Found),
+    );
+  }
+
+  async count(filter: {{pascalCase name}}Filters): Promise<number> {
+    const {{camelCase name}}sCount =
+      await this.prisma.{{camelCase name}}.count({
+        where: {
+          name: filter.name,
+        },
+      });
+
+    return {{camelCase name}}sCount;
+  }
+
+  async update(entity: {{pascalCase name}}): Promise<{{pascalCase name}}> {
+    const {{camelCase name}}Updated = await this.prisma.{{camelCase name}}.update({
+      where: { id: entity.id },
+      data: entity,
+    });
+
+    return Prisma{{pascalCase name}}Repository.toDomain({{camelCase name}}Updated);
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.prisma.{{camelCase name}}.delete({
+      where: { id },
+    });
+  }
+}

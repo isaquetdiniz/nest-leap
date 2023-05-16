@@ -1,0 +1,18 @@
+import { Domain, DomainEntity } from '@/core/domain';
+
+export interface {{pascalCase name}} extends Domain {
+  name: string;
+}
+
+export class {{pascalCase name}}Entity
+  extends DomainEntity
+  implements {{pascalCase name}}
+{
+  name: string;
+
+  constructor(props: Partial<{{pascalCase name}}>) {
+    super(props);
+
+    this.name = props.name;
+  }
+}

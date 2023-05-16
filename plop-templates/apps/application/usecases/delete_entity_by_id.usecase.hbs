@@ -1,0 +1,23 @@
+import { IUsecase } from '@/core/application';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { {{pascalCase name}}NotFoundException } from '@/{{dashCase name}}/application/exceptions';
+
+export class Delete{{pascalCase name}}ByIdUsecase
+  implements IUsecase<string, void>
+{
+  constructor(
+    private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,
+  ) {}
+
+  async perform(id: string): Promise<void> {
+    const {{camelCase name}}Exists = await this.{{camelCase name}}Repository.getById(
+      id,
+    );
+
+    if (!{{camelCase name}}Exists) {
+      throw new {{pascalCase name}}NotFoundException({ id });
+    }
+
+    await this.{{camelCase name}}Repository.deleteById(id);
+  }
+}

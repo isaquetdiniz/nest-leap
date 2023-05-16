@@ -1,0 +1,12 @@
+import { DefaultException, ExceptionTypes } from '@/core/application';
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+
+export class {{pascalCase name}}NotFoundException extends DefaultException {
+  constructor({{camelCase name}}: Partial<{{pascalCase name}}>) {
+    super({
+      type: ExceptionTypes.USER,
+      code: '{{constantCase name}}_NOT_FOUND',
+      data: {{camelCase name}},
+    });
+  }
+}

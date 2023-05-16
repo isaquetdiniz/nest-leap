@@ -1,0 +1,26 @@
+import {
+  Delete{{pascalCase name}}ByIdController,
+  Delete{{pascalCase name}}ByIdRequest,
+  TDelete{{pascalCase name}}ByIdRequest,
+} from '@/{{dashCase name}}/interface/controllers';
+import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class Delete{{pascalCase name}}ByIdNestService {
+  controller: Delete{{pascalCase name}}ByIdController;
+
+  constructor({{camelCase name}}Repository: Prisma{{pascalCase name}}Repository) {
+    this.controller = new Delete{{pascalCase name}}ByIdController({{camelCase name}}Repository);
+  }
+
+  async execute(params: TDelete{{pascalCase name}}ByIdRequest): Promise<void> {
+    const request = new Delete{{pascalCase name}}ByIdRequest({
+      id: params.id,
+    });
+
+    const response = await this.controller.execute(request);
+
+    return response;
+  }
+}

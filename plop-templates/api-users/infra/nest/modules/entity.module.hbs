@@ -1,0 +1,22 @@
+import { Module } from '@nestjs/common';
+import {
+  Create{{pascalCase name}}RestController,
+  Delete{{pascalCase name}}ByIdRestController,
+  Get{{pascalCase name}}ByIdRestController,
+  Get{{pascalCase name}}sByFilterRestController,
+  Update{{pascalCase name}}RestController,
+} from '@/api-users/infra/nest/controllers/{{dashCase name}}';
+import { PrismaModule } from '@/libs/prisma';
+import { {{pascalCase name}}Module as M{{pascalCase name}}Module } from '@/{{dashCase name}}/infra/nest/modules';
+
+@Module({
+  imports: [PrismaModule, M{{pascalCase name}}Module],
+  controllers: [
+    Create{{pascalCase name}}RestController,
+    Get{{pascalCase name}}sByFilterRestController,
+    Get{{pascalCase name}}ByIdRestController,
+    Update{{pascalCase name}}RestController,
+    Delete{{pascalCase name}}ByIdRestController,
+  ],
+})
+export class {{pascalCase name}}Module {}

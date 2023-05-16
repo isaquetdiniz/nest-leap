@@ -1,0 +1,79 @@
+import { Get{{pascalCase name}}ByIdUsecase } from '@/{{dashCase name}}/application/usecases';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { IController } from '@/core/interface';
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { AutoValidator } from '@/libs/class-validator';
+import { IsDate, IsAlpha, IsOptional, IsUUID } from 'class-validator';
+
+export type TGet{{pascalCase name}}ByIdRequest = Pick<{{pascalCase name}}, 'id'>;
+export type TGet{{pascalCase name}}ByIdResponse = {{pascalCase name}};
+
+export class Get{{pascalCase name}}ByIdRequest
+  extends AutoValidator
+  implements TGet{{pascalCase name}}ByIdRequest
+{
+  @IsUUID(4)
+  id: string;
+
+  constructor(props: TGet{{pascalCase name}}ByIdRequest) {
+    super(props);
+  }
+}
+
+export class Get{{pascalCase name}}ByIdResponse
+  extends AutoValidator
+  implements TGet{{pascalCase name}}ByIdResponse
+{
+  @IsUUID(4)
+  id: {{pascalCase name}}['id'];
+
+  @IsOptional()
+  serial: {{pascalCase name}}['serial'];
+
+  @IsAlpha()
+  name: {{pascalCase name}}['name'];
+
+  @IsOptional()
+  @IsDate()
+  createdAt: {{pascalCase name}}['createdAt'];
+
+  @IsOptional()
+  @IsDate()
+  updatedAt: {{pascalCase name}}['updatedAt'];
+
+  @IsOptional()
+  @IsDate()
+  deletedAt: {{pascalCase name}}['deletedAt'];
+
+  constructor(props: TGet{{pascalCase name}}ByIdResponse) {
+    super(props);
+  }
+}
+
+export class Get{{pascalCase name}}ByIdController
+  implements
+    IController<TGet{{pascalCase name}}ByIdRequest, Get{{pascalCase name}}ByIdResponse>
+{
+  private usecase: Get{{pascalCase name}}ByIdUsecase;
+
+  constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
+    this.usecase = new Get{{pascalCase name}}ByIdUsecase({{camelCase name}}Repository);
+  }
+
+  async execute(
+    request: TGet{{pascalCase name}}ByIdRequest,
+  ): Promise<Get{{pascalCase name}}ByIdResponse> {
+    const {{camelCase name}} = await this.usecase.perform(request.id);
+
+    const response =
+      {{camelCase name}} && new Get{{pascalCase name}}ByIdResponse({
+      id: {{camelCase name}}.id,
+      name: {{camelCase name}}.name,
+      createdAt: {{camelCase name}}.createdAt,
+      updatedAt: {{camelCase name}}.updatedAt,
+      deletedAt: {{camelCase name}}.deletedAt,
+    });
+
+    return response;
+  }
+}

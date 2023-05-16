@@ -1,0 +1,29 @@
+import {
+  Get{{pascalCase name}}sByFilterController,
+  Get{{pascalCase name}}sByFilterRequest,
+  TGet{{pascalCase name}}sByFilterResponse,
+  TGet{{pascalCase name}}sByFilterRequest,
+} from '@/{{dashCase name}}/interface/controllers';
+import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class Get{{pascalCase name}}sByFilterNestService {
+  controller: Get{{pascalCase name}}sByFilterController;
+
+  constructor({{camelCase name}}Repository: Prisma{{pascalCase name}}Repository) {
+    this.controller = new Get{{pascalCase name}}sByFilterController({{camelCase name}}Repository);
+  }
+
+  async execute(
+    params: TGet{{pascalCase name}}sByFilterRequest,
+  ): Promise<TGet{{pascalCase name}}sByFilterResponse> {
+    const request = new Get{{pascalCase name}}sByFilterRequest({
+      name: params.name,
+    });
+
+    const response = await this.controller.execute(request);
+
+    return response;
+  }
+}

@@ -1,0 +1,29 @@
+import {
+  Get{{pascalCase name}}ByIdController,
+  Get{{pascalCase name}}ByIdRequest,
+  Get{{pascalCase name}}ByIdResponse,
+  TGet{{pascalCase name}}ByIdRequest,
+} from '@/{{dashCase name}}/interface/controllers';
+import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class Get{{pascalCase name}}ByIdNestService {
+  controller: Get{{pascalCase name}}ByIdController;
+
+  constructor({{camelCase name}}Repository: Prisma{{pascalCase name}}Repository) {
+    this.controller = new Get{{pascalCase name}}ByIdController({{camelCase name}}Repository);
+  }
+
+  async execute(
+    params: TGet{{pascalCase name}}ByIdRequest,
+  ): Promise<Get{{pascalCase name}}ByIdResponse> {
+    const request = new Get{{pascalCase name}}ByIdRequest({
+      id: params.id,
+    });
+
+    const response = await this.controller.execute(request);
+
+    return response;
+  }
+}

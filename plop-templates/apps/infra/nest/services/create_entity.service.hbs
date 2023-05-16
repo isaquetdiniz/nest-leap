@@ -1,0 +1,33 @@
+import {
+  Create{{pascalCase name}}Controller,
+  Create{{pascalCase name}}Request,
+  Create{{pascalCase name}}Response,
+  TCreate{{pascalCase name}}Request,
+} from '@/{{dashCase name}}/interface/controllers';
+import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class Create{{pascalCase name}}NestService {
+  controller: Create{{pascalCase name}}Controller;
+
+  constructor(
+    {{camelCase name}}Repository: Prisma{{pascalCase name}}Repository,
+  ) {
+    this.controller = new Create{{pascalCase name}}Controller(
+      {{camelCase name}}Repository,
+    );
+  }
+
+  async execute(
+    params: TCreate{{pascalCase name}}Request,
+  ): Promise<Create{{pascalCase name}}Response> {
+    const request = new Create{{pascalCase name}}Request({
+      name: params.name,
+    });
+
+    const response = await this.controller.execute(request);
+
+    return response;
+  }
+}

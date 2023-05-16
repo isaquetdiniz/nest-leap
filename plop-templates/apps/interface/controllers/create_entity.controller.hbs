@@ -1,0 +1,93 @@
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { Create{{pascalCase name}}Usecase } from '@/{{dashCase name}}/application/usecases';
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { IController } from '@/core/interface';
+import { AutoValidator } from '@/libs/class-validator';
+import {
+  IsDate,
+  IsOptional,
+  IsUUID,
+  IsAlpha,
+} from 'class-validator';
+
+export type TCreate{{pascalCase name}}Request = Pick<
+  {{pascalCase name}},
+  'name'
+>;
+export type TCreate{{pascalCase name}}Response = Pick<
+  {{pascalCase name}},
+  'id' | 'name' | 'createdAt' | 'updatedAt' | 'deletedAt'
+>;
+
+export class Create{{pascalCase name}}Request
+  extends AutoValidator
+  implements TCreate{{pascalCase name}}Request
+{
+  @IsAlpha()
+  name: {{pascalCase name}}['name'];
+
+  constructor(props: TCreate{{pascalCase name}}Request) {
+    super(props);
+  }
+}
+
+export class Create{{pascalCase name}}Response
+  extends AutoValidator
+  implements TCreate{{pascalCase name}}Response
+{
+  @IsUUID(4)
+  id: {{pascalCase name}}['id'];
+
+  @IsOptional()
+  serial: {{pascalCase name}}['serial'];
+
+  @IsAlpha()
+  name: {{pascalCase name}}['name'];
+
+  @IsOptional()
+  @IsDate()
+  createdAt: {{pascalCase name}}['createdAt'];
+
+  @IsOptional()
+  @IsDate()
+  updatedAt: {{pascalCase name}}['updatedAt'];
+
+  @IsOptional()
+  @IsDate()
+  deletedAt: {{pascalCase name}}['deletedAt'];
+
+  constructor(props: TCreate{{pascalCase name}}Response) {
+    super(props);
+  }
+}
+
+export class Create{{pascalCase name}}Controller
+  implements
+    IController<Create{{pascalCase name}}Request, Create{{pascalCase name}}Response>
+{
+  private usecase: Create{{pascalCase name}}Usecase;
+
+  constructor(
+    {{camelCase name}}Repository: I{{pascalCase name}}Repository,
+  ) {
+    this.usecase = new Create{{pascalCase name}}Usecase(
+      {{camelCase name}}Repository,
+    );
+  }
+
+  async execute(
+    request: Create{{pascalCase name}}Request,
+  ): Promise<Create{{pascalCase name}}Response> {
+    const {{camelCase name}}Created = await this.usecase.perform({
+      name: request.name,
+    });
+
+    return new Create{{pascalCase name}}Response({
+      id: {{camelCase name}}Created.id,
+      name: {{camelCase name}}Created.name,
+      createdAt: {{camelCase name}}Created.createdAt,
+      updatedAt: {{camelCase name}}Created.updatedAt,
+      deletedAt: {{camelCase name}}Created.deletedAt,
+    });
+  }
+}

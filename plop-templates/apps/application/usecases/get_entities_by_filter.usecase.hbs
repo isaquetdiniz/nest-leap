@@ -1,0 +1,39 @@
+import {
+  {{pascalCase name}},
+} from '@/{{dashCase name}}/domain';
+import {
+  I{{pascalCase name}}Repository,
+  {{pascalCase name}}Filters,
+} from '@/{{dashCase name}}/application/repos';
+import { IUsecase } from '@/core/application';
+
+type {{pascalCase name}}FiltersType = {{pascalCase name}}Filters;
+type Get{{pascalCase name}}Response = {
+  {{camelCase name}}s: {{pascalCase name}}[];
+  total{{pascalCase name}}s: number;
+};
+
+export class Get{{pascalCase name}}sByFilterUsecase
+  implements IUsecase<{{pascalCase name}}FiltersType, Get{{pascalCase name}}Response>
+{
+  constructor(
+    private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,
+  ) {}
+
+  async perform(
+    data: {{pascalCase name}}FiltersType,
+  ): Promise<Get{{pascalCase name}}Response> {
+    const total{{pascalCase name}}s = await this.{{camelCase name}}Repository.count(
+      data,
+    );
+
+    const {{camelCase name}}s = await this.{{camelCase name}}Repository.getByFilter(
+      data,
+    );
+
+    return {
+      {{camelCase name}}s,
+      total{{pascalCase name}}s,
+    };
+  }
+}
