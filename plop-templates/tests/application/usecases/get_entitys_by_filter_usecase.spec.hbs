@@ -1,0 +1,49 @@
+import { createMock } from 'ts-auto-mock';
+import { method, On } from 'ts-auto-mock/extension';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { Get{{pascalCase name}}sByFilterUsecase as UseCase } from '@/{{dashCase name}}/application/usecases';
+import { {{pascalCase name}}Factory } from '@/tests/{{dashCase name}}/factories';
+
+const mockRepository = () => {
+  const {{camelCase name}}Repository: I{{pascalCase name}}Repository = createMock<I{{pascalCase name}}Repository>();
+  const get{{pascalCase name}}sByFilterRepositorySpy: jest.Mock = On({{camelCase name}}Repository).get(
+    method((mock) => mock.getByFilter),
+  );
+
+  return {
+    {{camelCase name}}Repository,
+    get{{pascalCase name}}sByFilterRepositorySpy,
+  };
+};
+
+const makeSut = () => {
+  const { {{camelCase name}}Repository, get{{pascalCase name}}sByFilterRepositorySpy } = mockRepository();
+
+  const sut = new UseCase({{camelCase name}}Repository);
+
+  return {
+    sut,
+    get{{pascalCase name}}sByFilterRepositorySpy,
+  };
+};
+
+describe('Create {{pascalCase name}} Service', () => {
+  beforeEach(() => jest.clearAllMocks());
+
+  describe('With valid parameters', () => {
+    it('Should get {{camelCase name}}s by filter successfully', async () => {
+      const { sut, get{{pascalCase name}}sByFilterRepositorySpy } = makeSut();
+
+      const {{camelCase name}}s = await {{pascalCase name}}Factory.createMany(5);
+
+      get{{pascalCase name}}sByFilterRepositorySpy.mockResolvedValue({{camelCase name}}s);
+
+      const response = await sut.perform({});
+
+      expect(response).toBeDefined();
+      expect(Array.isArray(response.{{camelCase name}}s)).toBe(true);
+      expect(response.{{camelCase name}}s.length).toBe(5);
+      expect(get{{pascalCase name}}sByFilterRepositorySpy).toBeCalled();
+    });
+  });
+});

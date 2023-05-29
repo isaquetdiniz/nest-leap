@@ -1,17 +1,21 @@
 const {
   factoryForEntityGenerator: crudTestsEntityGenerator,
-} = require('../generators/tests/domain/default-test-domain-generators.ts');
+} = require('../generators/tests/factory/factory-generators.ts');
 const {
   infraTestsForCompleteCrudsGenerator: crudTestsInfraGenerator,
-} = require('../generators/tests/infra/default-test-infra-generators.ts');
+} = require('../generators/tests/infra/infrastructure-tests-generator.ts');
 const {
   usecaseTestsForCompleteCrudGenerator: crudTestsUsecaseGenerator,
-} = require('../generators/tests/usecases/defaut-usecase-test-generators.ts');
+} = require('../generators/tests/application/application-tests-generator.ts');
+const {
+  pathAliasForCompleteCrudTestsGenerator: crudPathAliasTestsGenerator,
+} = require('../generators/tests/path-alias-generator.ts');
 
 const createTestsForCompleteCrudAction = [
   ...crudTestsEntityGenerator,
   ...crudTestsInfraGenerator,
   ...crudTestsUsecaseGenerator,
+  ...crudPathAliasTestsGenerator,
 ];
 
 module.exports = {

@@ -4,8 +4,8 @@ import {
   NotificationService,
   PrismaUserConfirmationRepository,
 } from '@/users/infra';
-import { TUserEvent } from '@/apps/users/application';
-import { HandleUserCreatedController } from '@/apps/users/interface';
+import { TUserEvent } from '@/users/application';
+import { HandleUserCreatedController } from '@/users/interface';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

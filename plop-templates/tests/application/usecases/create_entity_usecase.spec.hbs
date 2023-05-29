@@ -1,0 +1,74 @@
+import { createMock } from 'ts-auto-mock';
+import { method, On } from 'ts-auto-mock/extension';
+import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
+import { {{pascalCase name}}AlreadyExistsException } from '@/{{dashCase name}}/application/exceptions';
+import { Create{{pascalCase name}}Usecase as UseCase } from '@/{{dashCase name}}/application/usecases';
+import { {{pascalCase name}}Factory } from '@/tests/{{dashCase name}}/factories';
+
+const mockRepository = () => {
+  const {{camelCase name}}Repository: I{{pascalCase name}}Repository = createMock<I{{pascalCase name}}Repository>();
+  const get{{pascalCase name}}ByNameRepositorySpy: jest.Mock = On({{camelCase name}}Repository).get(
+    method((mock) => mock.getByName),
+  );
+  const save{{pascalCase name}}RepositorySpy: jest.Mock = On({{camelCase name}}Repository).get(
+    method((mock) => mock.save),
+  );
+
+  return {
+    {{camelCase name}}Repository,
+    get{{pascalCase name}}ByNameRepositorySpy,
+    save{{pascalCase name}}RepositorySpy,
+  };
+};
+
+const makeSut = () => {
+  const { {{camelCase name}}Repository, get{{pascalCase name}}ByNameRepositorySpy, save{{pascalCase name}}RepositorySpy } =
+    mockRepository();
+
+  const sut = new UseCase({{camelCase name}}Repository);
+
+  return {
+    sut,
+    get{{pascalCase name}}ByNameRepositorySpy,
+    save{{pascalCase name}}RepositorySpy,
+  };
+};
+
+describe('Create {{pascalCase name}} Service', () => {
+  beforeEach(() => jest.clearAllMocks());
+
+  describe('With valid parameters', () => {
+    it('Should create {{camelCase name}} successfully', async () => {
+      const { sut, get{{pascalCase name}}ByNameRepositorySpy, save{{pascalCase name}}RepositorySpy } =
+        makeSut();
+
+      const {{camelCase name}} = await {{pascalCase name}}Factory.create();
+
+      get{{pascalCase name}}ByNameRepositorySpy.mockResolvedValueOnce(null);
+
+      const new{{pascalCase name}} = await sut.perform({{camelCase name}});
+
+      expect(new{{pascalCase name}}).toBeDefined();
+      expect(get{{pascalCase name}}ByNameRepositorySpy).toBeCalled();
+      expect(save{{pascalCase name}}RepositorySpy).toBeCalled();
+    });
+  });
+
+  describe('With invalid parameters', () => {
+    it('Should not create if {{camelCase name}} already exist', async () => {
+      const { sut, get{{pascalCase name}}ByNameRepositorySpy, save{{pascalCase name}}RepositorySpy } =
+        makeSut();
+
+      const {{camelCase name}} = await {{pascalCase name}}Factory.create();
+
+      get{{pascalCase name}}ByNameRepositorySpy.mockResolvedValueOnce({{camelCase name}});
+
+      const testScript = () => sut.perform({{camelCase name}});
+
+      await expect(testScript).rejects.toThrow({{pascalCase name}}AlreadyExistsException);
+
+      expect(get{{pascalCase name}}ByNameRepositorySpy).toBeCalled();
+      expect(save{{pascalCase name}}RepositorySpy).not.toBeCalled();
+    });
+  });
+});

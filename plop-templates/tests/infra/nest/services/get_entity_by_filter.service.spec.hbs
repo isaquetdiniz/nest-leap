@@ -1,0 +1,55 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '@/libs/prisma';
+import { faker } from '@faker-js/faker/locale/pt_BR';
+import { Test, TestingModule } from '@nestjs/testing';
+import { {{pascalCase name}}Entity } from '@/{{dashCase name}}/domain';
+import { Get{{pascalCase name}}sByFilterNestService as Controller } from '@/{{dashCase name}}/infra/nest/services';
+import { {{pascalCase name}}Factory } from '@/tests/{{dashCase name}}/factories';
+import { {{pascalCase name}}Module } from '@/{{dashCase name}}/infra/nest/modules';
+import { InvalidDataFormatException } from '@/core/application';
+
+describe('Get{{pascalCase name}}sByFilterNestService', () => {
+  let module: TestingModule;
+  let controller: Controller;
+  let prisma: PrismaClient;
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({ imports: [{{pascalCase name}}Module] }).compile();
+    controller = module.get<Controller>(Controller);
+    prisma = module.get<PrismaService>(PrismaService);
+  });
+
+  beforeEach(() => jest.resetAllMocks());
+
+  describe('With valid parameters', () => {
+    it('Should get {{camelCase name}} successfully', async () => {
+      const {{camelCase name}} = await {{pascalCase name}}Factory.create();
+
+      await prisma.{{camelCase name}}.create({
+        data: {{camelCase name}},
+      });
+
+      const response = await controller.execute({
+        name: {{camelCase name}}.name,
+      });
+
+      expect(response).toBeDefined();
+      expect(Array.isArray(response.data)).toBe(true);
+      expect(response.data.length).toBe(1);
+      expect(response.data[0].name).toBe({{camelCase name}}.name);
+    });
+  });
+
+  describe('With invalid parameters', () => {
+    it('Should not get with invalid request', async () => {
+      const testScript = () =>
+        controller.execute({
+          name: '!@?' + faker.random.alpha(10),
+        });
+
+      await expect(testScript).rejects.toThrow(InvalidDataFormatException);
+    });
+  });
+
+  afterAll(() => module.close());
+});

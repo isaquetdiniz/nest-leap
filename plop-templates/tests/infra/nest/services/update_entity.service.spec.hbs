@@ -1,0 +1,79 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '@/libs/prisma';
+import { faker } from '@faker-js/faker/locale/pt_BR';
+import { Test, TestingModule } from '@nestjs/testing';
+import { {{pascalCase name}}Entity } from '@/{{dashCase name}}/domain';
+import { {{pascalCase name}}NotFoundException } from '@/{{dashCase name}}/application/exceptions';
+import { Update{{pascalCase name}}NestService as Controller } from '@/{{dashCase name}}/infra/nest/services';
+import { {{pascalCase name}}Factory } from '@/tests/{{dashCase name}}/factories';
+import { {{pascalCase name}}Module } from '@/{{dashCase name}}/infra/nest/modules';
+import { InvalidDataFormatException } from '@/core/application';
+
+describe('Update{{pascalCase name}}NestService', () => {
+  let module: TestingModule;
+  let controller: Controller;
+  let prisma: PrismaClient;
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({ imports: [{{pascalCase name}}Module] }).compile();
+    controller = module.get<Controller>(Controller);
+    prisma = module.get<PrismaService>(PrismaService);
+  });
+
+  beforeEach(() => jest.resetAllMocks());
+
+  describe('With valid parameters', () => {
+    it('Should update {{camelCase name}} successfully', async () => {
+      const {{camelCase name}} = await {{pascalCase name}}Factory.create();
+
+      await prisma.{{camelCase name}}.create({
+        data: {{camelCase name}},
+      });
+
+      const {{camelCase name}}Update = await {{pascalCase name}}Factory.create();
+
+      const {{camelCase name}}Updated = await controller.execute({
+        id: {{camelCase name}}.id,
+        name: {{camelCase name}}Update.name,
+      });
+
+      expect({{camelCase name}}Updated).toBeDefined();
+      expect({{camelCase name}}Updated.name).toBe({{camelCase name}}Update.name);
+    });
+  });
+
+  describe('With invalid parameters', () => {
+    it('Should not update with invalid request', async () => {
+      const tests = [
+        controller.execute({
+          id: null,
+          name: null,
+        }),
+        controller.execute({
+          id: null,
+          name: faker.random.alpha(10),
+        }),
+        controller.execute({
+          id: faker.random.alpha(10),
+          name: faker.random.alpha(10),
+        }),
+      ];
+
+      for (const test of tests) {
+        await expect(test).rejects.toThrow(InvalidDataFormatException);
+      }
+    });
+
+    it('Should not update if {{camelCase name}} not exists', async () => {
+      const testScript = () =>
+        controller.execute({
+          id: faker.datatype.uuid(),
+          name: faker.random.alpha(10),
+        });
+
+      await expect(testScript).rejects.toThrow({{pascalCase name}}NotFoundException);
+    });
+  });
+
+  afterAll(() => module.close());
+});

@@ -1,0 +1,74 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '@/libs/prisma';
+import { faker } from '@faker-js/faker/locale/pt_BR';
+import { Test, TestingModule } from '@nestjs/testing';
+import { InvalidDataFormatException } from '@/core/application';
+import { {{pascalCase name}}AlreadyExistsException } from '@/{{dashCase name}}/application/exceptions';
+import { Create{{pascalCase name}}NestService as Controller } from '@/{{dashCase name}}/infra/nest/services';
+import { {{pascalCase name}}Factory } from '@/tests/{{dashCase name}}/factories';
+import { {{pascalCase name}}Module } from '@/{{dashCase name}}/infra/nest/modules';
+
+describe('Create{{pascalCase name}}NestService', () => {
+  let module: TestingModule;
+  let controller: Controller;
+  let prisma: PrismaClient;
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({ imports: [{{pascalCase name}}Module] }).compile();
+    controller = module.get<Controller>(Controller);
+    prisma = module.get<PrismaService>(PrismaService);
+  });
+
+  beforeEach(() => jest.resetAllMocks());
+
+  describe('With valid parameters', () => {
+    it('Should create {{camelCase name}} successfully', async () => {
+      const {{camelCase name}}Created = await controller.execute({
+        name: faker.random.alpha(10),
+      });
+
+      const {{camelCase name}}Found = await prisma.{{camelCase name}}.findFirst({
+        where: {
+          id: {{camelCase name}}Created.id,
+        },
+      });
+
+      expect({{camelCase name}}Found).toBeDefined();
+      expect({{camelCase name}}Found.name).toBe({{camelCase name}}Created.name);
+    });
+  });
+
+  describe('With invalid parameters', () => {
+    it('Should not create with invalid request', async () => {
+      const tests = [
+        controller.execute({
+          name: null,
+        }),
+        controller.execute({
+          name: '!@?' + faker.random.alpha(10),
+        }),
+      ];
+
+      for (const test of tests) {
+        await expect(test).rejects.toThrow(InvalidDataFormatException);
+      }
+    });
+
+    it('Should not create if {{camelCase name}} exists', async () => {
+      const {{camelCase name}} = await {{pascalCase name}}Factory.create();
+
+      await prisma.{{camelCase name}}.create({
+        data: {{camelCase name}},
+      });
+
+      const testScript = () =>
+        controller.execute({
+          name: {{camelCase name}}.name,
+        });
+
+      await expect(testScript).rejects.toThrow({{pascalCase name}}AlreadyExistsException);
+    });
+  });
+
+  afterAll(() => module.close());
+});

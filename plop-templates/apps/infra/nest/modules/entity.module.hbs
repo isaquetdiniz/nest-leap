@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { Prisma{{pascalCase name}}Repository } from '@/{{dashCase name}}/infra/prisma/repos';
 import {
   Create{{pascalCase name}}NestService,
@@ -8,10 +9,10 @@ import {
   Update{{pascalCase name}}NestService,
 } from '@/{{dashCase name}}/infra/nest/services';
 import { PrismaModule } from '@/libs/prisma';
-import { PrismaUserRepository } from '@/users/infra/prisma/repos';
+import { PrismaUserRepository } from '@/users/infra';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [ConfigModule.forRoot(), PrismaModule],
   providers: [
     Prisma{{pascalCase name}}Repository,
     PrismaUserRepository,

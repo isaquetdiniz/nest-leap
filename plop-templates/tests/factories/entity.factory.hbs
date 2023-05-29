@@ -1,0 +1,17 @@
+import { faker } from '@faker-js/faker/locale/pt_BR';
+import { {{pascalCase name}}Entity } from '@/{{dashCase name}}/domain';
+
+class Factory {
+  create(): {{pascalCase name}}Entity {
+    return new {{pascalCase name}}Entity({
+      id: faker.datatype.uuid(),
+      name: faker.vehicle.model(),
+    });
+  }
+
+  createMany(num: number): {{pascalCase name}}Entity[] {
+    return Array.from({ length: num }, () => this.create());
+  }
+}
+
+export const {{pascalCase name}}Factory = new Factory();

@@ -2,7 +2,7 @@ import {
   CreateEmailController,
   CreateEmailRequest,
   TCreateEmailRequest,
-} from '@/apps/notifications/interface';
+} from '@/notifications/interface';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
   PrismaEmailRepository,

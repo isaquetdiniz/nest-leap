@@ -38,6 +38,10 @@ const {
   apiInfraModuleGenerator: crudApiModuleGenerator,
 } = require('../generators/src/api-users/infra/nest/modules/default-modules-generators.ts');
 
+const {
+  pathAliasForCompleteCrudGenerator: crudPathAliassGenerator,
+} = require('../generators/src/path-alias-generator.ts');
+
 const createCompleteCrudAction = [
   ...crudExceptionGenerator,
   ...crudRepositoryGenerator,
@@ -49,6 +53,7 @@ const createCompleteCrudAction = [
   ...crudControllerGenerator,
   ...crudApiControllersGenerator,
   ...crudApiModuleGenerator,
+  ...crudPathAliassGenerator,
 ];
 
 module.exports = {

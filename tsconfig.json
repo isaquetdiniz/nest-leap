@@ -18,12 +18,15 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "plugins": [
+      { "transform": "ts-auto-mock/transformer", "cacheBetweenTests": false }
+    ],
     "paths": {
       "@/*": ["src/*"],
       "@/api/*": ["src/apps/*"],
       "@/api-users/*": ["src/apps/api-users/*"],
       "@/users/*": ["src/apps/users/*"],
-      "@/notifications/*": ["src/apps/notifications/*"]
+      "@/notifications/*": ["src/apps/notifications/*"],
     }
-  }
+  },
 }

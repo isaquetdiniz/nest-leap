@@ -1,6 +1,6 @@
+import AWS from 'aws-sdk';
 import { Email } from '@/apps/notifications/domain';
 import { IEmailService } from '@/notifications/application';
-import AWS from 'aws-sdk';
 import { AwsService } from './aws.service';
 import { AwsSesException } from '@/libs/aws';
 import { Injectable } from '@nestjs/common';

@@ -19,7 +19,8 @@ const commandWithInputFeature = {
 const commandWithMethodInput = {
   type: 'input',
   name: 'method',
-  message: 'Name of the repository method (i.g. listRepository: get, createRepository: save, updateRepository: update, deleteRepository: delete)',
+  message:
+    'Name of the repository method (i.g. listRepository: get, createRepository: save, updateRepository: update, deleteRepository: delete)',
 };
 
 module.exports = {

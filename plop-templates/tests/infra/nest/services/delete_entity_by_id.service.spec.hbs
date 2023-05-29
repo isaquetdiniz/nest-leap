@@ -1,0 +1,74 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '@/libs/prisma';
+import { faker } from '@faker-js/faker/locale/pt_BR';
+import { Test, TestingModule } from '@nestjs/testing';
+import { InvalidDataFormatException } from '@/core/application';
+import { {{pascalCase name}}Entity } from '@/{{dashCase name}}/domain';
+import { {{pascalCase name}}NotFoundException } from '@/{{dashCase name}}/application/exceptions';
+import { Delete{{pascalCase name}}ByIdNestService as Controller } from '@/{{dashCase name}}/infra/nest/services';
+import { {{pascalCase name}}Factory } from '@/tests/{{dashCase name}}/factories';
+import { {{pascalCase name}}Module } from '@/{{dashCase name}}/infra/nest/modules';
+
+describe('Delete{{pascalCase name}}ByIdNestService', () => {
+  let module: TestingModule;
+  let controller: Controller;
+  let prisma: PrismaClient;
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({ imports: [{{pascalCase name}}Module] }).compile();
+    controller = module.get<Controller>(Controller);
+    prisma = module.get<PrismaService>(PrismaService);
+  });
+
+  beforeEach(() => jest.resetAllMocks());
+
+  describe('With valid parameters', () => {
+    it('Should delete {{camelCase name}} successfully', async () => {
+      const {{camelCase name}} = await {{pascalCase name}}Factory.create();
+
+      await prisma.{{camelCase name}}.create({
+        data: {{camelCase name}},
+      });
+
+      await controller.execute({
+        id: {{camelCase name}}.id,
+      });
+
+      const {{camelCase name}}Found = await prisma.{{camelCase name}}.findFirst({
+        where: {
+          id: {{camelCase name}}.id,
+        },
+      });
+
+      expect({{camelCase name}}Found).toBeNull();
+    });
+  });
+
+  describe('With invalid parameters', () => {
+    it('Should not delete with invalid request', async () => {
+      const tests = [
+        controller.execute({
+          id: null,
+        }),
+        controller.execute({
+          id: faker.random.alpha(10),
+        }),
+      ];
+
+      for (const test of tests) {
+        await expect(test).rejects.toThrow(InvalidDataFormatException);
+      }
+    });
+
+    it('Should not delete if {{camelCase name}} not exists', async () => {
+      const testScript = () =>
+        controller.execute({
+          id: faker.datatype.uuid(),
+        });
+
+      await expect(testScript).rejects.toThrow({{pascalCase name}}NotFoundException);
+    });
+  });
+
+  afterAll(() => module.close());
+});

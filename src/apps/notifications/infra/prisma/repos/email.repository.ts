@@ -7,7 +7,7 @@ import {
 } from '@/notifications/domain';
 import { PrismaService } from '@/libs/prisma';
 import { IEmailRepository } from '@/notifications/application';
-import { UserEntity } from '@/apps/users/domain';
+import { UserEntity } from '@/users/domain';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
