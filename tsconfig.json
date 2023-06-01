@@ -27,6 +27,7 @@
       "@/api-users/*": ["src/apps/api-users/*"],
       "@/users/*": ["src/apps/users/*"],
       "@/notifications/*": ["src/apps/notifications/*"],
+      "@/tests/notifications/*": ["tests/notifications/*"]
     }
-  },
+  }
 }

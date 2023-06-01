@@ -20,5 +20,6 @@ module.exports = {
     '^@/api-users/(.*)': '<rootDir>/src/apps/api-users/$1',
     '^@/users/(.*)': '<rootDir>/src/apps/users/$1',
     '^@/notifications/(.*)': '<rootDir>/src/apps/notifications/$1',
+    '^@/tests/notifications/(.*)': '<rootDir>/tests/notifications/$1',
   },
 };
