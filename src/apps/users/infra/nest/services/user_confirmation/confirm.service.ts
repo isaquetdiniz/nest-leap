@@ -51,7 +51,7 @@ export class ConfirmUserNestService {
 
   async execute(params: TConfirmUserRequest): Promise<ConfirmUserResponse> {
     const request = new ConfirmUserRequest({
-      code: params.email,
+      code: params.code,
       email: params.email,
     });
 

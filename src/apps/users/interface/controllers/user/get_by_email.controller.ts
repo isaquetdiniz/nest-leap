@@ -85,6 +85,7 @@ export class GetUserByEmailController
       user &&
       new GetUserByEmailResponse({
         id: user.id,
+        serial: user.serial,
         state: user.state,
         name: user.name,
         email: user.email,

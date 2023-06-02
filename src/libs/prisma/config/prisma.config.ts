@@ -1,3 +1,3 @@
 export interface PrismaConfig {
-  DATABASE_URL: string;
+  APP_DATABASE_URL: string;
 }

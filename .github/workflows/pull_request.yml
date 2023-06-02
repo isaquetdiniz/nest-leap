@@ -1,0 +1,81 @@
+name: CI - Pull Request - Pipeline
+
+on:
+  pull_request:
+    types: [review_requested, ready_for_review]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+
+    #services:
+    #  db-test:
+    #    image: postgis/postgis:14-3.3-alpine
+    #    env:
+    #      POSTGRES_DB: test
+    #      POSTGRES_USER: test
+    #      POSTGRES_PASSWORD: test
+    #    ports:
+    #      - '5432:5432'
+
+    env:
+      NODE_ENV: 'test'
+
+      APP_DATABASE_URL: 'postgres://test:test@localhost:5432/test'
+
+      #Redis
+      APP_REDIS_URL: 'redis://@localhost:6379'
+      APP_REDIS_PREFIX: 'test'
+
+      #JWT
+      APP_JWT_ACCESS_TOKEN_SECRET: 'secret'
+
+      #Users
+      APP_CONFIRMATION_EMAIL_SENDER: 'test'
+      APP_CONFIRMATION_EMAIL_TAG: 'test'
+      APP_CONFIRMATION_MAX_ATTEMPTS: 3
+      APP_CONFIRMATION_EXPIRATION_MS: 86400000
+      APP_FORGOT_PASSWORD_EMAIL_SENDER:
+      APP_FORGOT_PASSWORD_EMAIL_TAG: 'test'
+      APP_FORGOT_PASSWORD_MAX_ATTEMPTS: 3
+      APP_FORGOT_PASSWORD_EXPIRATION_MS: 900000
+
+      #AWS
+      AWS_REGION: 'test'
+      AWS_ACCESS_KEY: 'test'
+      AWS_ACCESS_SECRET_KEY: 'test'
+      AWS_INJECT_ACCESS: 'test'
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+          cache: 'npm'
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate prisma
+        run: npm run prisma:generate
+
+      - name: Linting
+        run: npm run lint:check
+
+      - name: Style
+        run: npm run style:check
+
+      - name: Run unit tests
+        run: npm run test

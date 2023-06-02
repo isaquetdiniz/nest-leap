@@ -9,10 +9,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(private readonly configService: ConfigService<PrismaConfig>) {
     super();
 
-    const url = this.configService.get('DATABASE_URL');
+    const url = this.configService.get('APP_DATABASE_URL');
 
     if (!url) {
-      throw new MissingEnvVarException(['DATABASE_URL']);
+      throw new MissingEnvVarException(['APP_DATABASE_URL']);
     }
   }
 

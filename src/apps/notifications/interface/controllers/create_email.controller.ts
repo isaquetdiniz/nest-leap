@@ -2,12 +2,14 @@ import { User, UserEntity } from '@/users/domain';
 import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import {
+  IsEmail,
   IsEnum,
   IsObject,
   IsOptional,
   IsString,
   IsUUID,
   Length,
+  MaxLength,
 } from 'class-validator';
 import { Email, EmailState, EmailTemplate } from '@/notifications/domain';
 import {
@@ -31,16 +33,14 @@ export class CreateEmailRequest
   extends AutoValidator
   implements TCreateEmailRequest
 {
-  @IsString()
-  @Length(1, 255)
+  @IsEmail()
   from: Email['from'];
 
-  @IsString()
-  @Length(1, 255)
+  @IsEmail()
   to: Email['to'];
 
   @IsString()
-  @Length(1, 255)
+  @MaxLength(255)
   tag: EmailTemplate['tag'];
 
   @IsOptional()
