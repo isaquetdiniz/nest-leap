@@ -29,7 +29,7 @@ function openapi(app: INestApplication) {
     },
   };
 
-  SwaggerModule.setup('api', app, document, customOptions);
+  SwaggerModule.setup('docs', app, document, customOptions);
 }
 
 let app: INestApplication = null;
