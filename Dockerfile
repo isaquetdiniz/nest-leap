@@ -43,4 +43,4 @@ COPY --chown=node:node src/libs/prisma/schema.prisma ./
 COPY --chown=node:node package.json ./
 COPY --chown=node:node wait-for.sh ./
 
-CMD ["dumb-init", "node", "dist/main.js"]
+CMD ["dumb-init", "node", "dist/src/main.js"]
