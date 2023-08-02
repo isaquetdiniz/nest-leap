@@ -42,12 +42,15 @@ jobs:
       APP_FORGOT_PASSWORD_EMAIL_TAG: 'test'
       APP_FORGOT_PASSWORD_MAX_ATTEMPTS: 3
       APP_FORGOT_PASSWORD_EXPIRATION_MS: 900000
+      APP_CONFIRMATION_EMAIL_SENDER: 'loomer@loomi.com'
+      APP_FORGOT_PASSWORD_EMAIL_SENDER: 'loomer@loomi.com'
 
       #AWS
       AWS_REGION: 'test'
       AWS_ACCESS_KEY: 'test'
       AWS_ACCESS_SECRET_KEY: 'test'
       AWS_INJECT_ACCESS: 'test'
+      AWS_BUCKET_NAME: 'test'
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
