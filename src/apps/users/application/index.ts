@@ -1,6 +1,7 @@
 export * from './exceptions/user/user_already_exists.exception';
 export * from './exceptions/user/user_not_found.exception';
 export * from './exceptions/user/user_invalid_state.exception';
+export * from './exceptions/user/user_must_complete_onboarding.exception';
 
 export * from './exceptions/user_forgot_password/user_forgot_password_not_found.exception';
 export * from './exceptions/user_forgot_password/user_forgot_password_invalid_state.exception';
