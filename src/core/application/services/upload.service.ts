@@ -1,7 +1,22 @@
 import { File } from '@/core/domain';
 
+export type UploadParams = {
+  file: File;
+  folder: string;
+};
+
+export type UpdateFileParams = {
+  newFile: File;
+  previousFileURL?: string;
+  folder: string;
+};
+
+export type UrlParam = {
+  url: string;
+};
+
 export interface IUploadService {
-  upload(file: File, folder?: string): Promise<string>;
-  signUrl(url: string): Promise<string>;
-  delete(url: string): Promise<void>;
+  upload(params: UploadParams): Promise<string>;
+  delete(param: UrlParam): Promise<void>;
+  update(params: UpdateFileParams): Promise<string>;
 }

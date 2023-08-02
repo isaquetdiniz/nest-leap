@@ -1,22 +1,27 @@
-import { Domain, DomainEntity } from '@/core/domain';
+import { Readable } from 'node:stream';
 
-export interface File extends Domain {
-  name: string;
-  type: string;
-  data: Buffer;
+export interface File {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  size: number;
+  stream: Readable;
+  filename: string;
+  buffer: Buffer;
 }
 
-export class FileEntity extends DomainEntity implements File {
-  name: string;
-  type: string;
-  data: Buffer;
+export class FileEntity implements File {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  size: number;
+  stream: Readable;
+  filename: string;
+  buffer: Buffer;
 
   constructor(props: File) {
-    super(props);
-    this.name = `${this.id}-${props.name}`;
-    this.type = props.type;
-    this.data = props.data;
-
-    Object.freeze(this);
+    Object.assign(this, props);
   }
 }

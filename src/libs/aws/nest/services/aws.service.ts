@@ -10,6 +10,8 @@ export class AwsService {
   accessKey: string;
   secretKey: string;
   injectAccess: boolean;
+  bucketName: string;
+  urlKey: string;
 
   constructor(private readonly configService: ConfigService<AwsConfig>) {
     this.region = this.configService.get<string>('AWS_REGION');
@@ -39,6 +41,18 @@ export class AwsService {
         throw new MissingEnvVarException('AWS_ACCESS_SECRET_KEY');
       }
     }
+
+    this.bucketName = this.configService.get<string>('AWS_BUCKET_NAME');
+
+    if (!this.bucketName) {
+      throw new MissingEnvVarException('AWS_BUCKET_NAME');
+    }
+
+    this.urlKey = this.configService.get<string>('AWS_URL_KEY');
+
+    if (!this.urlKey) {
+      this.urlKey = `https://${this.bucketName}.s3.amazonaws.com`;
+    }
   }
 
   getConfig(): AWS.Config {
@@ -53,5 +67,13 @@ export class AwsService {
           }
         : {}),
     });
+  }
+
+  getBucketName(): string {
+    return this.bucketName;
+  }
+
+  getUrlKey(): string {
+    return this.urlKey;
   }
 }
