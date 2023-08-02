@@ -4,10 +4,10 @@ import {
 } from '@/{{dashCase name}}/domain';
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
 import { {{pascalCase name}}NotFoundException } from '@/{{dashCase name}}/application/exceptions';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
-export class Update{{pascalCase name}}Usecase
-  implements IUsecase<{{pascalCase name}}, {{pascalCase name}}>
+export class Update{{pascalCase name}}UseCase
+  implements IUseCase<{{pascalCase name}}, {{pascalCase name}}>
 {
   constructor(
     private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,

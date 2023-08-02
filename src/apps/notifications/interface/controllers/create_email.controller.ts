@@ -13,7 +13,7 @@ import {
 } from 'class-validator';
 import { Email, EmailState, EmailTemplate } from '@/notifications/domain';
 import {
-  CreateEmailUsecase,
+  CreateEmailUseCase,
   IEmailRepository,
   IEmailService,
   IEmailTemplateRepository,
@@ -82,14 +82,14 @@ export class CreateEmailResponse
 export class CreateEmailController
   implements IController<TCreateEmailRequest, TCreateEmailResponse>
 {
-  private usecase: CreateEmailUsecase;
+  private usecase: CreateEmailUseCase;
 
   constructor(
     emailTemplateRepositorty: IEmailTemplateRepository,
     emailRepository: IEmailRepository,
     emailService: IEmailService,
   ) {
-    this.usecase = new CreateEmailUsecase(
+    this.usecase = new CreateEmailUseCase(
       emailTemplateRepositorty,
       emailRepository,
       emailService,

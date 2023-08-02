@@ -1,7 +1,7 @@
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 import { IUserRepository, UserNotFoundException } from '@/users/application';
 
-export class DeleteUserByIdUsecase implements IUsecase<string, void> {
+export class DeleteUserByIdUseCase implements IUseCase<string, void> {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async perform(id: string): Promise<void> {

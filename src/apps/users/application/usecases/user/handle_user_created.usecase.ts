@@ -3,7 +3,7 @@ import {
   IUserConfirmationRepository,
   TUserEvent,
 } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 import {
   UserConfirmationEntity,
   UserConfirmationState,
@@ -11,7 +11,7 @@ import {
 } from '@/users/domain';
 import { RandomCode } from '@/core/domain';
 
-export class HandleUserCreatedUsecase implements IUsecase<TUserEvent, void> {
+export class HandleUserCreatedUseCase implements IUseCase<TUserEvent, void> {
   constructor(
     private readonly userConfirmationRepository: IUserConfirmationRepository,
     private readonly notificationService: INotificationService,

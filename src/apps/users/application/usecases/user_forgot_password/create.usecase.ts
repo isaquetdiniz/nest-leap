@@ -7,7 +7,7 @@ import {
   UserInvalidStateException,
   UserNotFoundException,
 } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 import {
   User,
   UserForgotPassword,
@@ -19,8 +19,8 @@ import { RandomCode } from '@/core/domain';
 
 export type TCreateUserForgotPassword = { email: User['email'] };
 
-export class CreateUserForgotPasswordUsecase
-  implements IUsecase<TUserEvent, UserForgotPassword>
+export class CreateUserForgotPasswordUseCase
+  implements IUseCase<TUserEvent, UserForgotPassword>
 {
   constructor(
     private readonly userRepository: IUserRepository,

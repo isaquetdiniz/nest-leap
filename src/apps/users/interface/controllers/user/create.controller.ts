@@ -1,5 +1,5 @@
 import {
-  CreateUserUsecase,
+  CreateUserUseCase,
   IUserEventEmitter,
   IUserRepository,
 } from '@/users/application';
@@ -59,13 +59,13 @@ export class CreateUserResponse
 export class CreateUserController
   implements IController<CreateUserRequest, CreateUserResponse>
 {
-  private usecase: CreateUserUsecase;
+  private usecase: CreateUserUseCase;
 
   constructor(
     userRepository: IUserRepository,
     eventEmitter: IUserEventEmitter,
   ) {
-    this.usecase = new CreateUserUsecase(userRepository, eventEmitter);
+    this.usecase = new CreateUserUseCase(userRepository, eventEmitter);
   }
 
   async execute(request: CreateUserRequest): Promise<CreateUserResponse> {

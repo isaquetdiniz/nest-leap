@@ -76,9 +76,6 @@ export class PrismaUserRepository implements IUserRepository {
           ? { email: { contains: filter.email, mode: 'insensitive' } }
           : {}),
       },
-      take: filter.take,
-      skip: filter.skip,
-      orderBy: { [filter.orderByProperty]: filter.orderByMode },
     });
 
     return usersFound.map((userFound) =>

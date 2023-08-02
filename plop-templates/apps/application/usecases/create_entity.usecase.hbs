@@ -4,12 +4,12 @@ import {
 } from '@/{{dashCase name}}/domain';
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
 import { {{pascalCase name}}AlreadyExistsException } from '@/{{dashCase name}}/application/exceptions';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
 type TCreate{{pascalCase name}} = { name: string };
 
-export class Create{{pascalCase name}}Usecase
-  implements IUsecase<TCreate{{pascalCase name}}, {{pascalCase name}}>
+export class Create{{pascalCase name}}UseCase
+  implements IUseCase<TCreate{{pascalCase name}}, {{pascalCase name}}>
 {
   constructor(
     private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,

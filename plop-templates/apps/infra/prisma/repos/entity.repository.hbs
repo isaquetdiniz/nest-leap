@@ -2,6 +2,7 @@ import {
   {{pascalCase name}} as {{pascalCase name}}InPrisma,
   User as UserInPrisma,
 } from '@prisma/client';
+import { Order, Pagination } from '@/core/domain';
 import {
   {{pascalCase name}},
   {{pascalCase name}}Entity,
@@ -68,14 +69,16 @@ export class Prisma{{pascalCase name}}Repository
 
   async getByFilter(
     filter: {{pascalCase name}}Filters,
+    order: Order,
+    pagination: Pagination,
   ): Promise<{{pascalCase name}}[]> {
     const {{camelCase name}}sFound = await this.prisma.{{camelCase name}}.findMany({
       where: {
         name: filter.name,
       },
-      take: filter.take,
-      skip: filter.skip,
-      orderBy: { [filter.orderByProperty]: filter.orderByMode },
+      take: pagination.take,
+      skip: pagination.skip,
+      orderBy: { [order.property]: order.mode },
     });
 
     return {{camelCase name}}sFound.map(({{camelCase name}}Found) =>

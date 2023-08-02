@@ -7,7 +7,7 @@ const {
 } = require('../generators/src/app/application/repos/default-repo-generators.ts');
 
 const {
-  usecasesForCompleteCrudGenerator: crudUsecaseGenerator,
+  usecasesForCompleteCrudGenerator: crudUseCaseGenerator,
 } = require('../generators/src/app/application/usecases/default-usecases-generators.ts');
 
 const {
@@ -45,7 +45,7 @@ const {
 const createCompleteCrudAction = [
   ...crudExceptionGenerator,
   ...crudRepositoryGenerator,
-  ...crudUsecaseGenerator,
+  ...crudUseCaseGenerator,
   ...crudDomainGenerator,
   ...crudModuleGenerator,
   ...crudServicesGenerator,

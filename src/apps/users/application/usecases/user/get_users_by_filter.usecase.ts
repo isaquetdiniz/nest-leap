@@ -1,12 +1,12 @@
 import { User } from '@/users/domain';
 import { IUserRepository, UserFilters } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
 type UserFiltersType = UserFilters;
 type GetUserResponse = { users: User[]; totalUsers: number };
 
-export class GetUsersByFilterUsecase
-  implements IUsecase<UserFiltersType, GetUserResponse>
+export class GetUsersByFilterUseCase
+  implements IUseCase<UserFiltersType, GetUserResponse>
 {
   constructor(private readonly userRepository: IUserRepository) {}
 

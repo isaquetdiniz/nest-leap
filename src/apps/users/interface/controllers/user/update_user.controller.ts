@@ -1,5 +1,5 @@
 import { User, UserEntity, UserState } from '@/users/domain';
-import { IUserRepository, UpdateUserUsecase } from '@/users/application';
+import { IUserRepository, UpdateUserUseCase } from '@/users/application';
 import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import {
@@ -11,16 +11,16 @@ import {
   Length,
 } from 'class-validator';
 
-export interface IUpdateUserRequest {
+export interface TUpdateUserRequest {
   id: string;
   name?: string;
   email?: string;
 }
-export type IUpdateUserResponse = Omit<User, 'password' | 'isConfirmed'>;
+export type TUpdateUserResponse = Omit<User, 'password' | 'isConfirmed'>;
 
 export class UpdateUserRequest
   extends AutoValidator
-  implements IUpdateUserRequest
+  implements TUpdateUserRequest
 {
   @IsUUID(4)
   id: string;
@@ -34,14 +34,14 @@ export class UpdateUserRequest
   @Length(1, 255)
   email: string;
 
-  constructor(props: IUpdateUserRequest) {
+  constructor(props: TUpdateUserRequest) {
     super(props);
   }
 }
 
 export class UpdateUserResponse
   extends AutoValidator
-  implements IUpdateUserResponse
+  implements TUpdateUserResponse
 {
   @IsUUID(4)
   id: string;
@@ -65,21 +65,21 @@ export class UpdateUserResponse
   @IsDate()
   updatedAt: Date;
 
-  constructor(props: IUpdateUserResponse) {
+  constructor(props: TUpdateUserResponse) {
     super(props);
   }
 }
 
 export class UpdateUserByIdController
-  implements IController<IUpdateUserRequest, IUpdateUserResponse>
+  implements IController<TUpdateUserRequest, TUpdateUserResponse>
 {
-  private usecase: UpdateUserUsecase;
+  private usecase: UpdateUserUseCase;
 
   constructor(userRepository: IUserRepository) {
-    this.usecase = new UpdateUserUsecase(userRepository);
+    this.usecase = new UpdateUserUseCase(userRepository);
   }
 
-  async execute(request: IUpdateUserRequest): Promise<IUpdateUserResponse> {
+  async execute(request: TUpdateUserRequest): Promise<TUpdateUserResponse> {
     const userToUpdate = new UserEntity({
       id: request.id,
       name: request.name,

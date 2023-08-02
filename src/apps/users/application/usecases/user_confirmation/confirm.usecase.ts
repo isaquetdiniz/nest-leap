@@ -16,11 +16,11 @@ import {
   UserConfirmationMaxAttemptsException,
   UserConfirmationExpiredException,
 } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
 export type TConfirmUser = { email: User['email']; code: string };
 
-export class ConfirmUserUsecase implements IUsecase<TConfirmUser, User> {
+export class ConfirmUserUseCase implements IUseCase<TConfirmUser, User> {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly userConfirmationRepository: IUserConfirmationRepository,

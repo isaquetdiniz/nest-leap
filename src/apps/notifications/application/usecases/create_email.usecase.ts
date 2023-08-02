@@ -1,4 +1,4 @@
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 import {
   Email,
   EmailEntity,
@@ -19,7 +19,7 @@ export type TCreateEmail = Pick<Email, 'from' | 'to'> & {
   data?: Record<string, string>;
 };
 
-export class CreateEmailUsecase implements IUsecase<TCreateEmail, Email> {
+export class CreateEmailUseCase implements IUseCase<TCreateEmail, Email> {
   constructor(
     private readonly emailTemplateRepository: IEmailTemplateRepository,
     private readonly emailRepository: IEmailRepository,

@@ -1,4 +1,4 @@
-import { Get{{pascalCase name}}ByIdUsecase } from '@/{{dashCase name}}/application/usecases';
+import { Get{{pascalCase name}}ByIdUseCase } from '@/{{dashCase name}}/application/usecases';
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
 import { IController } from '@/core/interface';
 import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
@@ -54,10 +54,10 @@ export class Get{{pascalCase name}}ByIdController
   implements
     IController<TGet{{pascalCase name}}ByIdRequest, Get{{pascalCase name}}ByIdResponse>
 {
-  private usecase: Get{{pascalCase name}}ByIdUsecase;
+  private usecase: Get{{pascalCase name}}ByIdUseCase;
 
   constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
-    this.usecase = new Get{{pascalCase name}}ByIdUsecase({{camelCase name}}Repository);
+    this.usecase = new Get{{pascalCase name}}ByIdUseCase({{camelCase name}}Repository);
   }
 
   async execute(

@@ -17,7 +17,7 @@ const {
   repositoryForSeparatedFeatureGenerator: separatedRepositoryGenerator,
 } = require('../generators/src/usecases/repos/default-repository-generators.ts');
 const {
-  usecaseForSeparatedFeatureGenerator: separatedUsecaseGenerator,
+  usecaseForSeparatedFeatureGenerator: separatedUseCaseGenerator,
 } = require('../generators/src/usecases/default-usecase-generators.ts');
 
 const createSeparatedFeatureAction = [
@@ -27,7 +27,7 @@ const createSeparatedFeatureAction = [
   ...separatedControllerGenerator,
   ...separatedValidationGenerator,
   ...separatedRepositoryGenerator,
-  ...separatedUsecaseGenerator,
+  ...separatedUseCaseGenerator,
 ];
 
 module.exports = {

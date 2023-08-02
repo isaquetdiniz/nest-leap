@@ -5,7 +5,7 @@ import {
   IEmailRepository,
   IEmailService,
   IEmailTemplateRepository,
-  CreateEmailUsecase as UseCase,
+  CreateEmailUseCase as UseCase,
 } from '@/notifications/application';
 import { EmailFactory } from '@/tests/notifications/factories';
 

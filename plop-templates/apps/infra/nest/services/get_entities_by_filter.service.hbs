@@ -20,6 +20,10 @@ export class Get{{pascalCase name}}sByFilterNestService {
   ): Promise<TGet{{pascalCase name}}sByFilterResponse> {
     const request = new Get{{pascalCase name}}sByFilterRequest({
       name: params.name,
+      mode: params.mode,
+      property: params.property,
+      take: params.take,
+      skip: params.skip,
     });
 
     const response = await this.controller.execute(request);

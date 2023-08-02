@@ -4,11 +4,11 @@ import {
   IUserRepository,
   UserAlreadyExistsException,
 } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
 type TCreateUser = { name: string; email: string; password: string };
 
-export class CreateUserUsecase implements IUsecase<TCreateUser, User> {
+export class CreateUserUseCase implements IUseCase<TCreateUser, User> {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly eventEmitter: IUserEventEmitter,

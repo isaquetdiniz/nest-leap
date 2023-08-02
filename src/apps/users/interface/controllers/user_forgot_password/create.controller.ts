@@ -1,5 +1,5 @@
 import {
-  CreateUserForgotPasswordUsecase,
+  CreateUserForgotPasswordUseCase,
   INotificationService,
   IUserForgotPasswordEventEmitter,
   IUserForgotPasswordRepository,
@@ -44,7 +44,7 @@ export class CreateUserForgotPasswordController
       CreateUserForgotPasswordResponse
     >
 {
-  private usecase: CreateUserForgotPasswordUsecase;
+  private usecase: CreateUserForgotPasswordUseCase;
 
   constructor(
     userRepository: IUserRepository,
@@ -52,7 +52,7 @@ export class CreateUserForgotPasswordController
     notificationService: INotificationService,
     eventEmitter: IUserForgotPasswordEventEmitter,
   ) {
-    this.usecase = new CreateUserForgotPasswordUsecase(
+    this.usecase = new CreateUserForgotPasswordUseCase(
       userRepository,
       userForgotPasswordRepository,
       notificationService,

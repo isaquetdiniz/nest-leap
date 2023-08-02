@@ -1,8 +1,8 @@
 import { User, UserEntity } from '@/users/domain';
 import { IUserRepository, UserNotFoundException } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
-export class UpdateUserUsecase implements IUsecase<User, User> {
+export class UpdateUserUseCase implements IUseCase<User, User> {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async perform(user: User): Promise<User> {

@@ -1,4 +1,4 @@
-import { GetUserByEmailUsecase, IUserRepository } from '@/users/application';
+import { GetUserByEmailUseCase, IUserRepository } from '@/users/application';
 import { IController } from '@/core/interface';
 import { User, UserState } from '@/users/domain';
 import { AutoValidator } from '@/libs/class-validator';
@@ -14,24 +14,24 @@ import {
   Min,
 } from 'class-validator';
 
-export type IGetUserByEmailRequest = Pick<User, 'email'>;
-export type IGetUserByEmailResponse = Omit<User, 'isConfirmed'>;
+export type TGetUserByEmailRequest = Pick<User, 'email'>;
+export type TGetUserByEmailResponse = Omit<User, 'isConfirmed'>;
 
 export class GetUserByEmailRequest
   extends AutoValidator
-  implements IGetUserByEmailRequest
+  implements TGetUserByEmailRequest
 {
   @IsEmail()
   email: User['email'];
 
-  constructor(props: IGetUserByEmailRequest) {
+  constructor(props: TGetUserByEmailRequest) {
     super(props);
   }
 }
 
 export class GetUserByEmailResponse
   extends AutoValidator
-  implements IGetUserByEmailResponse
+  implements TGetUserByEmailResponse
 {
   @IsUUID(4)
   id: User['id'];
@@ -62,7 +62,7 @@ export class GetUserByEmailResponse
   @IsDate()
   updatedAt: User['updatedAt'];
 
-  constructor(props: IGetUserByEmailResponse) {
+  constructor(props: TGetUserByEmailResponse) {
     super(props);
   }
 }
@@ -70,10 +70,10 @@ export class GetUserByEmailResponse
 export class GetUserByEmailController
   implements IController<GetUserByEmailRequest, GetUserByEmailResponse>
 {
-  private usecase: GetUserByEmailUsecase;
+  private usecase: GetUserByEmailUseCase;
 
   constructor(userRepository: IUserRepository) {
-    this.usecase = new GetUserByEmailUsecase(userRepository);
+    this.usecase = new GetUserByEmailUseCase(userRepository);
   }
 
   async execute(

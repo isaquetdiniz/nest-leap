@@ -1,4 +1,4 @@
-import { GetUserByIdUsecase, IUserRepository } from '@/users/application';
+import { GetUserByIdUseCase, IUserRepository } from '@/users/application';
 import { IController } from '@/core/interface';
 import { User, UserState } from '@/users/domain';
 import { AutoValidator } from '@/libs/class-validator';
@@ -11,24 +11,24 @@ import {
   Length,
 } from 'class-validator';
 
-export type IGetUserByIdRequest = Pick<User, 'id'>;
-export type IGetUserByIdResponse = Omit<User, 'password' | 'isConfirmed'>;
+export type TGetUserByIdRequest = Pick<User, 'id'>;
+export type TGetUserByIdResponse = Omit<User, 'password' | 'isConfirmed'>;
 
 export class GetUserByIdRequest
   extends AutoValidator
-  implements IGetUserByIdRequest
+  implements TGetUserByIdRequest
 {
   @IsUUID(4)
   id: string;
 
-  constructor(props: IGetUserByIdRequest) {
+  constructor(props: TGetUserByIdRequest) {
     super(props);
   }
 }
 
 export class GetUserByIdResponse
   extends AutoValidator
-  implements IGetUserByIdResponse
+  implements TGetUserByIdResponse
 {
   @IsUUID(4)
   id: string;
@@ -52,21 +52,21 @@ export class GetUserByIdResponse
   @IsDate()
   updatedAt: Date;
 
-  constructor(props: IGetUserByIdResponse) {
+  constructor(props: TGetUserByIdResponse) {
     super(props);
   }
 }
 
 export class GetUserByIdController
-  implements IController<IGetUserByIdRequest, IGetUserByIdResponse>
+  implements IController<TGetUserByIdRequest, TGetUserByIdResponse>
 {
-  private usecase: GetUserByIdUsecase;
+  private usecase: GetUserByIdUseCase;
 
   constructor(userRepository: IUserRepository) {
-    this.usecase = new GetUserByIdUsecase(userRepository);
+    this.usecase = new GetUserByIdUseCase(userRepository);
   }
 
-  async execute(request: IGetUserByIdRequest): Promise<IGetUserByIdResponse> {
+  async execute(request: TGetUserByIdRequest): Promise<TGetUserByIdResponse> {
     const user = await this.usecase.perform(request.id);
 
     const response = user && new GetUserByIdResponse(user);

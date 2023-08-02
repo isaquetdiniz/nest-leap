@@ -1,9 +1,8 @@
-import { Get{{pascalCase name}}sByFilterNestService } from '@/{{dashCase name }}/infra/nest/services';
+import { Get{{pascalCase name}}sByFilterNestService } from '@/{{dashCase name}}/infra/nest/services';
 import {
   TGet{{pascalCase name}}sByFilterResponse,
   TGet{{pascalCase name}}sByFilterRequest,
-  TGet{{pascalCase name}}ByIdResponse,
-} from '@/{{dashCase name }}/interface/controllers';
+} from '@/{{dashCase name}}/interface/controllers';
 import { Controller, Get, Query } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,53 +15,26 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { IsOptional, IsAlpha } from 'class-validator';
+import { GetPaginatedOrderByFilterDefaultRestRequest } from '@/core/domain';
 
-class Get{{pascalCase name}}sByFilterRestQuery {
+class Get{{pascalCase name}}sByFilterRestQuery extends GetPaginatedOrderByFilterDefaultRestRequest {
   @ApiPropertyOptional({
-    description: 'The name of the {{camelCase name}}.',
+    description: 'The name of the {{pascalCase name}}.',
   })
   @IsOptional()
   @IsAlpha()
   name?: string;
 }
 
-class Get{{pascalCase name}}ByIdRestResponse {
-  @ApiProperty({
-    description: '{{pascalCase name}} id.',
-    example: '882e725d-d9c5-45b6-b37d-c19834d8c090',
-  })
-  id: string;
-
+class Get{{pascalCase name}}ByFilterRestResponse {
   @ApiProperty({
     description: '{{pascalCase name}} name.',
     example: 'Test',
   })
   name: string;
 
-  @ApiProperty({
-    description: '{{pascalCase name}} created at date.',
-    example: '1970-01-01T00:00:00.000Z',
-  })
-  created_at: Date;
-
-  @ApiProperty({
-    description: '{{pascalCase name}} updated at date.',
-    example: '1970-01-01T00:00:00.000Z',
-  })
-  updated_at: Date;
-
-  @ApiProperty({
-    description: '{{pascalCase name}} deleted at date.',
-    example: '1970-01-01T00:00:00.000Z',
-  })
-  deleted_at: Date;
-
-  constructor(response: TGet{{pascalCase name}}ByIdResponse) {
-    this.id = response.id;
+  constructor(response: TGet{{pascalCase name}}sByFilterRequest) {
     this.name = response.name;
-    this.created_at = response.createdAt;
-    this.updated_at = response.updatedAt;
-    this.deleted_at = response.deletedAt;
   }
 }
 
@@ -82,13 +54,13 @@ class Get{{pascalCase name}}sByFilterRestResponse {
   @ApiProperty({
     description: '{{pascalCase name}} instances',
     isArray: true,
-    type: Get{{pascalCase name}}ByIdRestResponse,
+    type: Get{{pascalCase name}}ByFilterRestResponse,
   })
-  data: Get{{pascalCase name}}ByIdRestResponse[];
+  data: Get{{pascalCase name}}ByFilterRestResponse[];
 
   constructor(response: TGet{{pascalCase name}}sByFilterResponse) {
     this.data = response.data.map(
-      (instance) => new Get{{pascalCase name}}ByIdRestResponse(instance),
+      (instance) => new Get{{pascalCase name}}ByFilterRestResponse(instance),
     );
     this.total_items = response.totalItems;
     this.total_items_listed = response.totalItemsListed;
@@ -96,18 +68,18 @@ class Get{{pascalCase name}}sByFilterRestResponse {
 }
 
 @ApiTags('{{pascalCase name}}')
-@Controller('{{dashCase name}}')
+@Controller('{{pascalCase name}}')
 export class Get{{pascalCase name}}sByFilterRestController {
   constructor(
     private readonly get{{pascalCase name}}sByFilterService: Get{{pascalCase name}}sByFilterNestService,
   ) {}
 
   @ApiOperation({
-    summary: 'Get multiple {{dashCase name}}s.',
-    description: 'Get multiple {{dashCase name}}s using filters.',
+    summary: 'Get multiple {{pascalCase name}}s.',
+    description: 'Get multiple {{pascalCase name}}s using filters.',
   })
   @ApiOkResponse({
-    description: 'The {{dashCase name}}s were returned successfully.',
+    description: 'The {{pascalCase name}}s were returned successfully.',
     type: Get{{pascalCase name}}sByFilterRestResponse,
   })
   @ApiUnauthorizedResponse({
@@ -127,11 +99,13 @@ export class Get{{pascalCase name}}sByFilterRestController {
   ): Promise<Get{{pascalCase name}}sByFilterRestResponse> {
     const request: TGet{{pascalCase name}}sByFilterRequest = {
       name: query.name,
+      mode: query.mode,
+      property: query.property,
+      skip: query.skip,
+      take: query.take,
     };
 
-    const result = await this.get{{pascalCase name}}sByFilterService.execute(
-      request,
-    );
+    const result = await this.get{{pascalCase name}}sByFilterService.execute(request);
 
     const response = new Get{{pascalCase name}}sByFilterRestResponse(result);
 

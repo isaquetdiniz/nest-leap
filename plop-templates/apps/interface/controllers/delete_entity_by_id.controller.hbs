@@ -1,5 +1,5 @@
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
-import { Delete{{pascalCase name}}ByIdUsecase } from '@/{{dashCase name}}/application/usecases';
+import { Delete{{pascalCase name}}ByIdUseCase } from '@/{{dashCase name}}/application/usecases';
 import { IController } from '@/core/interface';
 import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
 import { AutoValidator } from '@/libs/class-validator';
@@ -28,10 +28,10 @@ export class Delete{{pascalCase name}}ByIdController
       TDelete{{pascalCase name}}ByIdResponse
     >
 {
-  private usecase: Delete{{pascalCase name}}ByIdUsecase;
+  private usecase: Delete{{pascalCase name}}ByIdUseCase;
 
   constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
-    this.usecase = new Delete{{pascalCase name}}ByIdUsecase({{camelCase name}}Repository);
+    this.usecase = new Delete{{pascalCase name}}ByIdUseCase({{camelCase name}}Repository);
   }
 
   async execute(

@@ -3,7 +3,7 @@ import {
   {{pascalCase name}}Entity,
 } from '@/{{dashCase name}}/domain';
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
-import { Update{{pascalCase name}}Usecase } from '@/{{dashCase name}}/application/usecases';
+import { Update{{pascalCase name}}UseCase } from '@/{{dashCase name}}/application/usecases';
 import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
 import { IsDate, IsOptional, IsUUID, IsAlpha } from 'class-validator';
@@ -64,10 +64,10 @@ export class Update{{pascalCase name}}Controller
   implements
     IController<TUpdate{{pascalCase name}}Request, Update{{pascalCase name}}Response>
 {
-  private usecase: Update{{pascalCase name}}Usecase;
+  private usecase: Update{{pascalCase name}}UseCase;
 
   constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
-    this.usecase = new Update{{pascalCase name}}Usecase({{camelCase name}}Repository);
+    this.usecase = new Update{{pascalCase name}}UseCase({{camelCase name}}Repository);
   }
 
   async execute(

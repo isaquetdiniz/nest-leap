@@ -1,5 +1,5 @@
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
-import { Create{{pascalCase name}}Usecase } from '@/{{dashCase name}}/application/usecases';
+import { Create{{pascalCase name}}UseCase } from '@/{{dashCase name}}/application/usecases';
 import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
 import { IController } from '@/core/interface';
 import { AutoValidator } from '@/libs/class-validator';
@@ -65,12 +65,12 @@ export class Create{{pascalCase name}}Controller
   implements
     IController<Create{{pascalCase name}}Request, Create{{pascalCase name}}Response>
 {
-  private usecase: Create{{pascalCase name}}Usecase;
+  private usecase: Create{{pascalCase name}}UseCase;
 
   constructor(
     {{camelCase name}}Repository: I{{pascalCase name}}Repository,
   ) {
-    this.usecase = new Create{{pascalCase name}}Usecase(
+    this.usecase = new Create{{pascalCase name}}UseCase(
       {{camelCase name}}Repository,
     );
   }

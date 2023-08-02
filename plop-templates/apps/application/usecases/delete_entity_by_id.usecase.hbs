@@ -1,9 +1,9 @@
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
 import { {{pascalCase name}}NotFoundException } from '@/{{dashCase name}}/application/exceptions';
 
-export class Delete{{pascalCase name}}ByIdUsecase
-  implements IUsecase<string, void>
+export class Delete{{pascalCase name}}ByIdUseCase
+  implements IUseCase<string, void>
 {
   constructor(
     private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,

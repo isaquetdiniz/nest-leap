@@ -1,20 +1,20 @@
-import {
-  I{{pascalCase name}}Repository,
-  {{pascalCase name}}Filters,
-} from '@/{{dashCase name}}/application/repos';
-import { Get{{pascalCase name}}sByFilterUsecase } from '@/{{dashCase name}}/application/usecases';
+import { IsDate, IsOptional, IsUUID, IsAlpha } from 'class-validator';
 import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { Get{{pascalCase name}}sByFilterUseCase } from '@/{{dashCase name}}/application/usecases';
+import { I{{pascalCase name}}Repository, {{pascalCase name}}Filters } from '@/{{dashCase name}}/application/repos';
 import {
-  DefaultFiltersEntity,
   DefaultFiltersRequest,
+  Order,
+  OrderEntity,
+  Pagination,
+  PaginationEntity,
   PaginationResponse,
   TPaginationResponse,
 } from '@/core/domain';
 import { IController } from '@/core/interface';
-import { IsDate, IsOptional, IsUUID, IsAlpha } from 'class-validator';
 import { AutoValidator } from '@/libs/class-validator';
 
-export type TGet{{pascalCase name}}sByFilterRequest = {{pascalCase name}}Filters;
+export type TGet{{pascalCase name}}sByFilterRequest = {{pascalCase name}}Filters & Pagination & Order;
 export type TGet{{pascalCase name}}ByFilterResponseItem = {{pascalCase name}};
 export type TGet{{pascalCase name}}sByFilterResponse =
   TPaginationResponse<TGet{{pascalCase name}}ByFilterResponseItem>;
@@ -62,62 +62,47 @@ export class Get{{pascalCase name}}ByFilterResponseItem
 export class Get{{pascalCase name}}sByFilterResponse extends PaginationResponse<TGet{{pascalCase name}}ByFilterResponseItem> {}
 
 export class Get{{pascalCase name}}sByFilterController
-  implements
-    IController<
-      TGet{{pascalCase name}}sByFilterRequest,
-      TGet{{pascalCase name}}sByFilterResponse
-    >
+  implements IController<TGet{{pascalCase name}}sByFilterRequest, TGet{{pascalCase name}}sByFilterResponse>
 {
-  private usecase: Get{{pascalCase name}}sByFilterUsecase;
+  private usecase: Get{{pascalCase name}}sByFilterUseCase;
 
   constructor({{camelCase name}}Repository: I{{pascalCase name}}Repository) {
-    this.usecase = new Get{{pascalCase name}}sByFilterUsecase(
-      {{camelCase name}}Repository,
-    );
+    this.usecase = new Get{{pascalCase name}}sByFilterUseCase({{camelCase name}}Repository);
   }
 
   async execute(
     request: TGet{{pascalCase name}}sByFilterRequest,
   ): Promise<TGet{{pascalCase name}}sByFilterResponse> {
-    const {
-      take,
-      skip,
-      orderByMode,
-      orderByProperty,
-      createdAtStart,
-      createdAtEnd,
-      updatedAtStart,
-      updatedAtEnd,
-      ...restFilters
-    } = request;
-
-    const defaultFilters = new DefaultFiltersEntity({
-      take,
-      skip,
-      orderByMode,
-      orderByProperty,
-      createdAtStart,
-      createdAtEnd,
-      updatedAtStart,
-      updatedAtEnd,
+    const pagination = new PaginationEntity({
+      ...(request.take && { take: request.take }),
+      ...(request.skip && { skip: request.skip }),
     });
 
-    const { {{camelCase name}}s, total{{pascalCase name}}s } =
-      await this.usecase.perform({
-        ...restFilters,
-        ...defaultFilters,
-      });
+    const order = new OrderEntity({
+      ...(request.mode && { mode: request.mode }),
+      ...(request.property && { property: request.property }),
+    });
+
+    const filters = {
+      ...(request.name && { name: request.name }),
+    };
+
+    const {{camelCase name}}sPaginated = await this.usecase.perform({
+      filters,
+      order,
+      pagination,
+    });
 
     return new Get{{pascalCase name}}sByFilterResponse({
-      data: {{camelCase name}}s.map(({{camelCase name}}) => ({
+      data: {{camelCase name}}sPaginated.data.map(({{camelCase name}}) => ({
         id: {{camelCase name}}.id,
         name: {{camelCase name}}.name,
         createdAt: {{camelCase name}}.createdAt,
         updatedAt: {{camelCase name}}.updatedAt,
         deletedAt: {{camelCase name}}.deletedAt,
       })),
-      totalItems: total{{pascalCase name}}s,
-      totalItemsListed: {{camelCase name}}s.length,
+      totalItems: {{camelCase name}}sPaginated.totalItems,
+      totalItemsListed: {{camelCase name}}sPaginated.totalItemsListed,
     });
   }
 }

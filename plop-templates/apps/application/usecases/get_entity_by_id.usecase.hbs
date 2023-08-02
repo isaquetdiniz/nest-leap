@@ -1,9 +1,9 @@
 import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
 import { I{{pascalCase name}}Repository } from '@/{{dashCase name}}/application/repos';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 
-export class Get{{pascalCase name}}ByIdUsecase
-  implements IUsecase<string, {{pascalCase name}}>
+export class Get{{pascalCase name}}ByIdUseCase
+  implements IUseCase<string, {{pascalCase name}}>
 {
   constructor(
     private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,

@@ -1,5 +1,5 @@
 import {
-  ConfirmUserUsecase,
+  ConfirmUserUseCase,
   IUserConfirmationRepository,
   IUserEventEmitter,
   IUserRepository,
@@ -56,7 +56,7 @@ export class ConfirmUserResponse
 export class ConfirmUserController
   implements IController<ConfirmUserRequest, ConfirmUserResponse>
 {
-  private usecase: ConfirmUserUsecase;
+  private usecase: ConfirmUserUseCase;
 
   constructor(
     userRepository: IUserRepository,
@@ -65,7 +65,7 @@ export class ConfirmUserController
     maxAttempts: number,
     expirationMs: number,
   ) {
-    this.usecase = new ConfirmUserUsecase(
+    this.usecase = new ConfirmUserUseCase(
       userRepository,
       userConfirmationRepository,
       eventEmitter,

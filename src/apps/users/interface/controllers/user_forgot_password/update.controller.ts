@@ -1,5 +1,5 @@
 import {
-  UpdateUserForgotPasswordUsecase,
+  UpdateUserForgotPasswordUseCase,
   IUserForgotPasswordEventEmitter,
   IUserForgotPasswordRepository,
   IUserRepository,
@@ -72,7 +72,7 @@ export class UpdateUserForgotPasswordController
       UpdateUserForgotPasswordResponse
     >
 {
-  private usecase: UpdateUserForgotPasswordUsecase;
+  private usecase: UpdateUserForgotPasswordUseCase;
 
   constructor(
     userRepository: IUserRepository,
@@ -81,7 +81,7 @@ export class UpdateUserForgotPasswordController
     maxAttempts: number,
     expirationMs: number,
   ) {
-    this.usecase = new UpdateUserForgotPasswordUsecase(
+    this.usecase = new UpdateUserForgotPasswordUseCase(
       userRepository,
       userForgotPasswordRepository,
       eventEmitter,

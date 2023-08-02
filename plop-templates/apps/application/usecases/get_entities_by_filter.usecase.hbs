@@ -1,39 +1,34 @@
-import {
-  {{pascalCase name}},
-} from '@/{{dashCase name}}/domain';
-import {
-  I{{pascalCase name}}Repository,
-  {{pascalCase name}}Filters,
-} from '@/{{dashCase name}}/application/repos';
-import { IUsecase } from '@/core/application';
+import { Order, Pagination, TPaginationResponse } from '@/core/domain';
+import { IUseCase } from '@/core/application';
+import { {{pascalCase name}} } from '@/{{dashCase name}}/domain';
+import { I{{pascalCase name}}Repository, {{pascalCase name}}Filters } from '@/{{dashCase name}}/application/repos';
 
-type {{pascalCase name}}FiltersType = {{pascalCase name}}Filters;
-type Get{{pascalCase name}}Response = {
-  {{camelCase name}}s: {{pascalCase name}}[];
-  total{{pascalCase name}}s: number;
+type Get{{pascalCase name}}sPaginatedByFilterParams = {
+  filters: {{pascalCase name}}Filters;
+  order: Order;
+  pagination: Pagination;
 };
 
-export class Get{{pascalCase name}}sByFilterUsecase
-  implements IUsecase<{{pascalCase name}}FiltersType, Get{{pascalCase name}}Response>
+export class Get{{pascalCase name}}sByFilterUseCase
+  implements IUseCase<Get{{pascalCase name}}sPaginatedByFilterParams, TPaginationResponse<{{pascalCase name}}>>
 {
-  constructor(
-    private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository,
-  ) {}
+  constructor(private readonly {{camelCase name}}Repository: I{{pascalCase name}}Repository) {}
 
   async perform(
-    data: {{pascalCase name}}FiltersType,
-  ): Promise<Get{{pascalCase name}}Response> {
-    const total{{pascalCase name}}s = await this.{{camelCase name}}Repository.count(
-      data,
-    );
+    params: Get{{pascalCase name}}sPaginatedByFilterParams,
+  ): Promise<TPaginationResponse<{{pascalCase name}}>> {
+    const total{{pascalCase name}}s = await this.{{camelCase name}}Repository.count(params.filters);
 
     const {{camelCase name}}s = await this.{{camelCase name}}Repository.getByFilter(
-      data,
+      params.filters,
+      params.order,
+      params.pagination,
     );
 
     return {
-      {{camelCase name}}s,
-      total{{pascalCase name}}s,
+      data: {{camelCase name}}s,
+      totalItemsListed: {{camelCase name}}s.length,
+      totalItems: total{{pascalCase name}}s,
     };
   }
 }

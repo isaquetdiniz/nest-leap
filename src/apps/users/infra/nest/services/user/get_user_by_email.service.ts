@@ -2,7 +2,7 @@ import {
   GetUserByEmailController,
   GetUserByEmailRequest,
   GetUserByEmailResponse,
-  IGetUserByEmailRequest,
+  TGetUserByEmailRequest,
 } from '@/users/interface';
 import { PrismaUserRepository } from '@/users/infra';
 import { Injectable } from '@nestjs/common';
@@ -16,7 +16,7 @@ export class GetUserByEmailNestService {
   }
 
   async execute(
-    params: IGetUserByEmailRequest,
+    params: TGetUserByEmailRequest,
   ): Promise<GetUserByEmailResponse> {
     const request = new GetUserByEmailRequest({
       email: params.email,

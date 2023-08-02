@@ -1,5 +1,5 @@
 import {
-  HandleUserCreatedUsecase,
+  HandleUserCreatedUseCase,
   INotificationService,
   IUserConfirmationRepository,
 } from '@/users/application';
@@ -34,13 +34,13 @@ export class HandleUserCreatedRequest
 export class HandleUserCreatedController
   implements IController<THandleUserCreatedRequest, THandleUserCreatedResponse>
 {
-  private usecase: HandleUserCreatedUsecase;
+  private usecase: HandleUserCreatedUseCase;
 
   constructor(
     userConfirmationRepository: IUserConfirmationRepository,
     notificationService: INotificationService,
   ) {
-    this.usecase = new HandleUserCreatedUsecase(
+    this.usecase = new HandleUserCreatedUseCase(
       userConfirmationRepository,
       notificationService,
     );

@@ -8,7 +8,7 @@ import {
   UserForgotPasswordMaxAttemptsException,
   UserForgotPasswordNotFoundException,
 } from '@/users/application';
-import { IUsecase } from '@/core/application';
+import { IUseCase } from '@/core/application';
 import {
   User,
   UserForgotPassword,
@@ -21,8 +21,8 @@ export type TUpdateUserForgotPassword = {
   newPassword: User['password'];
 };
 
-export class UpdateUserForgotPasswordUsecase
-  implements IUsecase<TUpdateUserForgotPassword, UserForgotPassword>
+export class UpdateUserForgotPasswordUseCase
+  implements IUseCase<TUpdateUserForgotPassword, UserForgotPassword>
 {
   constructor(
     private readonly userRepository: IUserRepository,

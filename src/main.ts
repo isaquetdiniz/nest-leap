@@ -48,7 +48,7 @@ async function bootstrap() {
   }
 
   app.useGlobalFilters(new DefaultExceptionFilter(), new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   // Enable graceful shutdown
   app.enableShutdownHooks();

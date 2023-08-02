@@ -5,7 +5,7 @@ const {
   infraTestsForCompleteCrudsGenerator: crudTestsInfraGenerator,
 } = require('../generators/tests/infra/infrastructure-tests-generator.ts');
 const {
-  usecaseTestsForCompleteCrudGenerator: crudTestsUsecaseGenerator,
+  usecaseTestsForCompleteCrudGenerator: crudTestsUseCaseGenerator,
 } = require('../generators/tests/application/application-tests-generator.ts');
 const {
   pathAliasForCompleteCrudTestsGenerator: crudPathAliasTestsGenerator,
@@ -14,7 +14,7 @@ const {
 const createTestsForCompleteCrudAction = [
   ...crudTestsEntityGenerator,
   ...crudTestsInfraGenerator,
-  ...crudTestsUsecaseGenerator,
+  ...crudTestsUseCaseGenerator,
   ...crudPathAliasTestsGenerator,
 ];
 
