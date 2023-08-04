@@ -1,3 +1,6 @@
 {
-  "*.ts": ["npm run lint", "npm run style"]
+  "*.ts": [
+    "npm run lint:check",
+    "npm run style:check"
+  ]
 }
