@@ -49,7 +49,7 @@
     "@nestjs/jwt": "^10.0.2",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
-    "@nestjs/swagger": "^6.1.2",
+    "@nestjs/swagger": "^7.1.6",
     "@nestjs/throttler": "^4.0.0",
     "@prisma/client": "^5.0.0",
     "aws-sdk": "^2.1333.0",
