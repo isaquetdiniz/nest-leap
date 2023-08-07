@@ -50,7 +50,7 @@
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^7.1.6",
-    "@nestjs/throttler": "^4.0.0",
+    "@nestjs/throttler": "^4.2.1",
     "@prisma/client": "^5.0.0",
     "aws-sdk": "^2.1333.0",
     "bcrypt": "^5.1.0",
