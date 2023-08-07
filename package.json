@@ -39,7 +39,7 @@
     "old:test:integration": "npm test -- --watch -c jest-integration-config.js --verbose",
     "old:test:staged": "npm test -- --findRelatedTests",
     "old:test:ci": "npm test -- --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install & ts-patch install -s"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -100,8 +100,8 @@
     "ts-jest": "28.0.8",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
+    "ts-patch": "^3.0.2",
     "tsconfig-paths": "4.1.0",
-    "ttypescript": "^1.5.15",
     "typescript": "^5.1.6"
   },
   "prisma": {

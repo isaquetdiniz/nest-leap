@@ -6,11 +6,6 @@ module.exports = {
   transform: {
     '.(ts|tsx)': 'ts-jest',
   },
-  globals: {
-    'ts-jest': {
-      compiler: 'ttypescript',
-    },
-  },
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
